@@ -181,7 +181,7 @@ int				get_light(__global t_obj *o, __global t_obj *l, float4 hit)
 	return(color);
 }
 
-int				diffuse(__global t_obj *o,float *t, __global t_obj *l, t_ray ray, int id)
+int				diffuse(__global t_obj *o,float *t, __global t_obj *l, t_ray ray, int id, int in)
 {
 	float4 hit;
 	float4 normale;
@@ -199,6 +199,9 @@ int				diffuse(__global t_obj *o,float *t, __global t_obj *l, t_ray ray, int id)
 	float rl;
 	float gl;
 	float bl;
+	float4 mid;
+	float spec;
+	t_ray shad;
 
 	color = o[id].col;
 	hit = ray.dir * *t + ray.ori;
@@ -208,36 +211,41 @@ int				diffuse(__global t_obj *o,float *t, __global t_obj *l, t_ray ray, int id)
 		normale = o[id].dir;
 	else
 		return(color);
-	vlight = l[0].pos - hit;
-	norme = sqrt(vlight.x * vlight.x + vlight.y * vlight.y + vlight.z * vlight.z);
-	dp = dot(normalize(vlight), normalize(normale));
-	float4 rp = dot(normalize(refl(ray.dir, normale)), vlight);
+		vlight = l[in].pos - hit;
+	shad.ori = hit;
+	shad.dir = normalize(vlight);
+		norme = sqrt(vlight.x * vlight.x + vlight.y * vlight.y + vlight.z * vlight.z);
+		if (ray_match(o, &shad) != -1 || shad.t > norme)
+			return(0);
+		dp = dot(normalize(vlight), normalize(normale));
+		float4 rp = dot(normalize(refl(ray.dir, normale)), vlight);
 
-	r = (color & 0xFF0000) / 0x10000;
-	g = (color & 0xFF00) / 0x100;
-	b = (color & 0xFF);
-	rl = (l[0].col & 0xFF0000) / 0x10000 / 255;
-	gl = (l[0].col & 0xFF00) / 0x100 / 255;
-	bl = (l[0].col & 0xFF) / 255;
-	r = r * dp * (l[0].r / (norme * norme)) * rl > 255 ? 255 : r * dp * (l[0].r / (norme * norme)) * rl;
-	g = g * dp * (l[0].r / (norme * norme)) * gl > 255 ? 255 : g * dp * (l[0].r / (norme * norme)) * gl;
-	b = b * dp * (l[0].r / (norme * norme)) * bl > 255 ? 255 : b * dp * (l[0].r / (norme * norme)) * bl;
-	ray.dir *= -1;
-	float4 mid = (normalize(ray.dir) + normalize(vlight)) / 2;
-	float spec = pow(dot(normalize(mid), normalize(normale)), 20);
-	fla.x = ((l[0].col && 0xFF0000) / 0x10000) * spec;
-	fla.y = ((l[0].col && 0xFF00) / 0x100) * spec;
-	fla.z = (l[0].col && 0xFF) * spec;
-	fla.x = fla.x > 255.0 ? 255.0 : fla.x;
-	fla.y = fla.y > 255.0 ? 255.0 : fla.y;
-	fla.z = fla.z > 255.0 ? 255.0 : fla.z;
-	i = floor(fla.x);
-	j = floor(fla.y);
-	k = floor(fla.z);
-	r = r + i > 255 ? 255 : r + i;
-	g = g + j > 255 ? 255 : g + j;
-	b = b + k > 255 ? 255 : b + k;
-	color = r * 0x10000 + g * 0x100 + b;
+		r = (color & 0xFF0000) / 0x10000;
+		g = (color & 0xFF00) / 0x100;
+		b = (color & 0xFF);
+		rl = (l[in].col & 0xFF0000) / 0x10000 / 255.0;
+		gl = (l[in].col & 0xFF00) / 0x100 / 255.0;
+		bl = (l[in].col & 0xFF) / 255.0;
+		r = r * dp * (l[in].r / (norme * norme)) * rl > 255 ? 255 : r * dp * (l[in].r / (norme * norme)) * rl;
+		g = g * dp * (l[in].r / (norme * norme)) * gl > 255 ? 255 : g * dp * (l[in].r / (norme * norme)) * gl;
+		b = b * dp * (l[in].r / (norme * norme)) * bl > 255 ? 255 : b * dp * (l[in].r / (norme * norme)) * bl;
+		ray.dir *= -1;
+		mid = (normalize(ray.dir) + normalize(vlight)) / 2;
+		spec = pow(dot(normalize(mid), normalize(normale)), 10);
+		spec *= l[in].r / 100;
+		fla.x = ((float)((l[in].col & 0xFF0000) / 0x010000)) * spec;
+		fla.y = ((float)((l[in].col & 0x00FF00) / 0x000100)) * spec;
+		fla.z = ((float)(l[in].col & 0x0000FF) / 0x000001) * spec;
+		fla.x = fla.x > 255.0 ? 255.0 : fla.x;
+		fla.y = fla.y > 255.0 ? 255.0 : fla.y;
+		fla.z = fla.z > 255.0 ? 255.0 : fla.z;
+		i = floor(fla.x);
+		j = floor(fla.y);
+		k = floor(fla.z);
+		r = r + i > 255 ? 255 : r + i;
+		g = g + j > 255 ? 255 : g + j;
+		b = b + k > 255 ? 255 : b + k;
+		color = r * 0x10000 + g * 0x100 + b;
 	return(color);
 }
 
@@ -439,6 +447,12 @@ __kernel void	raytracer(__global int* string, __global t_cam *c, __global t_obj 
 	size_t	j = get_global_id(1);
 	int		id;
 	float4	nor;
+	int		lt;
+	int pixel;
+	int color;
+	unsigned char r;
+	unsigned char g;
+	unsigned char b;
 
 	if (i < c[0].size.x && j < c[0].size.y)
 	{
@@ -446,7 +460,21 @@ __kernel void	raytracer(__global int* string, __global t_cam *c, __global t_obj 
 		ray.ori = c[0].ori;
 		if ((id = ray_match(o, &ray)) != -1)
 		{
-			string[j * c[0].size.x + i] = diffuse(o, &ray.t, l, ray, id);
+			lt = -1;
+			r = 0;
+			g = 0;
+			b = 0;
+			color = 0;
+		while(l[++lt].type == light)
+			{
+				color = diffuse(o, &ray.t, l, ray, id, lt);
+				r = r + (color & 0xFF0000) / 0x10000 > 255 ? 255 : r + (color & 0xFF0000) / 0x10000;
+				g = g + (color & 0xFF00) / 0x100 > 255 ? 255 : g + (color & 0xFF00) / 0x100;
+				b = b + (color & 0xFF) > 255 ? 255 : b + (color & 0xFF);
+			}
+			color = r * 0x10000 + g * 0x100 + b;
+			string[j * c[0].size.x + i] = color;
+//			lt = -1;
 //			if(o[id].refl > EPSILON)
 //				{
 //					nor = get_normale(ray, o, id);
