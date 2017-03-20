@@ -6,7 +6,7 @@
 /*   By: jplevy <jplevy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/11 06:10:10 by jplevy            #+#    #+#             */
-/*   Updated: 2017/03/20 04:13:34 by pgourran         ###   ########.fr       */
+/*   Updated: 2017/03/20 10:58:11 by pgourran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,19 @@ typedef enum		e_type
 	end_obj,
 	end
 }					t_type;
+
+typedef struct		s_triangle
+{
+	cl_float4		pos;
+	cl_float4		ori;
+	cl_float4		p1;
+	cl_float4		p2;
+	cl_float4		p3;
+	cl_float4		vn1;
+	cl_float4		vn2;
+	cl_float4		vn3;
+	cl_int			col;
+}					t_triangle;
 
 typedef struct 		s_obj
 {
@@ -90,5 +103,7 @@ typedef struct		s_mlx
 	t_scene			s;
 	t_ocl_prog		prog;
 }					t_mlx;
+
+t_list		*get_obj(char *path);
 
 #endif

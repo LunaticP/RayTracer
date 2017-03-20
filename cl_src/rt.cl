@@ -226,6 +226,8 @@ int				diffuse(__global t_obj *o,float *t, __global t_obj *l, t_ray ray, int id,
 		normale = norm_sphere(o, hit, id);
 	else if (o[id].type == plan)
 		normale = o[id].dir;
+	else if (o[id].type == triangle)
+		normale = normalize(o[id].dir);
 	else if (o[id].type == cone)
 		normale = norm_cone(o, hit, id);
 	else if (o[id].type == cylindre)
@@ -237,7 +239,7 @@ int				diffuse(__global t_obj *o,float *t, __global t_obj *l, t_ray ray, int id,
 	shad.dir = normalize(vlight);
 	tmp = vlight;
 		norme = sqrt(tmp.x * tmp.x + tmp.y * tmp.y + tmp.z * tmp.z);
-	if (((lol = ray_match(o, &shad)) != -1 && shad.t < norme - EPSILON) && lol != id)
+	if (((lol = ray_match(o, &shad)) != -1 && shad.t < norme) && lol != id)
 		return(0);
 		dp = dot(normalize(vlight), normalize(normale));
 		float4 rp = dot(normalize(refl(ray.dir, normale)), vlight);
