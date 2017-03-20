@@ -6,7 +6,7 @@
 /*   By: jplevy <jplevy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/11 06:10:10 by jplevy            #+#    #+#             */
-/*   Updated: 2017/03/15 17:25:38 by pgourran         ###   ########.fr       */
+/*   Updated: 2017/03/20 04:13:34 by pgourran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 # define RT_H
 
 # define USAGE "./rtv1 file\n"
-# define WIDTH 900
-# define HEIGHT 700
+# define HEIGHT 1400
+# define WIDTH 2000
 
 # include <libft.h>
 # include <libocl.h>

@@ -6,7 +6,7 @@
 /*   By: jplevy <jplevy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/08 01:37:39 by jplevy            #+#    #+#             */
-/*   Updated: 2017/03/19 06:47:30 by pgourran         ###   ########.fr       */
+/*   Updated: 2017/03/20 04:28:25 by pgourran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ t_scene	ft_init_scene(void)
 	t_scene	ret;
 
 	ret.cam.ori.x = 0;
-	ret.cam.ori.y = 3;
+	ret.cam.ori.y = 0;
 	ret.cam.ori.z = 0;
 
 	ret.cam.dirx.x = 1.0;
@@ -59,82 +59,103 @@ t_scene	ft_init_scene(void)
 	ret.cam.p.y = 5.0 * (700.0 / 900.0);
 	ret.cam.p.z = 5;
 
-	ret.light = ft_memalloc(sizeof(t_obj) * 4);
+	ret.light = ft_memalloc(sizeof(t_obj) * 6);
 	ret.light[0].pos.x = 0;
-	ret.light[0].pos.y = 0;
-	ret.light[0].pos.z = 0;
+	ret.light[0].pos.y = 2.5;
+	ret.light[0].pos.z = -1;
 
-	ret.light[0].col = 0x3030FF;
+	ret.light[0].col = 0xFF;
 	ret.light[0].type = light;
-	ret.light[0].r = 800;
+	ret.light[0].r = 100;
 
-	ret.light[1].pos.x = 8;
-	ret.light[1].pos.y = 0;
-	ret.light[1].pos.z = 0;
+	ret.light[1].pos.x = -2.5;
+	ret.light[1].pos.y = -2.5;
+	ret.light[1].pos.z = -1;
 
-	ret.light[1].col = 0xFF0000;
+	ret.light[1].col = 0xFF00;
 	ret.light[1].type = light;
-	ret.light[1].r = 80;
-	
-	ret.light[2].pos.x = 0;
-	ret.light[2].pos.y = 10;
-	ret.light[2].pos.z = 2;
+	ret.light[1].r = 100;
 
-	ret.light[2].col = 0xFF00;
+	ret.light[2].pos.x = 2.5;
+	ret.light[2].pos.y = -2.5;
+	ret.light[2].pos.z = -1;
+
+	ret.light[2].col = 0xFF0000;
 	ret.light[2].type = light;
-	ret.light[2].r = 80;
+	ret.light[2].r = 100;
 
-	ret.light[3].type = end;
+	ret.light[3].pos.x = -20;
+	ret.light[3].pos.y = 0;
+	ret.light[3].pos.z = 15;
 
-	ret.obj = ft_memalloc(sizeof(t_obj) * 5);
+	ret.light[3].col = 0xFFFFFF;
+	ret.light[3].type = light;
+	ret.light[3].r = 100;
 
-	ret.obj[0].pos.x = 0;
-	ret.obj[0].pos.y = -1.5;
-	ret.obj[0].pos.z = 10;
+	ret.light[4].pos.x = 20;
+	ret.light[4].pos.y = 0;
+	ret.light[4].pos.z = 15;
 
-	ret.obj[0].col = 0xFF;
+	ret.light[4].col = 0xFFFFFF;
+	ret.light[4].type = light;
+	ret.light[4].r = 100;
+
+	ret.light[5].type = end;
+
+	ret.obj = ft_memalloc(sizeof(t_obj) * 6);
+
+	ret.obj[0].pos.x = 4;
+	ret.obj[0].pos.y = 7;
+	ret.obj[0].pos.z = 6;
+
+	ret.obj[0].col = 0xFFFFFF;
 	ret.obj[0].type = sphere;
-	ret.obj[0].r = 2;
+	ret.obj[0].r = 1;
 	ret.obj[0].diff = 0.8f;
 	ret.obj[0].refl = 0.2f;
 	ret.obj[0].refr = 0;
 
+	ret.obj[3].pos.x = -10;
+	ret.obj[3].pos.y = -3;
+	ret.obj[3].pos.z = 20;
+
+	ret.obj[3].dir.x = 0;
+	ret.obj[3].dir.y = 0;
+	ret.obj[3].dir.z = -1;
+
+	ret.obj[3].col = 0xFFFFFF;
+	ret.obj[3].type = plan;
+
+	ret.obj[4].pos.x = -10;
+	ret.obj[4].pos.y = 6;
+	ret.obj[4].pos.z = 20;
+
+	ret.obj[4].dir.x = 0;
+	ret.obj[4].dir.y = -3;
+	ret.obj[4].dir.z = 0;
+
+	ret.obj[4].col = 0xFFFFFF;
+	ret.obj[4].type = plan;
+
+
 	ret.obj[1].pos.x = -2;
-	ret.obj[1].pos.y = 2;
+	ret.obj[1].pos.y = 3;
 	ret.obj[1].pos.z = 10;
-	ret.obj[1].diff = 0.8f;
 
-	ret.obj[1].col = 0xFF00;
-	ret.obj[1].type = sphere;
-	ret.obj[1].r = 2;
+	ret.obj[1].r = 1;
+	ret.obj[1].col = 0xFF69B4;
+	ret.obj[1].type = cylindre;
 
-	ret.obj[2].pos.x = 2;
-	ret.obj[2].pos.y = 2;
-	ret.obj[2].pos.z = 10;
-	ret.obj[2].diff = 0.8f;
+	ret.obj[2].pos.x = 2.0;
+	ret.obj[2].pos.y = 3.0;
+	ret.obj[2].pos.z = 10.0;
+	ret.obj[2].r = 1.5;
 
-	ret.obj[2].r = 2;
-	ret.obj[2].col = 0xFF0000;
+	ret.obj[2].alpha = M_PI / 16.0;
+	ret.obj[2].col = 0xFFFFFF;
 	ret.obj[2].type = sphere;
 
-	ret.obj[3].pos.x = 3;
-	ret.obj[3].pos.y = 5;
-	ret.obj[3].pos.z = 6;
-	ret.obj[3].diff = 0.8f;
-
-	ret.obj[3].r = 2;
-	ret.obj[3].col = 0xFFFFFF;
-	ret.obj[3].type = sphere;
-/*
-	ret.obj[5].pos.x = 2;
-	ret.obj[5].pos.y = 3;
-	ret.obj[5].pos.z = 10;
-
-	ret.obj[5].alpha = M_PI / 16;
-	ret.obj[5].col = 0xFFFFFF;
-	ret.obj[5].type = cone;
-*/
-	ret.obj[4].type = end;
+	ret.obj[5].type = end;
 	return (ret);
 }
 /*
@@ -173,8 +194,8 @@ int		main(int ac, char **av)
 	pws[0] = WIDTH;
 	pws[1] = HEIGHT;
 	ocl_new_kernel(&(mlx.prog), 4, pws, "norowowowd", "raytracer", WIDTH * HEIGHT
-		* sizeof(int), mlx.p, sizeof(t_cam), &(mlx.s.cam), sizeof(t_obj) * 5, 
-		mlx.s.obj, sizeof(t_obj) * 4, mlx.s.light, 2);
+		* sizeof(int), mlx.p, sizeof(t_cam), &(mlx.s.cam), sizeof(t_obj) * 6, 
+		mlx.s.obj, sizeof(t_obj) * 6, mlx.s.light, 2);
 	ocl_enqueue_kernel(&(mlx.prog), "raytracer");
 	mlx_put_image_to_window(mlx.mlx, mlx.win, mlx.img, 0, 0);
 	mlx_hook(mlx.win, 2, (1L << 0), my_key_func, &mlx);

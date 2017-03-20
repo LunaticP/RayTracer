@@ -94,16 +94,32 @@ float4		norm_sphere(__global t_obj *o, float4 hit, int id)
 	return(hit - o[id].pos);
 }
 
-float4		norm_cyl(__global t_obj *o, float4 hit, int id)
+float4		norm_cone(__global t_obj *o, float4 hit, int id)
 {
 	float4	ret;
-	float4	norbert;
+	float4	vec;
 
-	ret = hit - o[id].pos;
-	norbert = normalize(o[id].dir);
-	ret = hit.y * norbert;
+	vec = o[id].pos;
+	if (hit.y > o[id].pos.y)
+		vec.y = hit.y + tan(o[id].alpha) * sqrt(vec.x * vec.x + vec.z * vec.z);
+	else
+		vec.y = hit.y - tan(o[id].alpha) * sqrt(vec.x * vec.x + vec.z * vec.z);
+	ret = (hit - vec);
 	return(ret);
 }
+
+float4		norm_cylindre(__global t_obj *o, float4 hit, int id)
+{
+	float4	ret;
+	float4	vec;
+	float	k;
+
+	vec = o[id].pos;
+	vec.y = hit.y;
+	ret = hit - vec;
+	return(ret);
+}
+
 /*
 float4			get_normale(float4 hit, __global t_obj *o,int id)
 {
@@ -202,21 +218,27 @@ int				diffuse(__global t_obj *o,float *t, __global t_obj *l, t_ray ray, int id,
 	float4 mid;
 	float spec;
 	t_ray shad;
-
+	int lol;
+	float4 tmp;
 	color = o[id].col;
 	hit = ray.dir * *t + ray.ori;
 	if(o[id].type == sphere)
 		normale = norm_sphere(o, hit, id);
 	else if (o[id].type == plan)
 		normale = o[id].dir;
+	else if (o[id].type == cone)
+		normale = norm_cone(o, hit, id);
+	else if (o[id].type == cylindre)
+		normale = norm_cylindre(o, hit, id);
 	else
 		return(color);
-		vlight = l[in].pos - hit;
+	vlight = l[in].pos - hit;
 	shad.ori = hit;
 	shad.dir = normalize(vlight);
-		norme = sqrt(vlight.x * vlight.x + vlight.y * vlight.y + vlight.z * vlight.z);
-		if (ray_match(o, &shad) != -1 || shad.t > norme)
-			return(0);
+	tmp = vlight;
+		norme = sqrt(tmp.x * tmp.x + tmp.y * tmp.y + tmp.z * tmp.z);
+	if (((lol = ray_match(o, &shad)) != -1 && shad.t < norme - EPSILON) && lol != id)
+		return(0);
 		dp = dot(normalize(vlight), normalize(normale));
 		float4 rp = dot(normalize(refl(ray.dir, normale)), vlight);
 
@@ -231,7 +253,7 @@ int				diffuse(__global t_obj *o,float *t, __global t_obj *l, t_ray ray, int id,
 		b = b * dp * (l[in].r / (norme * norme)) * bl > 255 ? 255 : b * dp * (l[in].r / (norme * norme)) * bl;
 		ray.dir *= -1;
 		mid = (normalize(ray.dir) + normalize(vlight)) / 2;
-		spec = pow(dot(normalize(mid), normalize(normale)), 10);
+		spec = pow(dot(normalize(mid), normalize(normale)), 70);
 		spec *= l[in].r / 100;
 		fla.x = ((float)((l[in].col & 0xFF0000) / 0x010000)) * spec;
 		fla.y = ((float)((l[in].col & 0x00FF00) / 0x000100)) * spec;
@@ -436,7 +458,7 @@ float4			ray_from_coord(size_t x, size_t y, __global t_cam *c)
 	ret += c->dirx * (c->p.x + ((float)x * c->viewplane.x / (float)c->size.x));
 	ret += c->diry * (c->p.y - ((float)y * c->viewplane.y / (float)c->size.y));
 	ret += c->dirz * (c->p.z);
-	return (ret);
+	return (normalize(ret));
 }
 
 __kernel void	raytracer(__global int* string, __global t_cam *c, __global t_obj *o,
