@@ -49,8 +49,9 @@ typedef struct		s_cam
 	float4			diry;
 	float4			dirz;
 	int2			size;
-	float2			viewplane;
+	float4			viewplane;
 	float4			p;
+	float4			chunk;
 }					t_cam;
 
 typedef struct		s_ray
@@ -408,6 +409,44 @@ int				rt_sphere(__global t_obj *o, t_ray *ray)
 	return (0);
 }
 
+float4			qt_conjugate(float4 qt)
+{
+	float4	ret;
+	
+	ret = -qt;
+	ret = qt.w;
+	return(ret);
+}
+
+float4			qt_cross(float4 u, float4 v)
+{
+	float4	ret;
+
+	ret.x = (u.w * v.x) + (u.x * v.w) + (u.y * v.z) - (u.z * v.y);
+	ret.y = (u.w * v.y) - (u.x * v.z) + (u.y * v.w) + (u.z * v.x);
+	ret.z = (u.w * v.z) + (u.x * v.y) - (u.y * v.x) + (u.z * v.w);
+	ret.w = (u.w * v.w) - (u.x * v.x) - (u.y * v.y) - (u.z * v.z);
+	return (ret); 
+}
+
+float4			qt_gen(float4 axis, float tet)
+{
+	float4	ret;
+
+	ret = axis * sin(tet / 2);
+	ret.w = cos(tet / 2);
+	return (ret);
+}
+
+float4			qt_rot(float4 qt, float4 p)
+{
+	float4	ret;
+
+	ret = qt_cross(qt,p);
+	ret = qt_cross(ret, qt_conjugate(qt));
+	return(ret);
+}
+
 int				ray_match(__global t_obj *o, t_ray *ray)
 {
 	int		i;
@@ -478,6 +517,12 @@ __kernel void	raytracer(__global int* string, __global t_cam *c, __global t_obj 
 	unsigned char g;
 	unsigned char b;
 
+//	i *= c[0].;
+	i *= c[0].viewplane.z;
+	i += c[0].chunk.x;
+	j *= c[0].viewplane.w;
+	j += c[0].chunk.y;
+//	j /= 2;
 	if (i < c[0].size.x && j < c[0].size.y)
 	{
 		ray.dir = ray_from_coord(i, j, c);

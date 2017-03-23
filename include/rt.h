@@ -6,7 +6,7 @@
 /*   By: jplevy <jplevy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/11 06:10:10 by jplevy            #+#    #+#             */
-/*   Updated: 2017/03/20 10:58:11 by pgourran         ###   ########.fr       */
+/*   Updated: 2017/03/23 16:45:59 by pgourran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,10 @@
 # define RT_H
 
 # define USAGE "./rtv1 file\n"
-# define HEIGHT 1400
-# define WIDTH 2000
-
+# define HEIGHT 700
+# define WIDTH 1000
+# define CX 64
+# define CY 64
 # include <libft.h>
 # include <libocl.h>
 # include <matrix.h>
@@ -80,8 +81,9 @@ typedef struct		s_cam
 	cl_float4		diry;
 	cl_float4		dirz;
 	cl_int2			size;
-	cl_float2		viewplane;
+	cl_float4		viewplane;
 	cl_float4		p;
+	cl_float4		chunk;
 }					t_cam;
 
 typedef struct		s_scene

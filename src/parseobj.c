@@ -6,7 +6,7 @@
 /*   By: pgourran <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/20 08:15:32 by pgourran          #+#    #+#             */
-/*   Updated: 2017/03/21 17:07:56 by pgourran         ###   ########.fr       */
+/*   Updated: 2017/03/23 15:09:54 by pgourran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ cl_float	ft_get_value(char *str)
 
 cl_float4	get_content(t_list *list, int num)
 {
-	num++;
+//	num++;
 	t_list *ptr;
 	cl_float4	*fl;
 
@@ -60,8 +60,9 @@ t_list		*get_obj(char *path)
 	t_list		*file;
 	char		**data;
 	t_list		*obj;
+	t_list		**ret;
 	t_triangle	tri;
-	t_triangle	*tro;
+//	t_triangle	*tro;
 	int			y;
 	int			x;
 	file = get_file(path);
@@ -77,6 +78,7 @@ t_list		*get_obj(char *path)
 	pts = NULL;
 	pns = NULL;
 	tris = NULL;
+	ret = &obj;
 	while(data[y][0] != 'v' || data[y][1] != ' ')
 		y++;
 	data += y;
@@ -118,52 +120,58 @@ t_list		*get_obj(char *path)
 	while(data[y] && data[y][0] == 'f' && data[y][1] == ' ')
 	{
 		x = 2;
-		tri.p1 = get_content(pts, ft_atoi(&data[y][x]));
+		tri.p1.x = get_content(pts, ft_atoi(&data[y][x])).x;
+		tri.p1.y = get_content(pts, ft_atoi(&data[y][x])).y;
+		tri.p1.z = get_content(pts, ft_atoi(&data[y][x])).z;
 		x += 2;
 		while(data[y][x] != '/')
 			x++;
 		x++;
-		tri.vn1 = get_content(pns, ft_atoi(&data[y][x]));
+//		tri.vn1 = get_content(pns, ft_atoi(&data[y][x]));
 		while(data[y][x] != ' ')
 			x++;
 		x++;
-		tri.p2 = get_content(pts, ft_atoi(&data[y][x]));
+		tri.p2.x = get_content(pts, ft_atoi(&data[y][x])).x;
+		tri.p2.y = get_content(pts, ft_atoi(&data[y][x])).y;
+		tri.p2.z = get_content(pts, ft_atoi(&data[y][x])).z;
 		x += 2;
 		while(data[y][x] != '/')
 			x++;
 		x++;
-		tri.vn2 = get_content(pns, ft_atoi(&data[y][x]));
+//		tri.vn2 = get_content(pns, ft_atoi(&data[y][x]));
 		while(data[y][x] != ' ')
 			x++;
 		x++;
-		tri.p3 = get_content(pts, ft_atoi(&data[y][x]));
+		tri.p3.x = get_content(pts, ft_atoi(&data[y][x])).x;
+		tri.p3.y = get_content(pts, ft_atoi(&data[y][x])).y;
+		tri.p3.z = get_content(pts, ft_atoi(&data[y][x])).z;
 		x += 2;
 		while(data[y][x] != '/')
 			x++;
 		x++;
-		tri.vn3 = get_content(pns, ft_atoi(&data[y][x]));
+//		tri.vn3 = get_content(pns, ft_atoi(&data[y][x]));
 		while(data[y][x] != ' ')
 			x++;
 		x++;
 		ft_lstpushback(&tris, &tri, sizeof(tri));
 		y++;
 	}
-	while(tris->next)
-	{
-		tro = tris->content;
+//	while(tris->next)
+//	{
+//		tro = tris->content;
 //		printf("%f : %f : %f\n",tro->p1.x,tro->p1.y,tro->p1.z);
 //		printf("%f : %f : %f\n",tro->p2.x,tro->p2.y,tro->p2.z);
 //		printf("%f : %f : %f\n",tro->p3.x,tro->p3.y,tro->p3.z);
 //		printf("%f : %f : %f\n",tro->vn1.x,tro->vn1.y,tro->vn1.z);
 //		printf("%f : %f : %f\n",tro->vn2.x,tro->vn2.y,tro->vn2.z);
 //		printf("%f : %f : %f\n",tro->vn3.x,tro->vn3.y,tro->vn3.z);
-		tris = tris->next;
+//		tris = tris->next;
 		
-	}
-	ft_putstr("\033[32;0m ");
-	ft_putnbr(y);
-	ft_putstr(" vertex loaded !");
+//	}
+//	ft_putstr("\033[32;0m ");
+//	ft_putnbr(y);
+//	ft_putstr(" vertex loaded !");
 //	ft_lstpushback(&pts, , sizeof(t_triangle));
-	return(obj);
+	return(tris);
 //	while(data)
 }
