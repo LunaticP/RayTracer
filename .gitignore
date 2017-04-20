@@ -33,3 +33,5 @@
 *.su
 
 *.ppm
+.DS_Store
+rtvocl
