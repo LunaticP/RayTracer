@@ -75,23 +75,6 @@ int				quadratic(float a, float b, float c, float2 *ret)
 	return (1);
 }
 
-int				rt_plan(__global t_obj *o, t_ray *ray)
-{
-	float	d = dot(o->dir, ray->dir);
-	float	t;
-
-	// ray paralele au plan
-	if (d > -EPSILON && d < EPSILON)
-		return (0);
-	t = dot(o->pos + EPSILON - ray->ori, o->dir) / d;
-	if (t > EPSILON && (t < ray->t || ray->t <= EPSILON))
-	{
-		ray->t = t;
-		return (d > 0 ? -1 : 1);
-	}
-	return (0);
-}
-
 float4		norm_sphere(__global t_obj *o, float4 hit, int id)
 {
 	return(hit - o[id].pos);
@@ -126,8 +109,7 @@ float4		norm_cylindre(__global t_obj *o, float4 hit, int id, t_ray ray)
 	return(ret);
 }
 
-/*
-   float4			get_normale(float4 hit, __global t_obj *o,int id)
+/*float4			get_normale(float4 hit, __global t_obj *o,int id)
    {
    switch (o[id].type) {
    case sphere :
@@ -146,8 +128,7 @@ float4		norm_cylindre(__global t_obj *o, float4 hit, int id, t_ray ray)
    return(norm_cone(o, hit, id));
    break;
    }
-   }
-   */
+   }*/
 
 
 float4			refl(float4 ray, float4 normale)
@@ -276,7 +257,7 @@ int				tex_num(int num, __global t_obj *o, int id, __global int *tex, float2 pol
 	}
 	if (o[id].type == cone || o[id].type == cylindre)
 	{
-		out = abs((int)(polar.x / 20 * (float)tex[j + 1]) % tex[j + 1]) * tex[j] \
+		out = abs((int)(polar.x * (float)tex[j + 1]) % tex[j + 1]) * tex[j] \
   			+ (int)(polar.y * tex[j] / M_PI) % tex[j] + j + 2;
 	}
 	return (out > tex[0] || out < 0 ? 0 : out);
@@ -313,30 +294,25 @@ int				diffuse(__global t_obj *o,float *t, __global t_obj *l, t_ray ray, int id,
 	t_ray			shad;
 
 	color = o[id].col;
+	if (o[id].pos.w > 0.5f)
+		return (color);
 	hit = ray.dir * *t + ray.ori;
 	coef.x = 4.0;
 	coef.y = 1.0;
 	coef.z = 4.0;
 	temp = normalize(o[id].dir);
-	angle.x = 1.0f;
-	angle.y = 0.0f;
-	angle.z = 0.0f;
-	angle = normalize(angle);
-	angle.x *= M_PI / 4.0;
-	angle.y *= M_PI / 4.0;
-	angle.z *= M_PI / 4.0;
-	angle.x = temp.x * (M_PI / 4.0);
-	angle.y = temp.y * (M_PI / 4.0);
-	angle.z = temp.z * (M_PI / 4.0);
-	temp.x = hit.x - o[id].pos.x;
-	temp.y = hit.y - o[id].pos.y;
-	temp.z = hit.z - o[id].pos.z;
-	ctsn.x = temp.x * cos(angle.y) + temp.z * sin(angle.y)
-					+ temp.x * cos(angle.z) - temp.y * sin(angle.z);
-	ctsn.y = temp.y * cos(angle.x) - temp.z * sin(angle.x)
-					+ temp.x * sin(angle.z) + temp.y * cos(angle.z);
-	ctsn.z = temp.y * sin(angle.x) + temp.z * cos(angle.x)
-					+ temp.x * sin(angle.y) * -1.0 + temp.z * cos(angle.y);
+	angle = temp * (float)(M_PI / 4.0);
+	temp = hit - o[id].pos;
+	ctsn = 0.0f;
+	ctsn.y = temp.y * cos(angle.x) - temp.z * sin(angle.x);
+	ctsn.z = temp.y * sin(angle.x) + temp.z * cos(angle.x);
+//	temp = ctsn;
+//	ctsn.x = temp.x * cos(angle.y) + temp.z * sin(angle.y);
+//	ctsn.z = -temp.x * sin(angle.y) + temp.z * cos(angle.y);
+//	temp = ctsn;
+	ctsn.x = temp.x * cos(angle.z) - temp.y * sin(angle.z);
+	ctsn.y = temp.x * sin(angle.z) + temp.y * cos(angle.z);
+	ctsn = -ctsn;
 	if(o[id].type == sphere)
 	{
 		normale = norm_sphere(o, hit, id);
@@ -348,6 +324,8 @@ int				diffuse(__global t_obj *o,float *t, __global t_obj *l, t_ray ray, int id,
 		normale = norm_cone(o, hit, id, ray);
 		polar.x = ctsn.y;
 		polar.y = (atan(ctsn.x / -ctsn.z)) + M_PI_2_F;
+		if ((int)(polar.x * 2.0) % 2)
+			color = 0xFFFFFF - color;
 	}
 	else if (o[id].type == cylindre)
 	{
@@ -360,11 +338,7 @@ int				diffuse(__global t_obj *o,float *t, __global t_obj *l, t_ray ray, int id,
 	else
 		return(color);
 	if (o[id].pos.w > 0.5f)
-	{
-		normale.x *= -1.0f;
-		normale.y *= -1.0f;
-		normale.z *= -1.0f;
-	}
+		normale *= -1.0f;
 	if (o[id].n_m)
 	{
 		color = tex[tex_num(o[id].n_m, o, id, tex, polar)];
@@ -419,6 +393,79 @@ int				diffuse(__global t_obj *o,float *t, __global t_obj *l, t_ray ray, int id,
 	return(color);
 }
 
+int				ray_neg(__global t_obj *o, t_ray *ray, float2 *t)
+{
+	t_ray	ray2;
+	int		i;
+	int		ret;
+
+	i = -1;
+	ray2.t = 0;
+	ray2.ori = ray->ori;
+	ray2.dir = ray->dir;
+	ret = 1;
+	while (o[++i].type != end)
+	{
+		if (o[i].pos.w > 0.5f)
+		{
+			switch (o[i].type)
+			{
+				case sphere :
+					{
+						if ((rt_sphere(o, i, &ray2.t, &ray2)) != 0)
+						{
+							if (t->x == t->y)
+							{
+								if(t->x > ray2.t && t->y < ray2.t2)
+									ret = -1;
+								break;
+							}
+							else if (ray2.t <= t->x && ray2.t2 >= t->x && ray2.t2 <= t->y)
+							{
+								t->x = ray2.t;
+								t->y = ray2.t2;
+								ret = i + 1;
+							}
+							else if (ray2.t < t->x && ray2.t2 > t->y)
+								ret = 0;
+							else
+								ret = -1;
+						}
+					}
+					break;
+				case cylindre :
+					{
+					}
+					break;
+				case cone :
+					{
+					}
+					break;
+			}
+		}
+	}
+	return (ret); 
+}
+
+int				rt_plan(__global t_obj *o, int i, t_ray *ray)
+{
+	float	d = dot(o[i].dir, ray->dir);
+	float2	t;
+
+	// ray paralele au plan
+	if (d > -EPSILON && d < EPSILON)
+		return (0);
+	t.x = dot(o[i].pos + EPSILON - ray->ori, o[i].dir) / d;
+	t.y = t.x;
+	if (t.x > EPSILON && (t.x < ray->t || ray->t <= EPSILON)
+		&& ray_neg(o, ray, &t) > 0)
+	{
+		ray->t = t.x;
+		return (d > 0 ? -1 : 1);
+	}
+	return (0);
+}
+
 int				rt_triangle(__global t_obj *o, t_ray *ray)
 {
 	float4		e1;
@@ -465,7 +512,7 @@ float			sq(float a)
 	return (a * a);
 }
 
-int				rt_cone(__global t_obj *o, t_ray *ray)
+int				rt_cone(__global t_obj *o, int i, int *i2, t_ray *ray)
 {
 	float2	t;
 	float	a;
@@ -477,15 +524,17 @@ int				rt_cone(__global t_obj *o, t_ray *ray)
 	float4	x;
 
 	d = normalize(ray->dir);
-	odir = normalize(o->dir);
-	x = ray->ori - o->pos;
-	k = tan(o->alpha / 360.0 * M_PI);
+	odir = normalize(o[i].dir);
+	x = ray->ori - o[i].pos;
+	k = tan(o[i].alpha / 360.0 * M_PI);
 	k = 1.0 + k * k;
 	a = dot(d, d) - sq(dot(d, odir)) * k;
 	b = (dot(d, x) - k * dot(d, odir) * dot(x, odir)) * -2.0;
 	c = dot(x, x) - k * sq(dot(x, odir));
-	if ((quadratic(a, b, c, &t)))
+	if (quadratic(a, b, c, &t) && !(a = 0) && (o[i].pos.w > 0.5f || (a = ray_neg(o, ray, &t)) != 0))
 	{
+		if (o[i].pos.w < 0.5f)
+			*i2 = a - 1;
 		if (t.x < t.y && t.x > 0.01f && (t.x < ray->t || ray->t <= 0))
 		{
 			ray->t = t.x;
@@ -502,7 +551,7 @@ int				rt_cone(__global t_obj *o, t_ray *ray)
 	return (0);
 }
 
-int				rt_cylindre(__global t_obj *o, t_ray *ray)
+int				rt_cylindre(__global t_obj *o, int i, int *i2, t_ray *ray)
 {
 	float2	t;
 	float	a;
@@ -513,13 +562,15 @@ int				rt_cylindre(__global t_obj *o, t_ray *ray)
 	float4	x;
 
 	d = normalize(ray->dir);
-	odir = normalize(o->dir);
-	x = ray->ori - o->pos;
+	odir = normalize(o[i].dir);
+	x = ray->ori - o[i].pos;
 	a = dot(d, d) - sq(dot(d, odir));
 	b = (dot(d, x) - dot(d, odir) * dot(x, odir)) * -2.0f;
-	c = dot(x, x) - sq(dot(x, odir)) - o->r * o->r;
-	if ((quadratic(a, b, c, &t)))
+	c = dot(x, x) - sq(dot(x, odir)) - o[i].r * o[i].r;
+	if (quadratic(a, b, c, &t) && !(a = 0) && (o[i].pos.w > 0.5f || (a = ray_neg(o, ray, &t)) != 0))
 	{
+		if (o[i].pos.w < 0.5f)
+			*i2 = a - 1;
 		if (t.x < t.y && t.x > 0.01 && (t.x < ray->t || ray->t <= 0))
 		{
 			ray->t = t.x;
@@ -535,89 +586,8 @@ int				rt_cylindre(__global t_obj *o, t_ray *ray)
 	}
 	return (0);
 }
-/*
-   int				fourth_degree(float a, float b, float c, float d, float e, float *t)
-   {
-   float	p;
-   float	q;
-   float	del;
-   float	P;
-   float	D;
-   float	S;
-   float	Q;
-   float4	tf;
-   float2	ds;
 
-   if (a == 0)
-   return (0);
-   p = (8.0 * a * c - 3.0 * b * b) / 8.0 * a * a;
-   q = (pown(b, 3) - 4.0 * a * b * c + 8.0 * a * a * d) / 8.0 * pown(a, 3);
-   del = 256 * a * a * a * e * e * e - 192 * a * a * b * d * e * e - 128 * a * a * c * c * e * e + 144 * a * a * c * d * d * e - 27 * a * a * \
-   d * d * d * d + 144 * a * b * b * c * e * e - 6 * a * b * b * d * d * e - 80 * a * b * c * c * d * e + 18 * a * b * c * d * d * d + \
-   16 * a * c * c * c * c * e - 4 * a * c * c * c * d * d - 27 * b * b * b * b * e * e + 18 * b * b * b * c * d * e - 4 * b * b * b * \
-   d * d * d - 4 * b * b * c * c * c * e + b * b * c * c * d * d;
-
-   ds.x = c * c - 3 * b * d + 12 * a * e;
-   ds.y = 2 * c * c * c - 9 * b * c * d + 27 * b * b * e + 27 * a * d * d - 72 * a * c * e;
-
-   Q = cbrt(ds.y + sqrt(ds.y * ds.y - 4 * ds.x * ds.x * ds.x) / 2);
-   S = 0.5 * sqrt(-(2 / 3) * p + 1 / (3 * a) * (Q + ds.x / Q));
-   P = 8 * a * c - 3 * b * b;
-   D = 64 * a * a * a * e - 16 * a * a * c * c + 16 * a * b * b * c - 16 * a * a * b * d - 3 * b * b * b * b;
-
-   tf.x = -(b / (4 * a)) - S + 0.5 * sqrt(-4 * S * S - 2 * p + q / S);
-   tf.y = -(b / (4 * a)) - S - 0.5 * sqrt(-4 * S * S - 2 * p + q / S);
-   tf.z = -(b / (4 * a)) + S + 0.5 * sqrt(-4 * S * S - 2 * p + q / S);
-   tf.w = -(b / (4 * a)) + S - 0.5 * sqrt(-4 * S * S - 2 * p + q / S);
-
- *t = (tf.x < tf.y) ? tf.x : tf.y;
- *t = (*t < tf.z) ? *t : tf.z;
- *t = (*t < tf.w) ? *t : tf.w;
- return (0);	
- }
-
- int				rt_sphere(__global t_obj *o, t_ray *ray)
- {
- float4	pos;
- float4	dir;
- float	a;
- float	b;
- float	c;
- float	d;
- float	e;
- float	r;
- float	m;
- float	n;
- float	oo;
- float	p;
- float	q;
- float	t;
-
- r = 1;
- o->dir = (0.0, 0.0, -1.0);
- pos = o->pos - ray->ori;
- dir = normalize(ray->dir);
- m = dot(dir, dir);
- n = dot(dir, pos);
- oo = dot(pos, pos);
- p = dot(dir, o->dir);
- q = dot(pos, o->dir);
-
- a = m * m;
- b = 4.0 * m * n;
- c = 4.0 * m * m + 2.0 * m * oo - 2.0 * (o->r * o->r + r * r) * m + 4.0 * o->r * o->r * p * p;
-d = 4.0 * n * oo - 4.0 * (o->r * o->r + r * r) * n + 8.0 * o->r * o->r * p * q;
-e = oo * oo - 2.0 * (o->r * o->r + r * r) * oo + 4.0 * o->r * o->r * q * q + sq(o->r * o->r  - r * r);
-fourth_degree(a, b, c, d, e, &t);
-if (t < ray->t)
-{
-	ray->t = t;
-	return (1);
-}
-return (0);
-}
-	*/
-int				rt_sphere(__global t_obj *o, t_ray *ray)
+int				rt_sphere(__global t_obj *o, int i, int *i2, t_ray *ray)
 {
 	float2	t;
 	float4	pos;
@@ -625,12 +595,14 @@ int				rt_sphere(__global t_obj *o, t_ray *ray)
 	float	b;
 	float	c;
 
-	pos = o->pos - ray->ori;
+	pos = o[i].pos - ray->ori;
 	a = dot(ray->dir, ray->dir);
 	b = 2.0f * dot(ray->dir, pos);
-	c = dot(pos, pos) - o->r * o->r;
-	if ((quadratic(a, b, c, &t)))
+	c = dot(pos, pos) - o[i].r * o[i].r;
+	if (quadratic(a, b, c, &t) && !(a = 0) && (o[i].pos.w > 0.5f || (a = ray_neg(o, ray, &t)) != 0))
 	{
+		if (o[i].pos.w < 0.5f)
+			*i2 = a - 1;
 		if (t.x < t.y && t.x > 0.001 && (t.x < ray->t || ray->t <= 0.001))
 		{
 			ray->t = t.x;
@@ -647,143 +619,45 @@ int				rt_sphere(__global t_obj *o, t_ray *ray)
 	return (0);
 }
 
-int				ray_neg(__global t_obj *o, t_ray *ray)
-{
-	t_ray	ray2;
-	int		i;
-	int		ret;
-
-	i = -1;
-	ray2.t = 0;
-	ray2.ori = ray->ori;
-	ray2.dir = ray->dir;
-	ret = 0;
-	while (o[++i].type != end)
-	{
-		if (o[i].pos.w > 0.5f)
-		{
-			switch (o[i].type)
-			{
-				case sphere :
-					{
-						if ((rt_sphere(&(o[i]), &ray2)) != 0)
-						{
-							if (ray2.t <= ray->t && ray2.t2 >= ray->t && ray2.t2 <= ray->t2)
-							{
-								ray->t = ray2.t;
-								ret = i;
-							}
-							else if (ray2.t < ray->t && ray2.t2 > ray->t2)
-								ret = -1;
-							else
-								ret = 0;
-						}
-					}
-					break;
-				case cylindre :
-					{
-						if ((rt_cylindre(&(o[i]), &ray2)) != 0)
-						{
-							if (ray2.t <= ray->t && ray2.t2 >= ray->t && ray2.t2 <= ray->t2)
-							{
-								ray->t = ray2.t2;
-								ret = i;
-							}
-							else
-								ret = 0;
-						}
-					}
-					break;
-				case cone :
-					{
-						if ((rt_cone(&(o[i]), &ray2)) != 0)
-						{
-							if (ray2.t <= ray->t && ray2.t2 >= ray->t && ray2.t2 <= ray->t2)
-							{
-								ray->t = ray2.t2;
-								ret = i;
-							}
-							else
-								ret = 0;
-						}
-					}
-					break;
-			}
-		}
-	}
-	return (ret);
-}
 
 int				ray_match(__global t_obj *o, t_ray *ray)
 {
 	int		i;
+	int		i2;
 	int		ret;
 
 	i = -1;
+	i2 = -1;
 	ray->t = 0;
 	ret = -1;
 	while (o[++i].type != end)
 	{
-		if (o[i].pos.w < 0.5f)
+		if (o[i].pos.w < 0.5f && o[i].dir.w < 0.5f)
 		{
 			switch (o[i].type)
 			{
 				case sphere :
 					{
-						if ((rt_sphere(&(o[i]), ray)) != 0)
-						{
-							if ((ret = ray_neg(o, ray)) > 0)
-							{
-							//	o[ret].col = o[i].col;
-								o[ret].tex = o[i].tex;
-							}
-							else if (ret == -1)
-								ret = 2;
-							else
-								ret = i;
-						}
+						if ((rt_sphere(o, i, &i2, ray)) != 0)
+							ret = (i2 > 0) ? i2 - 1 : i;
 					}
 					break;
 				case plan :
 					{
-						if ((rt_plan(&(o[i]), ray)) != 0)
-						{
-							if ((ret = ray_neg(o, ray)) > 0)
-							{
-								o[ret].col = o[i].col;
-								o[ret].tex = o[i].tex;
-							}
-							else
-								ret = i;
-						}
+						if ((rt_plan(o, i, ray)) != 0)
+							ret = i;
 					}
 					break;
 				case cylindre :
 					{
-						if ((rt_cylindre(&(o[i]), ray)) != 0)
-						{
-							if ((ret = ray_neg(o, ray)) > 0)
-							{
-								o[ret].col = o[i].col;
-								o[ret].tex = o[i].tex;
-							}
-							else
-								ret = i;
-						}
+						if ((rt_cylindre(o, i, &i2, ray)) != 0)
+							ret = (i2 > 0) ? i2 - 1 : i;
 					}
 					break;
 				case cone :
 					{
-						if ((rt_cone(&(o[i]), ray)) != 0)
-						{
-							if ((ret = ray_neg(o, ray)) > 0)
-							{
-							//	o[ret].col = o[i].col;
-							//	o[ret].tex = o[i].tex;
-							}
-							else
-								ret = i;
-						}
+						if ((rt_cone(o, i, &i2, ray)) != 0)
+							ret = (i2 > 0) ? i2 - 1 : i;
 					}
 					break;
 			}
@@ -822,6 +696,7 @@ __kernel void	raytracer(
 
 	if (i < c[0].size.x && j < c[0].size.y)
 	{
+		string[j * c[0].size.x + i] = 0;
 		c[0].ori;
 		ray.dir = ray_from_coord(i, j, c);
 		ray.ori = c[0].ori;
@@ -840,17 +715,7 @@ __kernel void	raytracer(
 				b = b + (color & 0xFF) > 255 ? 255 : b + (color & 0xFF);
 			}
 			color = r * 0x10000 + g * 0x100 + b;
-//			color = color & 0xF0F0F0;
 			string[j * c[0].size.x + i] = color;
-			//			lt = -1;
-			//			if(o[id].refl > EPSILON)
-			//				{
-			//					nor = get_normale(ray, o, id);
-			//					refl(&ray, nor);
-			//				}
-			//			else
-			//				ref = 0;
-
 		}
 	}
 }

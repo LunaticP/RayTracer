@@ -6,7 +6,7 @@
 /*   By: jplevy <jplevy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/08 01:37:39 by jplevy            #+#    #+#             */
-/*   Updated: 2017/04/20 02:31:38 by aviau            ###   ########.fr       */
+/*   Updated: 2017/04/25 00:23:13 by aviau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,24 +59,16 @@ t_scene	ft_init_scene(void)
 	ret.cam.p.y = 5.0 * (700.0 / 900.0);
 	ret.cam.p.z = 5.0;
 
-	ret.light = ft_memalloc(sizeof(t_obj) * 3);
-	ret.light[0].pos.x = 15.0;
-	ret.light[0].pos.y = 15.0;
-	ret.light[0].pos.z = -20.0;
+	ret.light = ft_memalloc(sizeof(t_obj) * 5);
+	ret.light[0].pos.x = 6.0;
+	ret.light[0].pos.y = 12.0;
+	ret.light[0].pos.z = -13.0;
 
 	ret.light[0].col = 0xFFFFAA;
 	ret.light[0].type = light;
 	ret.light[0].r = 200.0;
-
-	ret.light[1].pos.x = 5.0;
-	ret.light[1].pos.y = 10.0;
-	ret.light[1].pos.z = -10.0;
-
-	ret.light[1].col = 0xFFFFAA;
-	ret.light[1].type = light;
-	ret.light[1].r = 200.0;
-
-	/*	ret.light[1].pos.x = 20.0;
+	/*
+		ret.light[1].pos.x = 20.0;
 		ret.light[1].pos.y = 20.0;
 		ret.light[1].pos.z = -7.0;
 
@@ -99,8 +91,8 @@ t_scene	ft_init_scene(void)
 		ret.light[3].col = 0xFFFFFF;
 		ret.light[3].type = light;
 		ret.light[3].r = 250.0;
-		*/
-	ret.light[2].type = end;
+	*/	
+	ret.light[4].type = end;
 
 	ret.obj = ft_memalloc(sizeof(t_obj) * 18);
 
@@ -214,26 +206,26 @@ t_scene	ft_init_scene(void)
 	ret.obj[9].tex = 2;
 	ret.obj[9].type = sphere;
 	ret.obj[9].r = 3;
-
-	ret.obj[10].pos.x = -3.0;
+	/////////////////////////
+	ret.obj[10].pos.x = -2.0;
 	ret.obj[10].pos.y = 10.0;
-	ret.obj[10].pos.z = -10.0;
+	ret.obj[10].pos.z = -5.0;
 	ret.obj[10].pos.w = 0.0;
 
 	ret.obj[10].col = 0x912335;
 	ret.obj[10].tex = 0;
 	ret.obj[10].type = sphere;
 	ret.obj[10].r = 2;
-
+	//////////////////
 	ret.obj[11].pos.x = -3.0;
-	ret.obj[11].pos.y = 0.0;
-	ret.obj[11].pos.z = 15.0;
+	ret.obj[11].pos.y = 8.0;
+	ret.obj[11].pos.z = -5.0;
 	ret.obj[11].pos.w = 0.0;
 
 	ret.obj[11].col = 0xFCE704;
-	ret.obj[11].tex = 1;
+	ret.obj[11].tex = 0;
 	ret.obj[11].type = sphere;
-	ret.obj[11].r = 3;
+	ret.obj[11].r = 2;
 
 	ret.obj[12].pos.x = 3.0;
 	ret.obj[12].pos.y = 0.0;
@@ -276,19 +268,19 @@ t_scene	ft_init_scene(void)
 	ret.obj[15].col = 0xCCCCCC;
 	ret.obj[15].type = plan;
 	///////////////////////////////
-	ret.obj[16].dir.x = 0.0;
+	ret.obj[16].dir.x = -1.0;
 	ret.obj[16].dir.y = 0.0;
 	ret.obj[16].dir.z = 0.0;
-	ret.obj[16].pos.x = -1.0;
+	ret.obj[16].pos.x = 0.0;
 	ret.obj[16].pos.y = 10.0;
-	ret.obj[16].pos.z = -10.0;
+	ret.obj[16].pos.z = -5.0;
 	ret.obj[16].pos.w = 1.0;
 
-	ret.obj[16].col = 0x00FFFF;
+	ret.obj[16].col = 0xFF00FF;
 	ret.obj[16].tex = 2;
 //	ret.obj[16].n_m = 0.0;
 	ret.obj[16].type = sphere;
-	ret.obj[16].r = 3;
+	ret.obj[16].r = 2;
 	//////////////////////////////
 
 	ret.obj[17].type = end;
@@ -414,7 +406,7 @@ int		main(int ac, char **av)
 	pws[1] = HEIGHT;
 	ocl_new_kernel(&(mlx.prog), 5, pws, "norowowowowd", "raytracer", WIDTH * HEIGHT
 			* sizeof(int), mlx.p, sizeof(t_cam), &(mlx.s.cam), sizeof(t_obj) * 18, 
-			mlx.s.obj, sizeof(t_obj) * 3, mlx.s.light, sizeof(int) * (mlx.tex[0] + 1), mlx.tex, 2);
+			mlx.s.obj, sizeof(t_obj) * 5, mlx.s.light, sizeof(int) * (mlx.tex[0] + 1), mlx.tex, 2);
 	mlx_hook(mlx.win, 2, (1L << 0), my_key_func, &mlx);
 	mlx_hook(mlx.win, 3, (1L << 1), &k_rel, &mlx);
 	mlx_loop_hook(mlx.mlx, ray_loop, &mlx);
