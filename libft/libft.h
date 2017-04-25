@@ -6,13 +6,13 @@
 /*   By: pgourran <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/11/30 21:57:30 by pgourran          #+#    #+#             */
-/*   Updated: 2017/03/23 12:42:17 by pgourran         ###   ########.fr       */
+/*   Updated: 2016/11/18 11:10:50 by pgourran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
-# define BUFF_SIZE 3200
+# define BUFF_SIZE 32
 # include <unistd.h>
 # include <string.h>
 # include <stdlib.h>

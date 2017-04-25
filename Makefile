@@ -6,14 +6,14 @@
 #    By: jplevy <jplevy@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/09/11 11:02:36 by aviau             #+#    #+#              #
-#    Updated: 2017/03/20 08:32:36 by pgourran         ###   ########.fr        #
+#    Updated: 2017/03/21 15:45:17 by aviau            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 OS = APPLE
 NAME = rtvocl
 SRC_NAME =	main.c\
-			parseobj.c
+			key.c
 INC_FILE = include/key.h\
 		   include/rt.h
 

@@ -6,7 +6,7 @@
 /*   By: jplevy <jplevy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/11 06:10:10 by jplevy            #+#    #+#             */
-/*   Updated: 2017/03/23 16:45:59 by pgourran         ###   ########.fr       */
+/*   Updated: 2017/04/18 15:38:23 by pgourran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,9 @@
 # define RT_H
 
 # define USAGE "./rtv1 file\n"
-# define HEIGHT 700
-# define WIDTH 1000
-# define CX 64
-# define CY 64
+# define HEIGHT 1500
+# define WIDTH 1500
+
 # include <libft.h>
 # include <libocl.h>
 # include <matrix.h>
@@ -34,34 +33,26 @@ typedef enum		e_type
 	sphere,
 	cylindre,
 	cone,
+	para,
 	light,
 	start_obj,
 	end_obj,
 	end
 }					t_type;
 
-typedef struct		s_triangle
-{
-	cl_float4		pos;
-	cl_float4		ori;
-	cl_float4		p1;
-	cl_float4		p2;
-	cl_float4		p3;
-	cl_float4		vn1;
-	cl_float4		vn2;
-	cl_float4		vn3;
-	cl_int			col;
-}					t_triangle;
-
 typedef struct 		s_obj
 {
 	cl_float4		pos;
 	cl_float4		dir;
+	float			tet;
+	float			phi;
+	float			rot;
 	cl_float4		min;
 	cl_float4		max;
 	cl_int			col;
 	cl_float		diff;
 	cl_float		refl;
+	cl_float		trans;
 	cl_float		refr;
 	t_type			type;
 	cl_float		r;
@@ -81,9 +72,8 @@ typedef struct		s_cam
 	cl_float4		diry;
 	cl_float4		dirz;
 	cl_int2			size;
-	cl_float4		viewplane;
+	cl_float2		viewplane;
 	cl_float4		p;
-	cl_float4		chunk;
 }					t_cam;
 
 typedef struct		s_scene
@@ -98,14 +88,22 @@ typedef struct		s_mlx
 	void			*mlx;
 	void			*win;
 	void			*img;
+	void			*tmp;
+	char			*atmp;
+	void			*tmp2;
+	char			*atmp2;
 	char			*p;
 	int				bp;
+	int				*tex;
 	int				sl;
 	int				endian;
+	int				key;
 	t_scene			s;
 	t_ocl_prog		prog;
 }					t_mlx;
 
-t_list		*get_obj(char *path);
+void	k_press(int key, int *k);
+int		k_rel(int key, void *param);
+void	k_apply(int key, t_scene *s);
 
 #endif

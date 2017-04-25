@@ -6,11 +6,17 @@
 /*   By: jplevy <jplevy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/22 18:56:13 by jplevy            #+#    #+#             */
-/*   Updated: 2017/03/04 04:42:26 by jplevy           ###   ########.fr       */
+/*   Updated: 2017/04/26 00:14:39 by pgourran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libocl.h"
+
+static void notify(char *err)
+{
+	ft_putstr("OCL ERROR \n");
+	ft_putendl(err);
+}
 
 int		ocl_new_prog(char *filename, size_t max_src_size, t_ocl_prog *p)
 {
@@ -24,7 +30,7 @@ int		ocl_new_prog(char *filename, size_t max_src_size, t_ocl_prog *p)
 		&(p->device_id), &(p->ret_num_devices));
 	if (ret < 0)
 		return (ocl_error(ret, __func__));
-	if ((p->context = clCreateContext(NULL, 1, &(p->device_id), NULL,
+	if ((p->context = clCreateContext(NULL, 1, &(p->device_id), (void*)&notify,
 		NULL, &ret)) && ret < 0)
 		return (ocl_error(ret, __func__));
 	p->command_queue = clCreateCommandQueue(p->context, p->device_id, 0, &ret);
