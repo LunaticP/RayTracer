@@ -6,7 +6,7 @@
 /*   By: jplevy <jplevy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/08 01:37:39 by jplevy            #+#    #+#             */
-/*   Updated: 2017/04/25 00:23:13 by aviau            ###   ########.fr       */
+/*   Updated: 2017/04/26 06:38:51 by aviau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,38 +60,38 @@ t_scene	ft_init_scene(void)
 	ret.cam.p.z = 5.0;
 
 	ret.light = ft_memalloc(sizeof(t_obj) * 5);
-	ret.light[0].pos.x = 6.0;
-	ret.light[0].pos.y = 12.0;
-	ret.light[0].pos.z = -13.0;
+	ret.light[0].pos.x = -1.5;
+	ret.light[0].pos.y = 10.0;
+	ret.light[0].pos.z = -25.0;
 
 	ret.light[0].col = 0xFFFFAA;
 	ret.light[0].type = light;
-	ret.light[0].r = 200.0;
-	/*
-		ret.light[1].pos.x = 20.0;
-		ret.light[1].pos.y = 20.0;
-		ret.light[1].pos.z = -7.0;
+	ret.light[0].r = 250.0;
+/*	
+	ret.light[1].pos.x = 20.0;
+	ret.light[1].pos.y = 20.0;
+	ret.light[1].pos.z = -7.0;
 
-		ret.light[1].col = 0xFFFFFF;
-		ret.light[1].type = light;
-		ret.light[1].r = 250.0;
+	ret.light[1].col = 0x0000FF;
+	ret.light[1].type = light;
+	ret.light[1].r = 0.0;
 
-		ret.light[2].pos.x = 0.0;
-		ret.light[2].pos.y = 25.0;
-		ret.light[2].pos.z = 0.0;
+	ret.light[2].pos.x = 0.0;
+	ret.light[2].pos.y = 25.0;
+	ret.light[2].pos.z = 0.0;
 
-		ret.light[2].col = 0xFFFFFF;
-		ret.light[2].type = light;
-		ret.light[2].r = 100.0;
+	ret.light[2].col = 0x00FF00;
+	ret.light[2].type = light;
+	ret.light[2].r = 0.0;
 
-		ret.light[3].pos.x = 0.0;
-		ret.light[3].pos.y = 20.0;
-		ret.light[3].pos.z = 20.0;
+	ret.light[3].pos.x = 0.0;
+	ret.light[3].pos.y = 20.0;
+	ret.light[3].pos.z = 20.0;
 
-		ret.light[3].col = 0xFFFFFF;
-		ret.light[3].type = light;
-		ret.light[3].r = 250.0;
-	*/	
+	ret.light[3].col = 0xFF0000;
+	ret.light[3].type = light;
+	ret.light[3].r = 0.0;
+*/		
 	ret.light[4].type = end;
 
 	ret.obj = ft_memalloc(sizeof(t_obj) * 18);
@@ -114,7 +114,7 @@ t_scene	ft_init_scene(void)
 	ret.obj[1].pos.x = 0.0;
 	ret.obj[1].pos.y = 15.0;
 	ret.obj[1].pos.z = 10.0;
-	ret.obj[1].pos.w = 0.0;
+	ret.obj[1].pos.w = -1.0;
 
 	ret.obj[1].tex = 4;
 	ret.obj[1].col = 0xC62731;
@@ -212,10 +212,10 @@ t_scene	ft_init_scene(void)
 	ret.obj[10].pos.z = -5.0;
 	ret.obj[10].pos.w = 0.0;
 
-	ret.obj[10].col = 0x912335;
-	ret.obj[10].tex = 0;
+	ret.obj[10].col = 0xA12335;
+	ret.obj[10].tex = 2;
 	ret.obj[10].type = sphere;
-	ret.obj[10].r = 2;
+	ret.obj[10].r = 3;
 	//////////////////
 	ret.obj[11].pos.x = -3.0;
 	ret.obj[11].pos.y = 8.0;
@@ -268,19 +268,19 @@ t_scene	ft_init_scene(void)
 	ret.obj[15].col = 0xCCCCCC;
 	ret.obj[15].type = plan;
 	///////////////////////////////
-	ret.obj[16].dir.x = -1.0;
-	ret.obj[16].dir.y = 0.0;
+	ret.obj[16].dir.x = 0.0;
+	ret.obj[16].dir.y = 1.0;
 	ret.obj[16].dir.z = 0.0;
-	ret.obj[16].pos.x = 0.0;
+	ret.obj[16].pos.x = -1.5;
 	ret.obj[16].pos.y = 10.0;
-	ret.obj[16].pos.z = -5.0;
+	ret.obj[16].pos.z = -6.5;
 	ret.obj[16].pos.w = 1.0;
 
 	ret.obj[16].col = 0xFF00FF;
-	ret.obj[16].tex = 2;
+	ret.obj[16].tex = 1;
 //	ret.obj[16].n_m = 0.0;
-	ret.obj[16].type = sphere;
-	ret.obj[16].r = 2;
+	ret.obj[16].type = cylindre;
+	ret.obj[16].r = 1.5f;
 	//////////////////////////////
 
 	ret.obj[17].type = end;

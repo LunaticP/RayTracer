@@ -257,7 +257,7 @@ int				tex_num(int num, __global t_obj *o, int id, __global int *tex, float2 pol
 	}
 	if (o[id].type == cone || o[id].type == cylindre)
 	{
-		out = abs((int)(polar.x * (float)tex[j + 1]) % tex[j + 1]) * tex[j] \
+		out = abs((int)(polar.x / 10 * (float)tex[j + 1]) % tex[j + 1]) * tex[j] \
   			+ (int)(polar.y * tex[j] / M_PI) % tex[j] + j + 2;
 	}
 	return (out > tex[0] || out < 0 ? 0 : out);
@@ -294,25 +294,13 @@ int				diffuse(__global t_obj *o,float *t, __global t_obj *l, t_ray ray, int id,
 	t_ray			shad;
 
 	color = o[id].col;
-	if (o[id].pos.w > 0.5f)
-		return (color);
 	hit = ray.dir * *t + ray.ori;
 	coef.x = 4.0;
 	coef.y = 1.0;
 	coef.z = 4.0;
 	temp = normalize(o[id].dir);
 	angle = temp * (float)(M_PI / 4.0);
-	temp = hit - o[id].pos;
-	ctsn = 0.0f;
-	ctsn.y = temp.y * cos(angle.x) - temp.z * sin(angle.x);
-	ctsn.z = temp.y * sin(angle.x) + temp.z * cos(angle.x);
-//	temp = ctsn;
-//	ctsn.x = temp.x * cos(angle.y) + temp.z * sin(angle.y);
-//	ctsn.z = -temp.x * sin(angle.y) + temp.z * cos(angle.y);
-//	temp = ctsn;
-	ctsn.x = temp.x * cos(angle.z) - temp.y * sin(angle.z);
-	ctsn.y = temp.x * sin(angle.z) + temp.y * cos(angle.z);
-	ctsn = -ctsn;
+	ctsn = hit - o[id].pos;
 	if(o[id].type == sphere)
 	{
 		normale = norm_sphere(o, hit, id);
@@ -337,8 +325,6 @@ int				diffuse(__global t_obj *o,float *t, __global t_obj *l, t_ray ray, int id,
 		normale = o[id].dir;
 	else
 		return(color);
-	if (o[id].pos.w > 0.5f)
-		normale *= -1.0f;
 	if (o[id].n_m)
 	{
 		color = tex[tex_num(o[id].n_m, o, id, tex, polar)];
@@ -350,9 +336,11 @@ int				diffuse(__global t_obj *o,float *t, __global t_obj *l, t_ray ray, int id,
 		color = tex[tex_num(o[id].tex, o, id, tex, polar)];
 	else
 		color = o[id].col;
+	if (o[id].pos.w > 0.5f)
+		normale *= -1.0f;
 	vlight = l[in].pos - hit;
 	shad.ori = hit;
-	shad.dir = normalize(vlight);
+	shad.dir = normalize(vlight) * (o[id].pos.w < 0.5f ? 1.0f : -1.0f);
 	tmp = vlight;
 	norme = sqrt(tmp.x * tmp.x + tmp.y * tmp.y + tmp.z * tmp.z);
 	r = (color & 0xFF0000) / 0x10000;
@@ -360,19 +348,18 @@ int				diffuse(__global t_obj *o,float *t, __global t_obj *l, t_ray ray, int id,
 	b = (color & 0xFF);
 	if ((lol = ray_match(o, &shad)) != -1 && shad.t < norme)
 	{
-		r /= 50;
-		g /= 50;
-		b /= 50;
-		return(r * 0x10000 + g * 0x100 + b);
+		if (o[id].pos.w > 0.5f)
+			return (o[lol].col);
+		return(0);
 	}
 	dp = dot(normalize(vlight), normalize(normale));
 	float4 rp = dot(normalize(refl(ray.dir, normale)), vlight);
 	rl = (l[in].col & 0xFF0000) / 0x10000 / 255.0;
 	gl = (l[in].col & 0xFF00) / 0x100 / 255.0;
 	bl = (l[in].col & 0xFF) / 255.0;
-	r = r * dp * (l[in].r / (norme * norme)) * rl > 255 ? 255 : r * dp * (l[in].r / (norme * norme)) * rl + r * 0.05;
-	g = g * dp * (l[in].r / (norme * norme)) * gl > 255 ? 255 : g * dp * (l[in].r / (norme * norme)) * gl + g * 0.05;
-	b = b * dp * (l[in].r / (norme * norme)) * bl > 255 ? 255 : b * dp * (l[in].r / (norme * norme)) * bl + b * 0.05;
+	r = r * dp * (l[in].r / (norme * norme)) * rl > 255 ? 255 : r * dp * (l[in].r / (norme * norme)) * rl + r / 50;
+	g = g * dp * (l[in].r / (norme * norme)) * gl > 255 ? 255 : g * dp * (l[in].r / (norme * norme)) * gl + g / 50;
+	b = b * dp * (l[in].r / (norme * norme)) * bl > 255 ? 255 : b * dp * (l[in].r / (norme * norme)) * bl + b / 50;
 	ray.dir *= -1;
 	mid = (normalize(ray.dir) + normalize(vlight)) / 2;
 	spec = pow(dot(normalize(mid), normalize(normale)), 150);
@@ -422,7 +409,7 @@ int				ray_neg(__global t_obj *o, t_ray *ray, float2 *t)
 							}
 							else if (ray2.t <= t->x && ray2.t2 >= t->x && ray2.t2 <= t->y)
 							{
-								t->x = ray2.t;
+								t->x = ray2.t2;
 								t->y = ray2.t2;
 								ret = i + 1;
 							}
@@ -435,10 +422,48 @@ int				ray_neg(__global t_obj *o, t_ray *ray, float2 *t)
 					break;
 				case cylindre :
 					{
+						if ((rt_cylindre(o, i, &ray2.t, &ray2)) != 0)
+						{
+							if (t->x == t->y)
+							{
+								if(t->x > ray2.t && t->y < ray2.t2)
+									ret = -1;
+								break;
+							}
+							else if (ray2.t <= t->x && ray2.t2 >= t->x && ray2.t2 <= t->y)
+							{
+								t->x = ray2.t2;
+								t->y = ray2.t2;
+								ret = i + 1;
+							}
+							else if (ray2.t < t->x && ray2.t2 > t->y)
+								ret = 0;
+							else
+								ret = -1;
+						}
 					}
 					break;
 				case cone :
 					{
+						if ((rt_cone(o, i, &ray2.t, &ray2)) != 0)
+						{
+							if (t->x == t->y)
+							{
+								if(t->x > ray2.t && t->y < ray2.t2)
+									ret = -1;
+								break;
+							}
+							else if (ray2.t <= t->x && ray2.t2 >= t->x && ray2.t2 <= t->y)
+							{
+								t->x = ray2.t2;
+								t->y = ray2.t2;
+								ret = i + 1;
+							}
+							else if (ray2.t < t->x && ray2.t2 > t->y)
+								ret = 0;
+							else
+								ret = -1;
+						}
 					}
 					break;
 			}
@@ -535,13 +560,13 @@ int				rt_cone(__global t_obj *o, int i, int *i2, t_ray *ray)
 	{
 		if (o[i].pos.w < 0.5f)
 			*i2 = a - 1;
-		if (t.x < t.y && t.x > 0.01f && (t.x < ray->t || ray->t <= 0))
+		if (t.x < t.y && (o[i].pos.w > 0.5f || t.x > 0.01f) && (t.x < ray->t || ray->t <= 0))
 		{
 			ray->t = t.x;
 			ray->t2 = t.y;
 			return (1);
 		}
-		else if (t.y > 0.01f && (t.y < ray->t || ray->t <= 0))
+		else if ((o[i].pos.w > 0.5f || t.y > 0.01f) && (t.y < ray->t || ray->t <= 0))
 		{
 			ray->t = t.y;
 			ray->t2 = t.x;
@@ -571,13 +596,13 @@ int				rt_cylindre(__global t_obj *o, int i, int *i2, t_ray *ray)
 	{
 		if (o[i].pos.w < 0.5f)
 			*i2 = a - 1;
-		if (t.x < t.y && t.x > 0.01 && (t.x < ray->t || ray->t <= 0))
+		if (t.x < t.y && (o[i].pos.w > 0.5f || t.x > 0.01) && (t.x < ray->t || ray->t <= 0))
 		{
 			ray->t = t.x;
 			ray->t2 = t.y;
 			return (1);
 		}
-		else if (t.y > 0.01 && (t.y < ray->t || ray->t <= 0))
+		else if ((o[i].pos.w > 0.5f || t.y > 0.01) && (t.y < ray->t || ray->t <= 0))
 		{
 			ray->t = t.y;
 			ray->t2 = t.x;
@@ -603,13 +628,13 @@ int				rt_sphere(__global t_obj *o, int i, int *i2, t_ray *ray)
 	{
 		if (o[i].pos.w < 0.5f)
 			*i2 = a - 1;
-		if (t.x < t.y && t.x > 0.001 && (t.x < ray->t || ray->t <= 0.001))
+		if (t.x < t.y && (o[i].pos.w > 0.5f || t.x > 0.001) && (t.x < ray->t || ray->t <= 0.001))
 		{
 			ray->t = t.x;
 			ray->t2 = t.y;
 			return (1);
 		}
-		else if (t.y > 0.001 && (t.y < ray->t || ray->t <= 0.001))
+		else if ((o[i].pos.w > 0.5f || t.y > 0.001) && (t.y < ray->t || ray->t <= 0.001))
 		{
 			ray->t = t.y;
 			ray->t2 = t.x;
@@ -639,7 +664,7 @@ int				ray_match(__global t_obj *o, t_ray *ray)
 				case sphere :
 					{
 						if ((rt_sphere(o, i, &i2, ray)) != 0)
-							ret = (i2 > 0) ? i2 - 1 : i;
+							ret = (i2 > 0) ? i2 : i;
 					}
 					break;
 				case plan :
@@ -651,13 +676,13 @@ int				ray_match(__global t_obj *o, t_ray *ray)
 				case cylindre :
 					{
 						if ((rt_cylindre(o, i, &i2, ray)) != 0)
-							ret = (i2 > 0) ? i2 - 1 : i;
+							ret = (i2 > 0) ? i2 : i;
 					}
 					break;
 				case cone :
 					{
 						if ((rt_cone(o, i, &i2, ray)) != 0)
-							ret = (i2 > 0) ? i2 - 1 : i;
+							ret = (i2 > 0) ? i2 : i;
 					}
 					break;
 			}
