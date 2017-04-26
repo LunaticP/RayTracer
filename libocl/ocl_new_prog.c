@@ -6,7 +6,7 @@
 /*   By: jplevy <jplevy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/22 18:56:13 by jplevy            #+#    #+#             */
-/*   Updated: 2017/04/26 00:14:39 by pgourran         ###   ########.fr       */
+/*   Updated: 2017/04/26 02:14:38 by pgourran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,22 @@
 static void notify(char *err)
 {
 	ft_putstr("OCL ERROR \n");
-	ft_putendl(err);
+	int		i;
+
+	i = 0;
+	while(err[i])
+	{
+		if (!ft_strncmp(&err[i], "warning:", 8))
+			write(1, "\033[33m", 5);
+		if (!ft_strncmp(&err[i], "error:", 6))
+			write(1, "\033[31m", 5);
+		if (err[i] == ':')
+			write(1, "\033[32;0m", 7);
+		write(1, &err[i], 1);
+		i++;
+		
+	}
+//	ft_putendl(err);
 }
 
 int		ocl_new_prog(char *filename, size_t max_src_size, t_ocl_prog *p)
