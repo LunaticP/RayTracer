@@ -433,7 +433,7 @@ int				ray_neg(__global t_obj *o, t_ray *ray, float2 *t)
 							else if (ray2.t <= t->x && ray2.t2 >= t->x && ray2.t2 <= t->y)
 							{
 								t->x = ray2.t2;
-								t->y = ray2.t2;
+								t->y = t->x;
 								ret = i + 1;
 							}
 							else if (ray2.t < t->x && ray2.t2 > t->y)
@@ -614,7 +614,7 @@ int				rt_cylindre(__global t_obj *o, int i, int *i2, t_ray *ray)
 
 int				rt_sphere(__global t_obj *o, int i, int *i2, t_ray *ray)
 {
-	float2	t;
+	float2	t; 
 	float4	pos;
 	float	a;
 	float	b;
@@ -727,18 +727,27 @@ __kernel void	raytracer(
 		ray.ori = c[0].ori;
 		if ((id = ray_match(o, &ray)) != -1)
 		{
-			lt = -1;
+/*			lt = -1;
 			r = 0;
 			g = 0;
 			b = 0;
 			color = 0;
+			if (ray.t <= 0)
+				ray.t = 0;
 			while(l[++lt].type == light)
 			{
 				color = diffuse(o, &ray.t, l, ray, id, lt, tex);
 				r = r + (color & 0xFF0000) / 0x10000 > 255 ? 255 : r + (color & 0xFF0000) / 0x10000;
 				g = g + (color & 0xFF00) / 0x100 > 255 ? 255 : g + (color & 0xFF00) / 0x100;
 				b = b + (color & 0xFF) > 255 ? 255 : b + (color & 0xFF);
-			}
+			}*/
+			color = o[id].col;
+			r = (color & 0xFF0000) / 0x10000;
+			g = (color & 0xFF00) / 0x100;
+			b = color & 0xFF;
+			r = r / ray.t * 1 > 255 ? 255 : r / ray.t * 1;
+			g = g / ray.t * 1 > 255 ? 255 : g / ray.t * 1;
+			b = b / ray.t * 1 > 255 ? 255 : b / ray.t * 1;
 			color = r * 0x10000 + g * 0x100 + b;
 			string[j * c[0].size.x + i] = color;
 		}

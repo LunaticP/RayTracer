@@ -6,7 +6,7 @@
 /*   By: jplevy <jplevy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/08 01:37:39 by jplevy            #+#    #+#             */
-/*   Updated: 2017/04/26 06:38:51 by aviau            ###   ########.fr       */
+/*   Updated: 2017/04/27 05:02:05 by aviau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ t_scene	ft_init_scene(void)
 	ret.cam.p.z = 5.0;
 
 	ret.light = ft_memalloc(sizeof(t_obj) * 5);
-	ret.light[0].pos.x = -1.5;
+	ret.light[0].pos.x = 0.0;
 	ret.light[0].pos.y = 10.0;
 	ret.light[0].pos.z = -25.0;
 
@@ -68,14 +68,14 @@ t_scene	ft_init_scene(void)
 	ret.light[0].type = light;
 	ret.light[0].r = 250.0;
 /*	
-	ret.light[1].pos.x = 20.0;
-	ret.light[1].pos.y = 20.0;
-	ret.light[1].pos.z = -7.0;
+	ret.light[1].pos.x = -1.5;
+	ret.light[1].pos.y = 10.0;
+	ret.light[1].pos.z = 7.0;
 
-	ret.light[1].col = 0x0000FF;
+	ret.light[1].col = 0xFFFFFF;
 	ret.light[1].type = light;
-	ret.light[1].r = 0.0;
-
+	ret.light[1].r = 100.0;
+*
 	ret.light[2].pos.x = 0.0;
 	ret.light[2].pos.y = 25.0;
 	ret.light[2].pos.z = 0.0;
@@ -116,7 +116,7 @@ t_scene	ft_init_scene(void)
 	ret.obj[1].pos.z = 10.0;
 	ret.obj[1].pos.w = -1.0;
 
-	ret.obj[1].tex = 4;
+	ret.obj[1].tex = 0;
 	ret.obj[1].col = 0xC62731;
 	ret.obj[1].type = cone;
 	ret.obj[1].alpha = 30.0;
@@ -130,7 +130,7 @@ t_scene	ft_init_scene(void)
 	ret.obj[2].pos.w = 0.0;
 
 	ret.obj[2].col = 0x9D1724;
-	ret.obj[2].tex = 1;
+	ret.obj[2].tex = 0;
 	ret.obj[2].type = cone;
 	ret.obj[2].alpha = 30.0;
 
@@ -142,7 +142,7 @@ t_scene	ft_init_scene(void)
 	ret.obj[3].pos.z = 10.0;
 	ret.obj[3].pos.w = 0.0;
 
-	ret.obj[3].tex = 3;
+	ret.obj[3].tex = 0;
 	ret.obj[3].col = 0x2C934B;
 	ret.obj[3].type = cone;
 	ret.obj[3].alpha = 30.0;
@@ -153,7 +153,7 @@ t_scene	ft_init_scene(void)
 	ret.obj[4].pos.w = 0.0;
 
 	ret.obj[4].col = 0x21763A;
-	ret.obj[4].tex = 2;
+	ret.obj[4].tex = 0;
 	ret.obj[4].type = sphere;
 	ret.obj[4].r = 3;
 
@@ -173,7 +173,7 @@ t_scene	ft_init_scene(void)
 	ret.obj[6].pos.w = 0.0;
 
 	ret.obj[6].col = 0x8D3AA0;
-	ret.obj[6].tex = 3;
+	ret.obj[6].tex = 0;
 	ret.obj[6].type = sphere;
 	ret.obj[6].r = 3;
 
@@ -183,7 +183,7 @@ t_scene	ft_init_scene(void)
 	ret.obj[7].pos.w = 0.0;
 
 	ret.obj[7].col = 0xE8AA02;
-	ret.obj[7].tex = 3;
+	ret.obj[7].tex = 0;
 	ret.obj[7].type = sphere;
 	ret.obj[7].r = 3;
 
@@ -193,7 +193,7 @@ t_scene	ft_init_scene(void)
 	ret.obj[8].pos.w = 0.0;
 
 	ret.obj[8].col = 0;
-	ret.obj[8].tex = 1;
+	ret.obj[8].tex = 0;
 	ret.obj[8].type = sphere;
 	ret.obj[8].r = 3;
 
@@ -203,19 +203,19 @@ t_scene	ft_init_scene(void)
 	ret.obj[9].pos.w = 0.0;
 
 	ret.obj[9].col = 0x165BD9;
-	ret.obj[9].tex = 2;
+	ret.obj[9].tex = 0;
 	ret.obj[9].type = sphere;
 	ret.obj[9].r = 3;
 	/////////////////////////
-	ret.obj[10].pos.x = -2.0;
+	ret.obj[10].pos.x = 0.0;
 	ret.obj[10].pos.y = 10.0;
 	ret.obj[10].pos.z = -5.0;
 	ret.obj[10].pos.w = 0.0;
 
-	ret.obj[10].col = 0xA12335;
-	ret.obj[10].tex = 2;
+	ret.obj[10].col = 0xFF00FF;
+	ret.obj[10].tex = 5;
 	ret.obj[10].type = sphere;
-	ret.obj[10].r = 3;
+	ret.obj[10].r = 3.0;
 	//////////////////
 	ret.obj[11].pos.x = -3.0;
 	ret.obj[11].pos.y = 8.0;
@@ -233,7 +233,7 @@ t_scene	ft_init_scene(void)
 	ret.obj[12].pos.w = 0.0;
 
 	ret.obj[12].col = 0x702E6F;
-	ret.obj[12].tex = 1;
+	ret.obj[12].tex = 0;
 	ret.obj[12].type = sphere;
 	ret.obj[12].r = 3;
 
@@ -269,15 +269,15 @@ t_scene	ft_init_scene(void)
 	ret.obj[15].type = plan;
 	///////////////////////////////
 	ret.obj[16].dir.x = 0.0;
-	ret.obj[16].dir.y = 1.0;
-	ret.obj[16].dir.z = 0.0;
-	ret.obj[16].pos.x = -1.5;
+	ret.obj[16].dir.y = 0.0;
+	ret.obj[16].dir.z = 1.0;
+	ret.obj[16].pos.x = 0.0;
 	ret.obj[16].pos.y = 10.0;
 	ret.obj[16].pos.z = -6.5;
 	ret.obj[16].pos.w = 1.0;
 
-	ret.obj[16].col = 0xFF00FF;
-	ret.obj[16].tex = 1;
+	ret.obj[16].col = 0xFFFFFF;
+	ret.obj[16].tex = 0;
 //	ret.obj[16].n_m = 0.0;
 	ret.obj[16].type = cylindre;
 	ret.obj[16].r = 1.5f;
