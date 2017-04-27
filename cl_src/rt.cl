@@ -2,12 +2,9 @@
 # define EPSILON 0.00001f
 #endif
 
-<<<<<<< HEAD
-=======
 #define filterWidth 9
 #define filterHeight 9
 
->>>>>>> 87a7f5cd22e3c792d8000f39fac31351443ceff1
 #if __OPENCL_VERSION__ < 120
 # define COS cosf
 #else
@@ -21,10 +18,7 @@ typedef enum		e_type
 	sphere,
 	cylindre,
 	cone,
-<<<<<<< HEAD
-=======
 	para,
->>>>>>> 87a7f5cd22e3c792d8000f39fac31351443ceff1
 	light,
 	start_obj,
 	end_obj,
@@ -34,23 +28,16 @@ typedef enum		e_type
 typedef struct 		s_obj
 {
 	float4			pos;
-<<<<<<< HEAD
-	float4			dir;	
-=======
 	float4			dir;
 	float			tet;
 	float			phi;
 	float			rot;
->>>>>>> 87a7f5cd22e3c792d8000f39fac31351443ceff1
 	float4			min;
 	float4			max;
 	int				col;
 	float			diff;
 	float			refl;
-<<<<<<< HEAD
-=======
 	float			trans;
->>>>>>> 87a7f5cd22e3c792d8000f39fac31351443ceff1
 	float			refr;
 	t_type			type;
 	float			r;
@@ -61,11 +48,8 @@ typedef struct 		s_obj
 	float4			p1;
 	float4			p2;
 	float4			p3;
-<<<<<<< HEAD
 	short			tex;
 	short			n_m;
-=======
->>>>>>> 87a7f5cd22e3c792d8000f39fac31351443ceff1
 }					t_obj;
 
 typedef struct		s_cam
@@ -84,13 +68,34 @@ typedef struct		s_ray
 	float4			ori;
 	float4			dir;
 	float			t;
-<<<<<<< HEAD
 	float			t2;
-}					t_ray;
-
-=======
 	int				imp;
 }					t_ray;
+
+float4	qt_conjugate(float4 qt);
+float4	qt_cross(float4 u, float4 v);
+float4	qt_gen(float4 axis, float tet);
+float4	qt_rot(float4 qt, float4 p);
+float4	norm_sphere(__global t_obj *o, float4 hit, int id);
+float4	norm_cone(__global t_obj *o, float4 hit, int id, t_ray ray);
+float4	norm_cylindre(__global t_obj *o, float4 hit, int id, t_ray ray);
+float4	refl(float4 ray, float4 normale);
+float4	bilinear(float2 polar, __global int *tex);
+float4	ray_from_coord(size_t x, size_t y, __global t_cam *c);
+float	sq(float a);
+int		get_light(__global t_obj *o, __global t_obj *l, float4 hit);
+int		tex_num(int num, __global t_obj *o, int id, __global int *tex, float2 polar);
+int		diffuse(__global t_obj *o,float *t, __global t_obj *l, t_ray ray, int id, int in, __global int *tex);
+int		quadratic(float a, float b, float c, float2 *ret);
+int		ray_neg(__global t_obj *o, t_ray *ray, float2 *t);
+int		rt_plan(__global t_obj *o, int i, t_ray *ray);
+int		rt_triangle(__global t_obj *o, t_ray *ray);
+int		rt_cone(__global t_obj *o, int i, int *i2, t_ray *ray);
+int		rt_cylindre(__global t_obj *o, int i, int *i2, t_ray *ray);
+int		rt_sphere(__global t_obj *o, int i, int *i2, t_ray *ray);
+int		rt_para(__global t_obj *o, t_ray *ray);
+int		ray_match(__global t_obj *o, t_ray *ray);
+t_ray	rot_ray(t_ray from, float tet, float phi, float4 center);
 
 float4			qt_conjugate(float4 qt)
 {
@@ -135,10 +140,6 @@ float			sq(float a)
 	return (a * a);
 }
 
-/*
-** equations
-*/
-
 t_ray			rot_ray(t_ray from, float tet, float phi, float4 center)
 {
 	float4	qt;
@@ -156,7 +157,6 @@ t_ray			rot_ray(t_ray from, float tet, float phi, float4 center)
 	return (ret);
 }
 
->>>>>>> 87a7f5cd22e3c792d8000f39fac31351443ceff1
 int				quadratic(float a, float b, float c, float2 *ret)
 {
 	float	delta;
@@ -169,26 +169,6 @@ int				quadratic(float a, float b, float c, float2 *ret)
 	return (1);
 }
 
-<<<<<<< HEAD
-=======
-int				rt_plan(__global t_obj *o, t_ray *ray)
-{
-	float	d = dot(o->dir, ray->dir);
-	float	t;
-
-	// ray paralele au plan
-	if (d > -0.01f && d < 0.01f)
-		return (0);
-	t = dot(o->pos + EPSILON - ray->ori, o->dir) / d;
-	if (t > EPSILON && (t < ray->t || ray->t < EPSILON))
-	{
-		ray->t = t;
-		return (d > 0 ? -1 : 1);
-	}
-	return (0);
-}
-
->>>>>>> 87a7f5cd22e3c792d8000f39fac31351443ceff1
 float4		norm_sphere(__global t_obj *o, float4 hit, int id)
 {
 	return(hit - o[id].pos);
@@ -200,7 +180,6 @@ float4		norm_cone(__global t_obj *o, float4 hit, int id, t_ray ray)
 	float4	dir;
 	float	k;
 	float	m;
-<<<<<<< HEAD
 	float	plot;
 
 	plot = ((hit.x - o[id].pos.x) + (hit.y - o[id].pos.y) + (hit.z - o[id].pos.z)) / 3.0f;
@@ -225,31 +204,7 @@ float4		norm_cylindre(__global t_obj *o, float4 hit, int id, t_ray ray)
 }
 
 /*float4			get_normale(float4 hit, __global t_obj *o,int id)
-=======
-
-	dir = normalize(o[id].dir);
-	k = tan(o[id].alpha * M_PI / 360.0f);
-	m = dot(normalize(ray.dir), dir) * ray.t + dot(ray.ori - o[id].pos, dir);
-	ret = normalize(hit - o[id].pos - dir - (1.0f + k * k) * dir * m);
-	return(ret);
-}
-
-float4		norm_cylindre(__global t_obj *o, float4 hit, int id)
 {
-	float4	ret;
-	float4	vec;
-	float	k;
-
-	vec = o[id].pos;
-	vec.y = hit.y;
-	ret = hit - vec;
-	return(ret);
-}
-
-/*
-   float4			get_normale(float4 hit, __global t_obj *o,int id)
->>>>>>> 87a7f5cd22e3c792d8000f39fac31351443ceff1
-   {
    switch (o[id].type) {
    case sphere :
    return(norm_sphere(o, hit, id));
@@ -267,13 +222,7 @@ float4		norm_cylindre(__global t_obj *o, float4 hit, int id)
    return(norm_cone(o, hit, id));
    break;
    }
-<<<<<<< HEAD
-   }*/
-=======
-   }
-   */
->>>>>>> 87a7f5cd22e3c792d8000f39fac31351443ceff1
-
+}*/
 
 float4			refl(float4 ray, float4 normale)
 {
@@ -289,8 +238,6 @@ float4			refl(float4 ray, float4 normale)
 	ret = dir - ret;
 	return(ret);
 }
-
-
 
 int				get_light(__global t_obj *o, __global t_obj *l, float4 hit)
 {
@@ -320,19 +267,14 @@ int				get_light(__global t_obj *o, __global t_obj *l, float4 hit)
 			col.z += (l[i].col & 0xFF);
 		}
 	}
-<<<<<<< HEAD
-	if(nb); 
-=======
-	if(nb);  
->>>>>>> 87a7f5cd22e3c792d8000f39fac31351443ceff1
-	col /= nb;
+//	if(nb); 
+		col /= nb;
 	color += (((int)col.x) &  0xFF0000) / 0x10000;
 	color += (((int)col.y) & 0xFF00) / 0x100;
 	color += (((int)col.z) & 0xFF);
 	return(color);
 }
 
-<<<<<<< HEAD
 float4			bilinear(float2 polar, __global int *tex)
 {
 	float4	ir;
@@ -441,122 +383,29 @@ int				diffuse(__global t_obj *o,float *t, __global t_obj *l, t_ray ray, int id,
 	int				lol;
 	int				color;
 	t_ray			shad;
-=======
-int				diffuse(__global t_obj *o,float *t, __global t_obj *l, t_ray ray, int id, int in, __global int *tex)
-{
-	unsigned char r;
-	unsigned char g;
-	unsigned char b;
-	unsigned char i;
-	unsigned char j;
-	unsigned char k;
-	float4 hit;
-	float4 normale;
-	float4 vlight;
-	float4 fla;
-	float4 mid;
-	float4 tmp;
-	float4	coef;
-	float4	ctsn;
-	float2	polar;
-	float norme;
-	float dp;
-	float spec;
-	float rl;
-	float gl;
-	float bl;
-	int lol;
-	int color;
-	t_ray shad;
->>>>>>> 87a7f5cd22e3c792d8000f39fac31351443ceff1
 
 	color = o[id].col;
 	hit = ray.dir * *t + ray.ori;
 	coef.x = 4.0;
 	coef.y = 1.0;
 	coef.z = 4.0;
-<<<<<<< HEAD
 	temp = normalize(o[id].dir);
 	angle = temp * (float)(M_PI / 4.0);
 	ctsn = hit - o[id].pos;
 	if(o[id].type == sphere)
 	{
 		normale = norm_sphere(o, hit, id);
-		polar.x = (atan(ctsn.y / sqrt(-ctsn.z * -ctsn.z + ctsn.x * ctsn.x))) + M_PI_2_F;
-		polar.y = (atan(ctsn.x / -ctsn.z)) + M_PI_2_F;
-=======
-	ctsn.x = hit.x - o[id].pos.x;
-	ctsn.y = hit.y - o[id].pos.y;
-	ctsn.z = hit.z - o[id].pos.z;
-	if(o[id].type == sphere)
-	{
-		normale = norm_sphere(o, hit, id);
 		polar.x = (atan(ctsn.y / sqrt(-ctsn.z * -ctsn.z + ctsn.x * ctsn.x)));
 		polar.y = (atan(ctsn.x / -ctsn.z));
-//		if ((int)((polar.x + M_PI) * 5) % 2)
-//			color = 0xFFFFFF - color;
-//		if ((int)((polar.y + M_PI) * 5) % 2)
-//			color = 0xFFFFFF - color;
-//		normale.x += sin((polar.y + polar.x) * 20.0) * 1.5;
-//		normale.y += sin((polar.y + polar.x) * 20.0) * 1.5;
-//		normale.z += sin((polar.y + polar.x) * 20.0) * 1.5;
-//		if(polar.x < M_PI_2_F && polar.y < EPSILON)
-//			color = tex[1];
-//		else if(polar.x < M_PI_2_F && polar.y > EPSILON)
-//			color = tex[2];
-//		if(polar.x < EPSILON)
-//			color = tex[3];
-//		polar.y /= 2;
-//		if(polar.y > EPSILON && polar.x > EPSILON)
-//			color = tex[1];
-//		if(polar.y > EPSILON && polar.x < EPSILON)
-//			color = tex[2];
-//		if(polar.y < EPSILON && polar.x < EPSILON)
-//			color = tex[3];
-//		if(polar.y < EPSILON && polar.x > EPSILON)
-//			color = tex[4];
-//		else if(polar.x > M_PI_2_F && polar.y > EPSILON)
-//			color = tex[4];
 	}
 	else if (o[id].type == plan)
-	{
 		normale = o[id].dir;
-		if ((int)(ctsn.x / 5.0 + (ctsn.x > 0 ? 1.0 : 0.0)) % 2)
-			color = 0xFFFFFF - color;
-		if ((int)(ctsn.z / 5.0 + (ctsn.z > 0 ? 1.0 : 0.0)) % 2)
-			color = 0xFFFFFF - color;
-		if (color != 0xFFFFFF - o[id].col)
-		{
-			hit.x -= sin(ctsn.x);
-			hit.y -= sin(ctsn.y);
-			hit.z -= sin(ctsn.z);
-//			normale.x += sin(ctsn.x * o[id].dir.x * 10.0) * 1.2;
-//			normale.y += sin(ctsn.y * o[id].dir.y * 10.0) * 1.2;
-//			normale.z += sin(ctsn.z * o[id].dir.z * 10.0) * 1.2;
-		}
-		else
-		{
-//			normale.x += cos(ctsn.x * o[id].dir.x * 10.0) * 1.2;
-//			normale.y += cos(ctsn.y * o[id].dir.y * 10.0) * 1.2;
-//			normale.z += cos(ctsn.z * o[id].dir.z * 10.0) * 1.2;
-			color = 0xFFFFFF - color;
-		}
->>>>>>> 87a7f5cd22e3c792d8000f39fac31351443ceff1
-	}
 	else if (o[id].type == cone)
 	{
 		normale = norm_cone(o, hit, id, ray);
-<<<<<<< HEAD
-		polar.x = ctsn.y;
-		polar.y = (atan(ctsn.x / -ctsn.z)) + M_PI_2_F;
-		if ((int)(polar.x * 2.0) % 2)
-=======
 		polar.x = ctsn.x * o[id].dir.x + ctsn.y * o[id].dir.y + ctsn.z * o[id].dir.z;
 		polar.y = (atan(ctsn.x / -ctsn.z));
-//		if ((int)(fabs(polar.x) + 0.5) % 2)
-//			color = 0xFFFFFF - color;
 		if ((int)((polar.y + M_PI) * 5) % 2)
->>>>>>> 87a7f5cd22e3c792d8000f39fac31351443ceff1
 			color = 0xFFFFFF - color;
 	}
 	else if (o[id].type == cylindre)
@@ -615,37 +464,21 @@ int				diffuse(__global t_obj *o,float *t, __global t_obj *l, t_ray ray, int id,
 	b = (color & 0xFF);
 	if ((lol = ray_match(o, &shad)) != -1 && shad.t < norme)
 	{
-<<<<<<< HEAD
 		if (o[id].pos.w > 0.5f)
 			return (o[lol].col);
 		return(0);
-=======
-		r /= 50;
-		g /= 50;
-		b /= 50;
-		return(r * 0x10000 + g * 0x100 + b);
->>>>>>> 87a7f5cd22e3c792d8000f39fac31351443ceff1
 	}
 	dp = dot(normalize(vlight), normalize(normale));
 	float4 rp = dot(normalize(refl(ray.dir, normale)), vlight);
 	rl = (l[in].col & 0xFF0000) / 0x10000 / 255.0;
 	gl = (l[in].col & 0xFF00) / 0x100 / 255.0;
 	bl = (l[in].col & 0xFF) / 255.0;
-<<<<<<< HEAD
-	r = r * dp * (l[in].r / (norme * norme)) * rl > 255 ? 255 : r * dp * (l[in].r / (norme * norme)) * rl + r / 50;
-	g = g * dp * (l[in].r / (norme * norme)) * gl > 255 ? 255 : g * dp * (l[in].r / (norme * norme)) * gl + g / 50;
-	b = b * dp * (l[in].r / (norme * norme)) * bl > 255 ? 255 : b * dp * (l[in].r / (norme * norme)) * bl + b / 50;
-	ray.dir *= -1;
-	mid = (normalize(ray.dir) + normalize(vlight)) / 2;
-	spec = pow(dot(normalize(mid), normalize(normale)), 150);
-=======
 	r = r * dp * (l[in].r / (norme * norme)) * rl > 255 ? 255 : r * dp * (l[in].r / (norme * norme)) * rl + r * 0.05;
 	g = g * dp * (l[in].r / (norme * norme)) * gl > 255 ? 255 : g * dp * (l[in].r / (norme * norme)) * gl + g * 0.05;
 	b = b * dp * (l[in].r / (norme * norme)) * bl > 255 ? 255 : b * dp * (l[in].r / (norme * norme)) * bl + b * 0.05;
 //	ray.dir *= -1;
 	mid = (normalize(-ray.dir) + normalize(vlight)) / 2;
 	spec = pow(dot(normalize(mid), normalize(normale)) / 1.005, 500);
->>>>>>> 87a7f5cd22e3c792d8000f39fac31351443ceff1
 	spec *= l[in].r / 100;
 	fla.x = ((float)((l[in].col & 0xFF0000) / 0x010000)) * spec;
 	fla.y = ((float)((l[in].col & 0x00FF00) / 0x000100)) * spec;
@@ -663,7 +496,6 @@ int				diffuse(__global t_obj *o,float *t, __global t_obj *l, t_ray ray, int id,
 	return(color);
 }
 
-<<<<<<< HEAD
 int				ray_neg(__global t_obj *o, t_ray *ray, float2 *t)
 {
 	t_ray	ray2;
@@ -683,7 +515,7 @@ int				ray_neg(__global t_obj *o, t_ray *ray, float2 *t)
 			{
 				case sphere :
 					{
-						if ((rt_sphere(o, i, &ray2.t, &ray2)) != 0)
+						if ((rt_sphere(o, i, (int *)0, &ray2)) != 0)
 						{
 							if (t->x == t->y)
 							{
@@ -706,7 +538,7 @@ int				ray_neg(__global t_obj *o, t_ray *ray, float2 *t)
 					break;
 				case cylindre :
 					{
-						if ((rt_cylindre(o, i, &ray2.t, &ray2)) != 0)
+						if ((rt_cylindre(o, i, (int *)0, &ray2)) != 0)
 						{
 							if (t->x == t->y)
 							{
@@ -729,7 +561,7 @@ int				ray_neg(__global t_obj *o, t_ray *ray, float2 *t)
 					break;
 				case cone :
 					{
-						if ((rt_cone(o, i, &ray2.t, &ray2)) != 0)
+						if ((rt_cone(o, i, (int *)0, &ray2)) != 0)
 						{
 							if (t->x == t->y)
 							{
@@ -749,6 +581,8 @@ int				ray_neg(__global t_obj *o, t_ray *ray, float2 *t)
 								ret = -1;
 						}
 					}
+					break;
+				default :
 					break;
 			}
 		}
@@ -775,8 +609,6 @@ int				rt_plan(__global t_obj *o, int i, t_ray *ray)
 	return (0);
 }
 
-=======
->>>>>>> 87a7f5cd22e3c792d8000f39fac31351443ceff1
 int				rt_triangle(__global t_obj *o, t_ray *ray)
 {
 	float4		e1;
@@ -818,16 +650,7 @@ int				rt_triangle(__global t_obj *o, t_ray *ray)
 	return (0);
 }
 
-<<<<<<< HEAD
-float			sq(float a)
-{
-	return (a * a);
-}
-
 int				rt_cone(__global t_obj *o, int i, int *i2, t_ray *ray)
-=======
-int				rt_cone(__global t_obj *o, t_ray *ray)
->>>>>>> 87a7f5cd22e3c792d8000f39fac31351443ceff1
 {
 	float2	t;
 	float	a;
@@ -839,7 +662,6 @@ int				rt_cone(__global t_obj *o, t_ray *ray)
 	float4	x;
 
 	d = normalize(ray->dir);
-<<<<<<< HEAD
 	odir = normalize(o[i].dir);
 	x = ray->ori - o[i].pos;
 	k = tan(o[i].alpha / 360.0 * M_PI);
@@ -861,32 +683,12 @@ int				rt_cone(__global t_obj *o, t_ray *ray)
 		{
 			ray->t = t.y;
 			ray->t2 = t.x;
-=======
-	odir = normalize(o->dir);
-	x = ray->ori - o->pos;
-	k = tan(o->alpha / 360.0f * M_PI);
-	k = 1.0f + k * k;
-	a = dot(d, d) - sq(dot(d, odir)) * k;
-	b = (dot(d, x) - k * dot(d, odir) * dot(x, odir)) * -2.0f;
-	c = dot(x, x) - k * sq(dot(x, odir));
-	if ((quadratic(a, b, c, &t)))
-	{
-		if (t.x < t.y && t.x > 0.01f && (t.x < ray->t || ray->t <= 0))
-		{
-			ray->t = t.x;
-			return (1);
-		}
-		else if (t.y > 0.01f && (t.y < ray->t || ray->t <= 0))
-		{
-			ray->t = t.y;
->>>>>>> 87a7f5cd22e3c792d8000f39fac31351443ceff1
 			return (-1);
 		}
 	}
 	return (0);
 }
 
-<<<<<<< HEAD
 int				rt_cylindre(__global t_obj *o, int i, int *i2, t_ray *ray)
 {
 	float2	t;
@@ -918,62 +720,19 @@ int				rt_cylindre(__global t_obj *o, int i, int *i2, t_ray *ray)
 			ray->t = t.y;
 			ray->t2 = t.x;
 			return (-1);
-=======
-int				rt_cylindre(__global t_obj *o, int i, t_ray *ray, int obj)
-{
-	float2	t;
-	float4	pos;
-	t_ray	cpy;
-	t_ray	oray;
-	float4	ocpy;
-	float	a;
-	float	b;
-	float	c;
-	float4	rpos;
-
-	rpos = (obj != -1) ? obj + o[i].pos : o[i].pos;
-//	cpy = (obj != -1) ? rot_ray(*ray, o[obj].tet, o[obj].pos) : *ray;
-	cpy = *ray;
-	ocpy = o->pos;
-	ocpy.y = 0;
-	cpy.dir.y = 0;
-	cpy.ori.y = 0;
-	pos = ocpy - cpy.ori;
-	a = dot(cpy.dir, cpy.dir);
-	b = 2.0f * dot(cpy.dir, pos);
-	c = dot(pos, pos) - o[i].r * o[i].r;
-	if(quadratic(a, b, c, &t))
-	{
-		if(t.x < t.y && t.x > 0.01 && (t.x < ray->t || ray->t <= 0))
-		{
-			ray->t = t.x;
-			return(1);
-		}
-		else if(t.y > 0.01 && (t.y < ray->t || ray->t <= 0))
-		{
-			ray->t = t.y;
-			return(-1);
->>>>>>> 87a7f5cd22e3c792d8000f39fac31351443ceff1
 		}
 	}
 	return (0);
 }
 
-<<<<<<< HEAD
 int				rt_sphere(__global t_obj *o, int i, int *i2, t_ray *ray)
 {
-	float2	t; 
-=======
-int				rt_sphere(__global t_obj *o, t_ray *ray)
-{
 	float2	t;
->>>>>>> 87a7f5cd22e3c792d8000f39fac31351443ceff1
 	float4	pos;
 	float	a;
 	float	b;
 	float	c;
 
-<<<<<<< HEAD
 	pos = o[i].pos - ray->ori;
 	a = dot(ray->dir, ray->dir);
 	b = 2.0f * dot(ray->dir, pos);
@@ -992,28 +751,6 @@ int				rt_sphere(__global t_obj *o, t_ray *ray)
 		{
 			ray->t = t.y;
 			ray->t2 = t.x;
-=======
-	pos = o->pos - ray->ori;
-	a = dot(ray->dir, ray->dir);
-	b = 2.0f * dot(ray->dir, pos);
-	c = dot(pos, pos) - o->r * o->r;
-	if ((quadratic(a, b, c, &t)))
-	{
-		if (t.x < t.y && t.x > 0.001 && (t.x < ray->t || ray->t <= 0.001))
-		{
-			if (t.x < 0.001)
-				ray->t = 0.001;
-			else
-				ray->t = t.x;
-			return (1);
-		}
-		else if (t.y > 0.001 && (t.y < ray->t || ray->t <= 0.001))
-		{
-			if (t.y < 0.001)
-				ray->t = 0.001;
-			else
-				ray->t = t.y;
->>>>>>> 87a7f5cd22e3c792d8000f39fac31351443ceff1
 			return (-1);
 		}
 	}
@@ -1061,6 +798,8 @@ int				ray_match(__global t_obj *o, t_ray *ray)
 						if ((rt_cone(o, i, &i2, ray)) != 0)
 							ret = (i2 > 0) ? i2 : i;
 					}
+					break;
+				default :
 					break;
 			}
 =======
@@ -1173,19 +912,11 @@ float4			ray_from_coord(size_t x, size_t y, __global t_cam *c)
 }
 
 __kernel void	raytracer(
-<<<<<<< HEAD
-				__global int* string,
-				__global t_cam *c,
-				__global t_obj *o,
-				__global t_obj *l,
-				__global int* tex)
-=======
 			__global int* string,
 			__global t_cam *c,
 			__global t_obj *o,
 			__global t_obj *l,
 			__global int* tex)
->>>>>>> 87a7f5cd22e3c792d8000f39fac31351443ceff1
 {
 	t_ray	ray;
 	size_t	i = get_global_id(0);
@@ -1200,10 +931,10 @@ __kernel void	raytracer(
 	unsigned char g;
 	unsigned char b;
 
-	if (i < c[0].size.x && j < c[0].size.y)
+	if (i < (size_t)c[0].size.x && j < (size_t)c[0].size.y)
 	{
 		string[j * c[0].size.x + i] = 0;
-		c[0].ori;
+//		c[0].ori;
 		ray.dir = ray_from_coord(i, j, c);
 		ray.ori = c[0].ori;
 		if ((id = ray_match(o, &ray)) != -1)

@@ -6,11 +6,7 @@
 /*   By: aviau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/30 07:43:39 by aviau             #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2017/03/28 11:07:03 by aviau            ###   ########.fr       */
-=======
-/*   Updated: 2017/04/09 23:11:01 by pgourran         ###   ########.fr       */
->>>>>>> 87a7f5cd22e3c792d8000f39fac31351443ceff1
+/*   Updated: 2017/04/27 07:38:57 by aviau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +26,8 @@ void	k_press(int key, int *k)
 		*k += POS_YP;
 	else if (P_DOWN & !(*k & POS_YM))
 		*k += POS_YM;
-<<<<<<< HEAD
-=======
 	else if (SPACE & !(*k & BSPACE))
 		*k += BSPACE;
->>>>>>> 87a7f5cd22e3c792d8000f39fac31351443ceff1
 }
 
 int	k_rel(int key, void *param)
@@ -54,11 +47,8 @@ int	k_rel(int key, void *param)
 		*k -= POS_YP;
 	else if (P_DOWN)
 		*k -= POS_YM;
-<<<<<<< HEAD
-=======
 	else if (SPACE)
 		*k -= BSPACE;
->>>>>>> 87a7f5cd22e3c792d8000f39fac31351443ceff1
 	return (0);
 }
 
