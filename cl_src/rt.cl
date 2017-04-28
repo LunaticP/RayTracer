@@ -372,7 +372,7 @@ int				diffuse(__global t_obj *o,float *t, __global t_obj *l, t_ray ray, int id,
 	float4			angle;
 	float4			temp;
 	float4			ctsn;
-	float4			itpl;
+//	float4			itpl;
 	float2			polar;
 	float			norme;
 	float			dp;
@@ -410,15 +410,12 @@ int				diffuse(__global t_obj *o,float *t, __global t_obj *l, t_ray ray, int id,
 	}
 	else if (o[id].type == cylindre)
 	{
-<<<<<<< HEAD
 		normale = norm_cylindre(o, hit, id, ray);
 		polar.x = ctsn.y;
 		polar.y = (atan(ctsn.x / -ctsn.z)) + M_PI_2_F;
 	}
-	else if (o[id].type == plan)
-		normale = o[id].dir;
-	else
-		return(color);
+	else if (o[id].type == para)
+		normale = hit - o[id].pos;
 	if (o[id].n_m)
 	{
 		color = tex[tex_num(o[id].n_m, o, id, tex, polar)];
@@ -432,31 +429,11 @@ int				diffuse(__global t_obj *o,float *t, __global t_obj *l, t_ray ray, int id,
 		color = o[id].col;
 	if (o[id].pos.w > 0.5f)
 		normale *= -1.0f;
-	vlight = l[in].pos - hit;
-	shad.ori = hit;
-	shad.dir = normalize(vlight) * (o[id].pos.w < 0.5f ? 1.0f : -1.0f);
-=======
-		normale = norm_cylindre(o, hit, id);
-		polar.x = ctsn.y;
-		polar.y = (atan(ctsn.x / -ctsn.z));
-//		if ((int)(fabs(polar.x) + 0.5) % 2)
-//			color = 0xFFFFFF - color;
-//		if ((int)((polar.y + M_PI) * 5) % 2)
-//			color = 0xFFFFFF - color;
-//		normale.x += sin(polar.y * 40.0) * 1.2;
-		normale.y += sin((10.0 * polar.y + polar.x) * 3.0);
-//		normale.z += cos(polar.y * 40.0) * 1.2;
-	}
-	else if (o[id].type == para)
-	{
-		normale = hit - o[id].pos;
-	}
 	else
 		return(color);
 	vlight = l[in].pos - hit;
 	shad.ori = hit;
-	shad.dir = normalize(vlight);
->>>>>>> 87a7f5cd22e3c792d8000f39fac31351443ceff1
+	shad.dir = normalize(vlight) * (o[id].pos.w < 0.5f ? 1.0f : -1.0f);
 	tmp = vlight;
 	norme = sqrt(tmp.x * tmp.x + tmp.y * tmp.y + tmp.z * tmp.z);
 	r = (color & 0xFF0000) / 0x10000;
@@ -469,7 +446,7 @@ int				diffuse(__global t_obj *o,float *t, __global t_obj *l, t_ray ray, int id,
 		return(0);
 	}
 	dp = dot(normalize(vlight), normalize(normale));
-	float4 rp = dot(normalize(refl(ray.dir, normale)), vlight);
+//	float4 rp = dot(normalize(refl(ray.dir, normale)), vlight);
 	rl = (l[in].col & 0xFF0000) / 0x10000 / 255.0;
 	gl = (l[in].col & 0xFF00) / 0x100 / 255.0;
 	bl = (l[in].col & 0xFF) / 255.0;
@@ -757,52 +734,6 @@ int				rt_sphere(__global t_obj *o, int i, int *i2, t_ray *ray)
 	return (0);
 }
 
-<<<<<<< HEAD
-
-int				ray_match(__global t_obj *o, t_ray *ray)
-{
-	int		i;
-	int		i2;
-	int		ret;
-
-	i = -1;
-	i2 = -1;
-	ray->t = 0;
-	ret = -1;
-	while (o[++i].type != end)
-	{
-		if (o[i].pos.w < 0.5f && o[i].dir.w < 0.5f)
-		{
-			switch (o[i].type)
-			{
-				case sphere :
-					{
-						if ((rt_sphere(o, i, &i2, ray)) != 0)
-							ret = (i2 > 0) ? i2 : i;
-					}
-					break;
-				case plan :
-					{
-						if ((rt_plan(o, i, ray)) != 0)
-							ret = i;
-					}
-					break;
-				case cylindre :
-					{
-						if ((rt_cylindre(o, i, &i2, ray)) != 0)
-							ret = (i2 > 0) ? i2 : i;
-					}
-					break;
-				case cone :
-					{
-						if ((rt_cone(o, i, &i2, ray)) != 0)
-							ret = (i2 > 0) ? i2 : i;
-					}
-					break;
-				default :
-					break;
-			}
-=======
 int				rt_para(__global t_obj *o, t_ray *ray)
 {
 	float2	t;
@@ -815,11 +746,8 @@ int				rt_para(__global t_obj *o, t_ray *ray)
 
 	rcp = *ray;
 	opos = o->pos;
-//	opos.y = 0;
-//	rcp.dir.y = 0;
-//	rcp.ori.y = 0;
 	pos = rcp.ori - opos;
-	float4	k = dot(pos, o->dir);
+//	float4	k = dot(pos, o->dir);
 	a = dot(rcp.dir, rcp.dir) - pow(dot(rcp.dir, o->dir), 2);
 	b = 2.0f * (dot(rcp.dir, pos) - dot(rcp.dir, o->dir));// * (dot(pos, o->dir) + 2 * k));
 	c = dot(pos, pos) - dot(pos, o->dir) * (dot(pos, o->dir));// + 4 * k);
@@ -827,76 +755,63 @@ int				rt_para(__global t_obj *o, t_ray *ray)
 	{
 		if (t.x < t.y && t.x > 0.001 && (t.x < ray->t || ray->t <= 0.001))
 		{
-//			if (t.x < 0.001)
-//				ray->t = 0.001;
-//			else
-				ray->t = t.x;
+			ray->t = t.x;
 			return (1);
 		}
 		else if (t.y > 0.001 && (t.y < ray->t || ray->t <= 0.001))
 		{
-//			if (t.y < 0.001)
-//				ray->t = 0.001;
-//			else
-				ray->t = t.y;
+			ray->t = t.y;
 			return (-1);
 		}
 	}
 	return(0);
 }
+
 int				ray_match(__global t_obj *o, t_ray *ray)
 {
-	int		i	= -1;
-	int		ret	= -1;
-	int		obj	= -1;
+	int		i = -1;
+	int		i2 = -1;
+	int		ret = -1;
 
 	ray->t = 0;
 	while (o[++i].type != end)
 	{
-		switch (o[i].type) {
-			case sphere :
-				{
-					if ((ray->imp = rt_sphere(&(o[i]), ray)) != 0)
-						ret = i;
-				}
-				break;
-			case plan :
-				{
-					if ((ray->imp = rt_plan(&(o[i]), ray)) != 0)
-						ret = i;
-				}
-				break;
-			case triangle :
-				{
-					if ((ray->imp = rt_triangle(&(o[i]), ray)) != 0)
-						ret = i;
-				}
-				break;
-			case cylindre :
-				{
-					if ((ray->imp = rt_cylindre(o, i, ray, obj)) != 0)
-						ret = i;
-				}
-				break;
-			case cone :
-				{
-					if ((ray->imp = rt_cone(&(o[i]), ray)) != 0)
-						ret = i;
-				}
-				break;
+		if (o[i].pos.w < 0.5f && o[i].dir.w < 0.5f)
+		{
+			switch (o[i].type)
+			{
+				case sphere :
+					{
+						if ((ray->imp = rt_sphere(o, i, &i2, ray)) != 0)
+							ret = (i2 > 0) ? i2 : i;
+					}
+					break;
+				case plan :
+					{
+						if ((ray->imp = rt_plan(o, i, ray)) != 0)
+							ret = i;
+					}
+					break;
+				case cylindre :
+					{
+						if ((ray->imp = rt_cylindre(o, i, &i2, ray)) != 0)
+							ret = (i2 > 0) ? i2 : i;
+					}
+					break;
+				case cone :
+					{
+						if ((ray->imp = rt_cone(o, i, &i2, ray)) != 0)
+							ret = (i2 > 0) ? i2 : i;
+					}
+					break;
 			case para :
 				{
 					if ((ray->imp = rt_para(&(o[i]), ray)) != 0)
 						ret = i;
 				}
-				break;
-			case start_obj :
-				obj = i;
-				break;
-			case end_obj :
-				obj = -1;
-				break;
->>>>>>> 87a7f5cd22e3c792d8000f39fac31351443ceff1
+				default :
+					break;
+			}
 		}
 	}
 	return (ret);
@@ -919,82 +834,40 @@ __kernel void	raytracer(
 			__global int* tex)
 {
 	t_ray	ray;
-	size_t	i = get_global_id(0);
-	size_t	j = get_global_id(1);
-	int		id;
-	float4	nor;
-	int		lt;
-<<<<<<< HEAD
-	int pixel;
-	int color;
-	unsigned char r;
-	unsigned char g;
-	unsigned char b;
+	size_t			i = get_global_id(0);
+	size_t			j = get_global_id(1);
+	unsigned short	r;
+	unsigned short	g;
+	unsigned short	b;
+	unsigned char	re;
+	unsigned char	gr;
+	unsigned char	bl;
+	float4			nor;
+	float			c1;
+	float			c2;
+	float			oldr;
+	float			oldd;
+	int				id;
+	int				lt;
+	int				stay;
+	int				pixel;
+	int				refmax = 10;
+	int				color = 0;
+	int				old;
+	int				quit;
 
 	if (i < (size_t)c[0].size.x && j < (size_t)c[0].size.y)
 	{
 		string[j * c[0].size.x + i] = 0;
-//		c[0].ori;
 		ray.dir = ray_from_coord(i, j, c);
 		ray.ori = c[0].ori;
-		if ((id = ray_match(o, &ray)) != -1)
-		{
-			lt = -1;
-			r = 0;
-			g = 0;
-			b = 0;
-			color = 0;
-			if (ray.t <= 0)
-				ray.t = 0;
-			while(l[++lt].type == light)
-			{
-				color = diffuse(o, &ray.t, l, ray, id, lt, tex);
-				r = r + (color & 0xFF0000) / 0x10000 > 255 ? 255 : r + (color & 0xFF0000) / 0x10000;
-				g = g + (color & 0xFF00) / 0x100 > 255 ? 255 : g + (color & 0xFF00) / 0x100;
-				b = b + (color & 0xFF) > 255 ? 255 : b + (color & 0xFF);
-			}
-/*			color = o[id].col;
-			r = (color & 0xFF0000) / 0x10000;
-			g = (color & 0xFF00) / 0x100;
-			b = color & 0xFF;
-			r = r / ray.t * 1 > 255 ? 255 : r / ray.t * 1;
-			g = g / ray.t * 1 > 255 ? 255 : g / ray.t * 1;
-			b = b / ray.t * 1 > 255 ? 255 : b / ray.t * 1;*/
-			color = r * 0x10000 + g * 0x100 + b;
-			string[j * c[0].size.x + i] = color;
-		}
-	}
-}
-=======
-	int stay;
-	int pixel;
-	int		refmax = 10;
-	int color;
-	int		old;
-	int		quit;
-	unsigned short r;
-	unsigned short g;
-	unsigned short b;
-	unsigned char re;
-	unsigned char gr;
-	unsigned char bl;
-	color = 0;
-	float c1;
-	float c2;
-	float oldr;
-	float oldd;
-	if (i < c[0].size.x && j < c[0].size.y)
-	{
+		r = 0;
+		g = 0;
+		b = 0;
 		stay = 1;
-		string[j * c[0].size.x + i] = 0;
-		ray.dir = ray_from_coord(i, j, c);
-		ray.ori = c[0].ori;
-			r = 0;
-			g = 0;
-			b = 0;
-			oldr = 1;
-			stay = 0;
-			quit = 0;
+		oldr = 1;
+		stay = 0;
+		quit = 0;
 		while(((id = ray_match(o, &ray)) != -1) && refmax)
 		{
 			lt = -1;
@@ -1003,60 +876,33 @@ __kernel void	raytracer(
 				color = diffuse(o, &ray.t, l, ray, id, lt, tex);
 				if(stay == 0)
 				{
-					r = r + (((color & 0xFF0000) / 0x10000) * (o[id].diff)) > 255 ? 255 : r + (((color & 0xFF0000) / 0x10000) * (o[id].diff));
-					g = g + (((color & 0xFF00) / 0x100) * (o[id].diff)) > 255 ? 255 : g + (((color & 0xFF00) / 0x100) * o[id].diff);
-					b = b + (((color & 0xFF)) * (o[id].diff)) > 255 ? 255 : b + ((color & 0xFF) * o[id].diff);
+					r = r + (((color & 0xFF0000) / 0x10000) * (o[id].diff)) > 255 ?
+						255 : r + (((color & 0xFF0000) / 0x10000) * (o[id].diff));
+					g = g + (((color & 0xFF00) / 0x100) * (o[id].diff)) > 255 ?
+						255 : g + (((color & 0xFF00) / 0x100) * o[id].diff);
+					b = b + (((color & 0xFF)) * (o[id].diff)) > 255 ?
+						255 : b + ((color & 0xFF) * o[id].diff);
 				}
 				if(stay != 0)
 				{
-//					oldr = oldr - (1 - o[id].refl) < 0 ? 0 : oldr - (1 - o[id].refl);
-//					if(o[id].refl < EPSILON && o[id].diff > o[id].refl)
-//					{
-//						r = r + (((color & 0xFF0000) / 0x10000) * (o[id].diff * o[id].refl)) > 255 ? 255 : r + (((color & 0xFF0000) / 0x10000) * (o[id].diff * o[id].refl));
-//						g = g + (((color & 0xFF00) / 0x100) * (o[id].diff * o[id].refl)) > 255 ? 255 : g + (((color & 0xFF00) / 0x100) * (o[id].diff * o[id].refl));
-//						b = b + (((color & 0xFF)) * (o[id].diff * o[id].refl)) > 255 ? 255 : b + ((color & 0xFF) * (o[id].diff * o[id].refl));
-//					}
-//					c = clamp(c * oldr + nc * diff, 0, 255);
-					(r = (((color & 0xFF0000) / 0x10000) * o[id].diff * oldr + r/* * o[id].refl*/)) > 255 ? (r = 255) : 0;
-					(g = (((color & 0xFF00) / 0x100) * o[id].diff * oldr + g/* * o[id].refl*/)) > 255 ? (g = 255) : 0;
-					(b = (((color & 0xFF)) * o[id].diff * oldr + b/* * o[id].refl*/)) > 255 ? (b = 255) : 0;
-//					(r += (((color & 0xFF0000) / 0x10000) * (o[id].diff * oldr))) > 255 ? (r = 255) : 0;
-//					g = g + (((color & 0xFF00) / 0x100) * (o[id].diff * oldr)) > 255 ? 255 : g + (((color & 0xFF00) / 0x100) * (o[id].diff * oldr));
-//					b = b + (((color & 0xFF) * (o[id].diff * oldr))) > 255 ? 255 : b + ((color & 0xFF) * (o[id].diff * oldr));
-//					if(oldr < EPSILON)
-//					{
-//					r = r + (((color & 0xFF0000) / 0x10000) * (o[id].diff)) > 255 ? 255 : r + (((color & 0xFF0000) / 0x10000) * (o[id].diff));
-//					g = g + (((color & 0xFF00) / 0x100) * (o[id].diff)) > 255 ? 255 : g + (((color & 0xFF00) / 0x100) * o[id].diff);
-//					b = b + (((color & 0xFF)) * (o[id].diff)) > 255 ? 255 : b + ((color & 0xFF) * o[id].diff);
-//					quit = 1;
-//					}
+					(r = (((color & 0xFF0000) / 0x10000) * o[id].diff * oldr + r)) > 255 ? (r = 255) : 0;
+					(g = (((color & 0xFF00) / 0x100) * o[id].diff * oldr + g)) > 255 ? (g = 255) : 0;
+					(b = (((color & 0xFF)) * o[id].diff * oldr + b)) > 255 ? (b = 255) : 0;
 				}
 			}
-//			if(quit)
-//				break;
 			if(o[id].trans && o[id].trans > EPSILON && o[id].refl < EPSILON)
 				{
 					refmax--;
 					ray.ori = ray.dir * ray.t + ray.ori;
-//					ray.dir = ray.dir * sin(ray.ori - o[id].pos);
 					c1 = dot(normalize(ray.ori - o[id].pos), (-ray.dir));
 					c2 = sqrt((1 - pow(1 / 1.4, 2)) * (1 - pow(c1, 2)));
-//					if(c1 > EPSILON)
-//						ray.dir = ((1.0 / 1.4) * ray.dir) + ((1.0 / 1.4) * c1 - c2) * (ray.dir * ray.t + ray.ori);
-//					else if(ray.imp == -1)
-//						ray.dir = normalize(ray.dir * 1.4);
 				}
 			else if(o[id].refl && o[id].refl > EPSILON && o[id].trans < EPSILON && (o[id].type == sphere || o[id].type == plan))
 				{
 					refmax--;
-//					if(stay == 0)
-					{
-						old = color;
-						oldr *= o[id].refl;
-						oldd = o[id].diff;
-					}
-//					else
-//						oldr -= o[id].refl ;
+					old = color;
+					oldr *= o[id].refl;
+					oldd = o[id].diff;
 					ray.ori = ray.dir * ray.t + ray.ori;
 					if(o[id].type == sphere)
 						ray.dir = normalize(refl(ray.dir, ray.ori - o[id].pos));
@@ -1080,19 +926,17 @@ __kernel void	rng(
 			__global int* out)
 {
 	t_ray	ray;
-	size_t	i = get_global_id(0);
-	size_t	j = get_global_id(1);
-	int		id;
-	float4	nor;
-	int		lt;
-	int pixel;
-	int color;
-	float4	k;
-	unsigned char r;
-	unsigned char g;
-	unsigned char b;
-	float		dist;
-	if (i < c[0].size.x && j < c[0].size.y)
+	size_t			i = get_global_id(0);
+	size_t			j = get_global_id(1);
+	unsigned char	r;
+	unsigned char	g;
+	unsigned char	b;
+	float4			k;
+	float			dist;
+	int				color;
+	int				id;
+	int				lt;
+	if (i < (size_t)c[0].size.x && j < (size_t)c[0].size.y)
 	{
 		ray.dir = ray_from_coord(i, j, c);
 		ray.ori = c[0].ori;
@@ -1132,23 +976,8 @@ __kernel void	rng(
 			r = (unsigned char)(min(max((int)floor(factor * k.x + bias), 0), 255));
 			g = (unsigned char)(min(max((int)floor(factor * k.y + bias), 0), 255));
 			b = (unsigned char)(min(max((int)floor(factor * k.z + bias), 0), 255));
-			
-			
-//			r = dist > 255 ? 255 : dist;
-//			g = dist > 255 ? 255 : dist;
-//			b = dist > 255 ? 255 : dist;
 			color = r * 0x10000 + g * 0x100 + b;
-			
 			out[j * c[0].size.x + i] = color;
-			//			lt = -1;
-			//			if(o[id].refl > EPSILON)
-			//				{
-			//					nor = get_normale(ray, o, id);
-			//					refl(&ray, nor);
-			//				}
-			//			else
-			//				ref = 0;
-
 		}
 	}
 }
@@ -1175,4 +1004,3 @@ __kernel void	stereo(
 	size_t	j = get_global_id(1);
 	out[j * size[0] + i] = ((red[j * size[0] + i] & 0xFF0000) + (vb[j * size[0] + i] & 0x00FFFF));
 }
->>>>>>> 87a7f5cd22e3c792d8000f39fac31351443ceff1

@@ -6,7 +6,7 @@
 /*   By: jplevy <jplevy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/08 01:37:39 by jplevy            #+#    #+#             */
-/*   Updated: 2017/04/27 07:37:37 by aviau            ###   ########.fr       */
+/*   Updated: 2017/04/28 02:07:15 by aviau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,6 @@
 
 cl_float4		vec_norm(cl_float4 vec)
 {
-	// Tout est dans ce lien
-	// http://www.fundza.com/vectors/normalize/
 	cl_float4	norm;
 	float	lenght;
 
@@ -114,6 +112,7 @@ t_scene	ft_init_scene(void)
 	ret.obj[0].dir.x = 1.0;
 	ret.obj[0].dir.y = 0.0;
 	ret.obj[0].dir.z = 0.0;
+	ret.obj[0].dir = vec_norm(ret.obj[7].dir);
 	ret.obj[0].pos.x = 0.0;
 	ret.obj[0].pos.y = 25.0;
 	ret.obj[0].pos.z = 10.0;
@@ -122,16 +121,11 @@ t_scene	ft_init_scene(void)
 	ret.obj[0].col = 0xFF902C;
 	ret.obj[0].type = cylindre;
 	ret.obj[0].r = 5;
-	ret.obj[0].dir.x = -1;
-	ret.obj[0].dir.y = 1;
-	ret.obj[0].dir.z = 1;
-	ret.obj[0].dir = vec_norm(ret.obj[7].dir);
-
-	vec_to_polar(&(ret.obj[7].tet), &(ret.obj[7].phi), ret.obj[7].dir);
-
 	ret.obj[0].diff = 1;
 	ret.obj[0].trans = 0;
 	ret.obj[0].refl = 0;
+
+//	vec_to_polar(&(ret.obj[7].tet), &(ret.obj[7].phi), ret.obj[7].dir);
 
 	ret.obj[1].dir.x = 0.5;
 	ret.obj[1].dir.y = 1.0;
@@ -146,7 +140,7 @@ t_scene	ft_init_scene(void)
 	ret.obj[1].diff = 1;
 	ret.obj[1].trans = 0;
 	ret.obj[1].refl = 0;
-//	ret.obj[1].trans = 3;
+	ret.obj[1].trans = 3;
 
 	ret.obj[2].pos.x = 0.0;
 	ret.obj[2].pos.y = 0.0;
@@ -161,7 +155,7 @@ t_scene	ft_init_scene(void)
 	ret.obj[2].trans = 0.3;
 	ret.obj[2].diff = 0.7;
 	ret.obj[2].refl = 0;
-//	ret.obj[2].trans = 3;
+	ret.obj[2].trans = 3;
 
 	ret.obj[3].pos.x = 12.0;
 	ret.obj[3].pos.y = 0.0;
@@ -173,7 +167,7 @@ t_scene	ft_init_scene(void)
 	ret.obj[3].trans = 0.0;
 	ret.obj[3].diff = 0.99;
 	ret.obj[3].refl = 0.01;
-//	ret.obj[3].trans = 3;
+	ret.obj[3].trans = 3;
 
 	ret.obj[4].pos.x = 12.0;
 	ret.obj[4].pos.y = 0.0;
@@ -417,16 +411,6 @@ int		ray_loop(t_mlx *mlx)
 			ocl_enqueue_kernel(&(mlx->prog), "stereo");
 			mlx->s.cam.ori.x -= 1;
 		}
-//		ocl_enqueue_kernel(&(mlx->prog), "rng");
-//		ocl_enqueue_kernel(&(mlx->prog), "cpy");
-//		if(mlx->key & BSPACE)
-//		ocl_enqueue_kernel(&(mlx->prog), "rng");
-//		else
-//		ocl_enqueue_kernel(&(mlx->prog), "raytracer");
-//		ocl_enqueue_kernel(dof, "rng");
-//		if(mlx->key & BSPACE)
-//		mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->tmp, 0, 0);
-//		else
 		mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img, 0, 0);
 		mlx->key -= REDRAW;
 	}
@@ -439,9 +423,6 @@ int		main(int ac, char **av)
 	size_t	pws[2];
 	(void)ac;
 
-//	int		dst = 25;
-//	cl_int[2] = {3, 3};
-//	cl_float filter[9]= {}
 	if (!(ocl_new_prog("./cl_src/rt.cl", 0x1000000 , &(mlx.prog))))
 		return (0);
 	mlx.s = ft_init_scene();
@@ -461,9 +442,6 @@ int		main(int ac, char **av)
 	ocl_new_kernel(&(mlx.prog), 5, pws, "norowowowowd", "raytracer", WIDTH * HEIGHT
 			* sizeof(int), mlx.p, sizeof(t_cam), &(mlx.s.cam), sizeof(t_obj) * 18, 
 			mlx.s.obj, sizeof(t_obj) * 5, mlx.s.light, sizeof(int) * (mlx.tex[0] + 1), mlx.tex, 2);
-//	ocl_new_kernel(&(mlx.prog), 5, pws, "nowowowoword", "rng", WIDTH * HEIGHT
-//			* sizeof(int), mlx.p, sizeof(t_cam), &(mlx.s.cam), sizeof(t_obj) * 18, 
-//			mlx.s.obj, sizeof(int), &dst, sizeof(int) * WIDTH * HEIGHT, mlx.atmp, 2);
 	ocl_new_kernel(&(mlx.prog), 3, pws, "norowowd", "cpy", WIDTH * HEIGHT
 			* sizeof(int), mlx.atmp, WIDTH * HEIGHT * sizeof(int), mlx.p, sizeof(size_t) * 2, pws, 2);
 	ocl_new_kernel(&(mlx.prog), 4, pws, "nowoworowd", "stereo", WIDTH * HEIGHT

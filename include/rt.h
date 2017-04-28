@@ -6,7 +6,7 @@
 /*   By: jplevy <jplevy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/11 06:10:10 by jplevy            #+#    #+#             */
-/*   Updated: 2017/04/27 07:29:03 by aviau            ###   ########.fr       */
+/*   Updated: 2017/04/28 02:03:27 by aviau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,8 @@ typedef enum		e_type
 	sphere,
 	cylindre,
 	cone,
+	para,
 	light,
-	start_obj,
-	end_obj,
 	end
 }					t_type;
 
