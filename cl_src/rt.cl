@@ -20,8 +20,6 @@ typedef enum		e_type
 	cone,
 	para,
 	light,
-	start_obj,
-	end_obj,
 	end
 }					t_type;
 
@@ -372,7 +370,6 @@ int				diffuse(__global t_obj *o,float *t, __global t_obj *l, t_ray ray, int id,
 	float4			angle;
 	float4			temp;
 	float4			ctsn;
-//	float4			itpl;
 	float2			polar;
 	float			norme;
 	float			dp;
@@ -429,8 +426,8 @@ int				diffuse(__global t_obj *o,float *t, __global t_obj *l, t_ray ray, int id,
 		color = o[id].col;
 	if (o[id].pos.w > 0.5f)
 		normale *= -1.0f;
-	else
-		return(color);
+//	else
+//		return(color);
 	vlight = l[in].pos - hit;
 	shad.ori = hit;
 	shad.dir = normalize(vlight) * (o[id].pos.w < 0.5f ? 1.0f : -1.0f);
@@ -441,8 +438,11 @@ int				diffuse(__global t_obj *o,float *t, __global t_obj *l, t_ray ray, int id,
 	b = (color & 0xFF);
 	if ((lol = ray_match(o, &shad)) != -1 && shad.t < norme)
 	{
-		if (o[id].pos.w > 0.5f)
-			return (o[lol].col);
+//		if (o[id].pos.w > 0.5f)
+//			return (o[lol].col);
+		r /= 50;
+		g /= 50;
+		b /= 50;
 		return(0);
 	}
 	dp = dot(normalize(vlight), normalize(normale));
@@ -450,10 +450,10 @@ int				diffuse(__global t_obj *o,float *t, __global t_obj *l, t_ray ray, int id,
 	rl = (l[in].col & 0xFF0000) / 0x10000 / 255.0;
 	gl = (l[in].col & 0xFF00) / 0x100 / 255.0;
 	bl = (l[in].col & 0xFF) / 255.0;
-	r = r * dp * (l[in].r / (norme * norme)) * rl > 255 ? 255 : r * dp * (l[in].r / (norme * norme)) * rl + r * 0.05;
-	g = g * dp * (l[in].r / (norme * norme)) * gl > 255 ? 255 : g * dp * (l[in].r / (norme * norme)) * gl + g * 0.05;
-	b = b * dp * (l[in].r / (norme * norme)) * bl > 255 ? 255 : b * dp * (l[in].r / (norme * norme)) * bl + b * 0.05;
-//	ray.dir *= -1;
+	r = r * dp * (l[in].r / (norme * norme)) * rl > 255 ? 255 : r * dp * (l[in].r / (norme * norme)) * rl + r / 50;
+	g = g * dp * (l[in].r / (norme * norme)) * gl > 255 ? 255 : g * dp * (l[in].r / (norme * norme)) * gl + g / 50;
+	b = b * dp * (l[in].r / (norme * norme)) * bl > 255 ? 255 : b * dp * (l[in].r / (norme * norme)) * bl + b / 50;
+	ray.dir *= -1;
 	mid = (normalize(-ray.dir) + normalize(vlight)) / 2;
 	spec = pow(dot(normalize(mid), normalize(normale)) / 1.005, 500);
 	spec *= l[in].r / 100;

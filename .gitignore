@@ -33,5 +33,7 @@
 *.su
 
 *.ppm
+*.swp
+*.swo
 .DS_Store
 rtvocl

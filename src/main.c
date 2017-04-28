@@ -6,7 +6,7 @@
 /*   By: jplevy <jplevy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/08 01:37:39 by jplevy            #+#    #+#             */
-/*   Updated: 2017/04/28 02:07:15 by aviau            ###   ########.fr       */
+/*   Updated: 2017/04/28 02:28:06 by aviau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,8 +79,8 @@ t_scene	ft_init_scene(void)
 
 	ret.light[0].col = 0xFFFFAA;
 	ret.light[0].type = light;
-	ret.light[0].r = 250.0;
-/*	
+	ret.light[0].r = 500.0;
+	
 	ret.light[1].pos.x = -1.5;
 	ret.light[1].pos.y = 10.0;
 	ret.light[1].pos.z = 7.0;
@@ -88,23 +88,23 @@ t_scene	ft_init_scene(void)
 	ret.light[1].col = 0xFFFFFF;
 	ret.light[1].type = light;
 	ret.light[1].r = 100.0;
-*
+
 	ret.light[2].pos.x = 0.0;
 	ret.light[2].pos.y = 25.0;
 	ret.light[2].pos.z = 0.0;
 
-	ret.light[2].col = 0x00FF00;
+	ret.light[2].col = 0xFFFFAA;
 	ret.light[2].type = light;
-	ret.light[2].r = 0.0;
+	ret.light[2].r = 100.0;
 
 	ret.light[3].pos.x = 0.0;
 	ret.light[3].pos.y = 20.0;
 	ret.light[3].pos.z = 20.0;
 
-	ret.light[3].col = 0xFF0000;
+	ret.light[3].col = 0xFFFFAA;
 	ret.light[3].type = light;
-	ret.light[3].r = 0.0;
-*/		
+	ret.light[3].r = 100.0;
+		
 	ret.light[4].type = end;
 
 	ret.obj = ft_memalloc(sizeof(t_obj) * 18);
@@ -140,7 +140,6 @@ t_scene	ft_init_scene(void)
 	ret.obj[1].diff = 1;
 	ret.obj[1].trans = 0;
 	ret.obj[1].refl = 0;
-	ret.obj[1].trans = 3;
 
 	ret.obj[2].pos.x = 0.0;
 	ret.obj[2].pos.y = 0.0;
@@ -152,10 +151,9 @@ t_scene	ft_init_scene(void)
 	ret.obj[2].col = 0x9D1724;
 	ret.obj[2].type = sphere;
 	ret.obj[2].r = 3;
-	ret.obj[2].trans = 0.3;
+	ret.obj[2].trans = 0;
 	ret.obj[2].diff = 0.7;
 	ret.obj[2].refl = 0;
-	ret.obj[2].trans = 3;
 
 	ret.obj[3].pos.x = 12.0;
 	ret.obj[3].pos.y = 0.0;
@@ -167,7 +165,6 @@ t_scene	ft_init_scene(void)
 	ret.obj[3].trans = 0.0;
 	ret.obj[3].diff = 0.99;
 	ret.obj[3].refl = 0.01;
-	ret.obj[3].trans = 3;
 
 	ret.obj[4].pos.x = 12.0;
 	ret.obj[4].pos.y = 0.0;
@@ -183,10 +180,9 @@ t_scene	ft_init_scene(void)
 	ret.obj[5].pos.x = -3.0;
 	ret.obj[5].pos.y = 0.0;
 	ret.obj[5].pos.z = 5.0;
-	ret.obj[5].trans = 0.3;
+	ret.obj[5].trans = 0;
 	ret.obj[5].diff = 0.7;
 	ret.obj[5].refl = 0;
-//	ret.obj[5].trans = 3;
 
 	ret.obj[5].col = 0x0450D5;
 	ret.obj[5].type = sphere;
@@ -201,7 +197,6 @@ t_scene	ft_init_scene(void)
 	ret.obj[6].diff = 1.0;
 	ret.obj[6].trans = 0;
 	ret.obj[6].refl = 0.5;
-//	ret.obj[6].trans = 3;
 
 	ret.obj[6].col = 0x8D3AA0;
 	ret.obj[6].type = sphere;
@@ -214,7 +209,6 @@ t_scene	ft_init_scene(void)
 	ret.obj[7].diff = 1;
 	ret.obj[7].trans = 0;
 	ret.obj[7].refl = 0;
-//	ret.obj[7].trans = 3;
 
 	ret.obj[7].col = 0xE8AA02;
 	ret.obj[7].type = sphere;
@@ -242,6 +236,9 @@ t_scene	ft_init_scene(void)
 	ret.obj[9].col = 0x165BD9;
 	ret.obj[9].tex = 0;
 	ret.obj[9].type = sphere;
+	ret.obj[9].diff = 1;
+	ret.obj[9].trans = 0;
+	ret.obj[9].refl = 0;
 	ret.obj[9].r = 3;
 	/////////////////////////
 	ret.obj[10].pos.x = 0.0;
@@ -250,8 +247,11 @@ t_scene	ft_init_scene(void)
 	ret.obj[10].pos.w = 0.0;
 
 	ret.obj[10].col = 0xFF00FF;
-	ret.obj[10].tex = 5;
+	ret.obj[10].tex = 0;
 	ret.obj[10].type = sphere;
+	ret.obj[10].diff = 1;
+	ret.obj[10].trans = 0;
+	ret.obj[10].refl = 0;
 	ret.obj[10].r = 3.0;
 	//////////////////
 	ret.obj[11].pos.x = -3.0;
@@ -262,6 +262,9 @@ t_scene	ft_init_scene(void)
 	ret.obj[11].col = 0xFCE704;
 	ret.obj[11].tex = 0;
 	ret.obj[11].type = sphere;
+	ret.obj[11].diff = 1;
+	ret.obj[11].trans = 0;
+	ret.obj[11].refl = 0;
 	ret.obj[11].r = 2;
 
 	ret.obj[12].pos.x = 3.0;
@@ -272,6 +275,9 @@ t_scene	ft_init_scene(void)
 	ret.obj[12].col = 0x702E6F;
 	ret.obj[12].tex = 0;
 	ret.obj[12].type = sphere;
+	ret.obj[12].diff = 1;
+	ret.obj[12].trans = 0;
+	ret.obj[12].refl = 0;
 	ret.obj[12].r = 3;
 
 	ret.obj[13].pos.x = 0.0;
@@ -281,6 +287,9 @@ t_scene	ft_init_scene(void)
 
 	ret.obj[13].col = 0xFC7C1B;
 	ret.obj[13].type = sphere;
+	ret.obj[13].diff = 1;
+	ret.obj[13].trans = 0;
+	ret.obj[13].refl = 0;
 	ret.obj[13].r = 3;
 
 	ret.obj[14].dir.x = 0.0;
@@ -292,6 +301,9 @@ t_scene	ft_init_scene(void)
 	ret.obj[14].pos.w = 0.0;
 
 	ret.obj[14].col = 0xCCCCCC;
+	ret.obj[14].diff = 1;
+	ret.obj[14].trans = 0;
+	ret.obj[14].refl = 0;
 	ret.obj[14].type = plan;
 
 	ret.obj[15].dir.x = 0.0;
@@ -303,6 +315,9 @@ t_scene	ft_init_scene(void)
 	ret.obj[15].pos.w = 0.0;
 
 	ret.obj[15].col = 0xCCCCCC;
+	ret.obj[15].diff = 1;
+	ret.obj[15].trans = 0;
+	ret.obj[15].refl = 0;
 	ret.obj[15].type = plan;
 	///////////////////////////////
 	ret.obj[16].dir.x = 0.0;
@@ -317,6 +332,9 @@ t_scene	ft_init_scene(void)
 	ret.obj[16].tex = 0;
 //	ret.obj[16].n_m = 0.0;
 	ret.obj[16].type = cylindre;
+	ret.obj[16].diff = 1;
+	ret.obj[16].trans = 0;
+	ret.obj[16].refl = 0;
 	ret.obj[16].r = 1.5f;
 	//////////////////////////////
 
