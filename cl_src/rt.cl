@@ -383,7 +383,8 @@ int				diffuse(__global t_obj *o,float *t, __global t_obj *l, t_ray ray, int id,
 	color = o[id].col;
 	hit = ray.dir * *t + ray.ori;
 	temp = normalize(o[id].dir);
-	angle = temp * (float)(M_PI / 4.0);
+	angle = acos(dot(temp, (float4)(0,1,0,0)));
+	float4 axis = normalize(cross(temp, (float4)(0,1,0,0)));
 	ctsn = hit - o[id].pos;
 	if(o[id].type == sphere)
 	{
@@ -396,10 +397,9 @@ int				diffuse(__global t_obj *o,float *t, __global t_obj *l, t_ray ray, int id,
 	else if (o[id].type == cone)
 	{
 		normale = norm_cone(o, hit, id, ray);
-		polar.x = ctsn.x * o[id].dir.x + ctsn.y * o[id].dir.y + ctsn.z * o[id].dir.z;
-		polar.y = (atan(ctsn.x / -ctsn.z));
-		if ((int)((polar.y + M_PI) * 5) % 2)
-			color = 0xFFFFFF - color;
+		ctsn = ctsn * cos(angle) + cross(axis, ctsn) * sin(angle) + axis * dot(axis, ctsn) * (1 - cos(angle));
+		polar.x = ctsn.y / 10;
+		polar.y = atan(ctsn.x / ctsn.z) + M_PI_2_F;
 	}
 	else if (o[id].type == cylindre)
 	{
