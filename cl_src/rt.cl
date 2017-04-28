@@ -366,7 +366,6 @@ int				diffuse(__global t_obj *o,float *t, __global t_obj *l, t_ray ray, int id,
 	float4			fla;
 	float4			mid;
 	float4			tmp;
-	float4			coef;
 	float4			angle;
 	float4			temp;
 	float4			ctsn;
@@ -383,9 +382,6 @@ int				diffuse(__global t_obj *o,float *t, __global t_obj *l, t_ray ray, int id,
 
 	color = o[id].col;
 	hit = ray.dir * *t + ray.ori;
-	coef.x = 4.0;
-	coef.y = 1.0;
-	coef.z = 4.0;
 	temp = normalize(o[id].dir);
 	angle = temp * (float)(M_PI / 4.0);
 	ctsn = hit - o[id].pos;
@@ -426,8 +422,6 @@ int				diffuse(__global t_obj *o,float *t, __global t_obj *l, t_ray ray, int id,
 		color = o[id].col;
 	if (o[id].pos.w > 0.5f)
 		normale *= -1.0f;
-//	else
-//		return(color);
 	vlight = l[in].pos - hit;
 	shad.ori = hit;
 	shad.dir = normalize(vlight) * (o[id].pos.w < 0.5f ? 1.0f : -1.0f);
@@ -443,19 +437,17 @@ int				diffuse(__global t_obj *o,float *t, __global t_obj *l, t_ray ray, int id,
 		r /= 50;
 		g /= 50;
 		b /= 50;
-		return(0);
+		return(r * 0x10000 + g * 0x100 + b);
 	}
 	dp = dot(normalize(vlight), normalize(normale));
-//	float4 rp = dot(normalize(refl(ray.dir, normale)), vlight);
 	rl = (l[in].col & 0xFF0000) / 0x10000 / 255.0;
 	gl = (l[in].col & 0xFF00) / 0x100 / 255.0;
 	bl = (l[in].col & 0xFF) / 255.0;
 	r = r * dp * (l[in].r / (norme * norme)) * rl > 255 ? 255 : r * dp * (l[in].r / (norme * norme)) * rl + r / 50;
 	g = g * dp * (l[in].r / (norme * norme)) * gl > 255 ? 255 : g * dp * (l[in].r / (norme * norme)) * gl + g / 50;
 	b = b * dp * (l[in].r / (norme * norme)) * bl > 255 ? 255 : b * dp * (l[in].r / (norme * norme)) * bl + b / 50;
-	ray.dir *= -1;
 	mid = (normalize(-ray.dir) + normalize(vlight)) / 2;
-	spec = pow(dot(normalize(mid), normalize(normale)) / 1.005, 500);
+	spec = pow(dot(normalize(mid), normalize(normale)) / 1.005, 100);
 	spec *= l[in].r / 100;
 	fla.x = ((float)((l[in].col & 0xFF0000) / 0x010000)) * spec;
 	fla.y = ((float)((l[in].col & 0x00FF00) / 0x000100)) * spec;
@@ -851,7 +843,7 @@ __kernel void	raytracer(
 	int				lt;
 	int				stay;
 	int				pixel;
-	int				refmax = 10;
+	int				refmax = 2;
 	int				color = 0;
 	int				old;
 	int				quit;
