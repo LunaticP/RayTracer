@@ -34,8 +34,10 @@ static void				s_tab_size_count(int *tab_size, t_parser *parser)
 		++tab_size[ptr_parser->elem];
 		ptr_parser = ptr_parser->next;
 	}
-	if (tab_size[OBJECTS > 0])
+	// if (tab_size[OBJECTS > 0])
+		// ++tab_size[OBJECTS];
 		++tab_size[OBJECTS];
+		++tab_size[LIGHTS];
 	if (tab_size[3] > 1)
 		exit_error("EXIT : s_tab_count_size [rt_list_to_tab.c]");
 }

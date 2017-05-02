@@ -446,9 +446,11 @@ int		main(int ac, char **av)
 	mlx.key = REDRAW;
 	pws[0] = WIDTH;
 	pws[1] = HEIGHT;
+	// mlx.s.light[1].type = end;
+	/* *2 pour obj, *2 pour light */
 	ocl_new_kernel(&(mlx.prog), 5, pws, "norowowowowd", "raytracer", WIDTH * HEIGHT
-			* sizeof(int), mlx.p, sizeof(t_cam), &(mlx.s.cam), sizeof(t_obj) * 18, 
-			mlx.s.obj, sizeof(t_obj) * 5, mlx.s.light, sizeof(int) * (mlx.tex[0] + 1), mlx.tex, 2);
+			* sizeof(int), mlx.p, sizeof(t_cam), &(mlx.s.cam), sizeof(t_obj) * 2, 
+			mlx.s.obj, sizeof(t_obj) * 2, mlx.s.light, sizeof(int) * (mlx.tex[0] + 1), mlx.tex, 2);
 	ocl_new_kernel(&(mlx.prog), 3, pws, "norowowd", "cpy", WIDTH * HEIGHT
 			* sizeof(int), mlx.atmp, WIDTH * HEIGHT * sizeof(int), mlx.p, sizeof(size_t) * 2, pws, 2);
 	ocl_new_kernel(&(mlx.prog), 4, pws, "nowoworowd", "stereo", WIDTH * HEIGHT

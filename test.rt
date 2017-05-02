@@ -38,10 +38,6 @@ objects
 		refl = 0;
 		trans = 0;
 		refr = 0;
-		
-		r = 0;
-		su = 0;
-		sd = 0;
 		tex = 0;
 		n_m = 0;
 	}

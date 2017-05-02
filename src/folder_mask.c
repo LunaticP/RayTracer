@@ -12,7 +12,6 @@ void			rt_add_mask(int *mask_check, int index)
 
 void				rt_check_all_data(int mask, int check)
 {
-	printf("\nTEST\n%d\n %d\n", mask, check);
 	if (check == 0 || check != mask)
 		exit_error("EXIT : s_check_all_data [folder_mask.c]");
 }

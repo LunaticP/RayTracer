@@ -865,7 +865,7 @@ __kernel void	raytracer(
 			lt = -1;
 			while(l[++lt].type == light)
 			{
-				color = diffuse(o, &ray.t, l, ray, id, lt, tex);
+				color = diffuse(o, &ray.t, l, ray, id, lt, tex); //
 				if(stay == 0)
 				{
 					r = r + (((color & 0xFF0000) / 0x10000) * (o[id].diff)) > 255 ?
