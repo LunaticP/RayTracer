@@ -14,9 +14,37 @@ OS = APPLE
 NAME = rtvocl
 SRC_NAME =	main.c\
 			key.c\
-			texture.c
+			texture.c\
+			rt_get_char.c\
+			rt_get_color.c\
+			rt_get_float.c\
+			rt_get_float2.c\
+			rt_get_float3.c\
+			rt_get_float4.c\
+			rt_get_int_2.c\
+			rt_get_short.c\
+			rt_get_str_float.c\
+			rt_end_data.c\
+			rt_goto_close_bracket.c\
+			exit_error.c\
+			folder_mask.c\
+			rt_free_after_parser.c\
+			rt_memalloc.c\
+			rt_strcmp.c\
+			rt_useless.c\
+			parser_error.c\
+			rt_get_file.c\
+			rt_get_object.c\
+			rt_parser_camera.c\
+			rt_parser_file.c\
+			rt_parser_lights.c\
+			rt_parser_objects.c\
+			parser.c\
+			rt_list_to_tab.c
+
 INC_FILE = include/key.h\
-		   include/rt.h
+		   include/rt.h\
+		   include/parser.h
 
 OBJ_NAME = $(SRC_NAME:.c=.o)
 SRC_PATH = ./src/

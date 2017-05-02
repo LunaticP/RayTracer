@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: jplevy <jplevy@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/03/08 01:37:39 by jplevy            #+#    #+#             */
-/*   Updated: 2017/04/28 02:54:44 by aviau            ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include <rt.h>
 
 # define STEREO 0
@@ -443,8 +431,9 @@ int		main(int ac, char **av)
 
 	if (!(ocl_new_prog("./cl_src/rt.cl", 0x1000000 , &(mlx.prog))))
 		return (0);
-	mlx.s = ft_init_scene();
-	mlx.tex = get_texture(&av[1]);
+	// mlx.s = ft_init_scene();
+	mlx.s = rt_get_parser(av[1]);
+	// mlx.tex = get_texture(&av[1]);
 	mlx.mlx = mlx_init();
 	mlx.win = mlx_new_window(mlx.mlx, WIDTH, HEIGHT, "rtvocl");
 	mlx.img = mlx_new_image(mlx.mlx, WIDTH, HEIGHT);

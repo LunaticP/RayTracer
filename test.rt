@@ -1,0 +1,105 @@
+objects
+{
+	plan
+	{
+		pos
+		{
+			x = 10;
+			y = 11;
+			z = 12;
+			w = 0;
+		}
+		dir
+		{
+			x = 0;
+			y = 1;
+			z = 0;
+		}
+		min
+		{
+			x = -10000;
+			y = -10000;
+			z = -10000;
+		}
+		max
+		{
+			x = 10000;
+			y = 10000;
+			z = 10000;
+		}
+		rot_m
+		{
+			x = 0;
+			y = 0;
+			z = 0;
+		}
+		col = #0000DF;
+		diff = 1;
+		refl = 0;
+		trans = 0;
+		refr = 0;
+		
+		r = 0;
+		su = 0;
+		sd = 0;
+		tex = 0;
+		n_m = 0;
+	}
+}
+
+lights
+{
+	pos
+	{
+		x = 0;
+		y = 2;
+		z = 0;
+		w = 1;
+	}
+	r = 80;
+	col = #FFFFFF;
+}
+
+camera
+{
+	ori
+	{
+		x = 0;
+		y = 1;
+		z = 0;
+	}
+	dirx
+	{
+		x = 1;
+		y = 0;
+		z = 0;
+	}
+	diry
+	{
+		x = 0;
+		y = 1;
+		z = 0;
+	}
+	dirz
+	{
+		x = 0;
+		y = 0;
+		z = 1;
+	}
+	p
+	{
+		x = -5;
+		y = 5;
+		z = 5;
+	}
+	viewplane
+	{
+		x = 10;
+		y = 10;
+	}
+	size
+	{
+		x = 700;
+		y = 900;
+	}
+}
