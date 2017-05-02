@@ -27,12 +27,6 @@ objects
 			y = 10000;
 			z = 10000;
 		}
-		rot_m
-		{
-			x = 0;
-			y = 0;
-			z = 0;
-		}
 		col = #0000DF;
 		diff = 1;
 		refl = 0;

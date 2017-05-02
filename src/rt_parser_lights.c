@@ -1,6 +1,6 @@
 #include "parser.h"
 
-# define MASK_LIGHT		0b00000000001000001000000001
+# define MASK_LIGHT		0b0000000000100000100000001
 
 typedef struct		s_data
 {
@@ -17,7 +17,6 @@ static const t_data tab_data[] = {{"pos{", sizeof(cl_float4), &rt_get_float4},
 									{"PADDING", 4, &rt_useless},
 									{"min{", sizeof(cl_float4), &rt_get_float3},
 									{"max{", sizeof(cl_float4), &rt_get_float3},
-									{"rot_m{", sizeof(cl_float4), &rt_get_float3},
 									{"col=", sizeof(int), &rt_get_color},
 									{"diff=", sizeof(cl_float), &rt_get_float},
 									{"refl=", sizeof(cl_float), &rt_get_float},
@@ -49,6 +48,7 @@ t_parser			*rt_parser_lights(char *file, t_parser *parser)
 	mask_check = 0;
 	new_parser = NULL; // useless
 	new_parser = s_init_new_parser(new_parser);
+	((t_obj *)new_parser->content)->type = light;
 	while ((index = s_choice_data(&file, size)) != size)
 	{
 		rt_add_mask(&mask_check, index);

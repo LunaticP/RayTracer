@@ -34,8 +34,6 @@ static void				s_tab_size_count(int *tab_size, t_parser *parser)
 		++tab_size[ptr_parser->elem];
 		ptr_parser = ptr_parser->next;
 	}
-	// if (tab_size[OBJECTS > 0])
-		// ++tab_size[OBJECTS];
 		++tab_size[OBJECTS];
 		++tab_size[LIGHTS];
 	if (tab_size[3] > 1)
@@ -71,6 +69,7 @@ static void				s_tab_set(void ***tab, t_parser *parser)
 		ptr_parser = ptr_parser->next;
 	}
 	((t_obj *)(((char **)tab)[0] + (g_tab_data[0] * count[0])))->type = end;
+	((t_obj *)(((char **)tab)[1] + (g_tab_data[1] * count[1])))->type = end;
 }
 
 t_obj				*s_add_end_objects(void)

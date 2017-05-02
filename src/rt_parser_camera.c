@@ -13,9 +13,9 @@ static const t_data_camera tab_data_camera[] = {	{"ori{", sizeof(cl_float4), &rt
 													{"dirx{", sizeof(cl_float4), &rt_get_float3},
 													{"diry{", sizeof(cl_float4), &rt_get_float3},
 													{"dirz{", sizeof(cl_float4), &rt_get_float3},
-													{"p{", sizeof(cl_float4), &rt_get_float3},
-													{"viewplane{", sizeof(cl_float2), &rt_get_float2},
 													{"size{", sizeof(cl_int2), &rt_get_int2},
+													{"viewplane{", sizeof(cl_float2), &rt_get_float2},
+													{"p{", sizeof(cl_float4), &rt_get_float3},
 													{"}", 0, NULL}	};
 
 static int				s_choice_data(char **file, int size);
