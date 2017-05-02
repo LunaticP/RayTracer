@@ -48,6 +48,7 @@ typedef struct 		s_obj
 	float4			p3;
 	short			tex;
 	short			n_m;
+	short			r_m;
 }					t_obj;
 
 typedef struct		s_cam
@@ -57,8 +58,9 @@ typedef struct		s_cam
 	float4			diry;
 	float4			dirz;
 	int2			size;
-	float2			viewplane;
+	float4			viewplane;
 	float4			p;
+	float2			chunk;
 }					t_cam;
 
 typedef struct		s_ray
@@ -83,7 +85,7 @@ float4	ray_from_coord(size_t x, size_t y, __global t_cam *c);
 float	sq(float a);
 int		get_light(__global t_obj *o, __global t_obj *l, float4 hit);
 int		tex_num(int num, __global t_obj *o, int id, __global int *tex, float2 polar);
-int		diffuse(__global t_obj *o,float *t, __global t_obj *l, t_ray ray, int id, int in, __global int *tex);
+int		diffuse(__global t_obj *o,float *t, __global t_obj *l, t_ray ray, int id, int in, __global int *tex, float4 *n, float *rm);
 int		quadratic(float a, float b, float c, float2 *ret);
 int		ray_neg(__global t_obj *o, t_ray *ray, float2 *t);
 int		rt_plan(__global t_obj *o, int i, t_ray *ray);
@@ -344,6 +346,11 @@ int				tex_num(int num, __global t_obj *o, int id, __global int *tex, float2 pol
 		out = (int)(polar.x * (float)tex[j + 1] / M_PI) * tex[j] \
 			+ (int)(polar.y * (float)tex[j] / M_PI) + j + 2;
 	}
+	if (o[id].type == plan)
+	{
+		out = (int)((polar.x / 10) * (float)tex[j + 1]) % tex[j] * tex[j] \
+			+ (int)((polar.y / 10) * (float)tex[j]) + j + 2;
+	}
 	if (o[id].type == cone || o[id].type == cylindre)
 	{
 		out = abs((int)(polar.x / 10 * (float)tex[j + 1]) % tex[j + 1]) * tex[j] \
@@ -352,7 +359,7 @@ int				tex_num(int num, __global t_obj *o, int id, __global int *tex, float2 pol
 	return (out > tex[0] || out < 0 ? 0 : out);
 }
 
-int				diffuse(__global t_obj *o,float *t, __global t_obj *l, t_ray ray, int id, int in, __global int *tex)
+int				diffuse(__global t_obj *o,float *t, __global t_obj *l, t_ray ray, int id, int in, __global int *tex, float4 *n, float *rm)
 {
 	unsigned char	r;
 	unsigned char	g;
@@ -389,16 +396,20 @@ int				diffuse(__global t_obj *o,float *t, __global t_obj *l, t_ray ray, int id,
 	if(o[id].type == sphere)
 	{
 		normale = norm_sphere(o, hit, id);
-		polar.x = (atan(ctsn.y / sqrt(-ctsn.z * -ctsn.z + ctsn.x * ctsn.x)));
-		polar.y = (atan(ctsn.x / -ctsn.z));
+		polar.x = (atan(-ctsn.y / sqrt(ctsn.z * ctsn.z + ctsn.x * ctsn.x))) + M_PI_2_F;
+		polar.y = (atan(ctsn.x / -ctsn.z)) + M_PI_2_F;
 	}
 	else if (o[id].type == plan)
+	{
+		polar.x = ctsn.x + 15;
+		polar.y = ctsn.z + 15;
 		normale = o[id].dir;
+	}
 	else if (o[id].type == cone)
 	{
 		normale = norm_cone(o, hit, id, ray);
 		ctsn = ctsn * cos(angle) + cross(axis, ctsn) * sin(angle) + axis * dot(axis, ctsn) * (1 - cos(angle));
-		polar.x = ctsn.y / 10;
+		polar.x = ctsn.y;
 		polar.y = atan(ctsn.x / ctsn.z) + M_PI_2_F;
 	}
 	else if (o[id].type == cylindre)
@@ -416,12 +427,18 @@ int				diffuse(__global t_obj *o,float *t, __global t_obj *l, t_ray ray, int id,
 		normale.y += (color & 0xFF00 / 0x100) / 128.0 - 1.0;
 		normale.z += (color & 0xFF) / 128.0 - 2.0;
 	}
+	if (o[id].r_m)
+	{
+		color = tex[tex_num(o[id].r_m, o, id, tex, polar)];
+		*rm = (float)color / 0x00FFFFFF;
+	}
 	if (o[id].tex)
 		color = tex[tex_num(o[id].tex, o, id, tex, polar)];
 	else
 		color = o[id].col;
 	if (o[id].pos.w > 0.5f)
 		normale *= -1.0f;
+	*n = normale;
 	vlight = l[in].pos - hit;
 	shad.ori = hit;
 	shad.dir = normalize(vlight) * (o[id].pos.w < 0.5f ? 1.0f : -1.0f);
@@ -430,7 +447,7 @@ int				diffuse(__global t_obj *o,float *t, __global t_obj *l, t_ray ray, int id,
 	r = (color & 0xFF0000) / 0x10000;
 	g = (color & 0xFF00) / 0x100;
 	b = (color & 0xFF);
-	if ((lol = ray_match(o, &shad)) != -1 && shad.t < norme)
+	if ((lol = ray_match(o, &shad)) != -1 && shad.t < norme && o[id].pos.w < 0.5f)
 	{
 //		if (o[id].pos.w > 0.5f)
 //			return (o[lol].col);
@@ -815,7 +832,7 @@ float4			ray_from_coord(size_t x, size_t y, __global t_cam *c)
 	ret += c->dirx * (c->p.x + ((float)x * c->viewplane.x / (float)c->size.x));
 	ret += c->diry * (c->p.y - ((float)y * c->viewplane.y / (float)c->size.y));
 	ret += c->dirz * (c->p.z);
-	return (normalize(ret));
+	return ((ret));
 }
 
 __kernel void	raytracer(
@@ -826,28 +843,28 @@ __kernel void	raytracer(
 			__global int* tex)
 {
 	t_ray	ray;
+	t_ray	tmp;
 	size_t			i = get_global_id(0);
 	size_t			j = get_global_id(1);
 	unsigned short	r;
 	unsigned short	g;
 	unsigned short	b;
-	unsigned char	re;
-	unsigned char	gr;
-	unsigned char	bl;
 	float4			nor;
-	float			c1;
-	float			c2;
 	float			oldr;
 	float			oldd;
+	float			rm;
 	int				id;
 	int				lt;
 	int				stay;
-	int				pixel;
-	int				refmax = 2;
+	int				refmax = 1;
 	int				color = 0;
 	int				old;
 	int				quit;
 
+	i *= c[0].viewplane.z;
+	i += c[0].chunk.x;
+	j *= c[0].viewplane.z;
+	j += c[0].chunk.y;
 	if (i < (size_t)c[0].size.x && j < (size_t)c[0].size.y)
 	{
 		string[j * c[0].size.x + i] = 0;
@@ -865,7 +882,7 @@ __kernel void	raytracer(
 			lt = -1;
 			while(l[++lt].type == light)
 			{
-				color = diffuse(o, &ray.t, l, ray, id, lt, tex);
+				color = diffuse(o, &ray.t, l, ray, id, lt, tex, &nor, &rm);
 				if(stay == 0)
 				{
 					r = r + (((color & 0xFF0000) / 0x10000) * (o[id].diff)) > 255 ?
@@ -886,20 +903,16 @@ __kernel void	raytracer(
 				{
 					refmax--;
 					ray.ori = ray.dir * ray.t + ray.ori;
-					c1 = dot(normalize(ray.ori - o[id].pos), (-ray.dir));
-					c2 = sqrt((1 - pow(1 / 1.4, 2)) * (1 - pow(c1, 2)));
 				}
-			else if(o[id].refl && o[id].refl > EPSILON && o[id].trans < EPSILON && (o[id].type == sphere || o[id].type == plan))
+			else if((o[id].refl && o[id].refl > EPSILON && o[id].trans < EPSILON) || o[id].r_m)
 				{
 					refmax--;
 					old = color;
-					oldr *= o[id].refl;
+					oldr *= (o[id].r_m > 0 ? rm : o[id].refl);
 					oldd = o[id].diff;
+					tmp = ray;
 					ray.ori = ray.dir * ray.t + ray.ori;
-					if(o[id].type == sphere)
-						ray.dir = normalize(refl(ray.dir, ray.ori - o[id].pos));
-					else if(o[id].type == plan)
-						ray.dir = normalize(refl(ray.dir, o[id].dir));
+					ray.dir = normalize(refl(ray.dir, nor));
 					stay++;
 				}
 			else

@@ -6,7 +6,7 @@
 /*   By: aviau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/30 07:43:39 by aviau             #+#    #+#             */
-/*   Updated: 2017/04/27 07:38:57 by aviau            ###   ########.fr       */
+/*   Updated: 2017/05/02 07:24:04 by aviau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,31 @@
 
 void	k_press(int key, int *k)
 {
-	if (LEFT & !(*k & POS_XM))
+	if (LEFT && !(*k & POS_XM))
 		*k += POS_XM;
-	else if (RIGHT & !(*k & POS_XP))
+	if (RIGHT && !(*k & POS_XP))
 		*k += POS_XP;
-	else if (UP & !(*k & POS_ZP))
+	if (UP && !(*k & POS_ZP))
 		*k += POS_ZP;
-	else if (DOWN & !(*k & POS_ZM))
+	if (DOWN && !(*k & POS_ZM))
 		*k += POS_ZM;
-	else if (P_UP & !(*k & POS_YP))
+	if (P_UP && !(*k & POS_YP))
 		*k += POS_YP;
-	else if (P_DOWN & !(*k & POS_YM))
-		*k += POS_YM;
-	else if (SPACE & !(*k & BSPACE))
+	if (P_DOWN && !(*k & POS_YM))
+		*k += POS_YM;/*
+	if (SPACE && !(*k & BSPACE))
+	{
 		*k += BSPACE;
+		ft_putendl("on");
+	}
+	else if (SPACE && (*k & BSPACE))
+	{
+		*k -= BSPACE;
+		ft_putendl("off");
+	}
+	printf("0x%X\n0x%X\n\n", *k, BSPACE);*/
+	if (*k ^ REDRAW)
+		*k += REDRAW;
 }
 
 int	k_rel(int key, void *param)
@@ -37,27 +48,27 @@ int	k_rel(int key, void *param)
 	k = &((t_mlx*)param)->key;
 	if (LEFT)
 		 *k -= POS_XM;
-	else if (RIGHT)
+	if (RIGHT)
 		*k -= POS_XP;
-	else if (UP)
+	if (UP)
 		*k -= POS_ZP;
-	else if (DOWN)
+	if (DOWN)
 		*k -= POS_ZM;
-	else if (P_UP)
+	if (P_UP)
 		*k -= POS_YP;
-	else if (P_DOWN)
+	if (P_DOWN)
 		*k -= POS_YM;
-	else if (SPACE)
-		*k -= BSPACE;
+	if (*k ^ REDRAW)
+		*k += REDRAW;
 	return (0);
 }
 
 void	k_apply(int key, t_scene *s)
 {
 	if (key & POS_XP)
-		s->cam.ori.x += 0.001f;
+		s->cam.ori.x += 0.5f;
 	if (key & POS_XM)
-		s->cam.ori.x -= 0.001f;
+		s->cam.ori.x -= 0.5f;
 	if (key & POS_YP)
 		s->cam.ori.y += 0.5f;
 	if (key & POS_YM)

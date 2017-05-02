@@ -6,7 +6,7 @@
 /*   By: aviau <aviau@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/04 13:28:35 by aviau             #+#    #+#             */
-/*   Updated: 2017/04/07 05:27:53 by aviau            ###   ########.fr       */
+/*   Updated: 2017/04/28 07:37:33 by aviau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,8 @@ int		*get_texture(char **files)
 	int i;
 	int *out;
 
+	if (files == NULL)
+		return (0);
 	i = 1;
 	out = get_ppm(files[0]);
 	while (files[i] != '\0')
