@@ -61,6 +61,7 @@ typedef struct		s_cam
 	float4			viewplane;
 	float4			p;
 	float2			chunk;
+	short			fast;
 }					t_cam;
 
 typedef struct		s_ray
@@ -856,7 +857,7 @@ __kernel void	raytracer(
 	int				id;
 	int				lt;
 	int				stay;
-	int				refmax = 1;
+	int				refmax = 7;
 	int				color = 0;
 	int				old;
 	int				quit;
@@ -920,6 +921,40 @@ __kernel void	raytracer(
 		}
 		color = r * 0x10000 + g * 0x100 + b;
 		string[j * c[0].size.x + i] = color;
+	}
+}
+
+__kernel void	rt_fast(
+			__global int* string,
+			__global t_cam *c,
+			__global t_obj *o)
+{
+	t_ray			ray;
+	size_t			i = get_global_id(0) * 2;
+	size_t			j = get_global_id(1) * 2;
+	unsigned short	r;
+	unsigned short	g;
+	unsigned short	b;
+	int				id;
+	int				color;
+
+	if (i < (size_t)c[0].size.x && j < (size_t)c[0].size.y)
+	{
+		string[j * c[0].size.x + i] = 0;
+		ray.dir = ray_from_coord(i, j, c);
+		ray.ori = c[0].ori;
+		id = ray_match(o, &ray);
+		r = (o[id].col & 0xFF0000 / 0x10000) / ray.t;
+		g = (o[id].col & 0x00FF00 / 0x00100) / ray.t;
+		b = (o[id].col & 0x0000FF / 0x00001) / ray.t;
+		r = r > 255 ? 255 : r;
+		g = g > 255 ? 255 : g;
+		b = b > 255 ? 255 : b;
+		color = r * 0x10000 + g * 0x100 + b;
+		string[j * c[0].size.x + i] = color;
+		string[j * c[0].size.x + i + 1] = color;
+		string[(j + 1) * c[0].size.x + i] = color;
+		string[(j + 1) * c[0].size.x + i + 1] = color;
 	}
 }
 
