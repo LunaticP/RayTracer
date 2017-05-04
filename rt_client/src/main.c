@@ -6,11 +6,30 @@
 /*   By: jplevy <jplevy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/08 01:37:39 by jplevy            #+#    #+#             */
-/*   Updated: 2017/05/03 11:34:49 by aviau            ###   ########.fr       */
+/*   Updated: 2017/05/04 23:04:50 by aviau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <rt.h>
+
+t_data	str_to_data(char *str)
+{
+	t_data	data;
+
+	data = *(t_data *)ft_memalloc(sizeof(t_data));
+	data.size = *(int *)(&str[0]);
+	data.n_t = *(int *)(&str[4]);
+	data.n_o = *(int *)(&str[8]);
+	data.n_l = *(int *)(&str[12]);
+	data.tex = (int *)ft_memalloc(sizeof(int) * data.n_t);
+	ft_memcpy(data.tex, &str[16], sizeof(int) * data.n_t);
+	ft_memcpy(&data.cam, &str[16 + sizeof(int) * data.n_t], sizeof(t_cam));
+	data.obj = (t_obj *)ft_memalloc(sizeof(t_obj) * data.n_o);
+	ft_memcpy(data.obj, &str[16 + sizeof(int) * data.n_t + sizeof(t_cam)], sizeof(t_obj) * data.n_o);
+	data.light = (t_obj *)ft_memalloc(sizeof(t_obj) * data.n_l);
+	ft_memcpy(data.obj, &str[16 + sizeof(int) * data.n_t + sizeof(t_cam) * sizeof(t_obj) * data.n_o], sizeof(t_obj) * data.n_l);
+	return (data);
+}
 
 void	img_file(unsigned char *img, char *name, t_data *d)
 {
@@ -37,10 +56,10 @@ void	img_file(unsigned char *img, char *name, t_data *d)
 
 void	render(t_data *d, t_ocl_prog *prog)
 {
-	while(++d->s.cam.chunk.y < d->line + d->height)
+	while(++d->cam.chunk.y < d->line + d->height)
 	{
-		d->s.cam.chunk.x = -1;
-		while(++d->s.cam.chunk.x < d->scale)
+		d->cam.chunk.x = -1;
+		while(++d->cam.chunk.x < d->scale)
 			ocl_enqueue_kernel(prog, "raytracer");
 	}
 }
@@ -54,16 +73,16 @@ int		main(void)
 
 	if (!(ocl_new_prog("./cl_src/rt.cl", 0x1000000 , &prog)))
 		return (0);
-	d.s.cam.chunk.y = d.line - 1;
-	d.s.cam.viewplane.z = d.scale;
+	d.cam.chunk.y = d.line - 1;
+	d.cam.viewplane.z = d.scale;
 	img = (unsigned char *)ft_memalloc(d.width * d.height * 4);
 	pws[0] = d.width / d.scale;
 	pws[1] = d.height;
 	ocl_new_kernel(&prog, 5, pws, "norowowowowd", "raytracer", \
 			sizeof(int) * d.width * d.height, img, \
-			sizeof(t_cam), &(d.s.cam), \
-			sizeof(t_obj) * d.s.n_o, d.s.obj, \
-			sizeof(t_obj) * d.s.n_l, d.s.light, \
+			sizeof(t_cam), &(d.cam), \
+			sizeof(t_obj) * d.n_o, d.obj, \
+			sizeof(t_obj) * d.n_l, d.light, \
 			sizeof(int) * (d.tex[0] + 1), d.tex, 2);
 	render(&d, &prog);
 	img_file(img, (char *)"out.ppm", &d);
