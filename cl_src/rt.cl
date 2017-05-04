@@ -62,6 +62,7 @@ typedef struct		s_cam
 	float4			p;
 	float2			chunk;
 	short			fast;
+	short			dsr;
 }					t_cam;
 
 typedef struct		s_ray
@@ -82,7 +83,7 @@ float4	norm_cone(__global t_obj *o, float4 hit, int id, t_ray ray);
 float4	norm_cylindre(__global t_obj *o, float4 hit, int id, t_ray ray);
 float4	refl(float4 ray, float4 normale);
 float4	bilinear(float2 polar, __global int *tex);
-float4	ray_from_coord(size_t x, size_t y, __global t_cam *c);
+float4	ray_from_coord(size_t x, size_t y, __global t_cam *c, int mul);
 float	sq(float a);
 int		get_light(__global t_obj *o, __global t_obj *l, float4 hit);
 int		tex_num(int num, __global t_obj *o, int id, __global int *tex, float2 polar);
@@ -827,11 +828,11 @@ int				ray_match(__global t_obj *o, t_ray *ray)
 	return (ret);
 }
 
-float4			ray_from_coord(size_t x, size_t y, __global t_cam *c)
+float4			ray_from_coord(size_t x, size_t y, __global t_cam *c, int mul)
 {
 	float4		ret = 0;
-	ret += c->dirx * (c->p.x + ((float)x * c->viewplane.x / (float)c->size.x));
-	ret += c->diry * (c->p.y - ((float)y * c->viewplane.y / (float)c->size.y));
+	ret += c->dirx * (c->p.x + ((float)x * c->viewplane.x / (float)c->size.x * mul));
+	ret += c->diry * (c->p.y - ((float)y * c->viewplane.y / (float)c->size.y * mul));
 	ret += c->dirz * (c->p.z);
 	return ((ret));
 }
@@ -843,7 +844,7 @@ __kernel void	raytracer(
 			__global t_obj *l,
 			__global int* tex)
 {
-	t_ray	ray;
+	t_ray	ray; 
 	t_ray	tmp;
 	size_t			i = get_global_id(0);
 	size_t			j = get_global_id(1);
@@ -869,7 +870,7 @@ __kernel void	raytracer(
 	if (i < (size_t)c[0].size.x && j < (size_t)c[0].size.y)
 	{
 		string[j * c[0].size.x + i] = 0;
-		ray.dir = ray_from_coord(i, j, c);
+		ray.dir = ray_from_coord(i, j, c, 1);
 		ray.ori = c[0].ori;
 		r = 0;
 		g = 0;
@@ -941,7 +942,7 @@ __kernel void	rt_fast(
 	if (i < (size_t)c[0].size.x && j < (size_t)c[0].size.y)
 	{
 		string[j * c[0].size.x + i] = 0;
-		ray.dir = ray_from_coord(i, j, c);
+		ray.dir = ray_from_coord(i, j, c, c[0].dsr);
 		ray.ori = c[0].ori;
 		id = ray_match(o, &ray);
 		r = (o[id].col & 0xFF0000 / 0x10000) / ray.t;
@@ -978,7 +979,7 @@ __kernel void	rng(
 	int				lt;
 	if (i < (size_t)c[0].size.x && j < (size_t)c[0].size.y)
 	{
-		ray.dir = ray_from_coord(i, j, c);
+		ray.dir = ray_from_coord(i, j, c, 1);
 		ray.ori = c[0].ori;
 		if ((id = ray_match(o, &ray)) != -1)
 		{

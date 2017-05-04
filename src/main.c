@@ -6,7 +6,7 @@
 /*   By: jplevy <jplevy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/08 01:37:39 by jplevy            #+#    #+#             */
-/*   Updated: 2017/05/03 18:38:51 by aviau            ###   ########.fr       */
+/*   Updated: 2017/05/04 11:24:42 by aviau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 # define STEREO		0
 # define OUT_FILE	0
-# define CLUST		1
+# define CLUST		0
 
 cl_float4		vec_norm(cl_float4 vec)
 {
@@ -358,19 +358,32 @@ int		ray_loop(t_mlx *mlx)
 	if (mlx->key & REDRAW)
 	{
 		k_apply(mlx->key, &mlx->s);
-		while(!mlx->s.cam.fast && ++mlx->s.cam.chunk.y < mlx->s.cam.viewplane.z)
+		if (!CLUST)
 		{
-			while(++mlx->s.cam.chunk.x < mlx->s.cam.viewplane.z)
+			while(!mlx->s.cam.fast && ++mlx->s.cam.chunk.y < mlx->s.cam.viewplane.z)
 			{
-				ocl_enqueue_kernel(&(mlx->prog), "raytracer");
-				mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img, 0, 0);
-				mlx_do_sync(mlx->mlx);
+				while(++mlx->s.cam.chunk.x < mlx->s.cam.viewplane.z)
+				{
+					ocl_enqueue_kernel(&(mlx->prog), "raytracer");
+					mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img, 0, 0);
+					mlx_do_sync(mlx->mlx);
+				}
+				mlx->s.cam.chunk.x = -1.0f;
 			}
-			mlx->s.cam.chunk.x = -1.0f;
 		}
+//		else
+//		{
+//			while(++mlx->s.cam.chunk.y * 10 < HEIGHT)
+//			{
+//				send(client(t_data));
+//				join();
+//				mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img, 0, 0);
+//				mlx_do_sync(mlx->mlx);
+//			}
+//		}
 		if(mlx->s.cam.fast)
 			ocl_enqueue_kernel(&(mlx->prog), "rt_fast");
-		if(mlx->s.cam.fast == 0 && DSR > 1)
+		if(!mlx->s.cam.fast && DSR > 1)
 			dsr(mlx);
 		mlx->s.cam.chunk = (cl_float2){.x = -1.0f, .y = -1.0f};
 		if(STEREO)
@@ -411,6 +424,7 @@ int		main(int ac, char **av)
 	mlx.s.cam.viewplane.z = 10;
 	mlx.s.cam.chunk.x = -1;
 	mlx.s.cam.chunk.y = -1;
+	mlx.s.cam.dsr = 2;
 	mlx.p[0] = 0;
 	pws[0] = WIDTH / mlx.s.cam.viewplane.z;
 	pws[1] = HEIGHT / mlx.s.cam.viewplane.z;

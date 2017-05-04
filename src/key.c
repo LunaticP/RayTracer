@@ -6,7 +6,7 @@
 /*   By: aviau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/30 07:43:39 by aviau             #+#    #+#             */
-/*   Updated: 2017/05/03 11:52:24 by aviau            ###   ########.fr       */
+/*   Updated: 2017/05/04 11:04:15 by aviau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	k_press(int key, int *k)
 		*k += POS_YP;
 	if (P_DOWN && !(*k & POS_YM))
 		*k += POS_YM;
-	if (*k ^ REDRAW)
+	if (*k ^ REDRAW && !(SPACE))
 		*k |= REDRAW;
 }
 
