@@ -6,7 +6,7 @@
 /*   By: jplevy <jplevy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/11 06:10:10 by jplevy            #+#    #+#             */
-/*   Updated: 2017/04/28 02:03:27 by aviau            ###   ########.fr       */
+/*   Updated: 2017/05/04 10:57:32 by aviau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,11 @@
 # define RT_H
 
 # define USAGE "./rtv1 file\n"
-# define HEIGHT 1200
-# define WIDTH 1600
+# define DSR	2
+# define W		1280
+# define H		720
+# define WIDTH	W * (DSR > 1 ? DSR : 1)
+# define HEIGHT	H * (DSR > 1 ? DSR : 1)
 
 # include <libft.h>
 # include <libocl.h>
@@ -25,6 +28,7 @@
 # include <float.h>
 # include <math.h>
 # include <key.h>
+# include <pthread.h>
 
 typedef enum		e_type
 {
@@ -63,6 +67,7 @@ typedef struct 		s_obj
 	cl_float4		p3;
 	short			tex;
 	short			n_m;
+	short			r_m;
 }					t_obj;
 
 typedef struct		s_cam
@@ -72,8 +77,11 @@ typedef struct		s_cam
 	cl_float4		diry;
 	cl_float4		dirz;
 	cl_int2			size;
-	cl_float2		viewplane;
+	cl_float4		viewplane;
 	cl_float4		p;
+	cl_float2		chunk;
+	short			fast;
+	short			dsr;
 }					t_cam;
 
 typedef struct		s_scene
