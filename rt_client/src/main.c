@@ -6,7 +6,7 @@
 /*   By: jplevy <jplevy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/08 01:37:39 by jplevy            #+#    #+#             */
-/*   Updated: 2017/05/04 21:55:49 by vthomas          ###   ########.fr       */
+/*   Updated: 2017/05/04 22:47:29 by vthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,12 +56,12 @@ int		main(int ac, char **av)
 	if (ac != 2)
 		error_code(err_arg);
 	init_network(av[1]);
-//	if (!(ocl_new_prog("./cl_src/rt.cl", 0x1000000 , &prog)))
-//		return (0);
+	if (!(ocl_new_prog("./cl_src/rt.cl", 0x1000000 , &prog)))
+		return (0);
 //	d.s.cam.chunk.y = d.line - 1;
 //	d.s.cam.viewplane.z = d.scale;
 //	img = (unsigned char *)ft_memalloc(d.width * d.height * 4);
-//	pws[0] = d.width / d.scale;
+//	pws[0] = d.width / d.scale;//BUG: floating point exeption
 //	pws[1] = d.height;
 //	ocl_new_kernel(&prog, 5, pws, "norowowowowd", "raytracer", \
 //			sizeof(int) * d.width * d.height, img, \
