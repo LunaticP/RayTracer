@@ -3,16 +3,21 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jplevy <jplevy@student.42.fr>              +#+  +:+       +#+         #
+#    By: aviau <aviau@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/09/11 11:02:36 by aviau             #+#    #+#              #
-#    Updated: 2017/05/02 15:37:09 by aviau            ###   ########.fr        #
+#    Updated: 2017/05/04 20:38:20 by vthomas          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 OS = APPLE
 NAME = rtvocl
-SRC_NAME =	main.c
+SRC_NAME =	main.c\
+		   create_client.c\
+		   error.c\
+		   init_network.c\
+		   network_loop.c\
+		   receive.c
 INC_FILE = include/rt.h
 
 OBJ_NAME = $(SRC_NAME:.c=.o)
@@ -25,8 +30,8 @@ MLX=libmlx
 INC=-I./include -I./libft -I./libmatrix -I ./libocl
 ARG=-L./libft/ -L./libmatrix -L./libocl \
 	-lft -lmatrix -locl \
-	-framework opencl
-CFLAGS = -Wall -Wextra -Werror
+	-framework opencl -lpthread
+CFLAGS = -Wall -Wextra
 DEPDIR				= .deps/
 DEPFILES			= $(patsubst %.c,$(DEPDIR)%.d,$(SRC_NAME))
 
