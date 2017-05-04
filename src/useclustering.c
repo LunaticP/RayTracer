@@ -6,7 +6,7 @@
 /*   By: vthomas <vthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/04 13:30:08 by vthomas           #+#    #+#             */
-/*   Updated: 2017/05/04 13:44:31 by vthomas          ###   ########.fr       */
+/*   Updated: 2017/05/04 17:54:57 by vthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,14 @@
 
 int	useclustering(char **av)
 {
-	while (*av)
+	int i;
+
+	i = 0;
+	while (av[i])
 	{
-		if (ft_strcmp(*av, "cluster") == 0)
+		if (ft_strcmp(av[i], "cluster") == 0)
 			return (1);
-		*av = *av + 1;
+		i++;
 	}
 	return (0);
 }

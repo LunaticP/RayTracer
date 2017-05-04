@@ -6,16 +6,17 @@
 /*   By: vthomas <vthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/03 11:59:54 by vthomas           #+#    #+#             */
-/*   Updated: 2017/05/04 13:48:57 by vthomas          ###   ########.fr       */
+/*   Updated: 2017/05/04 18:52:52 by vthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef RT_NETWORK_H
 # define RT_NETWORK_H
-# define MAX_CLIENT	42
-# define PORT_MAX	50
-# define BASE_PORT	8327
-# define BUFF_LEN	1024
+# define MAX_CLIENT		42
+# define PORT_MAX		50
+# define BASE_PORT		1337
+# define BUFF_LEN		1024
+# define USE_CLUSTER	1
 # include <libft.h>
 # include <sys/socket.h>
 # include <netdb.h>

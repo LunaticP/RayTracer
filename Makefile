@@ -6,7 +6,7 @@
 #    By: aviau <aviau@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/09/11 11:02:36 by aviau             #+#    #+#              #
-#    Updated: 2017/05/04 13:39:39 by vthomas          ###   ########.fr        #
+#    Updated: 2017/05/04 18:01:12 by vthomas          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -101,5 +101,8 @@ re: fclean all
 
 print_rt:
 	@printf "\e[33mrtvocl"
+
+test: all
+	./$(NAME) ~/Downloads/tex/small.ppm
 endif
 .PHONY: fclean clean
