@@ -6,7 +6,7 @@
 /*   By: vthomas <vthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/03 12:28:11 by vthomas           #+#    #+#             */
-/*   Updated: 2017/05/03 12:37:47 by vthomas          ###   ########.fr       */
+/*   Updated: 2017/05/03 17:55:05 by vthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,10 @@ static void	server_error(t_server *s)
 	ft_putendl("An error occured on server creation...");
 	ft_memdel((void **)&s);
 }
-
+/*
+* thread for the server
+* Init the server and keep waiting for clients connections
+*/
 void		serverthread(void)
 {
 	t_server	*s;
