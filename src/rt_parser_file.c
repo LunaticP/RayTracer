@@ -13,7 +13,8 @@ typedef struct		s_type_elem
 static const t_type_elem tab_elem[] = {	{"objects{", &rt_parser_objects},
 										{"lights{", &rt_parser_lights},
 										{"camera{", &rt_parser_camera},
-										{"settings{", NULL},
+										{"settings{", NULL}, // need fonction for launch
+										{"textures{", &rt_parser_textures},
 										{"}", NULL}		};
 
 t_parser				*rt_parser_file(char *file)
@@ -22,12 +23,20 @@ t_parser				*rt_parser_file(char *file)
 	t_parser	*ptr_parser;
 	int			index;
 	int			size;
+	int			check;
 
+	check = 0;
 	parser = s_init_parser();
 	ptr_parser = parser;
-	size = sizeof(tab_elem) / sizeof(char *) - 1;
+	size = sizeof(tab_elem) / sizeof(t_type_elem) - 1;
 	while ((index = s_choice_lvl_1(&file, size)) != size)
 	{
+		if (index == TEXTURES)
+		{
+			if (check == 1)
+				exit_error("EXIT : [rt_parser_file.c]");
+			check = 1;
+		}
 		ptr_parser = tab_elem[index].ft_elem(file, ptr_parser);
 		file = rt_goto_bracket_close(file);
 	}

@@ -432,7 +432,7 @@ int		main(int ac, char **av)
 	if (!(ocl_new_prog("./cl_src/rt.cl", 0x1000000 , &(mlx.prog))))
 		return (0);
 	// mlx.s = ft_init_scene();
-	mlx.s = rt_get_parser(av[1]);
+	mlx = rt_get_parser(av[1], mlx); // mlx tex, return struct mlx
 	// mlx.tex = get_texture(&av[1]);
 	mlx.mlx = mlx_init();
 	mlx.win = mlx_new_window(mlx.mlx, WIDTH, HEIGHT, "rtvocl");

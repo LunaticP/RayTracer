@@ -76,7 +76,7 @@ typedef struct		s_cam
 	cl_float4		p;
 }
 					t_cam;
-/**/
+/* A voir si bien tout dans les settings */
 typedef struct 		s_set
 {
 	char			*name;
@@ -113,6 +113,7 @@ typedef struct		s_mlx
 	int				sl;
 	t_scene			s;
 	t_ocl_prog		prog;
+	// int				tab_size;
 }					t_mlx;
 
 void	k_press(int key, int *k);
@@ -129,9 +130,10 @@ typedef	enum		e_elem
 	OBJECTS,
 	LIGHTS,
 	CAMERA,
-	SETTINGS
+	SETTINGS,
+	TEXTURES,
+	SIZE
 }					t_elem;
-
 
 typedef struct 		s_parser
 {
@@ -140,7 +142,7 @@ typedef struct 		s_parser
 	struct s_parser		*next;
 }					t_parser;
 
-t_scene			rt_get_parser(char *path);
+t_mlx			rt_get_parser(char *path, t_mlx mlx);
 t_parser		*rt_parser_file(char *file);
 char			*rt_get_file(char *path);
 void			rt_free_after_parser(char *file, t_parser *parser);
@@ -148,6 +150,7 @@ void			rt_free_after_parser(char *file, t_parser *parser);
 t_parser		*rt_parser_objects(char	*file, t_parser *ptr_parser);
 t_parser		*rt_parser_camera(char *file, t_parser *parser);
 t_parser		*rt_parser_lights(char *file, t_parser *parser);
+t_parser		*rt_parser_textures(char *file, t_parser *parser);
 void			rt_get_object(t_obj *obj, char *file, int mask_type);
 
 void			***rt_list_to_tab(t_parser *parser);

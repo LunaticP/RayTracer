@@ -40,7 +40,8 @@ SRC_NAME =	main.c\
 			rt_parser_lights.c\
 			rt_parser_objects.c\
 			parser.c\
-			rt_list_to_tab.c
+			rt_list_to_tab.c\
+			rt_parser_textures.c
 
 INC_FILE = include/key.h\
 		   include/rt.h\
@@ -57,7 +58,7 @@ INC=-I./include -I./libft -I./libmlx -I./libmatrix -I ./libocl
 ARG=-L./libft/ -L./libmlx/ -L./libmatrix -L./libocl \
 	-lft -lmatrix -lmlx -locl \
 	-framework OpenGl -framework AppKit -framework opencl
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = 
 DEPDIR				= .deps/
 DEPFILES			= $(patsubst %.c,$(DEPDIR)%.d,$(SRC_NAME))
 
