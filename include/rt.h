@@ -6,7 +6,7 @@
 /*   By: jplevy <jplevy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/11 06:10:10 by jplevy            #+#    #+#             */
-/*   Updated: 2017/05/04 10:57:32 by aviau            ###   ########.fr       */
+/*   Updated: 2017/05/04 13:44:12 by vthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,8 @@ typedef struct		s_mlx
 	int				key;
 	int				bp;
 	int				sl;
+	int				cluster;
+	pthread_t		pthserv;
 	t_scene			s;
 	t_ocl_prog		prog;
 }					t_mlx;

@@ -6,7 +6,7 @@
 /*   By: vthomas <vthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/03 12:02:02 by vthomas           #+#    #+#             */
-/*   Updated: 2017/05/03 12:34:57 by vthomas          ###   ########.fr       */
+/*   Updated: 2017/05/04 13:47:18 by vthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 int	create_server(t_server *s)
 {
-	int						sock;
 	const struct protoent	*proto = getprotobyname("tcp");
 	struct sockaddr_in		sai;
 	int						ret;

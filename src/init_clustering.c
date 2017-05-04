@@ -1,22 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   getserver.c                                        :+:      :+:    :+:   */
+/*   init_clustering.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vthomas <vthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/05/03 12:21:13 by vthomas           #+#    #+#             */
-/*   Updated: 2017/05/04 13:47:49 by vthomas          ###   ########.fr       */
+/*   Created: 2017/05/04 13:31:13 by vthomas           #+#    #+#             */
+/*   Updated: 2017/05/04 13:45:02 by vthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <rt.h>
+#include <pthread.h>
 #include <rt_network.h>
 
-t_server	*getserver(int state, t_server *s)
+int	init_clustering(t_mlx *mlx, char **av)
 {
-	static t_server	*server = NULL;
-
-	if (state == 0)
-		server = s;
-	return (server);
+	if (!(mlx->cluster = useclustering(av)))
+		return (1);
+	//init server
+	pthread_create(&(mlx->pthserv), NULL, (void *)&serverthread, NULL);
+	return (0);
 }

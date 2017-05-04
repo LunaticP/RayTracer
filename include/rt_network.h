@@ -6,7 +6,7 @@
 /*   By: vthomas <vthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/03 11:59:54 by vthomas           #+#    #+#             */
-/*   Updated: 2017/05/03 12:36:15 by vthomas          ###   ########.fr       */
+/*   Updated: 2017/05/04 13:48:57 by vthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <netdb.h>
 # include <netinet/in.h>
 # include <arpa/inet.h>
+# include <rt.h>
 
 typedef enum	e_error
 {
@@ -53,5 +54,9 @@ void		serverthread(void);
 t_server	*getserver(int state, t_server *s);
 int			create_server(t_server *s);
 void		init_client(t_client *c);
+
+int			init_clustering(t_mlx *mlx, char **av);
+int			useclustering(char **av);
+int			show_serverinfo(t_server *s);
 
 #endif

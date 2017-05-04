@@ -6,11 +6,12 @@
 /*   By: jplevy <jplevy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/08 01:37:39 by jplevy            #+#    #+#             */
-/*   Updated: 2017/05/04 11:24:42 by aviau            ###   ########.fr       */
+/*   Updated: 2017/05/04 13:41:54 by vthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <rt.h>
+#include <rt_network.h>
 
 # define STEREO		0
 # define OUT_FILE	0
@@ -75,28 +76,28 @@ t_scene	ft_init_scene(void)
 	ret.light[1].col = 0xFFFFFF;
 	ret.light[1].type = light;
 	ret.light[1].r = 35.0;
-		
+
 	ret.light[2].pos.x = 0.0;
 	ret.light[2].pos.y = -5.0;
 	ret.light[2].pos.z = 0.0;
 	ret.light[2].col = 0xFFFFFF;
 	ret.light[2].type = light;
 	ret.light[2].r = 35.0;
-		
+
 	ret.light[3].pos.x = 0.0;
 	ret.light[3].pos.y = 5.0;
 	ret.light[3].pos.z = 0.0;
 	ret.light[3].col = 0xFFFFFF;
 	ret.light[3].type = light;
 	ret.light[3].r = 35.0;
-		
+
 	ret.light[4].pos.x = -5.0;
 	ret.light[4].pos.y = 0.0;
 	ret.light[4].pos.z = 0.0;
 	ret.light[4].col = 0xFFFFFF;
 	ret.light[4].type = light;
 	ret.light[4].r = 35.0;
-		
+
 	ret.light[5].pos.x = 5.0;
 	ret.light[5].pos.y = 0.0;
 	ret.light[5].pos.z = 0.0;
@@ -277,7 +278,7 @@ t_scene	ft_init_scene(void)
 
 void	img_file(unsigned char *img, char *name)
 {
-	int fd; 
+	int fd;
 	int	i;
 
 	fd = open(name, O_CREAT | O_TRUNC | O_WRONLY, 0775);
@@ -358,7 +359,7 @@ int		ray_loop(t_mlx *mlx)
 	if (mlx->key & REDRAW)
 	{
 		k_apply(mlx->key, &mlx->s);
-		if (!CLUST)
+		if (!mlx->cluster)
 		{
 			while(!mlx->s.cam.fast && ++mlx->s.cam.chunk.y < mlx->s.cam.viewplane.z)
 			{
@@ -426,16 +427,17 @@ int		main(int ac, char **av)
 	mlx.s.cam.chunk.y = -1;
 	mlx.s.cam.dsr = 2;
 	mlx.p[0] = 0;
+	init_clustering(&mlx, av);
 	pws[0] = WIDTH / mlx.s.cam.viewplane.z;
 	pws[1] = HEIGHT / mlx.s.cam.viewplane.z;
 	pws_f[0] = W / 2;
 	pws_f[1] = H / 2;
 	mlx.key = REDRAW;
 	ocl_new_kernel(&(mlx.prog), 5, pws, "norowowowowd", "raytracer", WIDTH * HEIGHT
-			* sizeof(int), mlx.p, sizeof(t_cam), &(mlx.s.cam), sizeof(t_obj) * 13, 
+			* sizeof(int), mlx.p, sizeof(t_cam), &(mlx.s.cam), sizeof(t_obj) * 13,
 			mlx.s.obj, sizeof(t_obj) * 7, mlx.s.light, sizeof(int) * (mlx.tex[0] + 1), mlx.tex, 2);
 	ocl_new_kernel(&(mlx.prog), 5, pws_f, "norowowd", "rt_fast", WIDTH * HEIGHT
-			* sizeof(int), mlx.p, sizeof(t_cam), &(mlx.s.cam), sizeof(t_obj) * 13, 
+			* sizeof(int), mlx.p, sizeof(t_cam), &(mlx.s.cam), sizeof(t_obj) * 13,
 			mlx.s.obj, 2);
 	ocl_new_kernel(&(mlx.prog), 3, pws, "norowowd", "cpy", WIDTH * HEIGHT
 			* sizeof(int), mlx.atmp, WIDTH * HEIGHT * sizeof(int), mlx.p, sizeof(size_t) * 2, pws, 2);
