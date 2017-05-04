@@ -6,7 +6,7 @@
 /*   By: jplevy <jplevy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/08 01:37:39 by jplevy            #+#    #+#             */
-/*   Updated: 2017/05/04 11:24:42 by aviau            ###   ########.fr       */
+/*   Updated: 2017/05/04 19:57:37 by aviau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 # define STEREO		0
 # define OUT_FILE	0
-# define CLUST		0
+# define CLUST		1
 
 cl_float4		vec_norm(cl_float4 vec)
 {
@@ -105,6 +105,7 @@ t_scene	ft_init_scene(void)
 	ret.light[5].r = 35.0;
 
 	ret.light[6].type = end;
+	ret.n_l = 7;
 
 	ret.obj = ft_memalloc(sizeof(t_obj) * 13);
 
@@ -272,6 +273,8 @@ t_scene	ft_init_scene(void)
 	ret.obj[11].r = 5.0;
 
 	ret.obj[12].type = end;
+	
+	ret.n_o = 13;
 	return (ret);
 }
 
@@ -353,14 +356,61 @@ void	dsr(t_mlx *mlx)
 	}
 }
 
+char	*memjoin(char *dst, char *src, int sdst, int ssrc)
+{
+	char *mem;
+
+	mem = (char *)ft_memalloc(sizeof(char) * (ssrc + sdst));
+	ft_memcpy(mem, dst, sdst);
+	ft_memcpy(&mem[sdst], src, ssrc);
+	free(dst);
+	return (mem);
+}
+
+void	pr_mem(char *str, int n)
+{
+	int		i;
+
+	i = -1;
+	printf("{");
+	while (++i < n)
+		printf("%02X ",(unsigned char)str[i]);
+	printf("}\n");
+}
+
+char	*data_to_str(t_mlx *data)
+{
+	char	*str;
+	int		size;
+
+	size = sizeof(int) * (3 + data->tex[0]);
+	size += sizeof(t_cam);
+	size += sizeof(t_obj) * (data->s.n_o + data->s.n_l);
+	str = (char *)ft_memalloc(size + 16);
+	str = memjoin(str, (char *)&size, 0, sizeof(int));
+	str = memjoin(str, (char *)&(data->tex[0]), 4, sizeof(int));
+	str = memjoin(str, (char *)&(data->s.n_o), 8, sizeof(int));
+	str = memjoin(str, (char *)&(data->s.n_l), 12, sizeof(int));
+	str = memjoin(str, (char *)data->tex, 16, sizeof(int) * data->tex[0]);
+	str = memjoin(str, (char *)&(data->s.cam), \
+	16 + sizeof(int) * data->tex[0], sizeof(t_cam));
+	str = memjoin(str, (char *)data->s.obj, 16 + sizeof(int) * data->tex[0] \
+	+ sizeof(t_cam), sizeof(t_obj) * data->s.n_o);
+	str = memjoin(str, (char *)data->s.light, 15 + sizeof(int) * data->tex[0] \
+	+ sizeof(t_cam) + sizeof(t_obj) * data->s.n_o, sizeof(t_obj) * data->s.n_l);
+	return (str);
+}
+
 int		ray_loop(t_mlx *mlx)
 {
+	char *send;
+
 	if (mlx->key & REDRAW)
 	{
 		k_apply(mlx->key, &mlx->s);
 		if (!CLUST)
-		{
-			while(!mlx->s.cam.fast && ++mlx->s.cam.chunk.y < mlx->s.cam.viewplane.z)
+		{ 
+		 	while(!mlx->s.cam.fast && ++mlx->s.cam.chunk.y < mlx->s.cam.viewplane.z)
 			{
 				while(++mlx->s.cam.chunk.x < mlx->s.cam.viewplane.z)
 				{
@@ -371,16 +421,20 @@ int		ray_loop(t_mlx *mlx)
 				mlx->s.cam.chunk.x = -1.0f;
 			}
 		}
-//		else
-//		{
+/* ******************************* NETWORKING ******************************* */
+		else if (!mlx->s.cam.fast)
+		{
+			send = data_to_str(mlx);
+//			init_clients();
 //			while(++mlx->s.cam.chunk.y * 10 < HEIGHT)
 //			{
-//				send(client(t_data));
+//				send();
 //				join();
 //				mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img, 0, 0);
 //				mlx_do_sync(mlx->mlx);
 //			}
-//		}
+		}
+/* ************************************************************************** */
 		if(mlx->s.cam.fast)
 			ocl_enqueue_kernel(&(mlx->prog), "rt_fast");
 		if(!mlx->s.cam.fast && DSR > 1)
@@ -432,10 +486,10 @@ int		main(int ac, char **av)
 	pws_f[1] = H / 2;
 	mlx.key = REDRAW;
 	ocl_new_kernel(&(mlx.prog), 5, pws, "norowowowowd", "raytracer", WIDTH * HEIGHT
-			* sizeof(int), mlx.p, sizeof(t_cam), &(mlx.s.cam), sizeof(t_obj) * 13, 
-			mlx.s.obj, sizeof(t_obj) * 7, mlx.s.light, sizeof(int) * (mlx.tex[0] + 1), mlx.tex, 2);
+			* sizeof(int), mlx.p, sizeof(t_cam), &(mlx.s.cam), sizeof(t_obj) * mlx.s.n_o, 
+			mlx.s.obj, sizeof(t_obj) * mlx.s.n_l, mlx.s.light, sizeof(int) * (mlx.tex[0] + 1), mlx.tex, 2);
 	ocl_new_kernel(&(mlx.prog), 5, pws_f, "norowowd", "rt_fast", WIDTH * HEIGHT
-			* sizeof(int), mlx.p, sizeof(t_cam), &(mlx.s.cam), sizeof(t_obj) * 13, 
+			* sizeof(int), mlx.p, sizeof(t_cam), &(mlx.s.cam), sizeof(t_obj) * mlx.s.n_o, 
 			mlx.s.obj, 2);
 	ocl_new_kernel(&(mlx.prog), 3, pws, "norowowd", "cpy", WIDTH * HEIGHT
 			* sizeof(int), mlx.atmp, WIDTH * HEIGHT * sizeof(int), mlx.p, sizeof(size_t) * 2, pws, 2);
