@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jplevy <jplevy@student.42.fr>              +#+  +:+       +#+         #
+#    By: aviau <aviau@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/09/11 11:02:36 by aviau             #+#    #+#              #
-#    Updated: 2017/04/27 06:21:13 by pgourran         ###   ########.fr        #
+#    Updated: 2017/05/04 18:01:12 by vthomas          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,15 @@ OS = APPLE
 NAME = rtvocl
 SRC_NAME =	main.c\
 			key.c\
-			texture.c
+			texture.c\
+			useclustering.c\
+			init_clustering.c\
+			network/create/create_server.c\
+			network/create/getserver.c\
+			network/create/init_client.c\
+			network/create/serverthread.c\
+			network/create/show_serverinfo.c
+
 INC_FILE = include/key.h\
 		   include/rt.h
 
@@ -24,11 +32,16 @@ OBJ_PATH = ./obj/
 SRC=$(addprefix $(SRC_PATH),$(SRC_NAME))
 OBJ=$(addprefix $(OBJ_PATH),$(OBJ_NAME))
 
+OBJ_SUB = network\
+		  network/create
+
+
 MLX=libmlx
 INC=-I./include -I./libft -I./libmlx -I./libmatrix -I ./libocl
 ARG=-L./libft/ -L./libmlx/ -L./libmatrix -L./libocl \
 	-lft -lmatrix -lmlx -locl \
-	-framework OpenGl -framework AppKit -framework opencl
+	-framework OpenGl -framework AppKit -framework opencl\
+	-lpthread
 CFLAGS = -Wall -Wextra -Werror
 DEPDIR				= .deps/
 DEPFILES			= $(patsubst %.c,$(DEPDIR)%.d,$(SRC_NAME))
@@ -66,7 +79,7 @@ lib:
 #	@make -C ./libft
 #	@make -C ./libmatrix
 $(OBJ_PATH)%.o: $(SRC_PATH)%.c $(INC_FILE)
-	-@mkdir -p $(OBJ_PATH)
+	-@mkdir -p $(OBJ_PATH) $(addprefix $(OBJ_PATH),$(OBJ_SUB))
 	@gcc $(CFLAGS) -c -o $@ $< $(INC)
 
 clean:
@@ -88,5 +101,8 @@ re: fclean all
 
 print_rt:
 	@printf "\e[33mrtvocl"
+
+test: all
+	./$(NAME) ~/Downloads/tex/small.ppm
 endif
 .PHONY: fclean clean

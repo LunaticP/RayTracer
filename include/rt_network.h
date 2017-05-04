@@ -6,21 +6,23 @@
 /*   By: vthomas <vthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/03 11:59:54 by vthomas           #+#    #+#             */
-/*   Updated: 2017/05/03 12:36:15 by vthomas          ###   ########.fr       */
+/*   Updated: 2017/05/04 18:52:52 by vthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef RT_NETWORK_H
 # define RT_NETWORK_H
-# define MAX_CLIENT	42
-# define PORT_MAX	50
-# define BASE_PORT	8327
-# define BUFF_LEN	1024
+# define MAX_CLIENT		42
+# define PORT_MAX		50
+# define BASE_PORT		1337
+# define BUFF_LEN		1024
+# define USE_CLUSTER	1
 # include <libft.h>
 # include <sys/socket.h>
 # include <netdb.h>
 # include <netinet/in.h>
 # include <arpa/inet.h>
+# include <rt.h>
 
 typedef enum	e_error
 {
@@ -53,5 +55,9 @@ void		serverthread(void);
 t_server	*getserver(int state, t_server *s);
 int			create_server(t_server *s);
 void		init_client(t_client *c);
+
+int			init_clustering(t_mlx *mlx, char **av);
+int			useclustering(char **av);
+int			show_serverinfo(t_server *s);
 
 #endif

@@ -1,22 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   getserver.c                                        :+:      :+:    :+:   */
+/*   useclustering.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vthomas <vthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/05/03 12:21:13 by vthomas           #+#    #+#             */
-/*   Updated: 2017/05/04 13:47:49 by vthomas          ###   ########.fr       */
+/*   Created: 2017/05/04 13:30:08 by vthomas           #+#    #+#             */
+/*   Updated: 2017/05/04 17:54:57 by vthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <rt_network.h>
+#include <rt.h>
 
-t_server	*getserver(int state, t_server *s)
+int	useclustering(char **av)
 {
-	static t_server	*server = NULL;
+	int i;
 
-	if (state == 0)
-		server = s;
-	return (server);
+	i = 0;
+	while (av[i])
+	{
+		if (ft_strcmp(av[i], "cluster") == 0)
+			return (1);
+		i++;
+	}
+	return (0);
 }

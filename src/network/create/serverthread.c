@@ -6,7 +6,7 @@
 /*   By: vthomas <vthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/03 12:28:11 by vthomas           #+#    #+#             */
-/*   Updated: 2017/05/03 17:55:05 by vthomas          ###   ########.fr       */
+/*   Updated: 2017/05/04 13:48:30 by vthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ static void	server_error(t_server *s)
 void		serverthread(void)
 {
 	t_server	*s;
-	int			r;
 	int			i;
 
 	s = (t_server *)ft_memalloc(sizeof(s));
