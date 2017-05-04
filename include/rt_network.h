@@ -6,7 +6,7 @@
 /*   By: vthomas <vthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/03 11:59:54 by vthomas           #+#    #+#             */
-/*   Updated: 2017/05/04 18:52:52 by vthomas          ###   ########.fr       */
+/*   Updated: 2017/05/04 21:54:31 by vthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define RT_NETWORK_H
 # define MAX_CLIENT		42
 # define PORT_MAX		50
-# define BASE_PORT		1337
+# define BASE_PORT		1490
 # define BUFF_LEN		1024
 # define USE_CLUSTER	1
 # include <libft.h>
