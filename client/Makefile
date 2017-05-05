@@ -6,7 +6,7 @@
 #    By: vthomas <vthomas@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/09 14:25:33 by vthomas           #+#    #+#              #
-#    Updated: 2017/05/04 10:49:43 by vthomas          ###   ########.fr        #
+#    Updated: 2017/05/04 14:01:45 by vthomas          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ CC = clang
 CFLAGS = -Wall -Wextra -g -Os -Ofast
 #CFLAGS =
 
-PARAMS = e1r2p3 8327
+PARAMS = e1r2p3 MajorTom
 
 DBG_OUT = /dev/null
 

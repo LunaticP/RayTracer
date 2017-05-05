@@ -3,151 +3,132 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: pgourran <marvin@42.fr>                    +#+  +:+       +#+         #
+#    By: vthomas <vthomas@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2015/11/30 21:57:41 by pgourran          #+#    #+#              #
-#    Updated: 2017/02/15 20:13:48 by pgourran         ###   ########.fr        #
+#    Created: 2016/09/10 21:34:05 by vthomas           #+#    #+#              #
+#    Updated: 2016/10/27 16:21:40 by vthomas          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
+NAME = libft
+SRC_PATH = ./src/
+SRC_NAME = list/ft_lstadd.c\
+		   list/ft_lstdel.c\
+		   list/ft_lstdelone.c\
+		   list/ft_lstiter.c\
+		   list/ft_lstmap.c\
+		   list/ft_lstnew.c\
+		   math/ft_abs.c\
+		   math/ft_pow.c\
+		   math/ft_tpow.c\
+		   mem/ft_bzero.c\
+		   mem/ft_memalloc.c\
+		   mem/ft_memccpy.c\
+		   mem/ft_memchr.c\
+		   mem/ft_memcmp.c\
+		   mem/ft_memcpy.c\
+		   mem/ft_memdel.c\
+		   mem/ft_memmove.c\
+		   mem/ft_memset.c\
+		   mem/ft_memswitch.c\
+		   print/ft_putchar.c\
+		   print/ft_putchar_fd.c\
+		   print/ft_putendl.c\
+		   print/ft_putendl_fd.c\
+		   print/ft_putnbr.c\
+		   print/ft_putnbr_desc.c\
+		   print/ft_putnbr_endl.c\
+		   print/ft_putnbr_fd.c\
+		   print/ft_putstr.c\
+		   print/ft_putstr_fd.c\
+		   str/char/ft_isalnum.c\
+		   str/char/ft_isalpha.c\
+		   str/char/ft_isascii.c\
+		   str/char/ft_isdigit.c\
+		   str/char/ft_isprint.c\
+		   str/char/ft_tolower.c\
+		   str/char/ft_toupper.c\
+		   str/conv/ft_atoi.c\
+		   str/conv/ft_itoa.c\
+		   str/str/ft_freejoin.c\
+		   str/str/ft_strcat.c\
+		   str/str/ft_strchr.c\
+		   str/str/ft_strclr.c\
+		   str/str/ft_strcmp.c\
+		   str/str/ft_strcpy.c\
+		   str/str/ft_strdel.c\
+		   str/str/ft_strdup.c\
+		   str/str/ft_strequ.c\
+		   str/str/ft_striter.c\
+		   str/str/ft_striteri.c\
+		   str/str/ft_strjoin.c\
+		   str/str/ft_strlcat.c\
+		   str/str/ft_strlen.c\
+		   str/str/ft_strlower.c\
+		   str/str/ft_strmap.c\
+		   str/str/ft_strmapi.c\
+		   str/str/ft_strncat.c\
+		   str/str/ft_strncmp.c\
+		   str/str/ft_strncpy.c\
+		   str/str/ft_strnequ.c\
+		   str/str/ft_strnew.c\
+		   str/str/ft_strnstr.c\
+		   str/str/ft_strrchr.c\
+		   str/str/ft_strsplit.c\
+		   str/str/ft_strstr.c\
+		   str/str/ft_strsub.c\
+		   str/str/ft_strtabdel.c\
+		   str/str/ft_strtrim.c
+OBJ_PATH = ./obj/
+INC_PATH = ./
+INC_NAME = libft.h
+INC = $(addprefix -I, $(INC_PATH))
+CC = clang
+CFLAGS = -Werror -Wall -Wextra -Ofast -Os
+OBJ_NAME = $(SRC_NAME:.c=.o)
+SRC = $(addprefix $(SRC_PATH),$(SRC_NAME))
+OBJ = $(addprefix $(OBJ_PATH),$(OBJ_NAME))
+LIB_NAME = libft.a
+LIB_PATH = ./
+LIB = $(addprefix $(LIB_PATH),$(LIB_NAME))
 
+all: $(NAME)
+$(NAME): $(OBJ) $(LIB)
 
-NAME	= libft.a
-SHELL	= /bin/sh
-RM		= /bin/rm
+$(OBJ_PATH)%.o: $(SRC_PATH)%.c
+	@mkdir -p $(OBJ_PATH)
+	@mkdir -p $(OBJ_PATH)/list
+	@mkdir -p $(OBJ_PATH)/math
+	@mkdir -p $(OBJ_PATH)/mem
+	@mkdir -p $(OBJ_PATH)/print
+	@mkdir -p $(OBJ_PATH)/str
+	@mkdir -p $(OBJ_PATH)/str/char
+	@mkdir -p $(OBJ_PATH)/str/conv
+	@mkdir -p $(OBJ_PATH)/str/str
+	$(CC) $(CFLAGS) -c $(INC) -o $@ $<
 
-ARFLAG	= rcs
-CC		= gcc
-CFLAG	= -Wall -Werror -Wextra
-OBJ		= $(SRC:.c=.o)
-SRC		= ft_atoi.c\
-		  ft_bzero.c\
-		  ft_isalnum.c\
-		  ft_isalpha.c\
-		  ft_isascii.c\
-		  ft_isdigit.c\
-		  ft_isprint.c\
-		  ft_itoa.c\
-		  ft_memalloc.c\
-		  ft_memchr.c\
-		  ft_memcmp.c\
-		  ft_memcpy.c\
-		  ft_memccpy.c\
-		  ft_memdel.c\
-		  ft_memmove.c\
-		  ft_memset.c\
-		  ft_putchar.c\
-		  ft_putchar_fd.c\
-		  ft_putendl.c\
-		  ft_putendl_fd.c\
-		  ft_putnbr.c\
-		  ft_putnbr_fd.c\
-		  ft_putstr.c\
-		  ft_putstr_fd.c\
-		  ft_strjoin.c\
-		  ft_strjoinfree.c\
-		  ft_strcat.c\
-		  ft_strchr.c\
-		  ft_strclr.c\
-		  ft_strcmp.c\
-		  ft_strcpy.c\
-		  ft_strdel.c\
-		  ft_strdup.c\
-		  ft_strequ.c\
-		  ft_striter.c\
-		  ft_striteri.c\
-		  ft_strlcat.c\
-		  ft_strlen.c\
-		  ft_strmap.c\
-		  ft_strmapi.c\
-		  ft_strncat.c\
-		  ft_strncmp.c\
-		  ft_strncpy.c\
-		  ft_strnequ.c\
-		  ft_strnew.c\
-		  ft_strnstr.c\
-		  ft_strrchr.c\
-		  ft_strstr.c\
-		  ft_strsub.c\
-		  ft_strsubfree.c\
-		  ft_strtrim.c\
-		  ft_tolower.c\
-		  ft_toupper.c\
-		  ft_strsplit.c\
-		  ft_sizeint.c\
-		  ft_pow.c\
-		  ft_lstadd.c\
-		  ft_lstdel.c\
-		  ft_lstdelone.c\
-		  ft_lstiter.c\
-		  ft_lstmap.c\
-		  ft_lstnew.c\
-		  ft_isprime.c\
-		  ft_sqrt.c\
-		  ft_puttab.c\
-		  ft_lstlen.c\
-		  get_next_line.c\
-		  ft_lstpushback.c\
-		  ft_put_array.c\
-		  ft_put_tab_array.c\
-		  ft_freeinttab.c\
-		  get_file.c\
-		  ft_lsttotab.c
-
-I		= $$(($(words $(SRC)) / 2))
-K		= $$(($(I) * 2 + 1))
-n ?= $(I)
-j ?= $(K)
-
-all: swag $(NAME)
-	@printf "\033[33mLIBFT\033[0m\t\t\t\t\t\t\t\t   [\033[92mDONE\033[39m]\n"
-	@j=$(j); \
-	while [ $${j} -gt 0 ] ; do \
-	printf "-"; \
-	j=`expr $$j - 1`; \
-	done; \
-	true
-	@echo ""
-
-swag:
-	@j=$(j); \
-	while [ $${j} -gt 0 ] ; do \
-	printf "-"; \
-	j=`expr $$j - 1`; \
-	done; \
-	true
-	@echo ""
-	@n=$(n); \
-	while [ $${n} -gt 0 ] ; do \
-	printf " "; \
-	n=`expr $$n - 1`; \
-	done; \
-	true
-	@echo "LIBFT"
-	@j=$(j); \
-	while [ $${j} -gt 0 ] ; do \
-	printf "-"; \
-	j=`expr $$j - 1`; \
-	done; \
-	true
-	@echo ""
-	@printf "\033[32;7m"
-
-$(NAME): $(OBJ)
-	@echo "\033[0m"
-	@printf "\033[33mBIN\033[0m\t\t\t\t\t\t\t       [\033[92mCOMPILED\033[39m]\n"
-	@ar $(ARFLAG) $(NAME) $(OBJ)
-#	@echo "$(NAME) is: OK"
-%.o: %.c
-	@printf " "
-	@$(CC) $(CFLAG) -I includes -o $@ -c $<
+$(LIB):
+	@ar rc $@ $(OBJ)
+	@ranlib $@
 
 clean:
-	@rm -rf $(OBJ)
-#	@echo "clean obj: done"
+	@/bin/rm -rf $(OBJ)
 
 fclean: clean
-	@rm -rf $(NAME)
-#	@echo "clean $(NAME): done"
+	@/bin/rm -rf $(OBJ_PATH)
+	@/bin/rm -rf $(NAME)
+	@/bin/rm -rf $(LIB)
 
 re: fclean all
+
+test: re
+	@clear
+	@$(CC) $(CFLAGS) $(INC) main.c $(LIB)
+	@./a.out | cat -e
+	@/bin/rm -rf a.out
+	@(cd ./ && $(MAKE) fclean)
+
+norme:
+	@clear
+	@norminette $(SRC) $(INC_PATH)*.h
+.PHONY: fclean clean

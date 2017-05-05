@@ -1,37 +1,44 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   message.c                                          :+:      :+:    :+:   */
+/*   broadcast.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vthomas <vthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/05/02 14:12:07 by vthomas           #+#    #+#             */
-/*   Updated: 2017/05/04 12:20:26 by vthomas          ###   ########.fr       */
+/*   Created: 2017/05/04 12:39:45 by vthomas           #+#    #+#             */
+/*   Updated: 2017/05/04 12:46:11 by vthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
 #include <ft_server.h>
 
-void	message(t_client **c)
+t_client	*client_list(int i, t_client *liste)
 {
-	int		i;
-	int		l;
-	char	buf[BUFF_LEN];
+	static t_client *c = NULL;
 
-	while ((l = read(0, buf, BUFF_LEN)))
+	if (i == 0)
+		c = liste;
+	return (c);
+}
+
+void broadcast(char *msg, t_client sender)
+{
+	t_client	*c;
+	int			i;
+
+	c = client_list(1, NULL);
+	i = 0;
+	while (i < MAX_CLIENT)
 	{
-		buf[l] = '\0';
-		i = 0;
-		while (i < MAX_CLIENT)
+		if (c[i].socket)
 		{
-			if ((*c)[i].socket)
+			if (c[i].socket != sender.socket)
 			{
-				ft_putnbr_endl(i);
-				write((*c)[i].socket, buf, l);
-				ft_putnbr_fd(i, (*c)[i].socket);
+				ft_putstr_fd(msg, c[i].socket);
+				//write(c[i].socket, msg, l);
 			}
-			i++;
 		}
+		i++;
 	}
 }

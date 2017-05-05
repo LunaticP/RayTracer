@@ -6,7 +6,7 @@
 #    By: vthomas <vthomas@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/09 14:25:33 by vthomas           #+#    #+#              #
-#    Updated: 2017/05/04 10:23:27 by vthomas          ###   ########.fr        #
+#    Updated: 2017/05/04 12:45:32 by vthomas          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,10 +22,10 @@ DBG_OUT = /dev/null
 SRC_NAME = main.c\
 		   error.c\
 		   client.c\
-		   create_sendclient.c\
 		   create_server.c\
 		   message.c\
-		   searchclient.c
+		   searchclient.c\
+		   broadcast.c
 
 OBJ_NAME = $(SRC_NAME:.c=.o)
 

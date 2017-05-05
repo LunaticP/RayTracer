@@ -26,11 +26,13 @@ typedef struct s_client
 	int					port;
 }				t_client;
 
-void	error_code(int code);
-int		create_server();
-void	client_read(t_client *c_tmp);
-int		create_sendclient(t_client *client);
-void	message(t_client **c);
-int		searchclient(t_client *c, int newc);
+void		error_code(int code);
+int			create_server();
+void		client_read(t_client *c_tmp);
+int			create_sendclient(t_client *client);
+void		message(t_client **c);
+int			searchclient(t_client *c, int newc);
+void		broadcast(char *msg, t_client sender);
+t_client	*client_list(int i, t_client *liste);
 
 #endif
