@@ -1,21 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   show_serverinfo.c                                  :+:      :+:    :+:   */
+/*   getmessage.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vthomas <vthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/05/03 12:37:58 by vthomas           #+#    #+#             */
-/*   Updated: 2017/05/05 13:10:25 by vthomas          ###   ########.fr       */
+/*   Created: 2017/05/05 13:22:04 by vthomas           #+#    #+#             */
+/*   Updated: 2017/05/05 13:52:47 by vthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <rt_network.h>
 
-int	show_serverinfo(t_server *s)
+char	*getmessage(t_client *c)
 {
-	ft_putstr("Server started on port ");
-	ft_putnbr(s->port);
-	ft_putchar('\n');
-	return (0);
+	while ((c->len = recv(c->sock, c->buf, BUFF_LEN, 0)))
+		;
+	close(c->sock);
+	return (NULL);
 }

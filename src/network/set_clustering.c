@@ -1,21 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   show_serverinfo.c                                  :+:      :+:    :+:   */
+/*   set_clustering.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vthomas <vthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/05/03 12:37:58 by vthomas           #+#    #+#             */
-/*   Updated: 2017/05/05 13:10:25 by vthomas          ###   ########.fr       */
+/*   Created: 2017/05/05 12:45:56 by vthomas           #+#    #+#             */
+/*   Updated: 2017/05/05 12:59:49 by vthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <rt_network.h>
 
-int	show_serverinfo(t_server *s)
+int		set_clustering(void)
 {
-	ft_putstr("Server started on port ");
-	ft_putnbr(s->port);
-	ft_putchar('\n');
-	return (0);
+	t_server *s;
+
+	s = getserver(1, NULL);
+	if (s != NULL)
+		return (s->render = !(s->render));
+	return (-1);
 }

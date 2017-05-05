@@ -1,16 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   k_press.c                                          :+:      :+:    :+:   */
+/*   key.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aviau <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: aviau <aviau@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/30 07:43:39 by aviau             #+#    #+#             */
-/*   Updated: 2017/05/04 11:04:15 by aviau            ###   ########.fr       */
+/*   Updated: 2017/05/05 13:11:48 by vthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
+#include <rt_network.h>
 
 void	k_press(int key, int *k)
 {
@@ -49,6 +50,7 @@ int		k_rel(int key, void *param)
 		*k -= POS_YM;
 	if (SPACE)
 	{
+		set_clustering();
 		if (*k & BSPACE)
 			*k -= BSPACE;
 		else

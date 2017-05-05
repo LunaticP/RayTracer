@@ -6,7 +6,7 @@
 #    By: aviau <aviau@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/09/11 11:02:36 by aviau             #+#    #+#              #
-#    Updated: 2017/05/05 11:40:56 by vthomas          ###   ########.fr        #
+#    Updated: 2017/05/05 13:26:25 by vthomas          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,12 +18,14 @@ SRC_NAME =	main.c\
 			useclustering.c\
 			init_clustering.c\
 			network/ft_sleep.c\
+			network/set_clustering.c\
 			network/create/create_server.c\
 			network/create/getserver.c\
 			network/create/init_client.c\
 			network/create/serverthread.c\
 			network/create/show_serverinfo.c\
-			network/client/client.c
+			network/client/client.c\
+			network/client/getmessage.c
 
 INC_FILE = include/key.h\
 		   include/rt.h
