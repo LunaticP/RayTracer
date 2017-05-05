@@ -6,7 +6,7 @@
 #    By: aviau <aviau@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/09/11 11:02:36 by aviau             #+#    #+#              #
-#    Updated: 2017/05/04 18:01:12 by vthomas          ###   ########.fr        #
+#    Updated: 2017/05/05 11:40:56 by vthomas          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,11 +17,13 @@ SRC_NAME =	main.c\
 			texture.c\
 			useclustering.c\
 			init_clustering.c\
+			network/ft_sleep.c\
 			network/create/create_server.c\
 			network/create/getserver.c\
 			network/create/init_client.c\
 			network/create/serverthread.c\
-			network/create/show_serverinfo.c
+			network/create/show_serverinfo.c\
+			network/client/client.c
 
 INC_FILE = include/key.h\
 		   include/rt.h
@@ -33,7 +35,8 @@ SRC=$(addprefix $(SRC_PATH),$(SRC_NAME))
 OBJ=$(addprefix $(OBJ_PATH),$(OBJ_NAME))
 
 OBJ_SUB = network\
-		  network/create
+		  network/create\
+		  network/client
 
 
 MLX=libmlx
@@ -42,7 +45,7 @@ ARG=-L./libft/ -L./libmlx/ -L./libmatrix -L./libocl \
 	-lft -lmatrix -lmlx -locl \
 	-framework OpenGl -framework AppKit -framework opencl\
 	-lpthread
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra
 DEPDIR				= .deps/
 DEPFILES			= $(patsubst %.c,$(DEPDIR)%.d,$(SRC_NAME))
 

@@ -6,8 +6,24 @@
 #include <netdb.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
+#include <time.h>
 
 #include <errno.h>
+
+static void ft_wait(int t)
+{
+	time_t	timedelay;
+	time_t	start;
+
+	time(&start);
+	while (1)
+	{
+		time(&timedelay);
+		if ((timedelay - start) >= t)
+			return ;
+	}
+	return ;
+}
 
 int	create_client(char *addr, int port)
 {
@@ -43,7 +59,7 @@ int	create_client(char *addr, int port)
 		{
 			ft_putendl("Can't connect... retry");
 			close(sock);
-			sleep(10);
+			ft_wait(10);
 		}
 	}
 	ft_putstr("Connected port: ");

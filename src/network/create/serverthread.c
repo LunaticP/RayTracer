@@ -6,7 +6,7 @@
 /*   By: vthomas <vthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/03 12:28:11 by vthomas           #+#    #+#             */
-/*   Updated: 2017/05/04 13:48:30 by vthomas          ###   ########.fr       */
+/*   Updated: 2017/05/05 11:39:54 by vthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,22 +28,24 @@ void		serverthread(void)
 
 	s = (t_server *)ft_memalloc(sizeof(s));
 	i = 0;
+
 	if (create_server(s) != 0)
 	{
 		server_error(s);
 		return ;
 	}
-	init_client(s->c);
 	getserver(0, s);
 	show_serverinfo(s);
 	while (i < MAX_CLIENT)
 	{
-		s->c[i].socket = accept(s->sock,
+		s->c[i].sock = accept(s->sock,
 			(struct sockaddr *)&(s->c[i].addr), &(s->c[i].sock_len));
-		if (s->c[i].socket == -1)
+		if (s->c[i].sock == -1)
 			continue;
 		s->c[i].id = i;
 		s->nb = ++i;
-		//CREATE THREAD FOR CLIENT READ
+		pthread_create(&(s->cth[i]), NULL, (void *)client, (void *)&(s->c[i]));
+		ft_putendl("\033[33mlog\033[0m - thread started !");
+		ft_sleep(1);
 	}
 }

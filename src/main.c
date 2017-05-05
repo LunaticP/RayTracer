@@ -6,7 +6,7 @@
 /*   By: jplevy <jplevy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/08 01:37:39 by jplevy            #+#    #+#             */
-/*   Updated: 2017/05/04 20:02:02 by aviau            ###   ########.fr       */
+/*   Updated: 2017/05/05 11:24:33 by vthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -274,7 +274,7 @@ t_scene	ft_init_scene(void)
 	ret.obj[11].r = 5.0;
 
 	ret.obj[12].type = end;
-	
+
 	ret.n_o = 13;
 	return (ret);
 }
@@ -425,7 +425,7 @@ int		ray_loop(t_mlx *mlx)
 /* ******************************* NETWORKING ******************************* */
 		else if (!mlx->s.cam.fast)
 		{
-			send = data_to_str(mlx);
+//			send = data_to_str(mlx);
 //			init_clients();
 //			while(++mlx->s.cam.chunk.y * 10 < HEIGHT)
 //			{
@@ -488,10 +488,10 @@ int		main(int ac, char **av)
 	pws_f[1] = H / 2;
 	mlx.key = REDRAW;
 	ocl_new_kernel(&(mlx.prog), 5, pws, "norowowowowd", "raytracer", WIDTH * HEIGHT
-			* sizeof(int), mlx.p, sizeof(t_cam), &(mlx.s.cam), sizeof(t_obj) * mlx.s.n_o, 
+			* sizeof(int), mlx.p, sizeof(t_cam), &(mlx.s.cam), sizeof(t_obj) * mlx.s.n_o,
 			mlx.s.obj, sizeof(t_obj) * mlx.s.n_l, mlx.s.light, sizeof(int) * (mlx.tex[0] + 1), mlx.tex, 2);
 	ocl_new_kernel(&(mlx.prog), 5, pws_f, "norowowd", "rt_fast", WIDTH * HEIGHT
-			* sizeof(int), mlx.p, sizeof(t_cam), &(mlx.s.cam), sizeof(t_obj) * mlx.s.n_o, 
+			* sizeof(int), mlx.p, sizeof(t_cam), &(mlx.s.cam), sizeof(t_obj) * mlx.s.n_o,
 			mlx.s.obj, 2);
 	ocl_new_kernel(&(mlx.prog), 3, pws, "norowowd", "cpy", WIDTH * HEIGHT
 			* sizeof(int), mlx.atmp, WIDTH * HEIGHT * sizeof(int), mlx.p, sizeof(size_t) * 2, pws, 2);

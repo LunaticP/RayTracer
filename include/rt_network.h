@@ -6,7 +6,7 @@
 /*   By: vthomas <vthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/03 11:59:54 by vthomas           #+#    #+#             */
-/*   Updated: 2017/05/04 21:54:31 by vthomas          ###   ########.fr       */
+/*   Updated: 2017/05/05 11:40:12 by vthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ typedef enum	e_error
 
 typedef struct s_client
 {
-	int					socket;
+	int					sock;
 	int					send_socket;
 	struct sockaddr_in	addr;
 	char				buf[BUFF_LEN];
@@ -46,6 +46,7 @@ typedef struct s_client
 typedef struct s_server
 {
 	t_client	c[MAX_CLIENT];
+	pthread_t	cth[MAX_CLIENT];
 	int			sock;
 	int			port;
 	int			nb;
@@ -55,9 +56,12 @@ void		serverthread(void);
 t_server	*getserver(int state, t_server *s);
 int			create_server(t_server *s);
 void		init_client(t_client *c);
+void		client(t_client c);
 
 int			init_clustering(t_mlx *mlx, char **av);
 int			useclustering(char **av);
 int			show_serverinfo(t_server *s);
+
+void		ft_sleep(int t);
 
 #endif

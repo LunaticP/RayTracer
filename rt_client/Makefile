@@ -6,7 +6,7 @@
 #    By: aviau <aviau@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/09/11 11:02:36 by aviau             #+#    #+#              #
-#    Updated: 2017/05/04 20:38:20 by vthomas          ###   ########.fr        #
+#    Updated: 2017/05/05 10:51:32 by vthomas          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -88,5 +88,8 @@ re: fclean all
 
 print_rt:
 	@printf "\e[33mrtvocl"
+
+test: all
+	./$(NAME) 10.11.1.1
 endif
 .PHONY: fclean clean

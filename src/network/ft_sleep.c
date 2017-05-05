@@ -1,38 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   receive.c                                          :+:      :+:    :+:   */
+/*   ft_sleep.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vthomas <vthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/05/02 14:02:45 by vthomas           #+#    #+#             */
-/*   Updated: 2017/05/05 09:09:38 by vthomas          ###   ########.fr       */
+/*   Created: 2017/05/05 11:39:21 by vthomas           #+#    #+#             */
+/*   Updated: 2017/05/05 11:39:46 by vthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <libft.h>
 #include <rt_network.h>
 
-void receive(t_client *c)
+void	ft_sleep(int t)
 {
-	int			r;
-	char		buf[BUFF_LEN];
+	time_t	timedelay;
+	time_t	start;
 
-	ft_putendl("START READ");
-	while ((r = recv(c->sock, buf, BUFF_LEN, 0)) != 0)
+	time(&start);
+	while (1)
 	{
-		if (r == -1)
-			continue;
-		buf[r] = '\0';
-		if (buf[r - 1] == '\n')
-			buf[r - 1] = '\0';
-		//ft_putstr("RECEIVED: ");
-		ft_putchar('\a');
-		ft_putendl(buf);
-		ft_strclr(buf);
+		time(&timedelay);
+		if ((timedelay - start) >= t)
+			return ;
 	}
-	close(c->sock);
-	ft_bzero((void *)c, sizeof(c));
-	c->number = -1;
-	ft_putendl("END READ");
+	return ;
 }

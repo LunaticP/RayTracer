@@ -6,6 +6,7 @@
 # define BASE_PORT	1490
 # define BUFF_LEN 1024
 # include <netinet/in.h>
+# include <pthread.h>
 
 typedef enum	e_error
 {

@@ -6,13 +6,28 @@
 /*   By: vthomas <vthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/04 20:11:23 by vthomas           #+#    #+#             */
-/*   Updated: 2017/05/04 21:51:17 by vthomas          ###   ########.fr       */
+/*   Updated: 2017/05/05 10:38:51 by vthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <rt_network.h>
 #include <libft.h>
 #include <pthread.h>
+
+static void ft_wait(int t)
+{
+	time_t	timedelay;
+	time_t	start;
+
+	time(&start);
+	while (1)
+	{
+		time(&timedelay);
+		if ((timedelay - start) >= t)
+			return ;
+	}
+	return ;
+}
 
 static int	sf_getid(int sock)
 {
@@ -35,12 +50,12 @@ void		network_loop(char *poste)
 	{
 		c.sock = create_client(poste, port);
 		ft_putendl("Client created");
-		c.number = 1;//sf_getid(c.sock);
+		c.number = sf_getid(c.sock);
 		pthread_create(&pth[0], NULL, (void *)&receive, (void *)&c);//Reception
 		while (c.number >= 0)
-			sleep(1);
+			ft_wait(1);
 		ft_putendl("restart connection...");
-		sleep(5);
+		ft_wait(5);
 	}
 	close(c.sock);
 }
