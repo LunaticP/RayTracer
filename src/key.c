@@ -6,7 +6,7 @@
 /*   By: aviau <aviau@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/30 07:43:39 by aviau             #+#    #+#             */
-/*   Updated: 2017/05/05 13:11:48 by vthomas          ###   ########.fr       */
+/*   Updated: 2017/05/05 17:01:59 by vthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int		k_rel(int key, void *param)
 		*k -= POS_YM;
 	if (SPACE)
 	{
-		set_clustering();
+		server_render();
 		if (*k & BSPACE)
 			*k -= BSPACE;
 		else

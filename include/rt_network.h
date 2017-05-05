@@ -6,7 +6,7 @@
 /*   By: vthomas <vthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/03 11:59:54 by vthomas           #+#    #+#             */
-/*   Updated: 2017/05/05 14:42:44 by vthomas          ###   ########.fr       */
+/*   Updated: 2017/05/05 17:47:18 by vthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,21 +53,16 @@ typedef struct s_server
 	int			render;
 }				t_server;
 
-void		serverthread(void);
-t_server	*getserver(int state, t_server *s);
-int			create_server(t_server *s);
-void		init_client(t_client *c);
-
-void		client(t_client *c);
-char		*getmessage(t_client *c);
-
 int			init_clustering(t_mlx *mlx, char **av);
-int			useclustering(char **av);
-int			show_serverinfo(t_server *s);
+int			create_server(t_server *s);
+void		init_server(t_server *s);
+void		rt_listen(t_server *s);
 
-int			set_clustering(void);
+t_server	*server(int status, t_server *serv);
+int			server_render(void);
 
-void		ft_sleep(int t);
+void		error_code(int code);
+
 void		print_log(char *str);
 void		print_warning(char *str);
 void		print_error(char *str);

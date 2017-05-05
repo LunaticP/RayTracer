@@ -1,16 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   create_server.c                                    :+:      :+:    :+:   */
+/*   init_clustering.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vthomas <vthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/05/03 12:02:02 by vthomas           #+#    #+#             */
-/*   Updated: 2017/05/05 11:04:52 by vthomas          ###   ########.fr       */
+/*   Created: 2017/05/05 16:44:10 by vthomas           #+#    #+#             */
+/*   Updated: 2017/05/05 17:59:18 by vthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <rt_network.h>
+#include <rt.h>
+#include <pthread.h>
+
+void init_server(t_server *s)
+{
+	print_log("server starting...");
+	create_server(s);
+	print_info("server started on port:");
+	print_info(ft_itoa(s->port));
+	rt_listen(s);
+}
 
 int	create_server(t_server *s)
 {
@@ -19,10 +30,10 @@ int	create_server(t_server *s)
 	int						ret;
 
 	ret = -1;
-	s->sock = socket(PF_INET, SOCK_STREAM, proto->p_proto);
 	s->port = BASE_PORT;
+	s->sock = socket(PF_INET, SOCK_STREAM, proto->p_proto);
 	if (s->sock == -1)
-		return (err_socket);
+		error_code(err_socket);
 	while (ret == -1 && s->port < BASE_PORT + PORT_MAX)
 	{
 		sai.sin_family = AF_INET;
@@ -35,7 +46,36 @@ int	create_server(t_server *s)
 			break ;
 	}
 	if (s->port >= BASE_PORT + PORT_MAX)
-		return (err_bind);
+		error_code(err_bind);
 	listen(s->sock, MAX_CLIENT);
+	return (s->sock);
+}
+
+int	init_clustering(t_mlx *mlx, char **av)
+{
+	int			i;
+	int			set;
+	t_server	*serv;
+
+	i = -1;
+	set = USE_CLUSTER;
+	while (av[++i])
+	{
+		if (ft_strcmp(av[i], "--cluster") == 0)
+		{
+			set = 1;
+			break;
+		}
+	}
+	if (set)
+	{
+		mlx->cluster = 1;
+		serv = ft_memalloc(sizeof(t_server));
+		server(1, serv);
+		pthread_create(&(mlx->pthserv), NULL,
+		(void *)init_server, (void *)serv);
+	}
+	else
+		mlx->cluster = 0;
 	return (0);
 }

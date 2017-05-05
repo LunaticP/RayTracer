@@ -6,7 +6,7 @@
 #    By: aviau <aviau@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/09/11 11:02:36 by aviau             #+#    #+#              #
-#    Updated: 2017/05/05 14:40:05 by vthomas          ###   ########.fr        #
+#    Updated: 2017/05/05 17:46:57 by vthomas          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,18 +15,12 @@ NAME = rtvocl
 SRC_NAME =	main.c\
 			key.c\
 			texture.c\
-			useclustering.c\
-			init_clustering.c\
-			network/ft_sleep.c\
-			network/info/server_info.c\
-			network/set_clustering.c\
-			network/create/create_server.c\
-			network/create/getserver.c\
-			network/create/init_client.c\
-			network/create/serverthread.c\
-			network/create/show_serverinfo.c\
-			network/client/client.c\
-			network/client/getmessage.c
+			message_info.c\
+			network/error.c\
+			network/init_clustering.c\
+			network/listener.c\
+			network/render.c\
+			network/server.c
 
 INC_FILE = include/key.h\
 		   include/rt.h
@@ -37,10 +31,7 @@ OBJ_PATH = ./obj/
 SRC=$(addprefix $(SRC_PATH),$(SRC_NAME))
 OBJ=$(addprefix $(OBJ_PATH),$(OBJ_NAME))
 
-OBJ_SUB = network\
-		  network/create\
-		  network/client\
-		  network/info
+OBJ_SUB = network
 
 
 MLX=libmlx
@@ -98,10 +89,10 @@ clean:
 	@printf "\e[33mobjects\t\t\e[31m[CLEAN]\e[0m\n"
 
 fclean: clean
-	@rm $(NAME)
-	@make -C ./libft $@
-	@make -C ./libmatrix $@
-	@make -C ./libocl $@
+	-@rm $(NAME)
+	-@make -C ./libft $@
+	-@make -C ./libmatrix $@
+	-@make -C ./libocl $@
 	@printf "\e[33mrtvocl\t\t\e[31m[CLEAN]\e[0m\n"
 
 re: fclean all

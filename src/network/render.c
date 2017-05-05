@@ -1,22 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_network.c                                     :+:      :+:    :+:   */
+/*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vthomas <vthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/05/04 20:09:31 by vthomas           #+#    #+#             */
-/*   Updated: 2017/05/04 20:40:06 by vthomas          ###   ########.fr       */
+/*   Created: 2017/05/05 17:00:07 by vthomas           #+#    #+#             */
+/*   Updated: 2017/05/05 17:02:07 by vthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <libft.h>
 #include <rt_network.h>
-#include <pthread.h>
 
-void	init_network(char *arg)
+int	server_render(void)
 {
-	pthread_t	pth;
+	t_server *serv;
 
-	pthread_create(&pth, NULL, (void *)network_loop, arg);
+	serv = server(0, NULL);
+	if (serv == NULL)
+		return (-1);
+	serv->render = !serv->render;
+	return (serv->render);
 }

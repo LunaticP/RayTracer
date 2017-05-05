@@ -1,22 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   getserver.c                                        :+:      :+:    :+:   */
+/*   server.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vthomas <vthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/05/03 12:21:13 by vthomas           #+#    #+#             */
-/*   Updated: 2017/05/04 13:47:49 by vthomas          ###   ########.fr       */
+/*   Created: 2017/05/05 16:56:21 by vthomas           #+#    #+#             */
+/*   Updated: 2017/05/05 16:59:17 by vthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <rt_network.h>
+#include <libft.h>
 
-t_server	*getserver(int state, t_server *s)
+t_server	*server(int status, t_server *serv)
 {
-	static t_server	*server = NULL;
+	static t_server *saved = NULL;
 
-	if (state == 0)
-		server = s;
-	return (server);
+	if (status)
+		saved = serv;
+	return (saved);
 }
