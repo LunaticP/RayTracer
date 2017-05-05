@@ -6,7 +6,7 @@
 /*   By: vthomas <vthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/02 11:27:13 by vthomas           #+#    #+#             */
-/*   Updated: 2017/05/05 19:19:05 by vthomas          ###   ########.fr       */
+/*   Updated: 2017/05/05 19:23:30 by vthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,6 @@ void error_code(int code)
 	else if (code == err_connect)
 		ft_putendl("connect error");
 	else if (code == err_arg)
-		ft_putendl("Error argument invalid: ./client <address> <port>");
+		ft_putendl("Error argument invalid: ./client <address>");
 	exit(-1);
 }
