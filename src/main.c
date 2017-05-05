@@ -6,7 +6,7 @@
 /*   By: jplevy <jplevy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/08 01:37:39 by jplevy            #+#    #+#             */
-/*   Updated: 2017/05/05 11:24:33 by vthomas          ###   ########.fr       */
+/*   Updated: 2017/05/05 11:46:45 by vthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -357,14 +357,14 @@ void	dsr(t_mlx *mlx)
 	}
 }
 
-char	*memjoin(char *dst, char *src, int sdst, int ssrc)
+void	*memjoin(char *dst, char *src, int sdst, int ssrc)
 {
-	char *mem;
+	void *mem;
 
-	mem = (char *)ft_memalloc(sizeof(char) * (ssrc + sdst));
+	mem = ft_memalloc(sizeof(char) * (ssrc + sdst));
 	ft_memcpy(mem, dst, sdst);
 	ft_memcpy(&mem[sdst], src, ssrc);
-	free(dst);
+//	free(dst);
 	return (mem);
 }
 
@@ -394,11 +394,11 @@ char	*data_to_str(t_mlx *data)
 	str = memjoin(str, (char *)&(data->s.n_l), 12, sizeof(int));
 	str = memjoin(str, (char *)data->tex, 16, sizeof(int) * data->tex[0]);
 	str = memjoin(str, (char *)&(data->s.cam), \
-	16 + sizeof(int) * data->tex[0], sizeof(t_cam));
+			16 + sizeof(int) * data->tex[0], sizeof(t_cam));
 	str = memjoin(str, (char *)data->s.obj, 16 + sizeof(int) * data->tex[0] \
-	+ sizeof(t_cam), sizeof(t_obj) * data->s.n_o);
+			+ sizeof(t_cam), sizeof(t_obj) * data->s.n_o);
 	str = memjoin(str, (char *)data->s.light, 15 + sizeof(int) * data->tex[0] \
-	+ sizeof(t_cam) + sizeof(t_obj) * data->s.n_o, sizeof(t_obj) * data->s.n_l);
+			+ sizeof(t_cam) + sizeof(t_obj) * data->s.n_o, sizeof(t_obj) * data->s.n_l);
 	return (str);
 }
 
@@ -426,13 +426,21 @@ int		ray_loop(t_mlx *mlx)
 		else if (!mlx->s.cam.fast)
 		{
 //			send = data_to_str(mlx);
+//			pr_mem(send, *(int *)(&send[0]));
 //			init_clients();
-//			while(++mlx->s.cam.chunk.y * 10 < HEIGHT)
+//			while(mlx->s.cam.chunk.y * 10 < HEIGHT)
 //			{
-//				send();
-//				join();
-//				mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img, 0, 0);
-//				mlx_do_sync(mlx->mlx);
+//				send(client, line, scale);
+//				if (client_return())
+//				{
+//					join(mlx->p, client.img);
+//					mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img, 0, 0);
+//					mlx_do_sync(mlx->mlx);
+//				}
+//				if (!client_free(clients))
+//					;
+//				else
+//					++mlx->s.cam.chunk.y;
 //			}
 		}
 /* ************************************************************************** */
