@@ -205,27 +205,6 @@ float4		norm_cylindre(__global t_obj *o, float4 hit, int id, t_ray ray)
 	return(ret);
 }
 
-/*float4			get_normale(float4 hit, __global t_obj *o,int id)
-{
-   switch (o[id].type) {
-   case sphere :
-   return(norm_sphere(o, hit, id));
-   break;
-   case plan :
-   return(norm_plan(o, hit, id));
-   break;
-   case triangle :
-   return(norm_tri(o, hit, id));
-   break;
-   case cylindre :
-   return(norm_cyl(o, hit, id));
-   break;
-   case cone :
-   return(norm_cone(o, hit, id));
-   break;
-   }
-}*/
-
 float4			refl(float4 ray, float4 normale)
 {
 	float4		ret;
@@ -269,8 +248,8 @@ int				get_light(__global t_obj *o, __global t_obj *l, float4 hit)
 			col.z += (l[i].col & 0xFF);
 		}
 	}
-//	if(nb); 
-		col /= nb;
+	//	if(nb); 
+	col /= nb;
 	color += (((int)col.x) &  0xFF0000) / 0x10000;
 	color += (((int)col.y) & 0xFF00) / 0x100;
 	color += (((int)col.z) & 0xFF);
@@ -285,47 +264,47 @@ float4			bilinear(float2 polar, __global int *tex)
 	float4	out;
 
 	ir.x = ((int)polar.x * tex[1] + ((int)polar.y + 1) < tex[0]) ? \
-	   (float)((tex[(int)polar.x * tex[1] + ((int)polar.y + 1)] & 0xFF0000) / 0x10000) : 255;
+		   (float)((tex[(int)polar.x * tex[1] + ((int)polar.y + 1)] & 0xFF0000) / 0x10000) : 255;
 	ir.y = ((int)(polar.x + 1) * tex[1] + ((int)polar.y + 1) < tex[0]) ? \
-     (float)((tex[(int)(polar.x + 1) * tex[1] + ((int)polar.y + 1)] & 0xFF0000) / 0x10000) : 255;
+		   (float)((tex[(int)(polar.x + 1) * tex[1] + ((int)polar.y + 1)] & 0xFF0000) / 0x10000) : 255;
 	ir.z = ((int)polar.x * tex[1] + (int)polar.y < tex[0]) ? \
-     (float)((tex[(int)polar.x * tex[1] + (int)polar.y] & 0xFF0000) / 0x10000) : 255;
+		   (float)((tex[(int)polar.x * tex[1] + (int)polar.y] & 0xFF0000) / 0x10000) : 255;
 	ir.w = ((int)(polar.x + 1) * tex[1] + (int)polar.y < tex[0]) ? \
-     (float)((tex[(int)(polar.x + 1) * tex[1] + (int)polar.y] & 0xFF0000) / 0x10000) : 255;
+		   (float)((tex[(int)(polar.x + 1) * tex[1] + (int)polar.y] & 0xFF0000) / 0x10000) : 255;
 	ig.x = ((int)polar.x * tex[1] + ((int)polar.y + 1) < tex[0]) ? \
-     (float)((tex[(int)polar.x * tex[1] + ((int)polar.y + 1)] & 0xFF00) / 0x100) : 255;
+		   (float)((tex[(int)polar.x * tex[1] + ((int)polar.y + 1)] & 0xFF00) / 0x100) : 255;
 	ig.y = ((int)(polar.x + 1) * tex[1] + ((int)polar.y + 1) < tex[0]) ? \
-     (float)((tex[(int)(polar.x + 1) * tex[1] + ((int)polar.y + 1)] & 0xFF00) / 0x100) : 255;
+		   (float)((tex[(int)(polar.x + 1) * tex[1] + ((int)polar.y + 1)] & 0xFF00) / 0x100) : 255;
 	ig.z = ((int)polar.x * tex[1] + (int)polar.y < tex[0]) ? \
-     (float)((tex[(int)polar.x * tex[1] + (int)polar.y] & 0xFF00) / 0x100) : 255;
+		   (float)((tex[(int)polar.x * tex[1] + (int)polar.y] & 0xFF00) / 0x100) : 255;
 	ig.w = ((int)(polar.x + 1) * tex[1] + (int)polar.y < tex[0]) ? \
-     (float)((tex[(int)(polar.x + 1) * tex[1] + (int)polar.y] & 0xFF00) / 0x100) : 255;
+		   (float)((tex[(int)(polar.x + 1) * tex[1] + (int)polar.y] & 0xFF00) / 0x100) : 255;
 	ib.x = ((int)polar.x * tex[1] + ((int)polar.y + 1) < tex[0]) ? \
-     (float) (tex[(int)polar.x * tex[1] + ((int)polar.y + 1)] & 0xFF) : 255;
+		   (float) (tex[(int)polar.x * tex[1] + ((int)polar.y + 1)] & 0xFF) : 255;
 	ib.y = ((int)(polar.x + 1) * tex[1] + ((int)polar.y + 1) < tex[0]) ? \
-     (float) (tex[(int)(polar.x + 1) * tex[1] + ((int)polar.y + 1)] & 0xFF) : 255;
+		   (float) (tex[(int)(polar.x + 1) * tex[1] + ((int)polar.y + 1)] & 0xFF) : 255;
 	ib.z = ((int)polar.x * tex[1] + (int)polar.y < tex[0]) ? \
-     (float) (tex[(int)polar.x * tex[1] + (int)polar.y] & 0xFF) : 255;
+		   (float) (tex[(int)polar.x * tex[1] + (int)polar.y] & 0xFF) : 255;
 	ib.w = ((int)(polar.x + 1) * tex[1] + (int)polar.y < tex[0]) ? \
-		(float) (tex[(int)(polar.x + 1) * tex[1] + (int)polar.y] & 0xFF) : 255;
+		   (float) (tex[(int)(polar.x + 1) * tex[1] + (int)polar.y] & 0xFF) : 255;
 	ir.x = (ceil(polar.x) - polar.x) / (ceil(polar.x) - floor(polar.x)) * ir.x + \
 		   (polar.x - floor(polar.x)) / (ceil(polar.x) - floor(polar.x)) * ir.y;
 	ir.y = (ceil(polar.x) - polar.x) / (ceil(polar.x) - floor(polar.x)) * ir.z + \
 		   (polar.x - floor(polar.x)) / (ceil(polar.x) - floor(polar.x)) * ir.w;
 	out.x = (ceil(polar.y) - polar.y) / (ceil(polar.y) - floor(polar.y)) * ir.y + \
-		   (polar.y - floor(polar.y)) / (ceil(polar.y) - floor(polar.y)) * ir.x;
+			(polar.y - floor(polar.y)) / (ceil(polar.y) - floor(polar.y)) * ir.x;
 	ig.x = (ceil(polar.x) - polar.x) / (ceil(polar.x) - floor(polar.x)) * ig.x + \
 		   (polar.x - floor(polar.x)) / (ceil(polar.x) - floor(polar.x)) * ig.y;
 	ig.y = (ceil(polar.x) - polar.x) / (ceil(polar.x) - floor(polar.x)) * ig.z + \
 		   (polar.x - floor(polar.x)) / (ceil(polar.x) - floor(polar.x)) * ig.w;
 	out.y = (ceil(polar.y) - polar.y) / (ceil(polar.y) - floor(polar.y)) * ig.y + \
-		   (polar.y - floor(polar.y)) / (ceil(polar.y) - floor(polar.y)) * ig.x;
+			(polar.y - floor(polar.y)) / (ceil(polar.y) - floor(polar.y)) * ig.x;
 	ib.x = (ceil(polar.x) - polar.x) / (ceil(polar.x) - floor(polar.x)) * ib.x + \
 		   (polar.x - floor(polar.x)) / (ceil(polar.x) - floor(polar.x)) * ib.y;
 	ib.y = (ceil(polar.x) - polar.x) / (ceil(polar.x) - floor(polar.x)) * ib.z + \
 		   (polar.x - floor(polar.x)) / (ceil(polar.x) - floor(polar.x)) * ib.w;
 	out.z = (ceil(polar.y) - polar.y) / (ceil(polar.y) - floor(polar.y)) * ib.y + \
-		   (polar.y - floor(polar.y)) / (ceil(polar.y) - floor(polar.y)) * ib.x;
+			(polar.y - floor(polar.y)) / (ceil(polar.y) - floor(polar.y)) * ib.x;
 	return (out);
 }
 
@@ -346,17 +325,17 @@ int				tex_num(int num, __global t_obj *o, int id, __global int *tex, float2 pol
 	if (o[id].type == sphere)
 	{
 		out = (int)(polar.x * (float)tex[j + 1] / M_PI) * tex[j] \
-			+ (int)(polar.y * (float)tex[j] / M_PI) + j + 2;
+			  + (int)(polar.y * (float)tex[j] / M_PI) + j + 2;
 	}
 	if (o[id].type == plan)
 	{
 		out = (int)((polar.x / 10) * (float)tex[j + 1]) % tex[j] * tex[j] \
-			+ (int)((polar.y / 10) * (float)tex[j]) + j + 2;
+			  + (int)((polar.y / 10) * (float)tex[j]) + j + 2;
 	}
 	if (o[id].type == cone || o[id].type == cylindre)
 	{
 		out = abs((int)(polar.x / 10 * (float)tex[j + 1]) % tex[j + 1]) * tex[j] \
-  			+ (int)(polar.y * tex[j] / M_PI) % tex[j] + j + 2;
+			  + (int)(polar.y * tex[j] / M_PI) % tex[j] + j + 2;
 	}
 	return (out > tex[0] || out < 0 ? 0 : out);
 }
@@ -411,7 +390,7 @@ int				diffuse(__global t_obj *o,float *t, __global t_obj *l, t_ray ray, int id,
 	{
 		normale = norm_cone(o, hit, id, ray);
 		ctsn = ctsn * cos(angle) + cross(axis, ctsn) * sin(angle) + axis * dot(axis, ctsn) * (1 - cos(angle));
-		polar.x = ctsn.y;
+		polar.x = (ctsn.y - (5.0 * (ctsn.y > 0 ? 1.0 : -1.0))) * -1.0;
 		polar.y = atan(ctsn.x / ctsn.z) + M_PI_2_F;
 	}
 	else if (o[id].type == cylindre)
@@ -451,8 +430,8 @@ int				diffuse(__global t_obj *o,float *t, __global t_obj *l, t_ray ray, int id,
 	b = (color & 0xFF);
 	if ((lol = ray_match(o, &shad)) != -1 && shad.t < norme && o[id].pos.w < 0.5f)
 	{
-//		if (o[id].pos.w > 0.5f)
-//			return (o[lol].col);
+		//		if (o[id].pos.w > 0.5f)
+		//			return (o[lol].col);
 		r /= 50;
 		g /= 50;
 		b /= 50;
@@ -537,7 +516,7 @@ int				ray_neg(__global t_obj *o, t_ray *ray, float2 *t)
 							else if (ray2.t <= t->x && ray2.t2 >= t->x && ray2.t2 <= t->y)
 							{
 								t->x = ray2.t2;
-								t->y = t->x;
+								t->y = ray2.t2;
 								ret = i + 1;
 							}
 							else if (ray2.t < t->x && ray2.t2 > t->y)
@@ -589,7 +568,7 @@ int				rt_plan(__global t_obj *o, int i, t_ray *ray)
 	t.x = dot(o[i].pos + EPSILON - ray->ori, o[i].dir) / d;
 	t.y = t.x;
 	if (t.x > EPSILON && (t.x < ray->t || ray->t <= EPSILON)
-		&& ray_neg(o, ray, &t) > 0)
+			&& ray_neg(o, ray, &t) > 0)
 	{
 		ray->t = t.x;
 		return (d > 0 ? -1 : 1);
@@ -758,7 +737,7 @@ int				rt_para(__global t_obj *o, t_ray *ray)
 	rcp = *ray;
 	opos = o->pos;
 	pos = rcp.ori - opos;
-//	float4	k = dot(pos, o->dir);
+	//	float4	k = dot(pos, o->dir);
 	a = dot(rcp.dir, rcp.dir) - pow(dot(rcp.dir, o->dir), 2);
 	b = 2.0f * (dot(rcp.dir, pos) - dot(rcp.dir, o->dir));// * (dot(pos, o->dir) + 2 * k));
 	c = dot(pos, pos) - dot(pos, o->dir) * (dot(pos, o->dir));// + 4 * k);
@@ -787,7 +766,7 @@ int				ray_match(__global t_obj *o, t_ray *ray)
 	ray->t = 0;
 	while (o[++i].type != end)
 	{
-		if (o[i].pos.w < 0.5f && o[i].dir.w < 0.5f)
+		if (o[i].pos.w < 0.5f)
 		{
 			switch (o[i].type)
 			{
@@ -815,11 +794,11 @@ int				ray_match(__global t_obj *o, t_ray *ray)
 							ret = (i2 > 0) ? i2 : i;
 					}
 					break;
-			case para :
-				{
-					if ((ray->imp = rt_para(&(o[i]), ray)) != 0)
-						ret = i;
-				}
+				case para :
+					{
+						if ((ray->imp = rt_para(&(o[i]), ray)) != 0)
+							ret = i;
+					}
 				default :
 					break;
 			}
@@ -834,15 +813,15 @@ float4			ray_from_coord(size_t x, size_t y, __global t_cam *c, int mul)
 	ret += c->dirx * (c->p.x + ((float)x * c->viewplane.x / (float)c->size.x * mul));
 	ret += c->diry * (c->p.y - ((float)y * c->viewplane.y / (float)c->size.y * mul));
 	ret += c->dirz * (c->p.z);
-	return ((ret));
+	return ((ret)); 
 }
 
 __kernel void	raytracer(
-			__global int* string,
-			__global t_cam *c,
-			__global t_obj *o,
-			__global t_obj *l,
-			__global int* tex)
+		__global int* string,
+		__global t_cam *c,
+		__global t_obj *o,
+		__global t_obj *l,
+		__global int* tex)
 {
 	t_ray	ray; 
 	t_ray	tmp;
@@ -858,7 +837,7 @@ __kernel void	raytracer(
 	int				id;
 	int				lt;
 	int				stay;
-	int				refmax = 7;
+	int				refmax = 3;
 	int				color = 0;
 	int				old;
 	int				quit;
@@ -870,7 +849,7 @@ __kernel void	raytracer(
 	if (i < (size_t)c[0].size.x && j < (size_t)c[0].size.y)
 	{
 		string[j * c[0].size.x + i] = 0;
-		ray.dir = ray_from_coord(i, j, c, 1);
+		ray.dir = normalize(ray_from_coord(i, j, c, 1));
 		ray.ori = c[0].ori;
 		r = 0;
 		g = 0;
@@ -902,21 +881,21 @@ __kernel void	raytracer(
 				}
 			}
 			if(o[id].trans && o[id].trans > EPSILON && o[id].refl < EPSILON)
-				{
-					refmax--;
-					ray.ori = ray.dir * ray.t + ray.ori;
-				}
+			{
+				refmax--;
+				ray.ori = ray.dir * ray.t + ray.ori;
+			}
 			else if((o[id].refl && o[id].refl > EPSILON && o[id].trans < EPSILON) || o[id].r_m)
-				{
-					refmax--;
-					old = color;
-					oldr *= (o[id].r_m > 0 ? rm : o[id].refl);
-					oldd = o[id].diff;
-					tmp = ray;
-					ray.ori = ray.dir * ray.t + ray.ori;
-					ray.dir = normalize(refl(ray.dir, nor));
-					stay++;
-				}
+			{
+				refmax--;
+				old = color;
+				oldr *= (o[id].r_m > 0 ? rm : o[id].refl);
+				oldd = o[id].diff;
+				tmp = ray;
+				ray.ori = ray.dir * ray.t + ray.ori;
+				ray.dir = normalize(refl(ray.dir, nor));
+				stay++;
+			}
 			else
 				break;
 		}
@@ -926,9 +905,9 @@ __kernel void	raytracer(
 }
 
 __kernel void	rt_fast(
-			__global int* string,
-			__global t_cam *c,
-			__global t_obj *o)
+		__global int* string,
+		__global t_cam *c,
+		__global t_obj *o)
 {
 	t_ray			ray;
 	size_t			i = get_global_id(0) * 2;
@@ -942,12 +921,12 @@ __kernel void	rt_fast(
 	if (i < (size_t)c[0].size.x && j < (size_t)c[0].size.y)
 	{
 		string[j * c[0].size.x + i] = 0;
-		ray.dir = ray_from_coord(i, j, c, c[0].dsr);
+		ray.dir = normalize(ray_from_coord(i, j, c, c[0].dsr));
 		ray.ori = c[0].ori;
 		id = ray_match(o, &ray);
-		r = (o[id].col & 0xFF0000 / 0x10000) / ray.t;
-		g = (o[id].col & 0x00FF00 / 0x00100) / ray.t;
-		b = (o[id].col & 0x0000FF / 0x00001) / ray.t;
+		r = ((o[id].col & 0xFF0000) / 0x10000) / ray.t * 4;
+		g = ((o[id].col & 0x00FF00) / 0x00100) / ray.t * 4;
+		b = ((o[id].col & 0x0000FF) / 0x00001) / ray.t * 4;
 		r = r > 255 ? 255 : r;
 		g = g > 255 ? 255 : g;
 		b = b > 255 ? 255 : b;
@@ -960,11 +939,11 @@ __kernel void	rt_fast(
 }
 
 __kernel void	rng(
-			__global int* in,
-			__global t_cam *c,
-			__global t_obj *o,
-			__global int* dst,
-			__global int* out)
+		__global int* in,
+		__global t_cam *c,
+		__global t_obj *o,
+		__global int* dst,
+		__global int* out)
 {
 	t_ray	ray;
 	size_t			i = get_global_id(0);
@@ -993,27 +972,27 @@ __kernel void	rng(
 			dist /= 255;
 			float filter[filterHeight * filterWidth] =
 			{
-			0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
-			0.0, 0.0, 0.0, 0.5, 0.5, 0.5, 0.0, 0.0, 0.0,
-			0.0, 0.0, 0.5, 0.5, 0.5, 0.5, 0.5, 0.0, 0.0,
-			0.0, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.0,
-			0.0, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.0,
-			0.0, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.0,
-			0.0, 0.0, 0.5, 0.5, 0.5, 0.5, 0.5, 0.0, 0.0,
-			0.0, 0.0, 0.0, 0.5, 0.5, 0.5, 0.0, 0.0, 0.0,
-			0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+				0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+				0.0, 0.0, 0.0, 0.5, 0.5, 0.5, 0.0, 0.0, 0.0,
+				0.0, 0.0, 0.5, 0.5, 0.5, 0.5, 0.5, 0.0, 0.0,
+				0.0, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.0,
+				0.0, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.0,
+				0.0, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.0,
+				0.0, 0.0, 0.5, 0.5, 0.5, 0.5, 0.5, 0.0, 0.0,
+				0.0, 0.0, 0.0, 0.5, 0.5, 0.5, 0.0, 0.0, 0.0,
+				0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
 			};
 			float factor = dist;
 			float bias = dist;
 			for(int filterY = 0; filterY < filterHeight; filterY++)
-			for(int filterX = 0; filterX < filterWidth; filterX++)
-			{
-				int imageX = (i - filterWidth / 2 + filterX + c[0].size.x) % c[0].size.x;
-				int imageY = (j - filterHeight / 2 + filterY + c[0].size.y) % c[0].size.y;
-				k.x += ((in[imageY * c[0].size.x + imageX] & 0xFF0000) / 0x10000) * filter[filterY * filterWidth + filterX];
-				k.y += ((in[imageY * c[0].size.x + imageX] & 0xFF00) / 0x100) * filter[filterY * filterWidth + filterX];
-				k.z += ((in[imageY * c[0].size.x + imageX] & 0xFF) / 0x1) * filter[filterY * filterWidth + filterX];
-			}
+				for(int filterX = 0; filterX < filterWidth; filterX++)
+				{
+					int imageX = (i - filterWidth / 2 + filterX + c[0].size.x) % c[0].size.x;
+					int imageY = (j - filterHeight / 2 + filterY + c[0].size.y) % c[0].size.y;
+					k.x += ((in[imageY * c[0].size.x + imageX] & 0xFF0000) / 0x10000) * filter[filterY * filterWidth + filterX];
+					k.y += ((in[imageY * c[0].size.x + imageX] & 0xFF00) / 0x100) * filter[filterY * filterWidth + filterX];
+					k.z += ((in[imageY * c[0].size.x + imageX] & 0xFF) / 0x1) * filter[filterY * filterWidth + filterX];
+				}
 			r = (unsigned char)(min(max((int)floor(factor * k.x + bias), 0), 255));
 			g = (unsigned char)(min(max((int)floor(factor * k.y + bias), 0), 255));
 			b = (unsigned char)(min(max((int)floor(factor * k.z + bias), 0), 255));
@@ -1024,10 +1003,10 @@ __kernel void	rng(
 }
 
 __kernel void	cpy(
-			__global int* out,
-			__global int* in,
-			__global int* col
-					)
+		__global int* out,
+		__global int* in,
+		__global int* col
+		)
 {
 	size_t	i = get_global_id(0);
 	size_t	j = get_global_id(1);
@@ -1035,11 +1014,11 @@ __kernel void	cpy(
 }
 
 __kernel void	stereo(
-			__global int* red,
-			__global int* vb,
-			__global int* out,
-			__global int* size
-					)
+		__global int* red,
+		__global int* vb,
+		__global int* out,
+		__global int* size
+		)
 {
 	size_t	i = get_global_id(0);
 	size_t	j = get_global_id(1);

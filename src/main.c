@@ -6,7 +6,7 @@
 /*   By: jplevy <jplevy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/08 01:37:39 by jplevy            #+#    #+#             */
-/*   Updated: 2017/05/04 23:20:14 by aviau            ###   ########.fr       */
+/*   Updated: 2017/05/05 19:45:17 by aviau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ t_scene	ft_init_scene(void)
 	ret.light[6].type = end;
 	ret.n_l = 7;
 
-	ret.obj = ft_memalloc(sizeof(t_obj) * 13);
+	ret.obj = ft_memalloc(sizeof(t_obj) * 14);
 
 	ret.obj[0].dir.x = 0.0;
 	ret.obj[0].dir.y = 0.0;
@@ -197,85 +197,119 @@ t_scene	ft_init_scene(void)
 
 	ret.obj[6].pos.x = 0.0;
 	ret.obj[6].pos.y = 0.0;
-	ret.obj[6].pos.z = 15.0;
-	ret.obj[6].pos.w = 0.0;
+	ret.obj[6].pos.z = 0.0;
+	ret.obj[6].dir.x = 1.0;
+	ret.obj[6].dir.y = 1.0;
+	ret.obj[6].dir.z = 0.0;
+	ret.obj[6].pos.w = -0.25;
 	ret.obj[6].col = 0xFFFFFF;
 	ret.obj[6].r_m = 6;
 	ret.obj[6].n_m = 1;
 	ret.obj[6].tex = 5;
-	ret.obj[6].type = sphere;
-	ret.obj[6].diff = 0.8;
-	ret.obj[6].refl = 0.2;
-	ret.obj[6].r = 5.0;
+	ret.obj[6].type = cone;
+	ret.obj[6].diff = 1.0;
+	ret.obj[6].refl = 0.0;
+	ret.obj[6].alpha = 12.5;
 
 	ret.obj[7].pos.x = 0.0;
 	ret.obj[7].pos.y = 0.0;
-	ret.obj[7].pos.z = -15.0;
-	ret.obj[7].pos.w = 0.0;
+	ret.obj[7].pos.z = 0.0;
+	ret.obj[7].dir.x = -1.0;
+	ret.obj[7].dir.y = 1.0;
+	ret.obj[7].dir.z = 0.0;
+	ret.obj[7].pos.w = -0.25;
 	ret.obj[7].col = 0xFFFFFF;
 	ret.obj[7].r_m = 6;
 	ret.obj[7].n_m = 1;
 	ret.obj[7].tex = 5;
-	ret.obj[7].type = sphere;
-	ret.obj[7].diff = 0.8;
-	ret.obj[7].refl = 0.2;
-	ret.obj[7].r = 5.0;
+	ret.obj[7].type = cone;
+	ret.obj[7].diff = 1.0;
+	ret.obj[7].refl = 0.0;
+	ret.obj[7].alpha = 12.5;
 
 	ret.obj[8].pos.x = 0.0;
-	ret.obj[8].pos.y = 15.0;
+	ret.obj[8].pos.y = 0.0;
 	ret.obj[8].pos.z = 0.0;
-	ret.obj[8].pos.w = 0.0;
+	ret.obj[8].dir.x = 1.0;
+	ret.obj[8].dir.y = 1.0;
+	ret.obj[8].dir.z = 1.0;
+	ret.obj[8].pos.w = -0.25;
 	ret.obj[8].col = 0xFFFFFF;
 	ret.obj[8].r_m = 6;
 	ret.obj[8].n_m = 1;
 	ret.obj[8].tex = 5;
-	ret.obj[8].type = sphere;
-	ret.obj[8].diff = 0.8;
-	ret.obj[8].refl = 0.2;
-	ret.obj[8].r = 5.0;
+	ret.obj[8].type = cone;
+	ret.obj[8].diff = 1.0;
+	ret.obj[8].refl = 0.0;
+	ret.obj[8].alpha = 12.5;
 
 	ret.obj[9].pos.x = 0.0;
-	ret.obj[9].pos.y = -15.0;
+	ret.obj[9].pos.y = 0.0;
 	ret.obj[9].pos.z = 0.0;
-	ret.obj[9].pos.w = 0.0;
+	ret.obj[9].dir.x = -1.0;
+	ret.obj[9].dir.y = 1.0;
+	ret.obj[9].dir.z = 1.0;
+	ret.obj[9].pos.w = -0.25;
 	ret.obj[9].col = 0xFFFFFF;
 	ret.obj[9].r_m = 6;
 	ret.obj[9].n_m = 1;
 	ret.obj[9].tex = 5;
-	ret.obj[9].type = sphere;
-	ret.obj[9].diff = 0.8;
-	ret.obj[9].refl = 0.2;
-	ret.obj[9].r = 5.0;
+	ret.obj[9].type = cone;
+	ret.obj[9].diff = 1.0;
+	ret.obj[9].refl = 0.0;
+	ret.obj[9].alpha = 12.5;
 
-	ret.obj[10].pos.x = 15.0;
+	ret.obj[10].pos.x = 0.0;
 	ret.obj[10].pos.y = 0.0;
 	ret.obj[10].pos.z = 0.0;
-	ret.obj[10].pos.w = 0.0;
+	ret.obj[10].dir.x = 1.0;
+	ret.obj[10].dir.y = -1.0;
+	ret.obj[10].dir.z = 1.0;
+	ret.obj[10].pos.w = -0.25;
 	ret.obj[10].col = 0xFFFFFF;
 	ret.obj[10].r_m = 6;
 	ret.obj[10].n_m = 1;
 	ret.obj[10].tex = 5;
-	ret.obj[10].type = sphere;
-	ret.obj[10].diff = 0.8;
-	ret.obj[10].refl = 0.2;
-	ret.obj[10].r = 5.0;
+	ret.obj[10].type = cone;
+	ret.obj[10].diff = 1.0;
+	ret.obj[10].refl = 0.0;
+	ret.obj[10].alpha = 12.5;
 
-	ret.obj[11].pos.x = -15.0;
+	ret.obj[11].pos.x = 0.0;
 	ret.obj[11].pos.y = 0.0;
 	ret.obj[11].pos.z = 0.0;
-	ret.obj[11].pos.w = 0.0;
+	ret.obj[11].dir.x = -1.0;
+	ret.obj[11].dir.y = -1.0;
+	ret.obj[11].dir.z = 1.0;
+	ret.obj[11].pos.w = -0.25;
 	ret.obj[11].col = 0xFFFFFF;
 	ret.obj[11].r_m = 6;
 	ret.obj[11].n_m = 1;
 	ret.obj[11].tex = 5;
-	ret.obj[11].type = sphere;
+	ret.obj[11].type = cone;
 	ret.obj[11].diff = 0.8;
 	ret.obj[11].refl = 0.2;
-	ret.obj[11].r = 5.0;
-
-	ret.obj[12].type = end;
+	ret.obj[11].alpha = 12.5;
+/*
+	ret.obj[12].pos.x = -15.0;
+	ret.obj[12].pos.y = 0.0;
+	ret.obj[12].pos.z = 0.0;
+	ret.obj[12].dir.x = 0.0;
+	ret.obj[12].dir.y = -1.0;
+	ret.obj[12].dir.z = 0.0;
+	ret.obj[12].pos.w = 0.0;
+	ret.obj[12].col = 0x00FFFF;
+	ret.obj[12].r_m = 0;
+	ret.obj[12].n_m = 0;
+	ret.obj[12].tex = 0;
+	ret.obj[12].type = cylindre;
+	ret.obj[12].diff = 1.0;
+	ret.obj[12].refl = 0.0;
+	ret.obj[12].r = 3.0;
+*/
+	ret.obj[13].type = end;
 	
-	ret.n_o = 13;
+	ret.n_o = 14;
 	return (ret);
 }
 
@@ -364,7 +398,6 @@ void	*memjoin(char *dst, char *src, int sdst, int ssrc)
 	mem = ft_memalloc(sizeof(char) * (ssrc + sdst));
 	ft_memcpy(mem, dst, sdst);
 	ft_memcpy(&mem[sdst], src, ssrc);
-//	free(dst);
 	return (mem);
 }
 
@@ -426,7 +459,7 @@ int		ray_loop(t_mlx *mlx)
 		else if (!mlx->s.cam.fast)
 		{
 			send = data_to_str(mlx);
-			pr_mem(send, *(int *)(&send[0]));
+//			pr_mem(send, *(int *)(&send[0]));
 //			init_clients();
 //			while(mlx->s.cam.chunk.y * 10 < HEIGHT)
 //			{
@@ -484,12 +517,12 @@ int		main(int ac, char **av)
 	mlx.atmp = mlx_get_data_addr(mlx.tmp, &(mlx.bp), &(mlx.sl), &(mlx.endian));
 	mlx.tmp2 = mlx_new_image(mlx.mlx, WIDTH, HEIGHT);
 	mlx.atmp2 = mlx_get_data_addr(mlx.tmp, &(mlx.bp), &(mlx.sl), &(mlx.endian));
-	mlx.s.cam.viewplane.z = 10;
+	mlx.s.cam.viewplane.z = 2;
 	mlx.s.cam.chunk.x = -1;
 	mlx.s.cam.chunk.y = -1;
-	mlx.s.cam.dsr = 2;
+	mlx.s.cam.dsr = 1;
 	mlx.p[0] = 0;
-	init_clustering(&mlx, av);
+//	init_clustering(&mlx, av);
 	pws[0] = WIDTH / mlx.s.cam.viewplane.z;
 	pws[1] = HEIGHT / mlx.s.cam.viewplane.z;
 	pws_f[0] = W / 2;

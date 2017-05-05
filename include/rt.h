@@ -6,7 +6,7 @@
 /*   By: jplevy <jplevy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/11 06:10:10 by jplevy            #+#    #+#             */
-/*   Updated: 2017/05/04 20:00:10 by aviau            ###   ########.fr       */
+/*   Updated: 2017/05/05 10:47:52 by aviau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define RT_H
 
 # define USAGE "./rtv1 file\n"
-# define DSR	2
+# define DSR	1
 # define W		1280
 # define H		720
 # define WIDTH	W * (DSR > 1 ? DSR : 1)
