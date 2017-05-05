@@ -6,7 +6,7 @@
 /*   By: vthomas <vthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/02 14:02:45 by vthomas           #+#    #+#             */
-/*   Updated: 2017/05/05 09:09:38 by vthomas          ###   ########.fr       */
+/*   Updated: 2017/05/05 15:31:31 by vthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void receive(t_client *c)
 	char		buf[BUFF_LEN];
 
 	ft_putendl("START READ");
+	write(c->sock, "Hello World", 11);
 	while ((r = recv(c->sock, buf, BUFF_LEN, 0)) != 0)
 	{
 		if (r == -1)

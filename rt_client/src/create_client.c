@@ -53,8 +53,6 @@ int	create_client(char *addr, int port)
 				break;
 			close(sock);
 		}
-		if (errno)
-			ft_putendl(strerror(errno));
 		if (port >= BASE_PORT + MAX_PORT)
 		{
 			ft_putendl("Can't connect... retry");

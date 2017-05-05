@@ -6,7 +6,7 @@
 #    By: aviau <aviau@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/09/11 11:02:36 by aviau             #+#    #+#              #
-#    Updated: 2017/05/05 13:26:25 by vthomas          ###   ########.fr        #
+#    Updated: 2017/05/05 14:40:05 by vthomas          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,6 +18,7 @@ SRC_NAME =	main.c\
 			useclustering.c\
 			init_clustering.c\
 			network/ft_sleep.c\
+			network/info/server_info.c\
 			network/set_clustering.c\
 			network/create/create_server.c\
 			network/create/getserver.c\
@@ -38,7 +39,8 @@ OBJ=$(addprefix $(OBJ_PATH),$(OBJ_NAME))
 
 OBJ_SUB = network\
 		  network/create\
-		  network/client
+		  network/client\
+		  network/info
 
 
 MLX=libmlx

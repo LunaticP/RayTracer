@@ -6,7 +6,7 @@
 /*   By: vthomas <vthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/03 11:59:54 by vthomas           #+#    #+#             */
-/*   Updated: 2017/05/05 13:50:49 by vthomas          ###   ########.fr       */
+/*   Updated: 2017/05/05 14:42:44 by vthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,5 +68,9 @@ int			show_serverinfo(t_server *s);
 int			set_clustering(void);
 
 void		ft_sleep(int t);
+void		print_log(char *str);
+void		print_warning(char *str);
+void		print_error(char *str);
+void		print_info(char *str);
 
 #endif

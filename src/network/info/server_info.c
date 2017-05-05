@@ -1,33 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_clustering.c                                  :+:      :+:    :+:   */
+/*   server_info.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vthomas <vthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/05/04 13:31:13 by vthomas           #+#    #+#             */
-/*   Updated: 2017/05/05 14:40:41 by vthomas          ###   ########.fr       */
+/*   Created: 2017/05/05 14:36:30 by vthomas           #+#    #+#             */
+/*   Updated: 2017/05/05 14:44:05 by vthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <rt.h>
-#include <pthread.h>
 #include <rt_network.h>
+#include <libft.h>
 
-int	init_clustering(t_mlx *mlx, char **av)
+void print_log(char *str)
 {
-	t_server	*s;
+	ft_putstr("\033[90m[ log ]\033[0m - ");
+	ft_putendl(str);
+}
 
-	(void)mlx;
-	(void)av;
-	if (!(mlx->cluster = USE_CLUSTER))
-		return (1);
-	//init server
-	print_log("start clustering");
-	pthread_create(&(mlx->pthserv), NULL, (void *)&serverthread, NULL);
-	s = NULL;
-	while ((s = getserver(1, NULL)) == NULL)
-		;//Bloque pour initialiser correctement le thread server
-	s->render = 0;
-	return (0);
+void print_warning(char *str)
+{
+	ft_putstr("\033[33m[ warning ]\033[0m - ");
+	ft_putendl(str);
+}
+
+void print_error(char *str)
+{
+	ft_putstr("\033[31m[ error ]\033[0m - ");
+	ft_putendl(str);
+}
+
+void print_info(char *str)
+{
+	ft_putstr("\033[32m[ info ]\033[0m - ");
+	ft_putendl(str);
 }
