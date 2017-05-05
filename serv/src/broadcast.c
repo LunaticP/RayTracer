@@ -1,27 +1,44 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   useclustering.c                                    :+:      :+:    :+:   */
+/*   broadcast.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vthomas <vthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/05/04 13:30:08 by vthomas           #+#    #+#             */
-/*   Updated: 2017/05/04 17:54:57 by vthomas          ###   ########.fr       */
+/*   Created: 2017/05/04 12:39:45 by vthomas           #+#    #+#             */
+/*   Updated: 2017/05/04 12:46:11 by vthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <rt.h>
+#include <libft.h>
+#include <ft_server.h>
 
-int	useclustering(char **av)
+t_client	*client_list(int i, t_client *liste)
 {
-	int i;
+	static t_client *c = NULL;
 
+	if (i == 0)
+		c = liste;
+	return (c);
+}
+
+void broadcast(char *msg, t_client sender)
+{
+	t_client	*c;
+	int			i;
+
+	c = client_list(1, NULL);
 	i = 0;
-	while (av[i])
+	while (i < MAX_CLIENT)
 	{
-		if (ft_strcmp(av[i], "cluster") == 0)
-			return (1);
+		if (c[i].socket)
+		{
+			if (c[i].socket != sender.socket)
+			{
+				ft_putstr_fd(msg, c[i].socket);
+				//write(c[i].socket, msg, l);
+			}
+		}
 		i++;
 	}
-	return (0);
 }

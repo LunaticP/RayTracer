@@ -5,18 +5,22 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: vthomas <vthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/05/04 20:09:31 by vthomas           #+#    #+#             */
-/*   Updated: 2017/05/04 20:40:06 by vthomas          ###   ########.fr       */
+/*   Created: 2017/05/05 18:49:38 by vthomas           #+#    #+#             */
+/*   Updated: 2017/05/05 19:22:35 by vthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <libft.h>
 #include <rt_network.h>
+#include <libft.h>
 #include <pthread.h>
 
-void	init_network(char *arg)
+int	init_network(char *addr)
 {
-	pthread_t	pth;
+	t_client	*c;
+	pthread_t	cth;
 
-	pthread_create(&pth, NULL, (void *)network_loop, arg);
+	c = (t_client *)ft_memalloc(sizeof(t_client));
+	c->addr = ft_strdup(addr);
+	pthread_create(&cth, NULL, (void *)client_loop, (void *)c);
+	return (0);
 }

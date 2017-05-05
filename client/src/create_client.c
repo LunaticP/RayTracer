@@ -6,6 +6,23 @@
 #include <netdb.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
+#include <time.h>
+
+static void ft_wait(int t)
+{
+	time_t	timedelay;
+	time_t	start;
+
+	time(&start);
+	while (1)
+	{
+		time(&timedelay);
+		//ft_putnbr(mktime(&timedelay));
+		if ((timedelay - start) >= t)
+			return ;
+	}
+	return ;
+}
 
 int	create_client(char *addr, int port)
 {
@@ -37,7 +54,7 @@ int	create_client(char *addr, int port)
 		if (port >= BASE_PORT + MAX_PORT)
 		{
 			ft_putendl("Can't connect... retry");
-			sleep(10);
+			ft_wait(10);
 		}
 	}
 	ft_putnbr_desc("Connected port: ", port);

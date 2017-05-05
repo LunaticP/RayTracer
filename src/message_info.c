@@ -1,25 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error.c                                            :+:      :+:    :+:   */
+/*   message_info.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vthomas <vthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/05/02 11:27:13 by vthomas           #+#    #+#             */
-/*   Updated: 2017/05/05 19:23:30 by vthomas          ###   ########.fr       */
+/*   Created: 2017/05/05 16:39:20 by vthomas           #+#    #+#             */
+/*   Updated: 2017/05/05 17:22:22 by vthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <libft.h>
 #include <rt_network.h>
+#include <libft.h>
 
-void error_code(int code)
+void print_log(char *str)
 {
-	if (code == err_socket)
-		ft_putendl("Impossible de cree la socket !");
-	else if (code == err_connect)
-		ft_putendl("connect error");
-	else if (code == err_arg)
-		ft_putendl("Error argument invalid: ./client <address>");
-	exit(-1);
+	ft_putstr("\033[90m[ log ]\033[0m - ");
+	ft_putendl(str);
+}
+
+void print_warning(char *str)
+{
+	ft_putstr("\033[33m[ warning ]\033[0m - ");
+	ft_putendl(str);
+}
+
+void print_error(char *str)
+{
+	ft_putstr("\033[31m[ error ]\033[0m - ");
+	ft_putendl(str);
+}
+
+void print_info(char *str)
+{
+	ft_putstr("\033[32m[ info ]\033[0m - ");
+	ft_putendl(str);
 }

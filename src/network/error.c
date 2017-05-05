@@ -1,22 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   getserver.c                                        :+:      :+:    :+:   */
+/*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vthomas <vthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/05/03 12:21:13 by vthomas           #+#    #+#             */
-/*   Updated: 2017/05/04 13:47:49 by vthomas          ###   ########.fr       */
+/*   Created: 2017/05/02 11:27:13 by vthomas           #+#    #+#             */
+/*   Updated: 2017/05/05 17:43:36 by vthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <libft.h>
 #include <rt_network.h>
 
-t_server	*getserver(int state, t_server *s)
+void	error_code(int code)
 {
-	static t_server	*server = NULL;
-
-	if (state == 0)
-		server = s;
-	return (server);
+	if (code == err_socket)
+		ft_putendl("Impossible de cree la socket !");
+	else if (code == err_bind)
+		ft_putendl("bind error");
+	else if (code == err_connect)
+		ft_putendl("Cannot connect");
+	else if (code == err_arg)
+		ft_putendl("usage: ./server <port>");
+	exit(-1);
 }

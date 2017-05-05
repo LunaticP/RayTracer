@@ -6,7 +6,7 @@
 /*   By: vthomas <vthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/02 11:23:41 by vthomas           #+#    #+#             */
-/*   Updated: 2017/05/04 10:59:20 by vthomas          ###   ########.fr       */
+/*   Updated: 2017/05/05 17:55:28 by vthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ int	main(int ac, char **av)
 		ft_putendl("MEMORY ERROR");
 	pthread_create(&pth[MAX_CLIENT], NULL, (void *)&message, (void *)&c);
 	sock = create_server();
+	client_list(0, c);
 	while (1)
 	{
 		c[i].socket = accept(sock, (struct sockaddr *)&(c[i].addr),

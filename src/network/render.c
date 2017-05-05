@@ -1,27 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_clustering.c                                  :+:      :+:    :+:   */
+/*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vthomas <vthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/05/04 13:31:13 by vthomas           #+#    #+#             */
-/*   Updated: 2017/05/04 18:01:46 by vthomas          ###   ########.fr       */
+/*   Created: 2017/05/05 17:00:07 by vthomas           #+#    #+#             */
+/*   Updated: 2017/05/05 17:02:07 by vthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <rt.h>
-#include <pthread.h>
 #include <rt_network.h>
 
-int	init_clustering(t_mlx *mlx, char **av)
+int	server_render(void)
 {
-	(void)mlx;
-	(void)av;
-	ft_putstr("Let's look at clustering.");
-	if ((mlx->cluster = USE_CLUSTER))
-		return (1);
-	//init server
-	pthread_create(&(mlx->pthserv), NULL, (void *)&serverthread, NULL);
-	return (0);
+	t_server *serv;
+
+	serv = server(0, NULL);
+	if (serv == NULL)
+		return (-1);
+	serv->render = !serv->render;
+	return (serv->render);
 }

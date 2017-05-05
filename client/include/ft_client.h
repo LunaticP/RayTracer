@@ -17,6 +17,7 @@ typedef struct s_client
 {
 	int					sock;
 	int					number;
+	char				*username;
 
 }				t_client;
 

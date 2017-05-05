@@ -6,7 +6,7 @@
 /*   By: vthomas <vthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/03 11:59:54 by vthomas           #+#    #+#             */
-/*   Updated: 2017/05/04 21:54:31 by vthomas          ###   ########.fr       */
+/*   Updated: 2017/05/05 17:47:18 by vthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ typedef enum	e_error
 
 typedef struct s_client
 {
-	int					socket;
+	int					sock;
 	int					send_socket;
 	struct sockaddr_in	addr;
 	char				buf[BUFF_LEN];
@@ -46,18 +46,26 @@ typedef struct s_client
 typedef struct s_server
 {
 	t_client	c[MAX_CLIENT];
+	pthread_t	cth[MAX_CLIENT];
 	int			sock;
 	int			port;
 	int			nb;
+	int			render;
 }				t_server;
 
-void		serverthread(void);
-t_server	*getserver(int state, t_server *s);
-int			create_server(t_server *s);
-void		init_client(t_client *c);
-
 int			init_clustering(t_mlx *mlx, char **av);
-int			useclustering(char **av);
-int			show_serverinfo(t_server *s);
+int			create_server(t_server *s);
+void		init_server(t_server *s);
+void		rt_listen(t_server *s);
+
+t_server	*server(int status, t_server *serv);
+int			server_render(void);
+
+void		error_code(int code);
+
+void		print_log(char *str);
+void		print_warning(char *str);
+void		print_error(char *str);
+void		print_info(char *str);
 
 #endif
