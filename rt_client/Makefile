@@ -6,18 +6,19 @@
 #    By: aviau <aviau@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/09/11 11:02:36 by aviau             #+#    #+#              #
-#    Updated: 2017/05/05 10:51:32 by vthomas          ###   ########.fr        #
+#    Updated: 2017/05/05 19:18:12 by vthomas          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 OS = APPLE
 NAME = rtvocl
 SRC_NAME =	main.c\
-		   create_client.c\
-		   error.c\
-		   init_network.c\
-		   network_loop.c\
-		   receive.c
+			client.c\
+			create_client.c\
+			error.c\
+			init_network.c\
+			listener.c\
+			message_info.c
 INC_FILE = include/rt.h
 
 OBJ_NAME = $(SRC_NAME:.c=.o)
@@ -78,10 +79,10 @@ clean:
 	@printf "\e[33mobjects\t\t\e[31m[CLEAN]\e[0m\n"
 
 fclean: clean
-	@rm $(NAME)
-	@make -C ./libft $@
-	@make -C ./libmatrix $@
-	@make -C ./libocl $@
+	-@rm $(NAME)
+	-@make -C ./libft $@
+	-@make -C ./libmatrix $@
+	-@make -C ./libocl $@
 	@printf "\e[33mrtvocl\t\t\e[31m[CLEAN]\e[0m\n"
 
 re: fclean all

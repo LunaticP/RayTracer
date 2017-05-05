@@ -18,14 +18,25 @@ typedef enum	e_error
 typedef struct s_client
 {
 	int					sock;
-	int					number;
+	int					id;
+	char				*addr;
 
 }				t_client;
 
-void	error_code(int code);
-void	init_network(char *arg);
-void	network_loop(char *poste);
-void 	receive(t_client *c);
-int		create_client(char *addr, int port);
+t_client	*rt_client(int status, t_client *c);
+
+void		ft_wait(int t);
+
+void		error_code(int code);
+int			init_network(char *addr);
+int			create_client(t_client *c);
+void		client_loop(t_client *c);
+
+void		rt_listener(t_client *c);
+
+void		print_log(char *str);
+void		print_warning(char *str);
+void		print_error(char *str);
+void		print_info(char *str);
 
 #endif
