@@ -10,6 +10,8 @@ static t_parser		*s_init_new_parser(void);
 # define MASK_CYLINDRE	0b1100001011101111111000011
 # define MASK_CONE		0b1100001111001111111000011
 # define MASK_TRIANGLE	0b1111100000001111111000011
+// # define MASK_TRIANGLE	0b0000000000000000000000001
+
 
 typedef struct		s_objects
 {
@@ -18,10 +20,10 @@ typedef struct		s_objects
 }					t_objects;
 
 static const t_objects	tab_objects[] = {	{"plan{", 		MASK_PLAN},
+											{"triangle{", 	MASK_TRIANGLE},
 											{"sphere{", 	MASK_SPHERE},
 											{"cylindre{", 	MASK_CYLINDRE},
 											{"cone{", 		MASK_CONE},
-											{"triangle{", 	MASK_TRIANGLE},
 											{"}", 0}	};
 
 t_parser				*rt_parser_objects(char	*file, t_parser *ptr_parser)

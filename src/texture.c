@@ -28,7 +28,7 @@ int		*get_ppm(char *file)
 	if (fd > 0 && get_next_line(fd, &line) && !ft_strcmp(line, (char *)"P3"))
 		ft_putstr(file);
 	else
-		exit (1);
+		exit_error("EXIT : TEXTURE");
 	while (get_next_line(fd, &line) && line[0] == '#')
 		free(line);
 	size[0] = ft_atoi(line);
@@ -108,7 +108,8 @@ int		*get_texture(char **files)
 	int *out;
 
 	i = 1;
-	out = get_ppm(files[0]);
+	if (files[0])
+		out = get_ppm(files[0]);
 	while (files[i] != '\0')
 	{
 		out = int_join(out, get_ppm(files[i]));

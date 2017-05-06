@@ -50,12 +50,13 @@ static char				*s_get_path(char *file)
 	while (file[i] != '"' && file[i] != '\0')
 		i++;
 	if (file[i] == '\0')
-		exit_error("s_get_path [rt_parser_tesxtures.c]");
-	path = (char **)rt_memalloc(sizeof(char) * i + sizeof(char *));
-	// path = ft_strnew(i + 8);
-	*path = (char *)((uint64_t)path + 8); // arithmetique 
-	return (*path);
-	// return (ft_memcpy(ft_strnew(i + 8) + 8, file, i)); //
+		exit_error("s_get_path [rt_parser_textures.c]");
+	path = (char **)rt_memalloc(sizeof(char *));
+	*path = (char *)rt_memalloc(sizeof(char *) * i + 1);
+	// path = (char **)rt_memalloc(sizeof(char) * i + sizeof(char *));
+	// *path = (char *)path + 8;
+	ft_memcpy(*path, file, i);
+	return ((char *)path);
 
 }
 

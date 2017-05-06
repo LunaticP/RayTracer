@@ -2,6 +2,8 @@
 
 # define STEREO 0
 
+static t_scene				s_test(void);
+
 cl_float4		vec_norm(cl_float4 vec)
 {
 	cl_float4	norm;
@@ -429,11 +431,11 @@ int		main(int ac, char **av)
 	size_t	pws[2];
 	(void)ac;
 
+	mlx = rt_get_parser(av[1], mlx); // mlx tex, return struct mlx
+	// mlx.s = s_test();
 	if (!(ocl_new_prog("./cl_src/rt.cl", 0x1000000 , &(mlx.prog))))
 		return (0);
-	// mlx.s = ft_init_scene();
-	mlx = rt_get_parser(av[1], mlx); // mlx tex, return struct mlx
-	// mlx.tex = get_texture(&av[1]);
+	// mlx.tex = get_texture(&av[2]);
 	mlx.mlx = mlx_init();
 	mlx.win = mlx_new_window(mlx.mlx, WIDTH, HEIGHT, "rtvocl");
 	mlx.img = mlx_new_image(mlx.mlx, WIDTH, HEIGHT);
@@ -442,15 +444,15 @@ int		main(int ac, char **av)
 	mlx.atmp = mlx_get_data_addr(mlx.tmp, &(mlx.bp), &(mlx.sl), &(mlx.endian));
 	mlx.tmp2 = mlx_new_image(mlx.mlx, WIDTH, HEIGHT);
 	mlx.atmp2 = mlx_get_data_addr(mlx.tmp, &(mlx.bp), &(mlx.sl), &(mlx.endian));
-	mlx.p[0] = 0;
+	// mlx.p[0] = 0;
 	mlx.key = REDRAW;
 	pws[0] = WIDTH;
 	pws[1] = HEIGHT;
 	// mlx.s.light[1].type = end;
 	/* *2 pour obj, *2 pour light */
 	ocl_new_kernel(&(mlx.prog), 5, pws, "norowowowowd", "raytracer", WIDTH * HEIGHT
-			* sizeof(int), mlx.p, sizeof(t_cam), &(mlx.s.cam), sizeof(t_obj) * 2, 
-			mlx.s.obj, sizeof(t_obj) * 2, mlx.s.light, sizeof(int) * (mlx.tex[0] + 1), mlx.tex, 2);
+			* sizeof(int), mlx.p, sizeof(t_cam), &(mlx.s.cam), sizeof(t_obj) * mlx.tab_size[0], 
+			mlx.s.obj, sizeof(t_obj) * mlx.tab_size[1], mlx.s.light, sizeof(int) * (mlx.tex[0] + 1), mlx.tex, 2);
 	ocl_new_kernel(&(mlx.prog), 3, pws, "norowowd", "cpy", WIDTH * HEIGHT
 			* sizeof(int), mlx.atmp, WIDTH * HEIGHT * sizeof(int), mlx.p, sizeof(size_t) * 2, pws, 2);
 	ocl_new_kernel(&(mlx.prog), 4, pws, "nowoworowd", "stereo", WIDTH * HEIGHT
@@ -462,4 +464,71 @@ int		main(int ac, char **av)
 	mlx_loop(mlx.mlx);
 	ocl_finish(mlx.prog);
 	return (0);
+}
+
+static t_scene				s_test(void)
+{
+	t_scene	ret;
+
+	ret.cam.ori.x = 0.0;
+	ret.cam.ori.y = 2.0;
+	ret.cam.ori.z = -15.0;
+
+	ret.cam.dirx.x = 1.0;
+	ret.cam.dirx.y = 0.0;
+	ret.cam.dirx.z = 0.0;
+	// ret.cam.dirx = vec_norm(ret.cam.dirx);
+
+	ret.cam.diry.x = 0.0;
+	ret.cam.diry.y = 1.0;
+	ret.cam.diry.z = 0.0;
+	// ret.cam.diry = vec_norm(ret.cam.diry);
+
+	ret.cam.dirz.x = 0.0;
+	ret.cam.dirz.y = 0.0;
+	ret.cam.dirz.z = 1.0;
+	// ret.cam.dirz = vec_norm(ret.cam.dirz);
+
+	ret.cam.size.x = 700;
+	ret.cam.size.y = 900;
+
+	ret.cam.viewplane.x = 10.0;
+	ret.cam.viewplane.y = 10.0 * (700.0 / 900.0);
+
+	ret.cam.p.x = -5.0;
+	ret.cam.p.y = 5.0 * (700.0 / 900.0);
+	ret.cam.p.z = 5.0;
+/*--------------------------------------------------*/
+	ret.light = ft_memalloc(sizeof(t_obj) * 2);
+	ret.light[0].pos.x = 0.0;
+	ret.light[0].pos.y = 2.0;
+	ret.light[0].pos.z = 0;
+
+	ret.light[0].col = 0xFFFFAA;
+	ret.light[0].type = light;
+	ret.light[0].r = 500.0;
+
+	ret.light[1].type = end;
+/*--------------------------------------------------*/
+	ret.obj = ft_memalloc(sizeof(t_obj) * 2);
+
+	ret.obj[0].dir.x = 0.0;
+	ret.obj[0].dir.y = 1.0;
+	ret.obj[0].dir.z = 0.0;
+	ret.obj[0].pos.x = 6.0;
+	ret.obj[0].pos.y = 10.0;
+	ret.obj[0].pos.z = 10.0;
+	ret.obj[0].pos.w = 0.0;
+
+	ret.obj[0].col = 0xFF902C;
+	ret.obj[0].type = cylindre;
+	ret.obj[0].r = 2;
+	ret.obj[0].tex = 1;
+	ret.obj[0].diff = 1;
+	ret.obj[0].trans = 0;
+	ret.obj[0].refl = 0;
+
+	ret.obj[1].type = end;
+
+	return (ret);
 }

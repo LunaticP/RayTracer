@@ -1,6 +1,6 @@
 #include "parser.h"
 
-# define MASK_CAMERA 0b1111111
+# define MASK_CAMERA 0b11111
 
 typedef	struct		s_data_camera
 {
@@ -14,8 +14,6 @@ static const t_data_camera tab_data_camera[] = {	{"ori{", sizeof(cl_float4), &rt
 													{"diry{", sizeof(cl_float4), &rt_get_float3},
 													{"dirz{", sizeof(cl_float4), &rt_get_float3},
 													{"size{", sizeof(cl_int2), &rt_get_int2},
-													{"viewplane{", sizeof(cl_float2), &rt_get_float2},
-													{"p{", sizeof(cl_float4), &rt_get_float3},
 													{"}", 0, NULL}	};
 
 static int				s_choice_data(char **file, int size);
@@ -40,6 +38,11 @@ t_parser				*rt_parser_camera(char *file, t_parser *parser)
 		file = rt_goto_data_end(file - 1);
 	}
 	rt_check_all_data(MASK_CAMERA, mask_check);
+	((t_cam *)(new_parser->content))->viewplane.x = 10;
+	((t_cam *)(new_parser->content))->viewplane.y = 10.0 * (700.0 / 900.0);
+	((t_cam *)(new_parser->content))->p.x = -5;
+	((t_cam *)(new_parser->content))->p.y = 5.0 * (700.0 / 900.0);
+	((t_cam *)(new_parser->content))->p.z = 5;
 	parser->next = new_parser;
 	parser = parser->next;
 	return (parser);

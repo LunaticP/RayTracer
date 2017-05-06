@@ -14,8 +14,8 @@
 # define RT_H
 
 # define USAGE "./rtv1 file\n"
-# define HEIGHT 1200
-# define WIDTH 1600
+# define HEIGHT 900
+# define WIDTH 700
 
 # include <libft.h>
 # include <libocl.h>
@@ -25,6 +25,8 @@
 # include <float.h>
 # include <math.h>
 # include <key.h>
+
+#define DEBUG 1
 
 typedef enum		e_type
 {
@@ -45,8 +47,8 @@ typedef struct 		s_obj
 	float			tet;
 	float			phi;
 	float			rot;
-	cl_float4		min;
-	cl_float4		max;
+	cl_float4		min; // si pas de min, min float sur chaque
+	cl_float4		max; // si pas de max, max float sur chaque
 	cl_int			col;
 	cl_float		diff;
 	cl_float		refl;
@@ -82,9 +84,9 @@ typedef struct 		s_set
 	char			*name;
 	int				width;
 	int				height;
-	int				max_reflect;
-	int				anti_allias; // theoriquement
-	cl_float		stereo; // stereoscopie
+	int				max_reflect; // pas supp 50
+	int				anti_allias; // theoriquement jamais supp a 4
+	cl_float		stereo; // stereoscopie 0 ou 1
 }					t_set;
 /**/
 
@@ -113,7 +115,7 @@ typedef struct		s_mlx
 	int				sl;
 	t_scene			s;
 	t_ocl_prog		prog;
-	// int				tab_size;
+	int				tab_size[5];
 }					t_mlx;
 
 void	k_press(int key, int *k);
@@ -153,7 +155,7 @@ t_parser		*rt_parser_lights(char *file, t_parser *parser);
 t_parser		*rt_parser_textures(char *file, t_parser *parser);
 void			rt_get_object(t_obj *obj, char *file, int mask_type);
 
-void			***rt_list_to_tab(t_parser *parser);
+void			***rt_list_to_tab(t_parser *parser, int *tab_size);
 
 char			*rt_goto_bracket_close(char *file);
 char			*rt_goto_data_end(char *file);
@@ -161,6 +163,7 @@ char			*rt_goto_data_end(char *file);
 char			*rt_get_str_float(char *file);
 char			*rt_next_float(char *file);
 
+int				rt_atoi(const char *str);
 void			*rt_get_char(char *file);
 void			*rt_get_short(char *file);
 void			*rt_get_color(char *file);

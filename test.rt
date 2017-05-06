@@ -1,18 +1,17 @@
 textures
 {
-	"test";
-	"test_2";
+	"test3.ppm";
 }
 
 objects
 {
-	plan
+	sphere
 	{
 		pos
 		{
-			x = 10;
-			y = 11;
-			z = 12;
+			x = 0;
+			y = 3;
+			z = 0;
 			w = 0;
 		}
 		dir
@@ -33,13 +32,14 @@ objects
 			y = 10000;
 			z = 10000;
 		}
-		col = #0000DF;
+		col = #FF0000;
 		diff = 1;
 		refl = 0;
 		trans = 0;
 		refr = 0;
-		tex = 0;
+		tex = 1;
 		n_m = 0;
+		r = 3;
 	}
 }
 
@@ -49,8 +49,8 @@ lights
 	{
 		x = 0;
 		y = 2;
-		z = 0;
-		w = 1;
+		z = -10;
+		w = 0;
 	}
 	r = 80;
 	col = #FFFFFF;
@@ -61,8 +61,8 @@ camera
 	ori
 	{
 		x = 0;
-		y = 1;
-		z = 0;
+		y = 2;
+		z = -15;
 	}
 	dirx
 	{
@@ -81,17 +81,6 @@ camera
 		x = 0;
 		y = 0;
 		z = 1;
-	}
-	p
-	{
-		x = -5;
-		y = 5;
-		z = 5;
-	}
-	viewplane
-	{
-		x = 10;
-		y = 10;
 	}
 	size
 	{
