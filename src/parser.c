@@ -27,7 +27,7 @@ t_mlx			rt_get_parser(char *path, t_mlx mlx)
 	// printf("|%s|\n", tab[4][0]); // tab -> ptr tab 2D 
 	// printf("|%s|\n", tab[4][1]); // tab -> ptr tab 2D 
 	// printf("|%s|\n", tab[4][2]); // tab -> ptr tab 2D 
-	if (*((char *)tab[4]) != NULL)
+	if (*(((char ***)tab)[4]) != NULL)
 	{
 		mlx.tex = get_texture((char **)tab[4]);
 	}

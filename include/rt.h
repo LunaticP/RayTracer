@@ -26,7 +26,7 @@
 # include <math.h>
 # include <key.h>
 
-#define DEBUG 1
+#define DEBUG 0
 
 typedef enum		e_type
 {
@@ -42,7 +42,7 @@ typedef enum		e_type
 
 typedef struct 		s_obj
 {
-	cl_float4		pos;
+	cl_float4		pos; // ne pas W sur les PLAN
 	cl_float4		dir;
 	float			tet;
 	float			phi;
@@ -67,6 +67,10 @@ typedef struct 		s_obj
 	short			n_m;
 }					t_obj;
 
+/*
+dirx y et z n'est plus parser mais remplie apres (pas moi) MAIS PARSER un "DIR" en float4
+donc x y et z sont le vecteur et un w qui est la rotation
+*/
 typedef struct		s_cam
 {
 	cl_float4		ori;
@@ -86,6 +90,7 @@ typedef struct 		s_set
 	int				height;
 	int				max_reflect; // pas supp 50
 	int				anti_allias; // theoriquement jamais supp a 4
+	int				ambient;
 	cl_float		stereo; // stereoscopie 0 ou 1
 }					t_set;
 /**/
