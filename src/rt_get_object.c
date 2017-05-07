@@ -51,6 +51,7 @@ void						rt_get_object(t_obj *obj, char *file, int mask_type)
 		s_get_object_var(index, file, obj);
 		file = rt_goto_data_end(file - 1);
 	}
+	rt_check_min_max(&check_mask_type, obj);
 	rt_check_all_data(mask_type, check_mask_type);
 }
 

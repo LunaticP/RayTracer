@@ -15,7 +15,6 @@ void				***rt_list_to_tab(t_parser *parser, int *tab_size)
 {
 	t_parser		*ptr_parser;
 	void			***tab;
-	// int				tab_size[SIZE];
 
 	ptr_parser = parser;
 	s_tab_size_count(tab_size, ptr_parser);
@@ -69,11 +68,6 @@ static void				s_tab_set(void ***tab, t_parser *parser)
 	{
 		ft_memcpy((((char **)tab)[ptr_parser->elem]) + (g_tab_data[ptr_parser->elem] * count[ptr_parser->elem]),
 			ptr_parser->content, g_tab_data[ptr_parser->elem]);
-		// if(ptr_parser->elem == TEXTURES)
-		// {
-		// 	printf("TEST IN WHILE : %s\n", tab[4][count[ptr_parser->elem]]);
-		// 	// exit(0);
-		// }
 		count[ptr_parser->elem]++;
 		ptr_parser = ptr_parser->next;
 	}
@@ -86,10 +80,8 @@ void					s_check_texture(void ***tab, int max_textures)
 	int					i;
 
 	i = 0;
-	// printf("%d\n", ((t_obj *)((t_obj *)tab[0]) + 1)->tex);
 	while ((t_obj *)(((t_obj *)tab[0]) + i)->type != end)
 	{
-		// printf("test\n");
 		if ((t_obj *)(((t_obj *)tab[0]) + i)->tex > max_textures - 1)
 			exit_error("EXIT : Bad Textures in entry data");
 		++i;

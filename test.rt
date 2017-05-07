@@ -1,15 +1,10 @@
-textures
-{
-	"test3.ppm";
-}
-
 objects
 {
 	sphere
 	{
 		pos
 		{
-			x = 0;
+			x = 10;
 			y = 3;
 			z = 0;
 			w = 0;
@@ -20,27 +15,21 @@ objects
 			y = 1;
 			z = 0;
 		}
-		min
-		{
-			x = -10000;
-			y = -10000;
-			z = -10000;
-		}
-		max
-		{
-			x = 10000;
-			y = 10000;
-			z = 10000;
-		}
 		col = #FF0000;
 		diff = 1;
 		refl = 0;
 		trans = 0;
 		refr = 0;
-		tex = 1s;
+		tex = 1;
 		n_m = 0;
 		r = 3;
 	}
+}
+
+textures
+{
+	"test3.ppm";
+	"test.ppm";
 }
 
 lights

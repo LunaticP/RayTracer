@@ -2,8 +2,8 @@
 
 void			*rt_get_short(char *file)
 {
-	static short	c;
+	static void	*c;
 
 	c = rt_atoi(file);
-	return ((void *)&c);
+	return (c);
 }

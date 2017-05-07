@@ -43,6 +43,8 @@ SRC_NAME =	main.c\
 			rt_list_to_tab.c\
 			rt_parser_textures.c\
 			rt_atoi.c\
+			rt_parser_settings.c\
+			rt_get_str.c\
 
 INC_FILE = include/key.h\
 		   include/rt.h\

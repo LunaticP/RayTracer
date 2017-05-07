@@ -13,7 +13,7 @@ typedef struct		s_type_elem
 static const t_type_elem tab_elem[] = {	{"objects{", &rt_parser_objects},
 										{"lights{", &rt_parser_lights},
 										{"camera{", &rt_parser_camera},
-										{"settings{", NULL}, // need fonction for launch
+										{"settings{", &rt_parser_settings},
 										{"textures{", &rt_parser_textures},
 										{"}", NULL}		};
 
@@ -26,7 +26,7 @@ t_parser				*rt_parser_file(char *file)
 	int			check;
 
 	check = 0;
-	parser = s_init_parser();
+	parser = (t_parser *)rt_memalloc(sizeof(t_parser)); // SURE ? [little tricks]
 	ptr_parser = parser;
 	size = sizeof(tab_elem) / sizeof(t_type_elem) - 1;
 	while ((index = s_choice_lvl_1(&file, size)) != size)
@@ -41,30 +41,6 @@ t_parser				*rt_parser_file(char *file)
 		file = rt_goto_bracket_close(file);
 	}
 	return (parser);
-}
-
-static t_parser			*s_init_parser(void)
-{
-	t_parser	*parser;
-
-	parser = (t_parser *)rt_memalloc(sizeof(t_parser));
-	parser->content = (t_set *)s_init_settings();
-	parser->elem = SETTINGS;
-	parser->next = NULL;
-	return (parser);
-}
-
-static t_set			*s_init_settings(void)
-{
-	t_set		*settings;
-
-	settings = (t_set *)rt_memalloc(sizeof(t_set));
-	settings->name = "Default";
-	settings->width = 900;
-	settings->height = 700;
-	settings->max_reflect = 2;
-	settings->anti_allias = 2;
-	return (settings);
 }
 
 static int				s_choice_lvl_1(char **file, int size)

@@ -16,6 +16,7 @@
 # define USAGE "./rtv1 file\n"
 # define HEIGHT 900
 # define WIDTH 700
+# define _
 
 # include <libft.h>
 # include <libocl.h>
@@ -26,7 +27,7 @@
 # include <math.h>
 # include <key.h>
 
-#define DEBUG 0
+#define DEBUG 1
 
 typedef enum		e_type
 {
@@ -85,13 +86,13 @@ typedef struct		s_cam
 /* A voir si bien tout dans les settings */
 typedef struct 		s_set
 {
-	char			*name;
 	int				width;
 	int				height;
 	int				max_reflect; // pas supp 50
 	int				anti_allias; // theoriquement jamais supp a 4
 	int				ambient;
 	cl_float		stereo; // stereoscopie 0 ou 1
+	char			*name;
 }					t_set;
 /**/
 
@@ -158,6 +159,7 @@ t_parser		*rt_parser_objects(char	*file, t_parser *ptr_parser);
 t_parser		*rt_parser_camera(char *file, t_parser *parser);
 t_parser		*rt_parser_lights(char *file, t_parser *parser);
 t_parser		*rt_parser_textures(char *file, t_parser *parser);
+t_parser		*rt_parser_settings(char *file, t_parser *parser);
 void			rt_get_object(t_obj *obj, char *file, int mask_type);
 
 void			***rt_list_to_tab(t_parser *parser, int *tab_size);
@@ -168,9 +170,10 @@ char			*rt_goto_data_end(char *file);
 char			*rt_get_str_float(char *file);
 char			*rt_next_float(char *file);
 
-int				rt_atoi(const char *str);
+void			*rt_atoi(char *str);
 void			*rt_get_char(char *file);
 void			*rt_get_short(char *file);
+void			*rt_get_str(char *file);
 void			*rt_get_color(char *file);
 void			*rt_get_int2(char *file);
 void			*rt_get_float(char *str);
@@ -187,9 +190,11 @@ void			exit_error(char *str);
 
 void			rt_add_mask(int *mask_check, int index);
 void			rt_check_all_data(int mask, int check);
+void			rt_check_min_max(int *mask, t_obj *obj);
 
 void			print_data_obj(t_obj *obj);
 void			print_data_camera(t_cam *cam);
+void			print_data_settings(t_set *set);
 void			test_read_tab(void *** tab);
 
 #endif

@@ -2,8 +2,8 @@
 
 void			*rt_memalloc(size_t size)
 {
-	if (DEBUG)
-		printf("size : %d\n", size);
+	// if (DEBUG)
+	// 	printf("size : %ld\n", size);
 	void		*ptr;
 	char		*tmp;
 

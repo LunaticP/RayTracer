@@ -46,7 +46,6 @@ t_parser			*rt_parser_lights(char *file, t_parser *parser)
 	const int		size = sizeof(tab_data) / sizeof(t_data) - 1;
 
 	mask_check = 0;
-	new_parser = NULL; // useless
 	new_parser = s_init_new_parser(new_parser);
 	((t_obj *)new_parser->content)->type = light;
 	while ((index = s_choice_data(&file, size)) != size)

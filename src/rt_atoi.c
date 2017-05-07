@@ -1,9 +1,9 @@
 #include "parser.h"
 
-int		rt_atoi(const char *str)
+void		*rt_atoi(char *str)
 {
-	int out;
-	int is_negative;
+	static int 	out;
+	int 		is_negative;
 
 	out = 0;
 	while (*str > '\0' && *str <= ' ')
@@ -25,5 +25,5 @@ int		rt_atoi(const char *str)
 		out = -out;
 	if (*str != ';')
 		exit_error("EXIT : [rt_atoi.c]");
-	return (out);
+	return ((void *)&out);
 }
