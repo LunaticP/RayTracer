@@ -37,4 +37,5 @@
 *.swo
 .DS_Store
 rtvocl
+rt_client
 Rendu.ppm
