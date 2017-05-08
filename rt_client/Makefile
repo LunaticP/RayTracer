@@ -6,7 +6,7 @@
 #    By: aviau <aviau@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/09/11 11:02:36 by aviau             #+#    #+#              #
-#    Updated: 2017/05/05 19:18:12 by vthomas          ###   ########.fr        #
+#    Updated: 2017/05/08 13:25:19 by vthomas          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,6 +18,7 @@ SRC_NAME =	main.c\
 			error.c\
 			init_network.c\
 			listener.c\
+			memjoin.c\
 			message_info.c
 INC_FILE = include/rt.h
 
@@ -91,6 +92,6 @@ print_rt:
 	@printf "\e[33mrtvocl"
 
 test: all
-	./$(NAME) 10.11.1.1
+	./$(NAME) 10.11.1.12
 endif
 .PHONY: fclean clean

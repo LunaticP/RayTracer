@@ -1,38 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   message_info.c                                     :+:      :+:    :+:   */
+/*   memjoin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vthomas <vthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/05/05 16:39:20 by vthomas           #+#    #+#             */
-/*   Updated: 2017/05/08 10:43:17 by vthomas          ###   ########.fr       */
+/*   Created: 2017/05/08 13:22:48 by vthomas           #+#    #+#             */
+/*   Updated: 2017/05/08 13:48:53 by vthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <rt_network.h>
 #include <libft.h>
 
-void	print_log(char *str)
+void	*memjoin(char *dst, char *src, int sdst, int ssrc)
 {
-	ft_putstr("\033[90m[ log ]\033[0m - ");
-	ft_putendl(str);
-}
+	void *mem;
 
-void	print_warning(char *str)
-{
-	ft_putstr("\033[33m[ warning ]\033[0m - ");
-	ft_putendl(str);
-}
-
-void	print_error(char *str)
-{
-	ft_putstr("\033[31m[ error ]\033[0m - ");
-	ft_putendl(str);
-}
-
-void	print_info(char *str)
-{
-	ft_putstr("\033[32m[ info ]\033[0m - ");
-	ft_putendl(str);
+	mem = ft_memalloc(sizeof(char) * (ssrc + sdst));
+	ft_memcpy(mem, dst, sdst);
+	ft_memcpy(&mem[sdst], src, ssrc);
+	ft_strdel(&dst);
+	return (mem);
 }

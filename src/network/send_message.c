@@ -1,38 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   message_info.c                                     :+:      :+:    :+:   */
+/*   send_message.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vthomas <vthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/05/05 16:39:20 by vthomas           #+#    #+#             */
-/*   Updated: 2017/05/08 10:43:17 by vthomas          ###   ########.fr       */
+/*   Created: 2017/05/08 10:47:45 by vthomas           #+#    #+#             */
+/*   Updated: 2017/05/08 13:12:18 by vthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <rt_network.h>
 #include <libft.h>
 
-void	print_log(char *str)
+int	send_message(int type, char *msg, int len, int id_client)
 {
-	ft_putstr("\033[90m[ log ]\033[0m - ");
-	ft_putendl(str);
-}
+	t_server	*s;
+	int			i;
 
-void	print_warning(char *str)
-{
-	ft_putstr("\033[33m[ warning ]\033[0m - ");
-	ft_putendl(str);
-}
-
-void	print_error(char *str)
-{
-	ft_putstr("\033[31m[ error ]\033[0m - ");
-	ft_putendl(str);
-}
-
-void	print_info(char *str)
-{
-	ft_putstr("\033[32m[ info ]\033[0m - ");
-	ft_putendl(str);
+	s = NULL;
+	while (s == NULL)
+		s = server(0, NULL);
+	i = 0;
+	while (i < MAX_CLIENT && id_client != s->c[i].id)
+		i++;
+	if (i > MAX_CLIENT || s->c[i].sock == 0)
+		return (-1);
+	write(s->c[i].sock, &type, sizeof(int));
+	write(s->c[i].sock, &len, sizeof(int));
+	write(s->c[i].sock, msg, len);
+	return (0);
 }

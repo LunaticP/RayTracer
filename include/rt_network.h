@@ -6,7 +6,7 @@
 /*   By: vthomas <vthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/03 11:59:54 by vthomas           #+#    #+#             */
-/*   Updated: 2017/05/05 17:47:18 by vthomas          ###   ########.fr       */
+/*   Updated: 2017/05/08 11:00:44 by vthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # define PORT_MAX		50
 # define BASE_PORT		1490
 # define BUFF_LEN		1024
-# define USE_CLUSTER	1
+//# define USE_CLUSTER	1
 # include <libft.h>
 # include <sys/socket.h>
 # include <netdb.h>
@@ -31,6 +31,12 @@ typedef enum	e_error
 	err_connect,
 	err_arg
 }				t_error;
+
+typedef enum	e_msg
+{
+	msg_tex,
+	msg_part
+}				t_msg;
 
 typedef struct s_client
 {
@@ -60,6 +66,8 @@ void		rt_listen(t_server *s);
 
 t_server	*server(int status, t_server *serv);
 int			server_render(void);
+
+int			send_message(int type, char *msg, int len, int id_client);
 
 void		error_code(int code);
 

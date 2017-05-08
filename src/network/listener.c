@@ -6,7 +6,7 @@
 /*   By: vthomas <vthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/05 17:46:07 by vthomas           #+#    #+#             */
-/*   Updated: 2017/05/05 18:01:58 by vthomas          ###   ########.fr       */
+/*   Updated: 2017/05/08 11:32:02 by vthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void client_listener(t_client *c)
 	//char	buf[BUFF_LEN];
 
 	print_log("Thread started");
+	send_message(msg_part, "Hello World", 11, 0);
 	while ((ret = read(c->sock, (c->buf), BUFF_LEN)) > 0)
 	{
 		print_info(c->buf);

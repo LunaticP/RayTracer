@@ -6,7 +6,7 @@
 #    By: aviau <aviau@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/09/11 11:02:36 by aviau             #+#    #+#              #
-#    Updated: 2017/05/05 17:46:57 by vthomas          ###   ########.fr        #
+#    Updated: 2017/05/08 10:59:38 by vthomas          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,6 +20,7 @@ SRC_NAME =	main.c\
 			network/init_clustering.c\
 			network/listener.c\
 			network/render.c\
+			network/send_message.c\
 			network/server.c
 
 INC_FILE = include/key.h\
@@ -40,7 +41,8 @@ ARG=-L./libft/ -L./libmlx/ -L./libmatrix -L./libocl \
 	-lft -lmatrix -lmlx -locl \
 	-framework OpenGl -framework AppKit -framework opencl\
 	-lpthread
-CFLAGS = -Wall -Wextra
+CFLAGS =	-Wall -Wextra\
+			-D USE_CLUSTER=1
 DEPDIR				= .deps/
 DEPFILES			= $(patsubst %.c,$(DEPDIR)%.d,$(SRC_NAME))
 

@@ -6,7 +6,7 @@
 /*   By: jplevy <jplevy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/08 01:37:39 by jplevy            #+#    #+#             */
-/*   Updated: 2017/05/05 19:49:51 by aviau            ###   ########.fr       */
+/*   Updated: 2017/05/08 10:28:12 by vthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -506,7 +506,7 @@ int		main(int ac, char **av)
 	mlx.s.cam.chunk.y = -1;
 	mlx.s.cam.dsr = 1;
 	mlx.p[0] = 0;
-//	init_clustering(&mlx, av);
+	init_clustering(&mlx, av);
 	pws[0] = WIDTH / mlx.s.cam.viewplane.z;
 	pws[1] = HEIGHT / mlx.s.cam.viewplane.z;
 	pws_f[0] = W / 2;
