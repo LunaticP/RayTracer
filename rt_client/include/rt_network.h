@@ -25,7 +25,7 @@ typedef struct s_client
 {
 	int					sock;
 	int					id;
-	char				*buf;
+	unsigned char		*buf;
 	int					len;
 	int					type;
 	char				*addr;
@@ -41,11 +41,11 @@ int			init_network(char *addr);
 int			create_client(t_client *c);
 void		client_loop(t_client *c);
 
-void		*memjoin(char *dst, char *src, int sdst, int ssrc);
+void		*memjoin(unsigned char *dst, unsigned char *src, int sdst, int ssrc);
 
 void		rt_listener(t_client *c);
-int			parse_msg(char *buf, int len, t_client *c);
-int			send_message(int type, char *msg, int len, t_client *c);
+int			parse_msg(unsigned char *buf, int len, t_client *c);
+int			send_message(int type, unsigned char *msg, int len, t_client *c);
 
 void		print_log(char *str);
 void		print_warning(char *str);
