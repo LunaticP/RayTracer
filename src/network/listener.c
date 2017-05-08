@@ -6,7 +6,7 @@
 /*   By: vthomas <vthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/05 17:46:07 by vthomas           #+#    #+#             */
-/*   Updated: 2017/05/05 18:01:58 by vthomas          ###   ########.fr       */
+/*   Updated: 2017/05/08 18:22:28 by vthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,58 @@
 #include <libft.h>
 #include <pthread.h>
 
+static void print_mem(char *buf, int l)
+{
+	int i;
+
+	i = 0;
+	while (i < l)
+	{
+		printf("%02X ", buf[i]);
+		i++;
+	}
+	printf("\n");
+	fflush(NULL);
+}
+
+int			parse_msg(char *buf, int len, t_client *c)
+{
+	int	current;
+	int	tmp;
+
+	ft_memcpy((void *)&(c->type), (void *)c->buf, sizeof(int));
+	len = read(c->sock, buf, BUFF_LEN);
+	len = (int)*buf;
+	print_info(ft_itoa(len));
+	current = 0;
+	ft_bzero(buf, BUFF_LEN);
+	ft_strdel(&(c->buf));
+	c->buf = ft_strnew(0);
+	while (current < len)
+	{
+		tmp = recv(c->sock, buf, BUFF_LEN, 0);
+		current += tmp;
+		c->buf = (char *)memjoin(c->buf, buf, current - tmp, BUFF_LEN);
+		ft_bzero(buf, BUFF_LEN);
+	}
+	c->len = len;
+	return (c->type);
+}
+
+/*
+* thread launch for waiting client read
+*/
 void client_listener(t_client *c)
 {
 	int		ret;
-	//char	buf[BUFF_LEN];
 
 	print_log("Thread started");
-	while ((ret = read(c->sock, (c->buf), BUFF_LEN)) > 0)
+	send_message(msg_part, "Hello World", 12, 0);
+	c->buf = ft_strnew(4);
+	while ((ret = read(c->sock, c->buf, BUFF_LEN)))
 	{
-		print_info(c->buf);
+		ret = parse_msg(c->buf, ret, c);
+		print_mem(c->buf, c->len);
 	}
 	print_info("Disconnected");
 	close(c->sock);
@@ -34,6 +77,7 @@ void	rt_listen(t_server *s)
 
 	i = 0;
 	print_log("Server start listen");
+	//print_error(strerror(errno));
 	while (1)
 	{
 		s->c[i].sock = accept(s->sock, (struct sockaddr *)&(s->c[i].addr),

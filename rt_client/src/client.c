@@ -6,11 +6,12 @@
 /*   By: vthomas <vthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/05 18:58:09 by vthomas           #+#    #+#             */
-/*   Updated: 2017/05/05 19:18:52 by vthomas          ###   ########.fr       */
+/*   Updated: 2017/05/08 18:10:46 by vthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <rt_network.h>
+#include <libft.h>
 
 t_client	*rt_client(int status, t_client *c)
 {

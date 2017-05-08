@@ -1,26 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_network.c                                     :+:      :+:    :+:   */
+/*   send_message.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vthomas <vthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/05/05 18:49:38 by vthomas           #+#    #+#             */
-/*   Updated: 2017/05/08 18:13:25 by vthomas          ###   ########.fr       */
+/*   Created: 2017/05/08 10:47:45 by vthomas           #+#    #+#             */
+/*   Updated: 2017/05/08 13:12:18 by vthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <rt_network.h>
 #include <libft.h>
-#include <pthread.h>
 
-int	init_network(char *addr)
+int	send_message(int type, char *msg, int len, int id_client)
 {
-	t_client	*c;
-	pthread_t	cth;
+	t_server	*s;
+	int			i;
 
-	c = (t_client *)ft_memalloc(sizeof(t_client));
-	c->addr = ft_strdup(addr);
-	pthread_create(&cth, NULL, (void *)client_loop, (void *)c);
+	s = NULL;
+	while (s == NULL)
+		s = server(0, NULL);
+	i = 0;
+	while (i < MAX_CLIENT && id_client != s->c[i].id)
+		i++;
+	if (i > MAX_CLIENT || s->c[i].sock == 0)
+		return (-1);
+	write(s->c[i].sock, &type, sizeof(int));
+	write(s->c[i].sock, &len, sizeof(int));
+	write(s->c[i].sock, msg, len);
 	return (0);
 }

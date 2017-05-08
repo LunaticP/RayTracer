@@ -1,26 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_network.c                                     :+:      :+:    :+:   */
+/*   memjoin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vthomas <vthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/05/05 18:49:38 by vthomas           #+#    #+#             */
-/*   Updated: 2017/05/08 18:13:25 by vthomas          ###   ########.fr       */
+/*   Created: 2017/05/08 13:22:48 by vthomas           #+#    #+#             */
+/*   Updated: 2017/05/08 13:48:53 by vthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <rt_network.h>
 #include <libft.h>
-#include <pthread.h>
 
-int	init_network(char *addr)
+void	*memjoin(char *dst, char *src, int sdst, int ssrc)
 {
-	t_client	*c;
-	pthread_t	cth;
+	void *mem;
 
-	c = (t_client *)ft_memalloc(sizeof(t_client));
-	c->addr = ft_strdup(addr);
-	pthread_create(&cth, NULL, (void *)client_loop, (void *)c);
-	return (0);
+	mem = ft_memalloc(sizeof(char) * (ssrc + sdst));
+	ft_memcpy(mem, dst, sdst);
+	ft_memcpy(&mem[sdst], src, ssrc);
+	ft_strdel(&dst);
+	return (mem);
 }

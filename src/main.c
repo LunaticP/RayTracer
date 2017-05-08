@@ -6,7 +6,7 @@
 /*   By: jplevy <jplevy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/08 01:37:39 by jplevy            #+#    #+#             */
-/*   Updated: 2017/05/08 18:34:33 by aviau            ###   ########.fr       */
+/*   Updated: 2017/05/08 19:33:36 by aviau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -381,16 +381,6 @@ void	dsr(t_mlx *mlx)
 	}
 }
 
-void	*memjoin(char *dst, char *src, int sdst, int ssrc)
-{
-	void *mem;
-
-	mem = ft_memalloc(sizeof(char) * (ssrc + sdst));
-	ft_memcpy(mem, dst, sdst);
-	ft_memcpy(&mem[sdst], src, ssrc);
-	return (mem);
-}
-
 void	pr_mem(char *str, int n)
 {
 	int		i;
@@ -512,7 +502,7 @@ int		main(int ac, char **av)
 	mlx.s.cam.chunk.y = -1;
 	mlx.s.cam.dsr = 1;
 	mlx.p[0] = 0;
-//	init_clustering(&mlx, av);
+	init_clustering(&mlx, av);
 	pws[0] = WIDTH / mlx.s.cam.viewplane.z;
 	pws[1] = HEIGHT / mlx.s.cam.viewplane.z;
 	pws_f[0] = W / 2;

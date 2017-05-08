@@ -6,19 +6,21 @@
 #    By: aviau <aviau@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/09/11 11:02:36 by aviau             #+#    #+#              #
-#    Updated: 2017/05/05 19:18:12 by vthomas          ###   ########.fr        #
+#    Updated: 2017/05/08 17:53:18 by vthomas          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 OS = APPLE
-NAME = rtvocl
+NAME = rt_client
 SRC_NAME =	main.c\
 			client.c\
 			create_client.c\
 			error.c\
 			init_network.c\
 			listener.c\
-			message_info.c
+			memjoin.c\
+			message_info.c\
+			send_message.c
 INC_FILE = include/rt.h
 
 OBJ_NAME = $(SRC_NAME:.c=.o)
@@ -91,6 +93,6 @@ print_rt:
 	@printf "\e[33mrtvocl"
 
 test: all
-	./$(NAME) 10.11.1.1
+	./$(NAME) 10.11.1.12
 endif
 .PHONY: fclean clean

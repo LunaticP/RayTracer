@@ -4,7 +4,7 @@
 # define MAX_PORT	50
 //# define BASE_PORT	8025
 # define BASE_PORT	1490
-# define BUFF_LEN 1024
+# define BUFF_LEN 4
 # include <netinet/in.h>
 # include <pthread.h>
 
@@ -15,10 +15,19 @@ typedef enum	e_error
 	err_arg
 }				t_error;
 
+typedef enum	e_msg
+{
+	msg_tex,
+	msg_part
+}				t_msg;
+
 typedef struct s_client
 {
 	int					sock;
 	int					id;
+	char				*buf;
+	int					len;
+	int					type;
 	char				*addr;
 
 }				t_client;
@@ -32,7 +41,11 @@ int			init_network(char *addr);
 int			create_client(t_client *c);
 void		client_loop(t_client *c);
 
+void		*memjoin(char *dst, char *src, int sdst, int ssrc);
+
 void		rt_listener(t_client *c);
+int			parse_msg(char *buf, int len, t_client *c);
+int			send_message(int type, char *msg, int len, t_client *c);
 
 void		print_log(char *str);
 void		print_warning(char *str);
