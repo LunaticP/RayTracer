@@ -6,7 +6,7 @@
 /*   By: vthomas <vthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/05 18:58:09 by vthomas           #+#    #+#             */
-/*   Updated: 2017/05/08 18:10:46 by vthomas          ###   ########.fr       */
+/*   Updated: 2017/05/08 23:25:14 by vthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void		client_loop(t_client *c)
 		while (c->id)
 			ft_wait(1);
 		print_log("Disconnected");
-		ft_wait(5);
+		ft_wait(1);
 		close(c->sock);
 	}
 }

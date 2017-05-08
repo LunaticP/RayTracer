@@ -53,7 +53,7 @@ int	create_client(t_client *c)
 		if (port >= BASE_PORT + MAX_PORT)
 		{
 			ft_putendl("Can't connect... retry");
-			ft_wait(10);
+			ft_wait(3);
 		}
 	}
 	print_info(ft_itoa(port));

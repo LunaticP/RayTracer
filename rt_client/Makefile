@@ -6,13 +6,13 @@
 #    By: aviau <aviau@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/09/11 11:02:36 by aviau             #+#    #+#              #
-#    Updated: 2017/05/08 20:11:13 by vthomas          ###   ########.fr        #
+#    Updated: 2017/05/09 00:27:44 by vthomas          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
-
 OS = APPLE
 NAME = rt_client
 SRC_NAME =	main.c\
+			callback.c\
 			client.c\
 			create_client.c\
 			error.c\
@@ -92,6 +92,7 @@ re: fclean all
 print_rt:
 	@printf "\e[33mrtvocl"
 
+test : CFLAGS = -Wall -Wextra -g
 test: all
 	./$(NAME) 10.11.1.14
 endif

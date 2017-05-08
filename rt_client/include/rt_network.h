@@ -52,4 +52,8 @@ void		print_warning(char *str);
 void		print_error(char *str);
 void		print_info(char *str);
 
+void		callback_init(t_client *c);
+
+void print_mem(unsigned char *buf, int l);//PLEASE KILL ME
+
 #endif

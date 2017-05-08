@@ -6,7 +6,7 @@
 /*   By: vthomas <vthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/05 18:59:56 by vthomas           #+#    #+#             */
-/*   Updated: 2017/05/08 20:50:08 by vthomas          ###   ########.fr       */
+/*   Updated: 2017/05/08 23:31:12 by vthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <pthread.h>
 #include <libft.h>
 
-static void print_mem(unsigned char *buf, int l)
+void print_mem(unsigned char *buf, int l)
 {
 	int i;
 
@@ -52,6 +52,12 @@ int			parse_msg(unsigned char *buf, int len, t_client *c)
 	return (type);
 }
 
+void parse_callback(t_client *c, int type)
+{
+	if (type == msg_tex)
+		callback_init(c);
+}
+
 void	rt_listener(t_client *c)
 {
 	unsigned char	buf[BUFF_LEN + 1];
@@ -62,6 +68,7 @@ void	rt_listener(t_client *c)
 		l = parse_msg(buf, l, c);
 		print_mem(c->buf, c->len);
 		print_log("turn");
+		parse_callback(c, l);
 		//send_message(msg_tex, "OK", 3, c);
 	}
 	c->id = 0;//For disconnection

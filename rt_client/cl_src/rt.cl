@@ -115,7 +115,7 @@ float4			qt_cross(float4 u, float4 v)
 	ret.y = (u.w * v.y) - (u.x * v.z) + (u.y * v.w) + (u.z * v.x);
 	ret.z = (u.w * v.z) + (u.x * v.y) - (u.y * v.x) + (u.z * v.w);
 	ret.w = (u.w * v.w) - (u.x * v.x) - (u.y * v.y) - (u.z * v.z);
-	return (ret); 
+	return (ret);
 }
 
 float4			qt_gen(float4 axis, float tet)
@@ -268,7 +268,7 @@ int				get_light(__global t_obj *o, __global t_obj *l, float4 hit)
 			col.z += (l[i].col & 0xFF);
 		}
 	}
-//	if(nb); 
+//	if(nb);
 		col /= nb;
 	color += (((int)col.x) &  0xFF0000) / 0x10000;
 	color += (((int)col.y) & 0xFF00) / 0x100;
@@ -574,7 +574,7 @@ int				ray_neg(__global t_obj *o, t_ray *ray, float2 *t)
 			}
 		}
 	}
-	return (ret); 
+	return (ret);
 }
 
 int				rt_plan(__global t_obj *o, int i, t_ray *ray)
@@ -858,13 +858,13 @@ __kernel void	raytracer(
 	int				lt;
 	int				stay;
 	int				refmax = 3;
-	int				color = 0;
+	int				color;
 	int				old;
 	int				quit;
 
-	i *= c[0].viewplane.z;
-	i += c[0].chunk.x;
-	j += c[0].chunk.y;
+//	i *= c[0].viewplane.z;
+//	i += c[0].chunk.x;
+//	j += c[0].chunk.y;
 	if (i < (size_t)c[0].size.x && j < (size_t)c[0].size.y)
 	{
 		string[j * c[0].size.x + i] = 0;

@@ -6,7 +6,7 @@
 /*   By: jplevy <jplevy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/11 06:10:10 by jplevy            #+#    #+#             */
-/*   Updated: 2017/05/04 23:24:43 by aviau            ###   ########.fr       */
+/*   Updated: 2017/05/08 22:00:10 by vthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,9 @@ typedef struct		s_data
 	t_cam	cam;
 	t_obj	*obj;
 	t_obj	*light;
+	unsigned char	*img;
 }					t_data;
+
+t_ocl_prog	*save_prog(int status, t_ocl_prog *prog);
 
 #endif
