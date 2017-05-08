@@ -6,12 +6,12 @@
 #    By: aviau <aviau@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/09/11 11:02:36 by aviau             #+#    #+#              #
-#    Updated: 2017/05/08 13:25:19 by vthomas          ###   ########.fr        #
+#    Updated: 2017/05/08 17:53:18 by vthomas          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 OS = APPLE
-NAME = rtvocl
+NAME = rt_client
 SRC_NAME =	main.c\
 			client.c\
 			create_client.c\
@@ -19,7 +19,8 @@ SRC_NAME =	main.c\
 			init_network.c\
 			listener.c\
 			memjoin.c\
-			message_info.c
+			message_info.c\
+			send_message.c
 INC_FILE = include/rt.h
 
 OBJ_NAME = $(SRC_NAME:.c=.o)

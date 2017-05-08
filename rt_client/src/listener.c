@@ -6,7 +6,7 @@
 /*   By: vthomas <vthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/05 18:59:56 by vthomas           #+#    #+#             */
-/*   Updated: 2017/05/08 15:43:48 by vthomas          ###   ########.fr       */
+/*   Updated: 2017/05/08 16:18:52 by vthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ void	rt_listener(t_client *c)
 		print_info("Going parse");
 		l = parse_msg(buf, l, c);
 		print_mem(c->buf, c->len);
+		send_message(msg_tex, "OK", 3, c);
 	}
 	close(c->sock);
 	c->id = 0;//For disconnection

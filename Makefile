@@ -6,7 +6,7 @@
 #    By: aviau <aviau@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/09/11 11:02:36 by aviau             #+#    #+#              #
-#    Updated: 2017/05/08 10:59:38 by vthomas          ###   ########.fr        #
+#    Updated: 2017/05/08 16:59:46 by vthomas          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,6 +19,7 @@ SRC_NAME =	main.c\
 			network/error.c\
 			network/init_clustering.c\
 			network/listener.c\
+			network/memjoin.c\
 			network/render.c\
 			network/send_message.c\
 			network/server.c

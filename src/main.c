@@ -6,7 +6,7 @@
 /*   By: jplevy <jplevy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/08 01:37:39 by jplevy            #+#    #+#             */
-/*   Updated: 2017/05/08 10:28:12 by vthomas          ###   ########.fr       */
+/*   Updated: 2017/05/08 15:59:36 by vthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -373,16 +373,6 @@ void	dsr(t_mlx *mlx)
 			mlx->p[(y / DSR * xmax + x / DSR) * 4 + 3] = 0;
 		}
 	}
-}
-
-void	*memjoin(char *dst, char *src, int sdst, int ssrc)
-{
-	void *mem;
-
-	mem = ft_memalloc(sizeof(char) * (ssrc + sdst));
-	ft_memcpy(mem, dst, sdst);
-	ft_memcpy(&mem[sdst], src, ssrc);
-	return (mem);
 }
 
 void	pr_mem(char *str, int n)

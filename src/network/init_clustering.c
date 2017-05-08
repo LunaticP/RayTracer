@@ -6,7 +6,7 @@
 /*   By: vthomas <vthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/05 16:44:10 by vthomas           #+#    #+#             */
-/*   Updated: 2017/05/08 10:34:01 by vthomas          ###   ########.fr       */
+/*   Updated: 2017/05/08 16:40:05 by vthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ void init_server(t_server *s)
 	create_server(s);
 	print_info("server started on port:");
 	print_info(ft_itoa(s->port));
+	while (s->sock <= 0)
+		;
 	rt_listen(s);
 }
 
@@ -59,14 +61,6 @@ int	init_clustering(t_mlx *mlx, char **av)
 
 	i = -1;
 	set = USE_CLUSTER;
-//	while (av[++i])
-//	{
-//		if (ft_strcmp(av[i], "--cluster") == 0)
-//		{
-//			set = 1;
-//			break;
-//		}
-//	}
 	if (USE_CLUSTER == 1)
 	{
 		mlx->cluster = 1;
