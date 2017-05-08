@@ -6,7 +6,7 @@
 /*   By: vthomas <vthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/03 11:59:54 by vthomas           #+#    #+#             */
-/*   Updated: 2017/05/08 16:43:04 by vthomas          ###   ########.fr       */
+/*   Updated: 2017/05/08 19:48:15 by vthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ t_server	*server(int status, t_server *serv);
 int			server_render(void);
 
 int			send_message(int type, char *msg, int len, int id_client);
+void		broadcast(int type, char *msg, int len);
 int			parse_msg(char *buf, int len, t_client *c);
 
 void		error_code(int code);
