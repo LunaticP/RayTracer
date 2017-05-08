@@ -329,12 +329,12 @@ int				tex_num(int num, __global t_obj *o, int id, __global int *tex, float2 pol
 	}
 	if (o[id].type == plan)
 	{
-		out = (int)((polar.x / 10) * (float)tex[j + 1]) % tex[j] * tex[j] \
+		out = (int)((polar.x / 10) * (float)tex[j + 1]) % tex[j + 1] * tex[j] \
 			  + (int)((polar.y / 10) * (float)tex[j]) + j + 2;
 	}
 	if (o[id].type == cone || o[id].type == cylindre)
 	{
-		out = abs((int)(polar.x / 10 * (float)tex[j + 1]) % tex[j + 1]) * tex[j] \
+		out = abs((int)(polar.x / 5 * (float)tex[j + 1]) % tex[j + 1]) * tex[j] \
 			  + (int)(polar.y * tex[j] / M_PI) % tex[j] + j + 2;
 	}
 	return (out > tex[0] || out < 0 ? 0 : out);
@@ -357,6 +357,7 @@ int				diffuse(__global t_obj *o,float *t, __global t_obj *l, t_ray ray, int id,
 	float4			angle;
 	float4			temp;
 	float4			ctsn;
+	float4			axis;
 	float2			polar;
 	float			norme;
 	float			dp;
@@ -372,8 +373,9 @@ int				diffuse(__global t_obj *o,float *t, __global t_obj *l, t_ray ray, int id,
 	hit = ray.dir * *t + ray.ori;
 	temp = normalize(o[id].dir);
 	angle = acos(dot(temp, (float4)(0,1,0,0)));
-	float4 axis = normalize(cross(temp, (float4)(0,1,0,0)));
+	axis = normalize(cross(temp, (float4)(0,1,0,0)));
 	ctsn = hit - o[id].pos;
+	ctsn = ctsn * cos(angle) + cross(axis, ctsn) * sin(angle) + axis * dot(axis, ctsn) * (1 - cos(angle));
 	if(o[id].type == sphere)
 	{
 		normale = norm_sphere(o, hit, id);
@@ -382,15 +384,14 @@ int				diffuse(__global t_obj *o,float *t, __global t_obj *l, t_ray ray, int id,
 	}
 	else if (o[id].type == plan)
 	{
-		polar.x = ctsn.x + 15;
-		polar.y = ctsn.z + 15;
+		polar.x = fabs(ctsn.x + 15);
+		polar.y = fabs(ctsn.z + 15);
 		normale = o[id].dir;
 	}
 	else if (o[id].type == cone)
 	{
 		normale = norm_cone(o, hit, id, ray);
-		ctsn = ctsn * cos(angle) + cross(axis, ctsn) * sin(angle) + axis * dot(axis, ctsn) * (1 - cos(angle));
-		polar.x = (ctsn.y - (5.0 * (ctsn.y > 0 ? 1.0 : -1.0))) * -1.0;
+		polar.x = ctsn.y;
 		polar.y = atan(ctsn.x / ctsn.z) + M_PI_2_F;
 	}
 	else if (o[id].type == cylindre)
@@ -411,7 +412,7 @@ int				diffuse(__global t_obj *o,float *t, __global t_obj *l, t_ray ray, int id,
 	if (o[id].r_m)
 	{
 		color = tex[tex_num(o[id].r_m, o, id, tex, polar)];
-		*rm = (float)color / 0x00FFFFFF;
+		*rm = (float)((color & 0xFF0000) / 0x10000 + (color & 0xFF00) / 0x100 + (color & 0xFF)) / 765.0f;
 	}
 	if (o[id].tex)
 		color = tex[tex_num(o[id].tex, o, id, tex, polar)];
@@ -837,7 +838,7 @@ __kernel void	raytracer(
 	int				id;
 	int				lt;
 	int				stay;
-	int				refmax = 3;
+	int				refmax = 7;
 	int				color = 0;
 	int				old;
 	int				quit;
@@ -885,11 +886,11 @@ __kernel void	raytracer(
 				refmax--;
 				ray.ori = ray.dir * ray.t + ray.ori;
 			}
-			else if((o[id].refl && o[id].refl > EPSILON && o[id].trans < EPSILON) || o[id].r_m)
+			else if(o[id].refl && o[id].refl > EPSILON && o[id].trans < EPSILON)
 			{
 				refmax--;
 				old = color;
-				oldr *= (o[id].r_m > 0 ? rm : o[id].refl);
+				oldr *= (o[id].r_m > 0 ? rm * o[id].refl : o[id].refl);
 				oldd = o[id].diff;
 				tmp = ray;
 				ray.ori = ray.dir * ray.t + ray.ori;

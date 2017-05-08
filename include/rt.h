@@ -6,7 +6,7 @@
 /*   By: jplevy <jplevy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/11 06:10:10 by jplevy            #+#    #+#             */
-/*   Updated: 2017/05/05 19:50:06 by aviau            ###   ########.fr       */
+/*   Updated: 2017/05/08 16:15:47 by aviau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@
 # include <math.h>
 # include <key.h>
 # include <pthread.h>
+# include <time.h>
 
 typedef enum		e_type
 {
