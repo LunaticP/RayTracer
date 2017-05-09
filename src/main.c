@@ -6,7 +6,7 @@
 /*   By: jplevy <jplevy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/08 01:37:39 by jplevy            #+#    #+#             */
-/*   Updated: 2017/05/09 17:59:26 by aviau            ###   ########.fr       */
+/*   Updated: 2017/05/09 19:53:52 by aviau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -280,9 +280,9 @@ t_scene	ft_init_scene(void)
 	ret.obj[11].pos.x = 0.0;
 	ret.obj[11].pos.y = 0.0;
 	ret.obj[11].pos.z = 0.0;
-	ret.obj[11].dir.x = 0.0;
+	ret.obj[11].dir.x = 1.0;
 	ret.obj[11].dir.y = 1.0;
-	ret.obj[11].dir.z = 0.0;
+	ret.obj[11].dir.z = 1.0;
 	ret.obj[11].pos.w = 0;
 	ret.obj[11].col = 0xFFFFFF;
 	ret.obj[11].r_m = 9;
@@ -415,6 +415,28 @@ unsigned char	*data_to_str(t_mlx *data)
 	return (str);
 }
 
+void	loop_client()
+{
+	t_server	*s;
+	int			i;
+
+	s = server(0, NULL);
+	while (s->todo != NULL)
+	{
+		i = -1;
+		while (++i < MAX_CLIENT && s->c[i].sock)
+		{
+			if (s->c[i].status == 0)
+			{
+				s->c[i].status = 1;
+				s->c[i].line = 1;
+				send_message(msg_part, (unsigned char *)&(s->todo->line), sizeof(int), i);
+		//		remove_todo();
+			}
+		}
+	}
+}
+
 int		ray_loop(t_mlx *mlx)
 {
 	unsigned char *send;
@@ -438,25 +460,10 @@ int		ray_loop(t_mlx *mlx)
 /* ******************************* NETWORKING ******************************* */
 		else if (!mlx->s.cam.fast)
 		{
-			send = data_to_str(mlx);
-//			pr_mem(send, *(int *)(&send[0]));
-			broadcast(msg_tex, send, *(int *)(&send[0]));
-			printf("\033[32m[ info ]\033[0m - data sended\n");
-			fflush(NULL);
-//			while(mlx->s.cam.chunk.y * 10 < HEIGHT)
-//			{
-//				send(client, line, scale);
-//				if (client_return())
-//				{
-//					join(mlx->p, client.img);
-//					mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img, 0, 0);
-//					mlx_do_sync(mlx->mlx);
-//				}
-//				if (!client_free(clients))
-//					;
-//				else
-//					++mlx->s.cam.chunk.y;
-//			}
+			send = data_to_str (mlx);
+			broadcast(msg_tex , send, *(int *)(&send[0]));
+			print_info("data sended");
+			loop_client();
 		}
 /* ************************************************************************** */
 		if(mlx->s.cam.fast)
@@ -524,7 +531,6 @@ int		main(int ac, char **av)
 	mlx_hook(mlx.win, 2, (1L << 0), my_key_func, &mlx);
 	mlx_hook(mlx.win, 3, (1L << 1), &k_rel, &mlx);
 	mlx_loop_hook(mlx.mlx, ray_loop, &mlx);
-//	ray_loop(&mlx);
 	mlx_loop(mlx.mlx);
 	ocl_finish(mlx.prog);
 	return (0);

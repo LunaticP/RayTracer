@@ -6,7 +6,7 @@
 /*   By: aviau <aviau@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/04 13:28:35 by aviau             #+#    #+#             */
-/*   Updated: 2017/05/09 18:04:55 by vthomas          ###   ########.fr       */
+/*   Updated: 2017/05/09 18:57:43 by aviau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,13 @@ void	init_ppm(int fd, int **ppm, int *size, char *file)
 	int		i;
 
 	if (fd > 0 && get_next_line(fd, &line) && !ft_strcmp(line, (char *)"P3"))
-		ft_putstr(ft_strrchr(file, '/') + 1);
+	{
+		line = ft_strrchr(file, '/');
+		if (line == NULL)
+			ft_putstr(file);
+		else
+			ft_putstr(line + 1);
+	}
 	else
 		exit(1);
 	while (get_next_line(fd, &line) && line[0] == '#')

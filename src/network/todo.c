@@ -6,12 +6,13 @@
 /*   By: vthomas <vthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/09 16:39:51 by vthomas           #+#    #+#             */
-/*   Updated: 2017/05/09 16:48:57 by vthomas          ###   ########.fr       */
+/*   Updated: 2017/05/09 19:45:26 by aviau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <rt_network.h>
 #include <libft.h>
+#define SCALE 20
 
 //TODO: change size cut part
 
@@ -29,8 +30,9 @@ int	init_render(t_server *s)
 		tmp->line = i;
 		tmp->next = (t_todo *)ft_memalloc(sizeof(t_todo));
 		tmp = tmp->next;
-		i++;
+		i += SCALE;
 	}
+	return (0);
 }
 
 void clear_todo(t_todo *t)
@@ -59,7 +61,7 @@ int	remove_todo(t_todo *t, int id)
 	}
 	last = t;
 	t = t->next;
-	while (id != t->line && t->next != NULL);
+	while (id != t->line && t->next != NULL)
 	{
 		last = t;
 		t = t->next;
@@ -82,4 +84,5 @@ int	add_todo(int id)
 		t->line = id;
 		t->next = s->todo;
 		s->todo = t;
+		return (0);
 }

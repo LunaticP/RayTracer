@@ -6,7 +6,7 @@
 /*   By: vthomas <vthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/03 11:59:54 by vthomas           #+#    #+#             */
-/*   Updated: 2017/05/09 16:48:14 by vthomas          ###   ########.fr       */
+/*   Updated: 2017/05/09 19:51:52 by aviau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,21 +46,23 @@ typedef struct	s_todo
 
 typedef struct s_client
 {
-	int					sock;
-	int					send_socket;
-	int					type;
 	struct sockaddr_in	addr;
 	unsigned char		*buf;
 	unsigned int		sock_len;
+	int					sock;
+	int					send_socket;
+	int					type;
 	int					len;
 	int					id;
 	int					pos;
+	int					line;
+	int					status;
 }				t_client;
 
 typedef struct s_server
 {
-	t_client	c[MAX_CLIENT];
 	pthread_t	cth[MAX_CLIENT];
+	t_client	c[MAX_CLIENT];
 	int			sock;
 	int			port;
 	int			nb;
