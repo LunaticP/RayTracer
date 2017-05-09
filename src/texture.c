@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   texture.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aviau <aviau@42.fr>                        +#+  +:+       +#+        */
+/*   By: aviau <aviau@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/04 13:28:35 by aviau             #+#    #+#             */
-/*   Updated: 2017/05/03 12:18:32 by aviau            ###   ########.fr       */
+/*   Updated: 2017/05/09 18:04:55 by vthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	init_ppm(int fd, int **ppm, int *size, char *file)
 	int		i;
 
 	if (fd > 0 && get_next_line(fd, &line) && !ft_strcmp(line, (char *)"P3"))
-		ft_putstr(file);
+		ft_putstr(ft_strrchr(file, '/') + 1);
 	else
 		exit(1);
 	while (get_next_line(fd, &line) && line[0] == '#')
