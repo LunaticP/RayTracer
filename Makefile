@@ -6,7 +6,7 @@
 #    By: aviau <aviau@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/09/11 11:02:36 by aviau             #+#    #+#              #
-#    Updated: 2017/05/09 14:13:46 by vthomas          ###   ########.fr        #
+#    Updated: 2017/05/09 16:50:17 by vthomas          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,8 @@ SRC_NAME =	main.c\
 			network/putimg.c\
 			network/render.c\
 			network/send_message.c\
-			network/server.c
+			network/server.c\
+			network/todo.c
 
 INC_FILE = include/key.h\
 		   include/rt.h
