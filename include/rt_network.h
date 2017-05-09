@@ -6,7 +6,7 @@
 /*   By: vthomas <vthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/03 11:59:54 by vthomas           #+#    #+#             */
-/*   Updated: 2017/05/08 20:52:28 by aviau            ###   ########.fr       */
+/*   Updated: 2017/05/09 16:48:14 by vthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,12 @@ typedef enum	e_msgenum
 	msg_part
 }				t_msgenum;
 
+typedef struct	s_todo
+{
+	int				line;
+	struct s_todo	*next;
+}				t_todo;
+
 typedef struct s_client
 {
 	int					sock;
@@ -48,6 +54,7 @@ typedef struct s_client
 	unsigned int		sock_len;
 	int					len;
 	int					id;
+	int					pos;
 }				t_client;
 
 typedef struct s_server
@@ -58,7 +65,9 @@ typedef struct s_server
 	int			port;
 	int			nb;
 	int			render;
+	t_todo		*todo;
 }				t_server;
+
 
 int			init_clustering(t_mlx *mlx, char **av);
 int			create_server(t_server *s);
@@ -66,6 +75,8 @@ void		init_server(t_server *s);
 void		rt_listen(t_server *s);
 
 t_server	*server(int status, t_server *serv);
+t_mlx		*save_mlx(int status, t_mlx *mlx);
+
 int			server_render(void);
 
 int			send_message(int type, unsigned char *msg, int len, int id_client);
@@ -79,6 +90,12 @@ void		print_warning(char *str);
 void		print_error(char *str);
 void		print_info(char *str);
 
+void		putimg(t_client *c);
 void		*memjoin(unsigned char *dst, unsigned char *src, int sdst, int ssrc);
+
+void		clear_todo(t_todo *t);
+int			init_render(t_server *s);
+int			remove_todo(t_todo *t, int id);
+int			add_todo(int id);
 
 #endif

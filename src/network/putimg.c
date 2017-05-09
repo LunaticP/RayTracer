@@ -1,27 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   render.c                                           :+:      :+:    :+:   */
+/*   putimg.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vthomas <vthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/05/05 17:00:07 by vthomas           #+#    #+#             */
-/*   Updated: 2017/05/09 16:39:48 by vthomas          ###   ########.fr       */
+/*   Created: 2017/05/09 14:06:06 by vthomas           #+#    #+#             */
+/*   Updated: 2017/05/09 14:14:12 by vthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <rt_network.h>
 #include <rt.h>
+#include <rt_network.h>
+#include <libft.h>
 
-int	server_render(void)
+t_mlx	*save_mlx(int status, t_mlx *mlx)
 {
-	t_server *serv;
+	static t_mlx	*saved = NULL;
 
-	serv = server(0, NULL);
-	if (serv == NULL)
-		return (-1);
-	serv->render = !serv->render;
-	if (serv->render == 1)
-		init_render(s);
-	return (serv->render);
+	if (status)
+		saved = mlx;
+	return (saved);
+}
+
+void	putimg(t_client *c)
+{
+	t_mlx	*mlx;
+
+	mlx = save_mlx(0, NULL);
+	ft_memcpy((void *)&(mlx->p[c->pos * WIDTH]), &(c->buf), c->len);
 }

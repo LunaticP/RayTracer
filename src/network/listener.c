@@ -6,7 +6,7 @@
 /*   By: vthomas <vthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/05 17:46:07 by vthomas           #+#    #+#             */
-/*   Updated: 2017/05/09 15:43:36 by aviau            ###   ########.fr       */
+/*   Updated: 2017/05/09 17:03:16 by aviau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,13 +35,17 @@ int			parse_msg(unsigned char *buf, int len, t_client *c)
 
 	ft_memcpy((void *)&(c->type), (void *)c->buf, sizeof(int));
 	len = read(c->sock, buf, BUFF_LEN);
-	len = (int)*buf;
-	print_info(ft_itoa(len));
+	ft_memcpy((void *)&(c->len), (void *)c->buf, sizeof(int));
+	if (c->type == msg_part)
+	{
+		len = read(c->sock, buf, BUFF_LEN);
+		ft_memcpy((void *)&(c->pos), (void *)c->buf, sizeof(int));
+	}
 	current = 0;
 	ft_bzero(buf, BUFF_LEN);
 	ft_strdel((char **)&(c->buf));
 	c->buf = (unsigned char *)ft_strnew(0);
-	while (current < len)
+	while (current < c->len)
 	{
 		tmp = recv(c->sock, buf, BUFF_LEN, 0);
 		current += tmp;
@@ -65,6 +69,11 @@ void client_listener(t_client *c)
 	while ((ret = read(c->sock, c->buf, BUFF_LEN)))
 	{
 		ret = parse_msg(c->buf, ret, c);
+		if (ret == msg_part)
+		{
+			print_info("Part received");
+			putimg(c);
+		}
 		print_mem(c->buf, c->len);
 	}
 	print_info("Disconnected");
