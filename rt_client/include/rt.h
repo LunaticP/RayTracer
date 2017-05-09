@@ -6,7 +6,7 @@
 /*   By: jplevy <jplevy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/11 06:10:10 by jplevy            #+#    #+#             */
-/*   Updated: 2017/05/08 22:00:10 by vthomas          ###   ########.fr       */
+/*   Updated: 2017/05/09 16:21:35 by aviau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,18 +82,18 @@ typedef struct		s_scene
 
 typedef struct		s_data
 {
-	int		size;
-	int		n_t;
-	int		n_o;
-	int		n_l;
-	int		width;
-	int		height;
-	int		scale;
-	int		line;
-	int		*tex;
-	t_cam	cam;
-	t_obj	*obj;
-	t_obj	*light;
+	int				size;
+	int				n_t;
+	int				n_o;
+	int				n_l;
+	int				width;
+	int				height;
+	int				scale;
+	int				line;
+	int				*tex;
+	t_cam			cam;
+	t_obj			*obj;
+	t_obj			*light;
 	unsigned char	*img;
 }					t_data;
 

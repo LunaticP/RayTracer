@@ -833,7 +833,7 @@ float4			ray_from_coord(size_t x, size_t y, __global t_cam *c)
 	ret += c->dirx * (c->p.x + ((float)x * c->viewplane.x / (float)c->size.x));
 	ret += c->diry * (c->p.y - ((float)y * c->viewplane.y / (float)c->size.y));
 	ret += c->dirz * (c->p.z);
-	return ((ret));
+	return (normalize(ret));
 }
 
 __kernel void	raytracer(

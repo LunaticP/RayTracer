@@ -6,7 +6,7 @@
 /*   By: vthomas <vthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/08 21:19:17 by vthomas           #+#    #+#             */
-/*   Updated: 2017/05/09 15:20:11 by aviau            ###   ########.fr       */
+/*   Updated: 2017/05/09 16:49:04 by aviau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,25 +34,18 @@ void	img_file(unsigned char *img, char *name, t_data *d)
 		write(fd, &(img[i]), 1);
 	}
 	close(fd);
-	ft_putendl("file rendered");
+	print_info("file rendered");
+	exit(0);
 }
 
 void	render(t_data *d, t_ocl_prog *prog)
 {
-	print_info("kernel begin");
 	//while(++d->cam.chunk.y < d->line + d->height)
 	//{
 	//	d->cam.chunk.x = -1;
 	//	while(++d->cam.chunk.x < d->scale)
-	//	{
-	//		print_info("\t\tkernel running...");
-//			ft_putnbr((int)d->cam.chunk.y);
-	ocl_enqueue_kernel(prog, "raytracer");
-	//		print_info("\t\tkernel yup");
-	//	}
+			ocl_enqueue_kernel(prog, "raytracer");
 	//}
-	print_info("img to ppm");
-	//print_mem(d->img, d->width * d->height * 4);
 	img_file(d->img, "rendu.ppm", d);
 }
 
@@ -72,7 +65,6 @@ t_data	str_to_data(unsigned char *str)
 	ft_memcpy(data.obj, &str[16 + sizeof(int) * data.n_t + sizeof(t_cam)] , sizeof(t_obj) * data.n_o);
 	data.light = (t_obj *)ft_memalloc(sizeof(t_obj) * data.n_l);
 	ft_memcpy(data.light, &str[16 + sizeof(int) * data.n_t + sizeof(t_cam) + sizeof(t_obj) * data.n_o], sizeof(t_obj) * data.n_l);
-	printf("%f %f %f - %f\n", data.light[0].pos.x, data.light[0].pos.y, data.light[0].pos.z, data.light[0].r);
 	return (data);
 }
 
@@ -89,7 +81,6 @@ void callback_init(t_client *c)
 	d.height = 720;
 	d.scale = 1;
 	d.line = 1;
-	print_info("data initiated");
 	d.cam.chunk.y = 0;//d.line - 1;
 	d.cam.chunk.x = 0;
 	d.cam.viewplane.z = d.scale;
@@ -102,7 +93,6 @@ void callback_init(t_client *c)
 			sizeof(t_obj) * d.n_o, d.obj, \
 			sizeof(t_obj) * d.n_l, d.light, \
 			sizeof(int) * (d.tex[0] + 1), d.tex, 2);
-	print_info("kernel done");
 	render(&d, &prog);
 	ocl_finish(prog);
 }

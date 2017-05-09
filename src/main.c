@@ -6,7 +6,7 @@
 /*   By: jplevy <jplevy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/08 01:37:39 by jplevy            #+#    #+#             */
-/*   Updated: 2017/05/09 15:19:46 by aviau            ###   ########.fr       */
+/*   Updated: 2017/05/09 16:50:33 by aviau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,35 +75,35 @@ t_scene	ft_init_scene(void)
 	ret.light[1].pos.z = 0.0;
 	ret.light[1].col = 0xFFFFFF;
 	ret.light[1].type = light;
-	ret.light[1].r = 65.0;
+	ret.light[1].r = 300.0;
 
 	ret.light[2].pos.x = 0.0;
 	ret.light[2].pos.y = 0.0;
 	ret.light[2].pos.z = 14.0;
 	ret.light[2].col = 0xFFFFFF;
 	ret.light[2].type = light;
-	ret.light[2].r = 65.0;
+	ret.light[2].r = 300.0;
 
 	ret.light[3].pos.x = 0.0;
 	ret.light[3].pos.y = 0.0;
 	ret.light[3].pos.z = -14.0;
 	ret.light[3].col = 0xFFFFFF;
 	ret.light[3].type = light;
-	ret.light[3].r = 65.0;
+	ret.light[3].r = 300.0;
 
 	ret.light[4].pos.x = 0.0;
 	ret.light[4].pos.y = 0.0;
 	ret.light[4].pos.z = 14.0;
 	ret.light[4].col = 0xFFFFFF;
 	ret.light[4].type = light;
-	ret.light[4].r = 65.0;
+	ret.light[4].r = 300.0;
 
 	ret.light[5].pos.x = 0.0;
 	ret.light[5].pos.y = 0.0;
 	ret.light[5].pos.z = -14.0;
 	ret.light[5].col = 0xFFFFFF;
 	ret.light[5].type = light;
-	ret.light[5].r = 65.0;
+	ret.light[5].r = 300.0;
 
 	ret.light[6].type = end;
 	ret.n_l = 7;
@@ -439,8 +439,10 @@ int		ray_loop(t_mlx *mlx)
 		else if (!mlx->s.cam.fast)
 		{
 			send = data_to_str(mlx);
-			pr_mem(send, *(int *)(&send[0]));
+//			pr_mem(send, *(int *)(&send[0]));
 			broadcast(msg_tex, send, *(int *)(&send[0]));
+			printf("\033[32m[ info ]\033[0m - data sended\n");
+			fflush(NULL);
 //			while(mlx->s.cam.chunk.y * 10 < HEIGHT)
 //			{
 //				send(client, line, scale);
@@ -511,7 +513,7 @@ int		main(int ac, char **av)
 	ocl_new_kernel(&(mlx.prog), 5, pws, "norowowowowd", "raytracer", WIDTH * HEIGHT
 			* sizeof(int), mlx.p, sizeof(t_cam), &(mlx.s.cam), sizeof(t_obj) * mlx.s.n_o,
 			mlx.s.obj, sizeof(t_obj) * mlx.s.n_l, mlx.s.light, sizeof(int) * (mlx.tex[0] + 1), mlx.tex, 2);
-	ocl_new_kernel(&(mlx.prog), 5, pws_f, "norowowd", "rt_fast", WIDTH * HEIGHT
+	ocl_new_kernel(&(mlx.prog), 3, pws_f, "norowowd", "rt_fast", WIDTH * HEIGHT
 			* sizeof(int), mlx.p, sizeof(t_cam), &(mlx.s.cam), sizeof(t_obj) * mlx.s.n_o,
 			mlx.s.obj, 2);
 	ocl_new_kernel(&(mlx.prog), 3, pws, "norowowd", "cpy", WIDTH * HEIGHT

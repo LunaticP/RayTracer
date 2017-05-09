@@ -924,18 +924,20 @@ __kernel void	rt_fast(
 		string[j * c[0].size.x + i] = 0;
 		ray.dir = normalize(ray_from_coord(i, j, c, c[0].dsr));
 		ray.ori = c[0].ori;
-		id = ray_match(o, &ray);
-		r = ((o[id].col & 0xFF0000) / 0x10000) / ray.t * 4;
-		g = ((o[id].col & 0x00FF00) / 0x00100) / ray.t * 4;
-		b = ((o[id].col & 0x0000FF) / 0x00001) / ray.t * 4;
-		r = r > 255 ? 255 : r;
-		g = g > 255 ? 255 : g;
-		b = b > 255 ? 255 : b;
-		color = r * 0x10000 + g * 0x100 + b;
-		string[j * c[0].size.x + i] = color;
-		string[j * c[0].size.x + i + 1] = color;
-		string[(j + 1) * c[0].size.x + i] = color;
-		string[(j + 1) * c[0].size.x + i + 1] = color;
+		if ((id = ray_match(o, &ray)) != -1)
+		{
+			r = ((o[id].col & 0xFF0000) / 0x10000) / ray.t * 4;
+			g = ((o[id].col & 0x00FF00) / 0x00100) / ray.t * 4;
+			b = ((o[id].col & 0x0000FF) / 0x00001) / ray.t * 4;
+			r = r > 255 ? 255 : r;
+			g = g > 255 ? 255 : g;
+			b = b > 255 ? 255 : b;
+			color = r * 0x10000 + g * 0x100 + b;
+			string[j * c[0].size.x + i] = color;
+			string[j * c[0].size.x + i + 1] = color;
+			string[(j + 1) * c[0].size.x + i] = color;
+			string[(j + 1) * c[0].size.x + i + 1] = color;
+		}
 	}
 }
 
