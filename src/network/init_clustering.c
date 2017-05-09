@@ -6,7 +6,7 @@
 /*   By: vthomas <vthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/05 16:44:10 by vthomas           #+#    #+#             */
-/*   Updated: 2017/05/08 16:40:05 by vthomas          ###   ########.fr       */
+/*   Updated: 2017/05/09 14:08:40 by vthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ int	init_clustering(t_mlx *mlx, char **av)
 	{
 		mlx->cluster = 1;
 		serv = ft_memalloc(sizeof(t_server));
+		save_mlx(1, mlx);
 		server(1, serv);
 		pthread_create(&(mlx->pthserv), NULL,
 		(void *)init_server, (void *)serv);

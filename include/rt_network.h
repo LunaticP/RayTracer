@@ -6,7 +6,7 @@
 /*   By: vthomas <vthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/03 11:59:54 by vthomas           #+#    #+#             */
-/*   Updated: 2017/05/08 19:48:15 by vthomas          ###   ########.fr       */
+/*   Updated: 2017/05/09 14:14:02 by vthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ typedef struct s_client
 	unsigned int		sock_len;
 	int					len;
 	int					id;
+	int					pos;
 }				t_client;
 
 typedef struct s_server
@@ -66,6 +67,8 @@ void		init_server(t_server *s);
 void		rt_listen(t_server *s);
 
 t_server	*server(int status, t_server *serv);
+t_mlx		*save_mlx(int status, t_mlx *mlx);
+
 int			server_render(void);
 
 int			send_message(int type, char *msg, int len, int id_client);
@@ -80,5 +83,6 @@ void		print_error(char *str);
 void		print_info(char *str);
 
 void		*memjoin(char *dst, char *src, int sdst, int ssrc);
+void		putimg(t_client *c);
 
 #endif
