@@ -6,7 +6,7 @@
 /*   By: vthomas <vthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/03 11:59:54 by vthomas           #+#    #+#             */
-/*   Updated: 2017/05/09 14:14:02 by vthomas          ###   ########.fr       */
+/*   Updated: 2017/05/09 15:11:30 by vthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,12 @@ typedef enum	e_msgenum
 	msg_part
 }				t_msgenum;
 
+typedef struct	s_todo
+{
+	int				line;
+	struct s_todo	*next;
+}				t_todo;
+
 typedef struct s_client
 {
 	int					sock;
@@ -59,7 +65,9 @@ typedef struct s_server
 	int			port;
 	int			nb;
 	int			render;
+	t_todo		*todo;
 }				t_server;
+
 
 int			init_clustering(t_mlx *mlx, char **av);
 int			create_server(t_server *s);
