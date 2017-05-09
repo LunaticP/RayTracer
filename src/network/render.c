@@ -6,7 +6,7 @@
 /*   By: vthomas <vthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/05 17:00:07 by vthomas           #+#    #+#             */
-/*   Updated: 2017/05/09 16:39:48 by vthomas          ###   ########.fr       */
+/*   Updated: 2017/05/09 17:19:42 by aviau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,6 @@ int	server_render(void)
 		return (-1);
 	serv->render = !serv->render;
 	if (serv->render == 1)
-		init_render(s);
+		init_render(serv);
 	return (serv->render);
 }
