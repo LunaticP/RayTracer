@@ -6,7 +6,7 @@
 /*   By: jplevy <jplevy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/08 01:37:39 by jplevy            #+#    #+#             */
-/*   Updated: 2017/05/08 19:33:36 by aviau            ###   ########.fr       */
+/*   Updated: 2017/05/09 15:19:46 by aviau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ t_scene	ft_init_scene(void)
 	ret.light[0].col = 0xFFFFFF;
 	ret.light[0].type = light;
 	ret.light[0].r = 300.0;
-/*
+
 	ret.light[1].pos.x = -14.0;
 	ret.light[1].pos.y = 0.0;
 	ret.light[1].pos.z = 0.0;
@@ -104,7 +104,7 @@ t_scene	ft_init_scene(void)
 	ret.light[5].col = 0xFFFFFF;
 	ret.light[5].type = light;
 	ret.light[5].r = 65.0;
-*/
+
 	ret.light[6].type = end;
 	ret.n_l = 7;
 
@@ -196,7 +196,7 @@ t_scene	ft_init_scene(void)
 	ret.obj[5].type = plan;
 	ret.obj[5].diff = 0.0;
 	ret.obj[5].refl = 1.0;
-/*
+
 	ret.obj[6].pos.x = 0.0;
 	ret.obj[6].pos.y = 0.0;
 	ret.obj[6].pos.z = 0.0;
@@ -276,7 +276,7 @@ t_scene	ft_init_scene(void)
 	ret.obj[10].diff = 1.0;
 	ret.obj[10].refl = 0.0;
 	ret.obj[10].alpha = 25.0f;
-*/
+
 	ret.obj[11].pos.x = 0.0;
 	ret.obj[11].pos.y = 0.0;
 	ret.obj[11].pos.z = 0.0;
@@ -381,7 +381,7 @@ void	dsr(t_mlx *mlx)
 	}
 }
 
-void	pr_mem(char *str, int n)
+void	pr_mem(unsigned char *str, int n)
 {
 	int		i;
 
@@ -392,32 +392,32 @@ void	pr_mem(char *str, int n)
 	printf("}\n");
 }
 
-char	*data_to_str(t_mlx *data)
+unsigned char	*data_to_str(t_mlx *data)
 {
-	char	*str;
-	int		size;
+	unsigned char	*str;
+	int				size;
 
 	size = sizeof(int) * (3 + data->tex[0]);
 	size += sizeof(t_cam);
 	size += sizeof(t_obj) * (data->s.n_o + data->s.n_l);
-	str = (char *)ft_memalloc(size + 16);
-	str = memjoin(str, (char *)&size, 0, sizeof(int));
-	str = memjoin(str, (char *)&(data->tex[0]), 4, sizeof(int));
-	str = memjoin(str, (char *)&(data->s.n_o), 8, sizeof(int));
-	str = memjoin(str, (char *)&(data->s.n_l), 12, sizeof(int));
-	str = memjoin(str, (char *)data->tex, 16, sizeof(int) * data->tex[0]);
-	str = memjoin(str, (char *)&(data->s.cam), \
+	str = (unsigned char *)ft_memalloc(size + 16);
+	str = memjoin(str, (unsigned char *)&size, 0, sizeof(int));
+	str = memjoin(str, (unsigned char *)&(data->tex[0]), 4, sizeof(int));
+	str = memjoin(str, (unsigned char *)&(data->s.n_o), 8, sizeof(int));
+	str = memjoin(str, (unsigned char *)&(data->s.n_l), 12, sizeof(int));
+	str = memjoin(str, (unsigned char *)data->tex, 16, sizeof(int) * data->tex[0]);
+	str = memjoin(str, (unsigned char *)&(data->s.cam), \
 			16 + sizeof(int) * data->tex[0], sizeof(t_cam));
-	str = memjoin(str, (char *)data->s.obj, 16 + sizeof(int) * data->tex[0] \
+	str = memjoin(str, (unsigned char *)data->s.obj, 16 + sizeof(int) * data->tex[0] \
 			+ sizeof(t_cam), sizeof(t_obj) * data->s.n_o);
-	str = memjoin(str, (char *)data->s.light, 15 + sizeof(int) * data->tex[0] \
+	str = memjoin(str, (unsigned char *)data->s.light, 16 + sizeof(int) * data->tex[0] \
 			+ sizeof(t_cam) + sizeof(t_obj) * data->s.n_o, sizeof(t_obj) * data->s.n_l);
 	return (str);
 }
 
 int		ray_loop(t_mlx *mlx)
 {
-	char *send;
+	unsigned char *send;
 
 	if (mlx->key & REDRAW)
 	{
@@ -438,9 +438,9 @@ int		ray_loop(t_mlx *mlx)
 /* ******************************* NETWORKING ******************************* */
 		else if (!mlx->s.cam.fast)
 		{
-//			send = data_to_str(mlx);
-//			pr_mem(send, *(int *)(&send[0]));
-//			init_clients();
+			send = data_to_str(mlx);
+			pr_mem(send, *(int *)(&send[0]));
+			broadcast(msg_tex, send, *(int *)(&send[0]));
 //			while(mlx->s.cam.chunk.y * 10 < HEIGHT)
 //			{
 //				send(client, line, scale);

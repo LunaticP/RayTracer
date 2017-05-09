@@ -6,14 +6,14 @@
 /*   By: vthomas <vthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/08 10:47:45 by vthomas           #+#    #+#             */
-/*   Updated: 2017/05/08 13:12:18 by vthomas          ###   ########.fr       */
+/*   Updated: 2017/05/08 20:50:25 by aviau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <rt_network.h>
 #include <libft.h>
 
-int	send_message(int type, char *msg, int len, int id_client)
+int	send_message(int type, unsigned char *msg, int len, int id_client)
 {
 	t_server	*s;
 	int			i;

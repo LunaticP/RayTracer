@@ -857,8 +857,8 @@ __kernel void	raytracer(
 	int				id;
 	int				lt;
 	int				stay;
-	int				refmax = 3;
-	int				color;
+	int				refmax = 5;
+	int				color = 0xFF0000;
 	int				old;
 	int				quit;
 

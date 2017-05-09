@@ -6,7 +6,7 @@
 /*   By: vthomas <vthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/03 11:59:54 by vthomas           #+#    #+#             */
-/*   Updated: 2017/05/09 15:11:30 by vthomas          ###   ########.fr       */
+/*   Updated: 2017/05/09 15:29:55 by vthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ typedef struct s_client
 	int					send_socket;
 	int					type;
 	struct sockaddr_in	addr;
-	char				*buf;
+	unsigned char		*buf;
 	unsigned int		sock_len;
 	int					len;
 	int					id;
@@ -79,9 +79,9 @@ t_mlx		*save_mlx(int status, t_mlx *mlx);
 
 int			server_render(void);
 
-int			send_message(int type, char *msg, int len, int id_client);
-void		broadcast(int type, char *msg, int len);
-int			parse_msg(char *buf, int len, t_client *c);
+int			send_message(int type, unsigned char *msg, int len, int id_client);
+void		broadcast(int type, unsigned char *msg, int len);
+int			parse_msg(unsigned char *buf, int len, t_client *c);
 
 void		error_code(int code);
 
@@ -90,7 +90,7 @@ void		print_warning(char *str);
 void		print_error(char *str);
 void		print_info(char *str);
 
-void		*memjoin(char *dst, char *src, int sdst, int ssrc);
 void		putimg(t_client *c);
+void		*memjoin(unsigned char *dst, unsigned char *src, int sdst, int ssrc);
 
 #endif

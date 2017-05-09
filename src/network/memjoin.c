@@ -6,20 +6,20 @@
 /*   By: vthomas <vthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/08 13:22:48 by vthomas           #+#    #+#             */
-/*   Updated: 2017/05/08 15:59:24 by vthomas          ###   ########.fr       */
+/*   Updated: 2017/05/08 21:01:20 by aviau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <rt_network.h>
 #include <libft.h>
 
-void	*memjoin(char *dst, char *src, int sdst, int ssrc)
+void	*memjoin(unsigned char *dst, unsigned char *src, int sdst, int ssrc)
 {
 	void *mem;
 
-	mem = ft_memalloc(sizeof(char) * (ssrc + sdst));
+	mem = ft_memalloc(sizeof(unsigned char) * (ssrc + sdst));
 	ft_memcpy(mem, dst, sdst);
 	ft_memcpy(&mem[sdst], src, ssrc);
-	ft_strdel(&dst);
+	ft_strdel((char **)&dst);
 	return (mem);
 }

@@ -1,7 +1,7 @@
 #include <rt_network.h>
 #include <libft.h>
 
-void	broadcast(int type, char *msg, int len)
+void	broadcast(int type, unsigned char *msg, int len)
 {
 	int i;
 

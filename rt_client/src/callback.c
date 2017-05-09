@@ -6,7 +6,7 @@
 /*   By: vthomas <vthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/08 21:19:17 by vthomas           #+#    #+#             */
-/*   Updated: 2017/05/09 00:34:59 by vthomas          ###   ########.fr       */
+/*   Updated: 2017/05/09 15:20:11 by aviau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,9 +69,10 @@ t_data	str_to_data(unsigned char *str)
 	ft_memcpy(data.tex, &str[16], sizeof(int) * data.n_t);
 	ft_memcpy(&data.cam, &str[16 + sizeof(int) * data.n_t], sizeof(t_cam));
 	data.obj = (t_obj *)ft_memalloc(sizeof(t_obj) * data.n_o);
-	ft_memcpy(data.obj, &str[16 + sizeof(int) * data.n_t + sizeof(t_cam)], sizeof(t_obj) * data.n_o);
+	ft_memcpy(data.obj, &str[16 + sizeof(int) * data.n_t + sizeof(t_cam)] , sizeof(t_obj) * data.n_o);
 	data.light = (t_obj *)ft_memalloc(sizeof(t_obj) * data.n_l);
-	ft_memcpy(data.obj, &str[16 + sizeof(int) * data.n_t + sizeof(t_cam) * sizeof(t_obj) * data.n_o], sizeof(t_obj) * data.n_l);
+	ft_memcpy(data.light, &str[16 + sizeof(int) * data.n_t + sizeof(t_cam) + sizeof(t_obj) * data.n_o], sizeof(t_obj) * data.n_l);
+	printf("%f %f %f - %f\n", data.light[0].pos.x, data.light[0].pos.y, data.light[0].pos.z, data.light[0].r);
 	return (data);
 }
 
@@ -84,8 +85,8 @@ void callback_init(t_client *c)
 	if (!(ocl_new_prog("./cl_src/rt.cl", 0x1000000 , &prog)))
 		exit(-1);
 	d = str_to_data(c->buf);
-	d.width = 200;
-	d.height = 150;
+	d.width = 1280;
+	d.height = 720;
 	d.scale = 1;
 	d.line = 1;
 	print_info("data initiated");
