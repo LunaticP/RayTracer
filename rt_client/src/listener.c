@@ -6,7 +6,7 @@
 /*   By: vthomas <vthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/05 18:59:56 by vthomas           #+#    #+#             */
-/*   Updated: 2017/05/08 23:31:12 by vthomas          ###   ########.fr       */
+/*   Updated: 2017/05/09 12:47:00 by aviau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void	rt_listener(t_client *c)
 	while ((l = (recv(c->sock, buf, BUFF_LEN, 0))))
 	{
 		l = parse_msg(buf, l, c);
-		print_mem(c->buf, c->len);
+//		print_mem(c->buf, c->len);
 		print_log("turn");
 		parse_callback(c, l);
 		//send_message(msg_tex, "OK", 3, c);

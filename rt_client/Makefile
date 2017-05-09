@@ -6,7 +6,7 @@
 #    By: aviau <aviau@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/09/11 11:02:36 by aviau             #+#    #+#              #
-#    Updated: 2017/05/09 00:27:44 by vthomas          ###   ########.fr        #
+#    Updated: 2017/05/09 11:49:23 by aviau            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 OS = APPLE
@@ -94,6 +94,6 @@ print_rt:
 
 test : CFLAGS = -Wall -Wextra -g
 test: all
-	./$(NAME) 10.11.1.14
+	./$(NAME) 127.0.0.1
 endif
 .PHONY: fclean clean
