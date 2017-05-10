@@ -6,13 +6,14 @@
 /*   By: vthomas <vthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/05 17:46:07 by vthomas           #+#    #+#             */
-/*   Updated: 2017/05/09 17:03:16 by aviau            ###   ########.fr       */
+/*   Updated: 2017/05/10 21:55:10 by vthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <rt_network.h>
 #include <libft.h>
 #include <pthread.h>
+#include <errno.h>
 
 static void print_mem(unsigned char *buf, int l)
 {
@@ -73,11 +74,14 @@ void client_listener(t_client *c)
 		{
 			print_info("Part received");
 			putimg(c);
+			get_newtodo(c);
 		}
 		print_mem(c->buf, c->len);
 	}
+	add_todo(c->line);
 	print_info("Disconnected");
 	close(c->sock);
+	ft_bzero((void **)&c, sizeof(c));
 }
 
 void	rt_listen(t_server *s)
@@ -91,6 +95,11 @@ void	rt_listen(t_server *s)
 	{
 		s->c[i].sock = accept(s->sock, (struct sockaddr *)&(s->c[i].addr),
 		&(s->c[i].sock_len));
+		if (errno)
+		{
+			print_info(ft_itoa(s->sock));
+			print_warning(strerror(errno));
+		}
 		print_log("New connection");
 		if (s->c[i].sock == -1)
 		{

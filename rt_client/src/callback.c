@@ -6,7 +6,7 @@
 /*   By: vthomas <vthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/08 21:19:17 by vthomas           #+#    #+#             */
-/*   Updated: 2017/05/10 16:01:12 by aviau            ###   ########.fr       */
+/*   Updated: 2017/05/10 21:33:30 by vthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,8 +87,8 @@ void	callback_render(t_client *c)
 	t_ocl_prog	*p;
 	t_data		*d;
 
-	p = save_data(1, NULL, NULL);
-	d = save_data(2, NULL, NULL);
+	p = (t_ocl_prog *)save_data(1, NULL, NULL);
+	d = (t_data *)save_data(2, NULL, NULL);
 	print_info("go for render");
 	render(d, p, *(int *)c->buf);
 	print_info("go for image");

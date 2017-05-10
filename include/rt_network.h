@@ -6,7 +6,7 @@
 /*   By: vthomas <vthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/03 11:59:54 by vthomas           #+#    #+#             */
-/*   Updated: 2017/05/09 19:51:52 by aviau            ###   ########.fr       */
+/*   Updated: 2017/05/10 20:47:05 by vthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,8 @@ void		*memjoin(unsigned char *dst, unsigned char *src, int sdst, int ssrc);
 
 void		clear_todo(t_todo *t);
 int			init_render(t_server *s);
-int			remove_todo(t_todo *t, int id);
+int			remove_todo(void);
+void		get_newtodo(t_client *c);
 int			add_todo(int id);
 
 #endif

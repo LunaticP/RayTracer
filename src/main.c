@@ -6,7 +6,7 @@
 /*   By: jplevy <jplevy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/08 01:37:39 by jplevy            #+#    #+#             */
-/*   Updated: 2017/05/10 15:54:08 by aviau            ###   ########.fr       */
+/*   Updated: 2017/05/10 20:46:30 by vthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -432,7 +432,7 @@ void	loop_client()
 				s->c[i].status = 1;
 				s->c[i].line = s->todo->line;
 				send_message(msg_part, (unsigned char *)&(s->todo->line), sizeof(int), i);
-				remove_todo(s->todo, s->todo->line);
+				remove_todo();
 			}
 		}
 	}
