@@ -6,7 +6,7 @@
 /*   By: vthomas <vthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/08 21:19:17 by vthomas           #+#    #+#             */
-/*   Updated: 2017/05/10 16:01:12 by aviau            ###   ########.fr       */
+/*   Updated: 2017/05/10 22:27:03 by aviau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,12 @@ void	img_file(unsigned char *img, char *name, t_data *d)
 	exit(0);
 }
 
-void	render(t_data *d, t_ocl_prog *prog, int line)
+void	render(t_data *d, t_ocl_prog *prog, int line, t_client *c)
 {
 	d->cam.chunk.y = line;
 	ocl_enqueue_kernel(prog, "raytracer");
-	img_file(d->img, "rendu.ppm", d);
+	send_message(msg_part, d->img, sizeof(int) * d->width * d->scale, c);
+//	img_file(d->img, "rendu.ppm", d);
 }
 
 t_data	str_to_data(unsigned char *str)
@@ -87,11 +88,11 @@ void	callback_render(t_client *c)
 	t_ocl_prog	*p;
 	t_data		*d;
 
-	p = save_data(1, NULL, NULL);
-	d = save_data(2, NULL, NULL);
+	p = (t_ocl_prog *)save_data(1, NULL, NULL);
+	d = (t_data *)save_data(2, NULL, NULL);
 	print_info("go for render");
-	render(d, p, *(int *)c->buf);
-	print_info("go for image");
+	render(d, p, *(int *)c->buf, c);
+	print_info("go for image"); 
 //	ocl_finish(prog);
 }
 
@@ -121,4 +122,5 @@ void	callback_init(t_client *c)
 			sizeof(t_obj) * d.n_l, d.light, \
 			sizeof(int) * (d.tex[0] + 1), d.tex, 2);
 	save_data(0, &prog, &d);
+	print_info("callback initiated"); 
 }

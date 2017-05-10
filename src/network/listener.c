@@ -6,7 +6,7 @@
 /*   By: vthomas <vthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/05 17:46:07 by vthomas           #+#    #+#             */
-/*   Updated: 2017/05/09 17:03:16 by aviau            ###   ########.fr       */
+/*   Updated: 2017/05/10 22:19:15 by aviau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ void client_listener(t_client *c)
 		{
 			print_info("Part received");
 			putimg(c);
+			c->status = 0;
 		}
 		print_mem(c->buf, c->len);
 	}

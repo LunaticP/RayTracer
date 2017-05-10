@@ -6,7 +6,7 @@
 /*   By: vthomas <vthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/09 14:06:06 by vthomas           #+#    #+#             */
-/*   Updated: 2017/05/09 14:14:12 by vthomas          ###   ########.fr       */
+/*   Updated: 2017/05/10 22:29:35 by aviau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,5 +28,5 @@ void	putimg(t_client *c)
 	t_mlx	*mlx;
 
 	mlx = save_mlx(0, NULL);
-	ft_memcpy((void *)&(mlx->p[c->pos * WIDTH]), &(c->buf), c->len);
+	ft_memcpy((void *)&(mlx->p[c->line * WIDTH]), &(c->buf), c->len);
 }

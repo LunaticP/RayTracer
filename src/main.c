@@ -6,7 +6,7 @@
 /*   By: jplevy <jplevy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/08 01:37:39 by jplevy            #+#    #+#             */
-/*   Updated: 2017/05/10 15:54:08 by aviau            ###   ########.fr       */
+/*   Updated: 2017/05/10 22:24:58 by aviau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -440,7 +440,7 @@ void	loop_client()
 
 int		ray_loop(t_mlx *mlx)
 {
-	unsigned char *send;
+	unsigned char *send; 
 
 	if (mlx->key & REDRAW)
 	{
@@ -459,7 +459,7 @@ int		ray_loop(t_mlx *mlx)
 			}
 		}
 /* ******************************* NETWORKING ******************************* */
-		else if (!mlx->s.cam.fast)
+		else if (!mlx->s.cam.fast) 
 		{
 			send = data_to_str (mlx);
 			broadcast(msg_tex , send, *(int *)(&send[0]));
@@ -467,7 +467,7 @@ int		ray_loop(t_mlx *mlx)
 			loop_client();
 		}
 /* ************************************************************************** */
-		if(mlx->s.cam.fast)
+		if(mlx->s.cam.fast) 
 			ocl_enqueue_kernel(&(mlx->prog), "rt_fast");
 		if(!mlx->s.cam.fast && DSR > 1)
 			dsr(mlx);
@@ -490,13 +490,15 @@ int		ray_loop(t_mlx *mlx)
 
 int		main(int ac, char **av)
 {
-	t_mlx	mlx;
-	size_t	pws[2];
-	size_t	pws_f[2];
+//	t_datawin	win;
+	t_mlx		mlx;
+	size_t		pws[2];
+	size_t		pws_f[2];
 	(void)ac;
 
 	if (!(ocl_new_prog("./cl_src/rt.cl", 0x1000000 , &(mlx.prog))))
 		return (0);
+//	win = (t_datawin){.name = "test", .xwin = WIDTH, .ywin = HEIGHT, .f_keypress = my_key_func, .data_kp = &mlx, };
 	mlx.s = ft_init_scene();
 	mlx.tex = get_texture(&av[1]);
 	mlx.mlx = mlx_init();
