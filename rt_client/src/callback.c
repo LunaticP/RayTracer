@@ -6,7 +6,7 @@
 /*   By: vthomas <vthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/08 21:19:17 by vthomas           #+#    #+#             */
-/*   Updated: 2017/05/09 16:49:04 by aviau            ###   ########.fr       */
+/*   Updated: 2017/05/10 16:01:12 by aviau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void	img_file(unsigned char *img, char *name, t_data *d)
 	ft_putstr_fd(ft_itoa(d->height), fd);
 	ft_putstr_fd("\n255\n", fd);
 	i = -4;
+	print_info("go for file");
 	while ((i += 4) < d->width * d->height * 4)
 	{
 		write(fd, &(img[i + 2]), 1);
@@ -38,14 +39,10 @@ void	img_file(unsigned char *img, char *name, t_data *d)
 	exit(0);
 }
 
-void	render(t_data *d, t_ocl_prog *prog)
+void	render(t_data *d, t_ocl_prog *prog, int line)
 {
-	//while(++d->cam.chunk.y < d->line + d->height)
-	//{
-	//	d->cam.chunk.x = -1;
-	//	while(++d->cam.chunk.x < d->scale)
-			ocl_enqueue_kernel(prog, "raytracer");
-	//}
+	d->cam.chunk.y = line;
+	ocl_enqueue_kernel(prog, "raytracer");
 	img_file(d->img, "rendu.ppm", d);
 }
 
@@ -68,7 +65,37 @@ t_data	str_to_data(unsigned char *str)
 	return (data);
 }
 
-void callback_init(t_client *c)
+void	*save_data(int m, t_ocl_prog *prog, t_data *data)
+{
+	static t_ocl_prog	*p = NULL;
+	static t_data		*d = NULL;
+
+	if (m == 0)
+	{
+		p = prog;
+		d = data;
+	}
+	else if (m == 1)
+		return ((void *)p);
+	else if (m == 2)
+		return ((void *)d);
+	return (NULL);
+}
+
+void	callback_render(t_client *c)
+{
+	t_ocl_prog	*p;
+	t_data		*d;
+
+	p = save_data(1, NULL, NULL);
+	d = save_data(2, NULL, NULL);
+	print_info("go for render");
+	render(d, p, *(int *)c->buf);
+	print_info("go for image");
+//	ocl_finish(prog);
+}
+
+void	callback_init(t_client *c)
 {
 	t_ocl_prog	prog;
 	t_data		d;
@@ -93,6 +120,5 @@ void callback_init(t_client *c)
 			sizeof(t_obj) * d.n_o, d.obj, \
 			sizeof(t_obj) * d.n_l, d.light, \
 			sizeof(int) * (d.tex[0] + 1), d.tex, 2);
-	render(&d, &prog);
-	ocl_finish(prog);
+	save_data(0, &prog, &d);
 }

@@ -6,7 +6,7 @@
 /*   By: jplevy <jplevy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/08 01:37:39 by jplevy            #+#    #+#             */
-/*   Updated: 2017/05/09 19:53:52 by aviau            ###   ########.fr       */
+/*   Updated: 2017/05/10 15:54:08 by aviau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -291,6 +291,7 @@ t_scene	ft_init_scene(void)
 	ret.obj[11].type = sphere;
 	ret.obj[11].diff = 1.0;
 	ret.obj[11].refl = 0.0;
+	ret.obj[11].trans = 0.9;
 	ret.obj[11].r = 5.0;
 
 	ret.obj[12].type = end;
@@ -429,9 +430,9 @@ void	loop_client()
 			if (s->c[i].status == 0)
 			{
 				s->c[i].status = 1;
-				s->c[i].line = 1;
+				s->c[i].line = s->todo->line;
 				send_message(msg_part, (unsigned char *)&(s->todo->line), sizeof(int), i);
-		//		remove_todo();
+				remove_todo(s->todo, s->todo->line);
 			}
 		}
 	}

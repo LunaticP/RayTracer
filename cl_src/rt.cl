@@ -885,6 +885,9 @@ __kernel void	raytracer(
 			{
 				refmax--;
 				ray.ori = ray.dir * ray.t + ray.ori;
+				r *= 1.0f - o[id].trans;
+				b *= 1.0f - o[id].trans;
+				g *= 1.0f - o[id].trans;
 			}
 			else if(o[id].refl && o[id].refl > EPSILON && o[id].trans < EPSILON)
 			{

@@ -6,7 +6,7 @@
 /*   By: vthomas <vthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/05 18:59:56 by vthomas           #+#    #+#             */
-/*   Updated: 2017/05/09 15:49:18 by vthomas          ###   ########.fr       */
+/*   Updated: 2017/05/10 15:21:52 by aviau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,8 @@ void parse_callback(t_client *c, int type)
 {
 	if (type == msg_tex)
 		callback_init(c);
+	if (type == msg_part)
+		callback_render(c);
 }
 
 void	rt_listener(t_client *c)
