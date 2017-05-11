@@ -6,7 +6,7 @@
 #    By: aviau <aviau@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/09/11 11:02:36 by aviau             #+#    #+#              #
-#    Updated: 2017/05/11 12:53:16 by aviau            ###   ########.fr        #
+#    Updated: 2017/05/11 15:39:28 by vthomas          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 OS = APPLE
@@ -34,7 +34,7 @@ INC=-I./include -I./libft -I./libmatrix -I ./libocl
 ARG=-L./libft/ -L./libmatrix -L./libocl \
 	-lft -lmatrix -locl \
 	-framework opencl -lpthread
-CFLAGS = -Wall -Wextra
+CFLAGS = -Wall -Wextra -g
 DEPDIR				= .deps/
 DEPFILES			= $(patsubst %.c,$(DEPDIR)%.d,$(SRC_NAME))
 

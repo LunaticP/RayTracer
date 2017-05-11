@@ -6,7 +6,7 @@
 /*   By: vthomas <vthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/08 21:19:17 by vthomas           #+#    #+#             */
-/*   Updated: 2017/05/11 15:31:05 by vthomas          ###   ########.fr       */
+/*   Updated: 2017/05/11 15:46:18 by vthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,11 +102,12 @@ void	callback_render(t_client *c)
 
 void	callback_init(t_client *c)
 {
-	t_ocl_prog	prog;
+	t_ocl_prog	*prog;
 	t_data		*d;
 	size_t		pws[2];
 
-	if (!(ocl_new_prog("./cl_src/rt.cl", 0x1000000 , &prog)))
+	prog = ft_memalloc(sizeof(prog));
+	if (!(ocl_new_prog("./cl_src/rt.cl", 0x1000000 , prog)))
 		exit(-1);
 	d = str_to_data(c->buf);
 	d->width = 1280;
@@ -119,13 +120,13 @@ void	callback_init(t_client *c)
 	d->img = (unsigned char *)ft_memalloc(d->width * d->height * sizeof(int));
 	pws[0] = d->width/* / d.scale*/;
 	pws[1] = d->height;
-	ocl_new_kernel(&prog, 5, pws, "norowowowowd", "raytracer", \
+	ocl_new_kernel(prog, 5, pws, "norowowowowd", "raytracer", \
 			sizeof(int) * d->width * d->height, d->img, \
 			sizeof(t_cam), &(d->cam), \
 			sizeof(t_obj) * d->n_o, d->obj, \
 			sizeof(t_obj) * d->n_l, d->light, \
 			sizeof(int) * (d->tex[0] + 1), d->tex, 2);
 	save_data(0, d);
-	save_oprg(0, &prog);
+	save_oprg(0, prog);
 	print_info("callback initiated");
 }
