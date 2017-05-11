@@ -12,7 +12,7 @@ char			*rt_get_file(char *path)
 
 	fd = open(path, O_RDONLY);
 	if (fd < 0)
-		return (NULL);
+		exit_error("EXIT : [get_file.c] WRONG FILE");
 	file = ft_strnew(0);
 	while (0 < get_next_line(fd, &line))
 		file = ft_strjoin(file, line);

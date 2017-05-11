@@ -29,7 +29,7 @@ typedef struct 		s_obj
 	float4			dir;
 	float			tet;
 	float			phi;
-	float			rot;
+	float4			rot;
 	float4			min;
 	float4			max;
 	int				col;

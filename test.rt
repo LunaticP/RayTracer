@@ -20,16 +20,10 @@ objects
 		refl = 0;
 		trans = 0;
 		refr = 0;
-		tex = 1;
+		tex = 0;
 		n_m = 0;
 		r = 3;
 	}
-}
-
-textures
-{
-	"test3.ppm";
-	"test.ppm";
 }
 
 lights
@@ -70,10 +64,5 @@ camera
 		x = 0;
 		y = 0;
 		z = 1;
-	}
-	size
-	{
-		x = 700;
-		y = 900;
 	}
 }

@@ -28,6 +28,7 @@ t_mlx			rt_get_parser(char *path, t_mlx mlx)
 		mlx.tex = rt_memalloc(sizeof(int *));
 		mlx.tex[0] = 0;
 	}
+	rt_check_value(tab);
 	// rt_free_after_parser(file, parser); // free les str
 	if (DEBUG)
 	{

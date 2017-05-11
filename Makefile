@@ -45,6 +45,8 @@ SRC_NAME =	main.c\
 			rt_atoi.c\
 			rt_parser_settings.c\
 			rt_get_str.c\
+			rt_get_float3_init.c\
+			rt_check_value.c\
 
 INC_FILE = include/key.h\
 		   include/rt.h\

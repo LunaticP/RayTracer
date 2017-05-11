@@ -6,7 +6,7 @@
 /*   By: jplevy <jplevy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/11 06:10:10 by jplevy            #+#    #+#             */
-/*   Updated: 2017/04/28 02:03:27 by aviau            ###   ########.fr       */
+/*   Updated: 2017/05/09 03:19:27 by jogarcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,8 @@ typedef struct 		s_obj
 	cl_float4		dir;
 	float			tet;
 	float			phi;
-	float			rot;
+	cl_float4		rot;
+	// float			rot;
 	cl_float4		min; // si pas de min, min float sur chaque
 	cl_float4		max; // si pas de max, max float sur chaque
 	cl_int			col;
@@ -180,6 +181,8 @@ void			*rt_get_float(char *str);
 void			*rt_get_float2(char *file);
 void			*rt_get_float3(char *file);
 void			*rt_get_float4(char *file);
+
+void			rt_check_value(void ***tab);
 
 int				rt_strcmp(const char *s1, const char *s2);
 void			*rt_memalloc(size_t size);

@@ -14,8 +14,8 @@ static const t_data g_tab_data[] = {{"pos{", sizeof(cl_float4), &rt_get_float4},
 									{"dir{", sizeof(cl_float4), &rt_get_float3},
 									{"tet=", sizeof(cl_float), &rt_get_float},
 									{"phi=", sizeof(cl_float), &rt_get_float},
-									{"rot=", sizeof(cl_float), &rt_get_float},
-									{"PADDING", 4, &rt_useless},
+									{"PADDING", 8, &rt_useless},
+									{"rot{", sizeof(cl_float4), &rt_get_float3},
 									{"min{", sizeof(cl_float4), &rt_get_float3},
 									{"max{", sizeof(cl_float4), &rt_get_float3},
 									{"col=", sizeof(int), &rt_get_color},
@@ -45,13 +45,14 @@ void						rt_get_object(t_obj *obj, char *file, int mask_type)
 
 	check_mask_type = 0;
 	size = sizeof(g_tab_data) / sizeof(t_data) - 1;
+	rt_check_min_max(&check_mask_type, obj);
 	while ((index = s_choice_data(&file, size)) != size)
 	{
-		rt_add_mask(&check_mask_type, index);
+		if (index != 6 && index != 7)
+			rt_add_mask(&check_mask_type, index);
 		s_get_object_var(index, file, obj);
 		file = rt_goto_data_end(file - 1);
 	}
-	rt_check_min_max(&check_mask_type, obj);
 	rt_check_all_data(mask_type, check_mask_type);
 }
 
@@ -80,7 +81,10 @@ static void		s_get_object_var(int index, char *file, t_obj *obj)
 	int		i;
 	int		offset;
 
-	var = g_tab_data[index].ft_conv(file);
+	if (__builtin_expect (obj->type != plan || index != 0, 1))
+		var = g_tab_data[index].ft_conv(file);
+	else
+		var = rt_get_float4(file);
 	i = 0;
 	offset = 0;
 	while (i < index)

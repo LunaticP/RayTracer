@@ -1,8 +1,7 @@
 #include "parser.h"
 
-static t_parser			*s_init_parser(void);
-static t_set			*s_init_settings(void);
 static int				s_choice_lvl_1(char **file, int size);
+t_parser				*s_init_settings(char *file, t_parser *parser);
 
 typedef struct		s_type_elem
 {
@@ -23,23 +22,33 @@ t_parser				*rt_parser_file(char *file)
 	t_parser	*ptr_parser;
 	int			index;
 	int			size;
-	int			check;
+	int			check[2];
 
-	check = 0;
+	check[0] = 0;
+	check[1] = 0;
 	parser = (t_parser *)rt_memalloc(sizeof(t_parser)); // SURE ? [little tricks]
 	ptr_parser = parser;
 	size = sizeof(tab_elem) / sizeof(t_type_elem) - 1;
 	while ((index = s_choice_lvl_1(&file, size)) != size)
 	{
+		if (index == SETTINGS)
+		{
+			if (check[0] == 1)
+				exit_error("EXIT : [rt_parser_file.c]");
+			check[0] = 1;
+		 	// file = rt_goto_bracket_close(file);
+		}
 		if (index == TEXTURES)
 		{
-			if (check == 1)
+			if (check[1] == 1)
 				exit_error("EXIT : [rt_parser_file.c]");
-			check = 1;
+			check[1] = 1;
 		}
 		ptr_parser = tab_elem[index].ft_elem(file, ptr_parser);
 		file = rt_goto_bracket_close(file);
 	}
+	if (check[0] != 1)
+		ptr_parser = s_init_settings(file, ptr_parser);
 	return (parser);
 }
 
@@ -59,6 +68,27 @@ static int				s_choice_lvl_1(char **file, int size)
 		}
 		++i;
 	}
-	exit_error("EXIT : rt_choice_lvl_1");
-	return (-1);
+	return (_(exit_error("EXIT : rt_choice_lvl_1"), false));
+}
+
+t_parser			*s_init_settings(char *file, t_parser *parser)
+{
+	t_parser		*new_parser;
+	t_set			*set;
+
+	new_parser = (t_parser *)rt_memalloc(sizeof(t_parser));
+	new_parser->elem = SETTINGS;
+	new_parser->next = NULL;
+	set = (t_set *)rt_memalloc(sizeof(t_parser));
+	set->width = WIDTH;
+	set->height = HEIGHT;
+	set->max_reflect = 20;
+	set->anti_allias = 1;
+	set->ambient = 10;
+	set->stereo = 0;
+	set->name = "Auto Initialisation";
+	new_parser->content = set;
+	parser->next = new_parser;
+	parser = parser->next;
+	return (new_parser);
 }
