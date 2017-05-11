@@ -49,6 +49,7 @@ typedef struct 		s_obj
 	short			tex;
 	short			n_m;
 	short			r_m;
+	short			t_m;
 }					t_obj;
 
 typedef struct		s_cam
@@ -87,7 +88,7 @@ float4	ray_from_coord(size_t x, size_t y, __global t_cam *c, int mul);
 float	sq(float a);
 int		get_light(__global t_obj *o, __global t_obj *l, float4 hit);
 int		tex_num(int num, __global t_obj *o, int id, __global int *tex, float2 polar);
-int		diffuse(__global t_obj *o,float *t, __global t_obj *l, t_ray ray, int id, int in, __global int *tex, float4 *n, float *rm);
+int		diffuse(__global t_obj *o,float *t, __global t_obj *l, t_ray ray, int id, int in, __global int *tex, float4 *n, float *rm, float *tm);
 int		quadratic(float a, float b, float c, float2 *ret);
 int		ray_neg(__global t_obj *o, t_ray *ray, float2 *t);
 int		rt_plan(__global t_obj *o, int i, t_ray *ray);
@@ -340,7 +341,7 @@ int				tex_num(int num, __global t_obj *o, int id, __global int *tex, float2 pol
 	return (out > tex[0] || out < 0 ? 0 : out);
 }
 
-int				diffuse(__global t_obj *o,float *t, __global t_obj *l, t_ray ray, int id, int in, __global int *tex, float4 *n, float *rm)
+int				diffuse(__global t_obj *o,float *t, __global t_obj *l, t_ray ray, int id, int in, __global int *tex, float4 *n, float *rm, float *tm)
 {
 	unsigned char	r;
 	unsigned char	g;
@@ -413,6 +414,11 @@ int				diffuse(__global t_obj *o,float *t, __global t_obj *l, t_ray ray, int id,
 	{
 		color = tex[tex_num(o[id].r_m, o, id, tex, polar)];
 		*rm = (float)((color & 0xFF0000) / 0x10000 + (color & 0xFF00) / 0x100 + (color & 0xFF)) / 765.0f;
+	}
+	if (o[id].t_m)
+	{
+		color = tex[tex_num(o[id].t_m, o, id, tex, polar)];
+		*tm = (float)((color & 0xFF0000) / 0x10000 + (color & 0xFF00) / 0x100 + (color & 0xFF)) / 765.0f;
 	}
 	if (o[id].tex)
 		color = tex[tex_num(o[id].tex, o, id, tex, polar)];
@@ -835,6 +841,7 @@ __kernel void	raytracer(
 	float			oldr;
 	float			oldd;
 	float			rm;
+	float			tm;
 	int				id;
 	int				lt;
 	int				stay;
@@ -864,7 +871,7 @@ __kernel void	raytracer(
 			lt = -1;
 			while(l[++lt].type == light)
 			{
-				color = diffuse(o, &ray.t, l, ray, id, lt, tex, &nor, &rm);
+				color = diffuse(o, &ray.t, l, ray, id, lt, tex, &nor, &rm, &tm);
 				if(stay == 0)
 				{
 					r = r + (((color & 0xFF0000) / 0x10000) * (o[id].diff)) > 255 ?
@@ -885,9 +892,10 @@ __kernel void	raytracer(
 			{
 				refmax--;
 				ray.ori = ray.dir * ray.t + ray.ori;
-				r *= 1.0f - o[id].trans;
-				b *= 1.0f - o[id].trans;
-				g *= 1.0f - o[id].trans;
+				oldr *= (o[id].t_m > 0 ? tm * o[id].trans : o[id].trans);
+				r *= (o[id].t_m > 0 ? 1 - tm : 1 - o[id].trans);
+				g *= (o[id].t_m > 0 ? 1 - tm : 1 - o[id].trans);
+				b *= (o[id].t_m > 0 ? 1 - tm : 1 - o[id].trans);
 			}
 			else if(o[id].refl && o[id].refl > EPSILON && o[id].trans < EPSILON)
 			{

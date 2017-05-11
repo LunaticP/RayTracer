@@ -6,7 +6,7 @@
 /*   By: vthomas <vthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/03 11:59:54 by vthomas           #+#    #+#             */
-/*   Updated: 2017/05/11 12:41:58 by aviau            ###   ########.fr       */
+/*   Updated: 2017/05/11 14:42:44 by aviau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 # define PORT_MAX		50
 # define BASE_PORT		1490
 # define BUFF_LEN		4
-//# define USE_CLUSTER	1
 # include <libft.h>
 # include <sys/socket.h>
 # include <netdb.h>
@@ -34,8 +33,8 @@ typedef enum	e_error
 
 typedef enum	e_msgenum
 {
-	msg_tex,
-	msg_part
+	msg_tex = 0,
+	msg_part = 1
 }				t_msgenum;
 
 typedef struct	s_todo
@@ -66,6 +65,7 @@ typedef struct s_server
 	int			sock;
 	int			port;
 	int			nb;
+	int			c_nb;
 	int			render;
 	t_todo		*todo;
 }				t_server;
@@ -78,6 +78,8 @@ void		rt_listen(t_server *s);
 
 t_server	*server(int status, t_server *serv);
 t_mlx		*save_mlx(int status, t_mlx *mlx);
+
+void		change_nbclient(int i);
 
 int			server_render(void);
 
