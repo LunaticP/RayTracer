@@ -6,13 +6,31 @@
 /*   By: vthomas <vthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/08 21:19:17 by vthomas           #+#    #+#             */
-/*   Updated: 2017/05/11 15:46:18 by vthomas          ###   ########.fr       */
+/*   Updated: 2017/05/11 18:14:32 by aviau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <rt_network.h>
 #include <libft.h>
 #include <rt.h>
+
+t_data	*save_data(int m, t_data *data)
+{
+	static t_data		*d = NULL;
+
+	if (m == 0)
+		d = data;
+	return (d);
+}
+
+t_ocl_prog	*save_oprg(int m, t_ocl_prog *prog)
+{
+	static t_ocl_prog	*p = NULL;
+
+	if (m == 0)
+		p = prog;
+	return (p);
+}
 
 void	img_file(unsigned char *img, char *name, t_data *d)
 {
@@ -39,11 +57,16 @@ void	img_file(unsigned char *img, char *name, t_data *d)
 	exit(0);
 }
 
-void	render(t_data *d, t_ocl_prog *prog, int line, t_client *c)
+void	render(int line, t_client *c)
 {
+	t_ocl_prog	p;
+	t_data		*d;
+
+	p = *(save_oprg(1, NULL));
+	d = save_data(1, NULL);
 	d->cam.chunk.y = (float)line;
-	print_info("je vais rendre");
-	ocl_enqueue_kernel(prog, "raytracer");
+	print_info("je rends");
+	ocl_enqueue_kernel(&p, "raytracer");
 	print_info("j'ai rendu");
 	send_message(msg_part, d->img, sizeof(int) * d->width * d->scale, c);
 //	img_file(d->img, "rendu.ppm", d);
@@ -68,47 +91,21 @@ t_data	*str_to_data(unsigned char *str)
 	return (data);
 }
 
-t_data	*save_data(int m, t_data *data)
-{
-	static t_data		*d = NULL;
-
-	if (m == 0)
-		d = data;
-	return (d);
-}
-
-t_ocl_prog	*save_oprg(int m, t_ocl_prog *prog)
-{
-	static t_ocl_prog	*p = NULL;
-
-	if (m == 0)
-		p = prog;
-	return (p);
-}
-
 void	callback_render(t_client *c)
 {
-	t_ocl_prog	*p;
-	t_data		*d;
-
-	p = save_oprg(1, NULL);
-	d = save_data(1, NULL);
-	print_info(ft_itoa(d->n_o));
-	print_info("go for render");
-	render(d, p, *(int *)c->buf, c);
-	print_info("go for image");
-//	ocl_finish(prog);
+	render(*(int *)c->buf, c);
 }
 
 void	callback_init(t_client *c)
 {
-	t_ocl_prog	*prog;
+	t_ocl_prog	prog;
 	t_data		*d;
 	size_t		pws[2];
 
-	prog = ft_memalloc(sizeof(prog));
-	if (!(ocl_new_prog("./cl_src/rt.cl", 0x1000000 , prog)))
+	print_info("a");
+	if (!(ocl_new_prog("./cl_src/rt.cl", 0x1000000 , &prog)))
 		exit(-1);
+	print_info("b");
 	d = str_to_data(c->buf);
 	d->width = 1280;
 	d->height = 720;
@@ -120,13 +117,13 @@ void	callback_init(t_client *c)
 	d->img = (unsigned char *)ft_memalloc(d->width * d->height * sizeof(int));
 	pws[0] = d->width/* / d.scale*/;
 	pws[1] = d->height;
-	ocl_new_kernel(prog, 5, pws, "norowowowowd", "raytracer", \
+	ocl_new_kernel(&prog, 5, pws, "norowowowowd", "raytracer", \
 			sizeof(int) * d->width * d->height, d->img, \
 			sizeof(t_cam), &(d->cam), \
 			sizeof(t_obj) * d->n_o, d->obj, \
 			sizeof(t_obj) * d->n_l, d->light, \
 			sizeof(int) * (d->tex[0] + 1), d->tex, 2);
 	save_data(0, d);
-	save_oprg(0, prog);
+	save_oprg(0, &prog);
 	print_info("callback initiated");
 }

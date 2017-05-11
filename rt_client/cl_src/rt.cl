@@ -843,7 +843,7 @@ __kernel void	raytracer(
 	int				old;
 	int				quit;
 
-	printf("t_rance\n");
+//	printf("t_rance\n");
 	j += c[0].chunk.y;
 	if (i < (size_t)c[0].size.x && j < (size_t)c[0].size.y)
 	{
