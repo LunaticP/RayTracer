@@ -6,7 +6,7 @@
 /*   By: jplevy <jplevy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/08 01:37:39 by jplevy            #+#    #+#             */
-/*   Updated: 2017/05/10 20:46:30 by vthomas          ###   ########.fr       */
+/*   Updated: 2017/05/11 14:01:25 by pgourran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,8 +122,8 @@ t_scene	ft_init_scene(void)
 	ret.obj[0].r_m = 8;
 	ret.obj[0].tex = 0;
 	ret.obj[0].type = plan;
-	ret.obj[0].diff = 0.0;
-	ret.obj[0].refl = 1.0;
+	ret.obj[0].diff = 1.0;
+	ret.obj[0].refl = 0.0;
 
 	ret.obj[1].dir.x = 1.0;
 	ret.obj[1].dir.y = 0.0;
@@ -204,12 +204,12 @@ t_scene	ft_init_scene(void)
 	ret.obj[6].dir.y = 1.0;
 	ret.obj[6].dir.z = 0.0;
 	ret.obj[6].pos.w = 0.0;
-	ret.obj[6].col = 0xFFFFFF;
+	ret.obj[6].col = 0x000000;
 	ret.obj[6].r_m = 0;
 	ret.obj[6].n_m = 7;
 	ret.obj[6].tex = 6;
 	ret.obj[6].type = cone;
-	ret.obj[6].diff = 1.0;
+	ret.obj[6].diff = 0.0;
 	ret.obj[6].refl = 0.0;
 	ret.obj[6].alpha = 25.0f;
 
@@ -284,14 +284,15 @@ t_scene	ft_init_scene(void)
 	ret.obj[11].dir.y = 1.0;
 	ret.obj[11].dir.z = 1.0;
 	ret.obj[11].pos.w = 0;
-	ret.obj[11].col = 0xFFFFFF;
-	ret.obj[11].r_m = 9;
-	ret.obj[11].n_m = 2;
-	ret.obj[11].tex = 1;
+	ret.obj[11].col = 0xFF0000;
+	ret.obj[11].r_m = 0;
+	ret.obj[11].t_m = 1;
+	ret.obj[11].n_m = 0;
+	ret.obj[11].tex = 0;
 	ret.obj[11].type = sphere;
 	ret.obj[11].diff = 1.0;
 	ret.obj[11].refl = 0.0;
-	ret.obj[11].trans = 0.9;
+	ret.obj[11].trans = 0.1;
 	ret.obj[11].r = 5.0;
 
 	ret.obj[12].type = end;

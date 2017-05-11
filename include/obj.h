@@ -6,7 +6,7 @@
 /*   By: aviau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/10 20:21:23 by aviau             #+#    #+#             */
-/*   Updated: 2017/05/10 20:24:58 by aviau            ###   ########.fr       */
+/*   Updated: 2017/05/11 13:04:24 by pgourran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ typedef struct 		s_obj
 	short			tex;
 	short			n_m;
 	short			r_m;
+	short			t_m;
 }					t_obj;
 
 #endif

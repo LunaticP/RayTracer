@@ -6,7 +6,7 @@
 #    By: aviau <aviau@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/09/11 11:02:36 by aviau             #+#    #+#              #
-#    Updated: 2017/05/10 21:58:33 by vthomas          ###   ########.fr        #
+#    Updated: 2017/05/11 12:41:46 by pgourran         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,7 +46,7 @@ ARG=-L./libft/ -L./libmlx/ -L./libmatrix -L./libocl \
 	-framework OpenGl -framework AppKit -framework opencl\
 	-lpthread
 CFLAGS =	-Wall -Wextra\
-			-D USE_CLUSTER=1
+			-D USE_CLUSTER=0
 DEPDIR				= .deps/
 DEPFILES			= $(patsubst %.c,$(DEPDIR)%.d,$(SRC_NAME))
 
