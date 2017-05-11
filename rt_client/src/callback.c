@@ -6,7 +6,7 @@
 /*   By: vthomas <vthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/08 21:19:17 by vthomas           #+#    #+#             */
-/*   Updated: 2017/05/10 22:27:03 by aviau            ###   ########.fr       */
+/*   Updated: 2017/05/11 14:39:19 by aviau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,10 @@ void	img_file(unsigned char *img, char *name, t_data *d)
 
 void	render(t_data *d, t_ocl_prog *prog, int line, t_client *c)
 {
-	d->cam.chunk.y = line;
+	d->cam.chunk.y = (float)line;
+	print_info("je vais rendre");
 	ocl_enqueue_kernel(prog, "raytracer");
+	print_info("j'ai rendu");
 	send_message(msg_part, d->img, sizeof(int) * d->width * d->scale, c);
 //	img_file(d->img, "rendu.ppm", d);
 }
@@ -66,21 +68,22 @@ t_data	str_to_data(unsigned char *str)
 	return (data);
 }
 
-void	*save_data(int m, t_ocl_prog *prog, t_data *data)
+t_data	*save_data(int m, t_data *data)
 {
-	static t_ocl_prog	*p = NULL;
 	static t_data		*d = NULL;
 
 	if (m == 0)
-	{
-		p = prog;
 		d = data;
-	}
-	else if (m == 1)
-		return ((void *)p);
-	else if (m == 2)
-		return ((void *)d);
-	return (NULL);
+	return (d);
+}
+
+t_ocl_prog	*save_oprg(int m, t_ocl_prog *prog)
+{
+	static t_ocl_prog	*p = NULL;
+
+	if (m == 0)
+		p = prog;
+	return (p);
 }
 
 void	callback_render(t_client *c)
@@ -88,8 +91,9 @@ void	callback_render(t_client *c)
 	t_ocl_prog	*p;
 	t_data		*d;
 
-	p = (t_ocl_prog *)save_data(1, NULL, NULL);
-	d = (t_data *)save_data(2, NULL, NULL);
+	p = save_oprg(1, NULL);
+	d = save_data(1, NULL);
+	print_info(ft_itoa(d->n_o));
 	print_info("go for render");
 	render(d, p, *(int *)c->buf, c);
 	print_info("go for image"); 
@@ -121,6 +125,7 @@ void	callback_init(t_client *c)
 			sizeof(t_obj) * d.n_o, d.obj, \
 			sizeof(t_obj) * d.n_l, d.light, \
 			sizeof(int) * (d.tex[0] + 1), d.tex, 2);
-	save_data(0, &prog, &d);
+	save_data(0, &d);
+	save_oprg(0, &prog);
 	print_info("callback initiated"); 
 }

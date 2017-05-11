@@ -6,7 +6,7 @@
 /*   By: jplevy <jplevy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/08 01:37:39 by jplevy            #+#    #+#             */
-/*   Updated: 2017/05/10 22:24:58 by aviau            ###   ########.fr       */
+/*   Updated: 2017/05/11 13:29:13 by aviau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -432,7 +432,7 @@ void	loop_client()
 				s->c[i].status = 1;
 				s->c[i].line = s->todo->line;
 				send_message(msg_part, (unsigned char *)&(s->todo->line), sizeof(int), i);
-				remove_todo(s->todo, s->todo->line);
+				remove_todo();
 			}
 		}
 	}
@@ -462,6 +462,7 @@ int		ray_loop(t_mlx *mlx)
 		else if (!mlx->s.cam.fast) 
 		{
 			send = data_to_str (mlx);
+			pr_mem(send, *(int *)&send[0]);
 			broadcast(msg_tex , send, *(int *)(&send[0]));
 			print_info("data sended");
 			loop_client();

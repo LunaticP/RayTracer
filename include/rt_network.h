@@ -6,7 +6,7 @@
 /*   By: vthomas <vthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/03 11:59:54 by vthomas           #+#    #+#             */
-/*   Updated: 2017/05/09 19:51:52 by aviau            ###   ########.fr       */
+/*   Updated: 2017/05/11 12:41:58 by aviau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,9 +95,11 @@ void		print_info(char *str);
 void		putimg(t_client *c);
 void		*memjoin(unsigned char *dst, unsigned char *src, int sdst, int ssrc);
 
-void		clear_todo(t_todo *t);
 int			init_render(t_server *s);
-int			remove_todo(t_todo *t, int id);
+
+void		get_newtodo(t_client *c);
+void		clear_todo(t_todo *t);
+void		remove_todo(void);
 int			add_todo(int id);
 
 #endif

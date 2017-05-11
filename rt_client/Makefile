@@ -6,7 +6,7 @@
 #    By: aviau <aviau@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/09/11 11:02:36 by aviau             #+#    #+#              #
-#    Updated: 2017/05/09 11:49:23 by aviau            ###   ########.fr        #
+#    Updated: 2017/05/11 12:53:16 by aviau            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 OS = APPLE
@@ -92,7 +92,7 @@ re: fclean all
 print_rt:
 	@printf "\e[33mrtvocl"
 
-test : CFLAGS = -Wall -Wextra -g
+test : CFLAGS = -Wall -Wextra
 test: all
 	./$(NAME) 127.0.0.1
 endif

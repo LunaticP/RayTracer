@@ -6,7 +6,7 @@
 #    By: aviau <aviau@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/09/11 11:02:36 by aviau             #+#    #+#              #
-#    Updated: 2017/05/10 20:08:46 by aviau            ###   ########.fr        #
+#    Updated: 2017/05/10 21:58:33 by vthomas          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -97,9 +97,9 @@ clean:
 
 fclean: clean
 	-@rm $(NAME)
-	-@make -C ./libft $@
-	-@make -C ./libmatrix $@
-	-@make -C ./libocl $@
+	@make -C ./libft $@
+	@make -C ./libmatrix $@
+	@make -C ./libocl $@
 	@printf "\e[33mrtvocl\t\t\e[31m[CLEAN]\e[0m\n"
 
 re: fclean all

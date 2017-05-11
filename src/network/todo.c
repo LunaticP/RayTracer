@@ -6,7 +6,7 @@
 /*   By: vthomas <vthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/09 16:39:51 by vthomas           #+#    #+#             */
-/*   Updated: 2017/05/09 19:45:26 by aviau            ###   ########.fr       */
+/*   Updated: 2017/05/11 12:33:50 by aviau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,42 +47,80 @@ void clear_todo(t_todo *t)
 	}
 }
 
-int	remove_todo(t_todo *t, int id)
+void	remove_todo(void)
 {
-	t_todo		*last;
+	t_todo		*td;
 	t_server	*s;
 
 	s = server(0, NULL);
-	if (id == t->line)
-	{
-		s->todo = t->next;
-		ft_memdel((void **)&t);
-		return (id);
-	}
-	last = t;
-	t = t->next;
-	while (id != t->line && t->next != NULL)
-	{
-		last = t;
-		t = t->next;
-	}
-	if (id == t->line)
-	{
-		last->next = t->next;
-		ft_memdel((void **)&t);
-	}
-	return (id);
+	td = s->todo->next;
+	ft_memdel((void **)&(s->todo));
+	s->todo = td;
 }
 
 int	add_todo(int id)
 {
-		t_todo		*t;
-		t_server	*s;
+	t_todo		*t;
+	t_server	*s;
 
-		t = (t_todo *)ft_memalloc(sizeof(t_todo));
-		s = server(0, NULL);
-		t->line = id;
-		t->next = s->todo;
-		s->todo = t;
-		return (0);
+	t = (t_todo *)ft_memalloc(sizeof(t_todo));
+	s = server(0, NULL);
+	t->line = id;
+	t->next = s->todo;
+	s->todo = t;
+	return (0);
 }
+
+void	get_newtodo(t_client *c)
+{
+	t_server	*s;
+
+	s = server(0, NULL);
+	c->line = s->todo->line;
+	remove_todo();
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ************************************************************************** */
