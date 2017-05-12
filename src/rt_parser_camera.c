@@ -48,8 +48,6 @@ t_parser				*rt_parser_camera(char *file, t_parser *parser)
 	rt_check_all_data(MASK_CAMERA, mask_check);
 	((t_cam *)(new_parser->content))->viewplane.x = 10;
 	((t_cam *)(new_parser->content))->viewplane.y = 10.0 * ((float)WIDTH / (float)HEIGHT);
-	((t_cam *)(new_parser->content))->viewplane.z = 1;
-	((t_cam *)(new_parser->content))->viewplane.w = 1;
 	((t_cam *)(new_parser->content))->p.x = -5;
 	((t_cam *)(new_parser->content))->p.y = 5.0 * ((float)WIDTH / (float)HEIGHT);
 	((t_cam *)(new_parser->content))->p.z = 5;

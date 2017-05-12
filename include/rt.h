@@ -27,7 +27,7 @@
 # include <math.h>
 # include <key.h>
 
-#define DEBUG 0
+#define DEBUG 1
 
 typedef enum		e_type
 {
