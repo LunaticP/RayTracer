@@ -6,7 +6,7 @@
 #    By: aviau <aviau@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/09/11 11:02:36 by aviau             #+#    #+#              #
-#    Updated: 2017/05/11 16:10:53 by aviau            ###   ########.fr        #
+#    Updated: 2017/05/12 12:24:54 by aviau            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,6 +15,7 @@ NAME = rtvocl
 SRC_NAME =	main.c\
 			key.c\
 			texture.c\
+			perlin.c\
 			message_info.c\
 			network/broadcast.c\
 			network/error.c\
@@ -46,7 +47,7 @@ ARG=-L./libft/ -L./libmlx/ -L./libmatrix -L./libocl \
 	-framework OpenGl -framework AppKit -framework opencl\
 	-lpthread
 CFLAGS =	-Wall -Wextra\
-			-D USE_CLUSTER=1
+			-D USE_CLUSTER=0
 DEPDIR				= .deps/
 DEPFILES			= $(patsubst %.c,$(DEPDIR)%.d,$(SRC_NAME))
 

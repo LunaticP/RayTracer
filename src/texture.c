@@ -6,7 +6,7 @@
 /*   By: aviau <aviau@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/04 13:28:35 by aviau             #+#    #+#             */
-/*   Updated: 2017/05/09 18:57:43 by aviau            ###   ########.fr       */
+/*   Updated: 2017/05/12 12:07:16 by aviau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,11 +65,12 @@ int		*get_ppm(char *file)
 	int		size[3];
 	int		ij[2];
 
+	if (strcmp(file, "perlin") == 0)
+		return (perlin());
 	line = NULL;
 	fd = open(file, O_RDONLY);
 	init_ppm(fd, &ppm, size, file);
 	ij[0] = 3;
-	ij[1] = 0;
 	get_next_line(fd, &line);
 	while (ij[0] <= ppm[0])
 	{

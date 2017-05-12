@@ -6,7 +6,7 @@
 /*   By: jplevy <jplevy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/11 06:10:10 by jplevy            #+#    #+#             */
-/*   Updated: 2017/05/10 20:22:27 by aviau            ###   ########.fr       */
+/*   Updated: 2017/05/12 12:06:03 by aviau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,5 +80,6 @@ void	k_press(int key, int *k);
 int		k_rel(int key, void *param);
 void	k_apply(int key, t_scene *s);
 int		*get_texture(char **file);
+int		*perlin(void);
 
 #endif
