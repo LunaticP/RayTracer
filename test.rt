@@ -1,3 +1,8 @@
+textures
+{
+	"test.ppm";
+}
+
 objects
 {
 	sphere
@@ -20,7 +25,7 @@ objects
 		refl = 0;
 		trans = 0;
 		refr = 0;
-		tex = 0;
+		tex = 1;
 		n_m = 0;
 		r_m = 0;
 		t_m = 0;
@@ -33,6 +38,19 @@ lights
 	pos
 	{
 		x = 0;
+		y = 2;
+		z = -10;
+		w = 0;
+	}
+	r = 80;
+	col = #FFFFFF;
+}
+
+lights
+{
+	pos
+	{
+ 		x = 15;
 		y = 2;
 		z = -10;
 		w = 0;
