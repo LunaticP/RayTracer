@@ -2,13 +2,13 @@
 #include <time.h>
 #include <rt.h>
 
-char	*gen_image(int xx, int yy)
+unsigned char	*gen_image(int xx, int yy)
 {
-	char	*image;
-	int		x;
-	int		y;
+	unsigned char	*image;
+	int				x;
+	int				y;
 
-	image = (char *)ft_memalloc(xx * yy);
+	image = (unsigned char *)ft_memalloc(xx * yy);
 	y = -1;
 	while (++y < yy && (x = -1))
 		while (++x < xx)
@@ -16,45 +16,44 @@ char	*gen_image(int xx, int yy)
 	return (image);
 }
 
-double	smooth(double x, double y, int m_w, int m_h, char *map)
+double	smooth(double x, double y, int m_w, int m_h, unsigned char *map)
 {
    double fractX = x - (int)x;
    double fractY = y - (int)y;
-   int x1 = ((int)x + m_w) % m_w;
-   int y1 = ((int)y + m_h) % m_h;
-   int x2 = ((x1 + m_w) % m_w) - 1;
-   int y2 = ((y1 + m_h) % m_h) - 1;
+   int x1 = (int)x % m_w;
+   int y1 = (int)y % m_h;
+   int x2 = ((int)x + m_w - 1) % m_w;
+   int y2 = ((int)y + m_h - 1) % m_h;
    double value = 0.0;
 
-   value += fractX * fractY * (map[y1 * m_w + x1] / 256.0);
-   value += (1.0 - fractX) * fractY * (map[y1 * m_w + x2] / 256.0);
-   value += fractX * (1.0 - fractY) * (map[y2 * m_w + x1] / 256.0);
-   value += (1.0 - fractX) * (1.0 - fractY) * (map[y2 * m_w + x2] / 256.0);
-   return (1.0 - value);
+   value += fractX * fractY * (map[y1 * m_w + x1] / 255.0);
+   value += (1.0 - fractX) * fractY * (map[y1 * m_w + x2] / 255.0);
+   value += fractX * (1.0 - fractY) * (map[y2 * m_w + x1] / 255.0);
+   value += (1.0 - fractX) * (1.0 - fractY) * (map[y2 * m_w + x2] / 255.0);
+   return (value);
 }
 
-int		merge(char **images, int x, int y)
+int		merge(unsigned char **images, int x, int y)
 {
+	float	div;
 	int		val;
-	int		div;
 	int		i;
 	
 	i = 0;
 	div = 1;
-	val = (int)(smooth(x / 1024, y / 1024, 2, 2, images[10]) * 256.0);
-//	val = images[0][y / 8 * 2048 + x / 8];
-//	while (++i < 8)
-//	{
-//		div *= 2;
-//		val += images[i][(y / div) * (2048 / div) + (x / div)];
-//	}
-//	val /= 8;
+	val = (int)(smooth(x, y, 2048, 2048, images[0]) * 255.0);
+	while (++i < 11)
+	{
+		div *= 2.0;
+		val += (int)(smooth(x / div, y / div, 2048 / div, 2048/ div, images[i]) * 255.0);
+	}
+	val /= 11;
 	return(val * 0x10000 + val * 0x100 + val);
 }
 
 int		*perlin(void)
 {
-	char	*images[11];
+	unsigned char	*images[11];
 	int		*tex;
 	cl_int2	p;
 
@@ -78,7 +77,7 @@ int		*perlin(void)
 	{
 		p.x = -1;
 		while (++p.x < 2048)
-			tex[p.y * 2048 + p.x + 3] = merge((char **)images, p.x, p.y);
+			tex[p.y * 2048 + p.x + 3] = merge((unsigned char **)images, p.x, p.y);
 	}
 	return (tex);
 }

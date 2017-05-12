@@ -845,7 +845,7 @@ __kernel void	raytracer(
 	int				id;
 	int				lt;
 	int				stay;
-	int				refmax = 7;
+	int				refmax = 25;
 	int				color = 0;
 	int				old;
 	int				quit;
