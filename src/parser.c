@@ -55,9 +55,11 @@ void			print_data_camera(t_cam *cam)
 	printf("dirx.x : %f | dirx.y : %f | dirx.z : %f\n", cam->dirx.x, cam->dirx.y, cam->dirx.z);
 	printf("diry.x : %f | diry.y : %f | diry.z : %f\n", cam->diry.x, cam->diry.y, cam->diry.z);
 	printf("dirz.x : %f | dirz.y : %f | dirz.z : %f\n", cam->dirz.z, cam->dirz.y, cam->dirz.z);
-	printf("size.x : %d | size.y : %d\n", cam->size.x, cam->size.y);
-	// printf("p.x : %f | p.y : %f | p.z : %f\n", cam->p.x, cam->p.y, cam->p.z);
-	// printf("viewplane.x : %f | viewplane.y : %f\n", cam->viewplane.x, cam->viewplane.y);
+	// printf("size.x : %d | size.y : %d\n", cam->size.x, cam->size.y);
+	printf("viewplane.x : %f | viewplane.y : %f | viewplane.z : %f | viewplane.w : %f\n", cam->viewplane.x, cam->viewplane.y, cam->viewplane.z, cam->viewplane.w);
+	printf("p.x : %f | p.y : %f | p.z : %f\n", cam->p.x, cam->p.y, cam->p.z);
+	printf("chunk.x : %f | chunk.y : %f\n", cam->chunk.x, cam->chunk.y);
+	printf("fast : %d | dsr : %d\n", cam->fast, cam->dsr);
 	printf("________\n");
 }
 
@@ -86,7 +88,7 @@ void			print_data_obj(t_obj *obj)
 	printf("p1.x : %f | p1.y : %f | p1.z : %f\n", obj->p1.x, obj->p1.y, obj->p1.z);
 	printf("p2.x : %f | p2.y : %f | p2.z : %f\n", obj->p2.x, obj->p2.y, obj->p2.z);
 	printf("p3.x : %f | p3.y : %f | p3.z : %f\n", obj->p3.x, obj->p3.y, obj->p3.z);
-	printf("tex : %hd | n_m : %hd\n", obj->tex, obj->n_m);
+	printf("tex : %hd | n_m : %hd | r_m : %hd | t_m : %hd\n", obj->tex, obj->n_m, obj->r_m, obj->t_m);
 	printf("type : %d\n", obj->type);
 	printf("________\n");
 }

@@ -22,6 +22,8 @@ objects
 		refr = 0;
 		tex = 0;
 		n_m = 0;
+		r_m = 0;
+		t_m = 0;
 		r = 3;
 	}
 }
@@ -65,4 +67,22 @@ camera
 		y = 0;
 		z = 1;
 	}
+	viewplane
+	{
+		z = 0;
+		w = 0;
+	}
+	p
+	{
+		x = 0;
+		y = 0;
+		z = 0;
+	}
+	chunk
+	{
+		x = 0;
+		y = 0;
+	}
+	fast = 1;
+	dsr = 1;
 }

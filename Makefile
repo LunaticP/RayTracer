@@ -47,6 +47,7 @@ SRC_NAME =	main.c\
 			rt_get_str.c\
 			rt_get_float3_init.c\
 			rt_check_value.c\
+			rt_get_float4_end.c\
 
 INC_FILE = include/key.h\
 		   include/rt.h\

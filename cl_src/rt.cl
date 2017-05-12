@@ -48,6 +48,8 @@ typedef struct 		s_obj
 	float4			p3;
 	short			tex;
 	short			n_m;
+	short			r_m;
+	short			t_m;
 }					t_obj;
 
 typedef struct		s_cam
@@ -57,8 +59,11 @@ typedef struct		s_cam
 	float4			diry;
 	float4			dirz;
 	int2			size;
-	float2			viewplane;
+	float4			viewplane; // z et w
 	float4			p;
+	float2			chunk;
+	short			fast;
+	short			dsr;
 }					t_cam;
 
 typedef struct		s_ray

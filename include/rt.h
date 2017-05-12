@@ -67,6 +67,8 @@ typedef struct 		s_obj
 	cl_float4		p3;
 	short			tex;
 	short			n_m;
+	short			r_m;
+	short			t_m;
 }					t_obj;
 
 /*
@@ -79,11 +81,13 @@ typedef struct		s_cam
 	cl_float4		dirx;
 	cl_float4		diry;
 	cl_float4		dirz;
-	cl_int2			size;
-	cl_float2		viewplane;
-	cl_float4		p;
-}
-					t_cam;
+	cl_int2			size; // no
+	cl_float4		viewplane; // z et w
+	cl_float4		p; //
+	cl_float2		chunk; //
+	short			fast; //
+	short			dsr;
+}					t_cam;
 /* A voir si bien tout dans les settings */
 typedef struct 		s_set
 {
@@ -181,6 +185,7 @@ void			*rt_get_float(char *str);
 void			*rt_get_float2(char *file);
 void			*rt_get_float3(char *file);
 void			*rt_get_float4(char *file);
+void			*rt_get_float4_end(char *file);
 
 void			rt_check_value(void ***tab);
 

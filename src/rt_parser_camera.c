@@ -1,6 +1,6 @@
 #include "parser.h"
 
-# define MASK_CAMERA 0b1111
+# define MASK_CAMERA 0b11111001111
 
 typedef	struct		s_data_camera
 {
@@ -13,6 +13,13 @@ static const t_data_camera tab_data_camera[] = {	{"ori{", sizeof(cl_float4), &rt
 													{"dirx{", sizeof(cl_float4), &rt_get_float3},
 													{"diry{", sizeof(cl_float4), &rt_get_float3},
 													{"dirz{", sizeof(cl_float4), &rt_get_float3},
+													{"PADDING_SIZE", sizeof(cl_int2), &rt_useless},
+													{"PADDING", 8, &rt_useless},
+													{"viewplane{", sizeof(cl_float4), &rt_get_float4_end},
+													{"p{", sizeof(cl_float4), &rt_get_float3},
+													{"chunk{", sizeof(cl_float2), &rt_get_float2},
+													{"fast=", sizeof(short), &rt_get_short},
+													{"dsr=", sizeof(short), &rt_get_short},
 													{"}", 0, NULL}	};
 
 static int				s_choice_data(char **file, int size);

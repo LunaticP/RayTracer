@@ -35,6 +35,8 @@ static const t_data g_tab_data[] = {{"pos{", sizeof(cl_float4), &rt_get_float4},
 									{"p3{", sizeof(cl_float4), &rt_get_float3},
 									{"tex=", sizeof(short), &rt_get_short},
 									{"n_m=", sizeof(short), &rt_get_short},
+									{"r_m=", sizeof(short), &rt_get_short},
+									{"t_m=", sizeof(short), &rt_get_short},
 									{"}", 0, NULL}	};
 
 void						rt_get_object(t_obj *obj, char *file, int mask_type)
