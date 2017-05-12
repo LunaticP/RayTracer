@@ -99,6 +99,7 @@ int		rt_sphere(__global t_obj *o, int i, int *i2, t_ray *ray);
 int		rt_para(__global t_obj *o, t_ray *ray);
 int		ray_match(__global t_obj *o, t_ray *ray);
 t_ray	rot_ray(t_ray from, float tet, float phi, float4 center);
+int				limit(__global t_obj *o, float4 hit, int id);
 
 float4			qt_conjugate(float4 qt)
 {
@@ -142,6 +143,17 @@ float			sq(float a)
 {
 	return (a * a);
 }
+
+int				limit(__global t_obj *o, float4 hit, int id)
+{
+	return(	hit.x > o[id].max.x ||
+			hit.y > o[id].max.y ||
+			hit.z > o[id].max.z ||
+			hit.x < o[id].min.x ||
+			hit.y < o[id].min.y ||
+			hit.z < o[id].min.z);
+}
+
 
 t_ray			rot_ray(t_ray from, float tet, float phi, float4 center)
 {
@@ -424,7 +436,7 @@ int				diffuse(__global t_obj *o,float *t, __global t_obj *l, t_ray ray, int id,
 		color = tex[tex_num(o[id].tex, o, id, tex, polar)];
 	else
 		color = o[id].col;
-	if (o[id].pos.w > 0.5f)
+	if (o[id].pos.w > 0.5f || ray.imp == -1)
 		normale *= -1.0f;
 	*n = normale;
 	vlight = l[in].pos - hit;
@@ -574,8 +586,15 @@ int				rt_plan(__global t_obj *o, int i, t_ray *ray)
 		return (0);
 	t.x = dot(o[i].pos + EPSILON - ray->ori, o[i].dir) / d;
 	t.y = t.x;
-	if (t.x > EPSILON && (t.x < ray->t || ray->t <= EPSILON)
-			&& ray_neg(o, ray, &t) > 0)
+
+	float4 point = t.x * ray->dir + ray->ori - o[i].pos;
+	float4 temp = normalize(o[i].dir);
+	float angle = acos(dot(temp, (float4)(0.0f,1.0f,0.0f,0.0f)));
+	float4 axis = normalize(cross(temp, (float4)(0.0f,1.0f,0.0f,0.0f)));
+	point = point * cos(angle) + cross(axis, point) * sin(angle) + axis * dot(axis, point) * (1 - cos(angle));
+
+	if ((t.x > EPSILON && (t.x < ray->t || ray->t <= EPSILON)
+			&& ray_neg(o, ray, &t) > 0) && !limit(o, point, i))
 	{
 		ray->t = t.x;
 		return (d > 0 ? -1 : 1);
@@ -645,15 +664,22 @@ int				rt_cone(__global t_obj *o, int i, int *i2, t_ray *ray)
 	c = dot(x, x) - k * sq(dot(x, odir));
 	if (quadratic(a, b, c, &t) && !(a = 0) && (o[i].pos.w > 0.5f || (a = ray_neg(o, ray, &t)) != 0))
 	{
+	float4 point = (t.x * ray->dir + ray->ori) - o[i].pos;
+	float4 point2 = (t.y * ray->dir + ray->ori) - o[i].pos;
+	float4 temp = normalize(o[i].dir);
+	float angle = acos(dot(temp, (float4)(0.0f,1.0f,0.0f,0.0f)));
+	float4 axis = normalize(cross(temp, (float4)(0.0f,1.0f,0.0f,0.0f)));
+	point = point * cos(angle) + cross(axis, point) * sin(angle) + axis * dot(axis, point) * (1 - cos(angle));
+	point2 = point2 * cos(angle) + cross(axis, point2) * sin(angle) + axis * dot(axis, point2) * (1 - cos(angle));
 		if (o[i].pos.w < 0.5f)
 			*i2 = a - 1;
-		if (t.x < t.y && (o[i].pos.w > 0.5f || t.x > 0.01f) && (t.x < ray->t || ray->t <= 0))
+		if ((t.x < t.y && (o[i].pos.w > 0.5f || t.x > 0.01f) && (t.x < ray->t || ray->t <= 0)) && !limit(o, point, i))
 		{
 			ray->t = t.x;
 			ray->t2 = t.y;
-			return (1);
+				return (1);
 		}
-		else if ((o[i].pos.w > 0.5f || t.y > 0.01f) && (t.y < ray->t || ray->t <= 0))
+		else if ((o[i].pos.w > 0.5f || t.y > 0.01f) && (t.y < ray->t || ray->t <= 0) && !limit(o, point2, i))
 		{
 			ray->t = t.y;
 			ray->t2 = t.x;
@@ -681,15 +707,22 @@ int				rt_cylindre(__global t_obj *o, int i, int *i2, t_ray *ray)
 	c = dot(x, x) - sq(dot(x, odir)) - o[i].r * o[i].r;
 	if (quadratic(a, b, c, &t) && !(a = 0) && (o[i].pos.w > 0.5f || (a = ray_neg(o, ray, &t)) != 0))
 	{
+	float4 point = (t.x * ray->dir + ray->ori) - o[i].pos;
+	float4 point2 = (t.y * ray->dir + ray->ori) - o[i].pos;
+	float4 temp = normalize(o[i].dir);
+	float angle = acos(dot(temp, (float4)(0.0f,1.0f,0.0f,0.0f)));
+	float4 axis = normalize(cross(temp, (float4)(0.0f,1.0f,0.0f,0.0f)));
+	point = point * cos(angle) + cross(axis, point) * sin(angle) + axis * dot(axis, point) * (1 - cos(angle));
+	point2 = point2 * cos(angle) + cross(axis, point2) * sin(angle) + axis * dot(axis, point2) * (1 - cos(angle));
 		if (o[i].pos.w < 0.5f)
 			*i2 = a - 1;
-		if (t.x < t.y && (o[i].pos.w > 0.5f || t.x > 0.01) && (t.x < ray->t || ray->t <= 0))
+		if ((t.x < t.y && (o[i].pos.w > 0.5f || t.x > 0.01) && (t.x < ray->t || ray->t <= 0)) && !limit(o, point, i))
 		{
 			ray->t = t.x;
 			ray->t2 = t.y;
 			return (1);
 		}
-		else if ((o[i].pos.w > 0.5f || t.y > 0.01) && (t.y < ray->t || ray->t <= 0))
+		else if (((o[i].pos.w > 0.5f || t.y > 0.01) && (t.y < ray->t || ray->t <= 0)) && !limit(o, point2, i))
 		{
 			ray->t = t.y;
 			ray->t2 = t.x;
@@ -713,15 +746,22 @@ int				rt_sphere(__global t_obj *o, int i, int *i2, t_ray *ray)
 	c = dot(pos, pos) - o[i].r * o[i].r;
 	if (quadratic(a, b, c, &t) && !(a = 0) && (o[i].pos.w > 0.5f || (a = ray_neg(o, ray, &t)) != 0))
 	{
+	float4 point = (t.x * ray->dir + ray->ori) - o[i].pos;
+	float4 point2 = (t.y * ray->dir + ray->ori) - o[i].pos;
+	float4 temp = normalize(o[i].dir);
+	float angle = acos(dot(temp, (float4)(0.0f,1.0f,0.0f,0.0f)));
+	float4 axis = normalize(cross(temp, (float4)(0.0f,1.0f,0.0f,0.0f)));
+	point = point * cos(angle) + cross(axis, point) * sin(angle) + axis * dot(axis, point) * (1 - cos(angle));
+	point2 = point2 * cos(angle) + cross(axis, point2) * sin(angle) + axis * dot(axis, point2) * (1 - cos(angle));
 		if (o[i].pos.w < 0.5f)
 			*i2 = a - 1;
-		if (t.x < t.y && (o[i].pos.w > 0.5f || t.x > 0.001) && (t.x < ray->t || ray->t <= 0.001))
+		if ((t.x < t.y && (o[i].pos.w > 0.5f || t.x > 0.001) && (t.x < ray->t || ray->t <= 0.001)) && !limit(o, point, i))
 		{
 			ray->t = t.x;
 			ray->t2 = t.y;
 			return (1);
 		}
-		else if ((o[i].pos.w > 0.5f || t.y > 0.001) && (t.y < ray->t || ray->t <= 0.001))
+		else if (((o[i].pos.w > 0.5f || t.y > 0.001) && (t.y < ray->t || ray->t <= 0.001))&& !limit(o, point2, i))
 		{
 			ray->t = t.y;
 			ray->t2 = t.x;

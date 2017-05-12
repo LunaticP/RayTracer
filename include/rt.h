@@ -6,7 +6,7 @@
 /*   By: jplevy <jplevy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/11 06:10:10 by jplevy            #+#    #+#             */
-/*   Updated: 2017/05/09 03:19:27 by jogarcia         ###   ########.fr       */
+/*   Updated: 2017/05/12 17:54:43 by pgourran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 # include <math.h>
 # include <key.h>
 
-#define DEBUG 1
+#define DEBUG 0
 
 typedef enum		e_type
 {
