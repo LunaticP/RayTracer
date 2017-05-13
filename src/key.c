@@ -6,12 +6,11 @@
 /*   By: aviau <aviau@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/30 07:43:39 by aviau             #+#    #+#             */
-/*   Updated: 2017/05/13 18:54:54 by aviau            ###   ########.fr       */
+/*   Updated: 2017/05/13 20:40:13 by aviau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
-#include <rt_network.h>
 
 cl_float4	cl_cross(cl_float4 v1, cl_float4 v2)
 {
@@ -141,7 +140,6 @@ int		k_rel(int key, void *param)
 		*k -= ROT_YM;
 	if (SPACE)
 	{
-		server_render();
 		if (*k & BSPACE)
 			*k -= BSPACE;
 		else

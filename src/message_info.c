@@ -6,11 +6,10 @@
 /*   By: vthomas <vthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/05 16:39:20 by vthomas           #+#    #+#             */
-/*   Updated: 2017/05/05 17:22:22 by vthomas          ###   ########.fr       */
+/*   Updated: 2017/05/13 20:38:20 by aviau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <rt_network.h>
 #include <libft.h>
 
 void print_log(char *str)

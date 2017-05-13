@@ -6,7 +6,7 @@
 /*   By: jplevy <jplevy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/11 06:10:10 by jplevy            #+#    #+#             */
-/*   Updated: 2017/05/13 14:17:45 by aviau            ###   ########.fr       */
+/*   Updated: 2017/05/13 20:36:21 by aviau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@
 # include <math.h>
 # include <key.h>
 # include <obj.h>
-# include <pthread.h>
 # include <time.h>
 
 typedef struct		s_ant
@@ -80,7 +79,6 @@ typedef struct		s_mlx
 	int				bp;
 	int				sl;
 	int				cluster;
-	pthread_t		pthserv;
 	t_scene			s;
 	t_ocl_prog		prog;
 }					t_mlx;

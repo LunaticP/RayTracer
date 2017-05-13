@@ -6,7 +6,7 @@
 #    By: aviau <aviau@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/09/11 11:02:36 by aviau             #+#    #+#              #
-#    Updated: 2017/05/13 10:04:45 by aviau            ###   ########.fr        #
+#    Updated: 2017/05/13 20:41:52 by aviau            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,16 +18,6 @@ SRC_NAME =	main.c\
 			perlin.c\
 			langton.c\
 			message_info.c\
-			network/broadcast.c\
-			network/error.c\
-			network/init_clustering.c\
-			network/listener.c\
-			network/memjoin.c\
-			network/putimg.c\
-			network/render.c\
-			network/send_message.c\
-			network/server.c\
-			network/todo.c
 
 INC_FILE = include/key.h\
 		   include/rt.h
@@ -45,10 +35,8 @@ MLX=libmlx
 INC=-I./include -I./libft -I./libmlx -I./libmatrix -I ./libocl
 ARG=-L./libft/ -L./libmlx/ -L./libmatrix -L./libocl \
 	-lft -lmatrix -lmlx -locl \
-	-framework OpenGl -framework AppKit -framework opencl\
-	-lpthread
-CFLAGS =	-Wall -Wextra\
-			-D USE_CLUSTER=0
+	-framework OpenGl -framework AppKit -framework opencl
+CFLAGS =	-Wall -Wextra
 DEPDIR				= .deps/
 DEPFILES			= $(patsubst %.c,$(DEPDIR)%.d,$(SRC_NAME))
 

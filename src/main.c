@@ -6,16 +6,14 @@
 /*   By: jplevy <jplevy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/08 01:37:39 by jplevy            #+#    #+#             */
-/*   Updated: 2017/05/13 19:39:45 by aviau            ###   ########.fr       */
+/*   Updated: 2017/05/13 20:37:02 by aviau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <rt.h>
-#include <rt_network.h>
 
 # define STEREO		0
 # define OUT_FILE	0
-# define CLUST		1
 
 cl_float4		vec_norm(cl_float4 vec)
 {
@@ -386,92 +384,21 @@ void	dsr(t_mlx *mlx)
 	}
 }
 
-void	pr_mem(unsigned char *str, int n)
-{
-	int		i;
-
-	i = -1;
-	printf("{");
-	while (++i < n)
-		printf("%02X ",(unsigned char)str[i]);
-	printf("}\n");
-}
-
-unsigned char	*data_to_str(t_mlx *data)
-{
-	unsigned char	*str;
-	int				size;
-
-	size = sizeof(int) * (3 + data->tex[0]);
-	size += sizeof(t_cam);
-	size += sizeof(t_obj) * (data->s.n_o + data->s.n_l);
-	str = (unsigned char *)ft_memalloc(size + 16);
-	str = memjoin(str, (unsigned char *)&size, 0, sizeof(int));
-	str = memjoin(str, (unsigned char *)&(data->tex[0]), 4, sizeof(int));
-	str = memjoin(str, (unsigned char *)&(data->s.n_o), 8, sizeof(int));
-	str = memjoin(str, (unsigned char *)&(data->s.n_l), 12, sizeof(int));
-	str = memjoin(str, (unsigned char *)data->tex, 16, sizeof(int) * data->tex[0]);
-	str = memjoin(str, (unsigned char *)&(data->s.cam), \
-			16 + sizeof(int) * data->tex[0], sizeof(t_cam));
-	str = memjoin(str, (unsigned char *)data->s.obj, 16 + sizeof(int) * data->tex[0] \
-			+ sizeof(t_cam), sizeof(t_obj) * data->s.n_o);
-	str = memjoin(str, (unsigned char *)data->s.light, 16 + sizeof(int) * data->tex[0] \
-			+ sizeof(t_cam) + sizeof(t_obj) * data->s.n_o, sizeof(t_obj) * data->s.n_l);
-	return (str);
-}
-
-void	loop_client()
-{
-	t_server	*s;
-	int			i;
-
-	s = server(0, NULL);
-	while (s->todo != NULL)
-	{
-		i = -1;
-		while (++i < MAX_CLIENT && s->c[i].sock)
-		{
-			if (s->c[i].status == 0)
-			{
-				s->c[i].status = 1;
-				s->c[i].line = s->todo->line;
-				send_message(msg_part, (unsigned char *)&(s->todo->line), sizeof(int), i);
-				remove_todo();
-			}
-		}
-	}
-}
-
 int		ray_loop(t_mlx *mlx)
 {
-	unsigned char *send; 
-
 	if (mlx->key & REDRAW)
 	{
 		k_apply(mlx->key, &mlx->s);
-		if (!mlx->cluster)
+		while(!mlx->s.cam.fast && ++mlx->s.cam.chunk.y < mlx->s.cam.viewplane.z)
 		{
-			while(!mlx->s.cam.fast && ++mlx->s.cam.chunk.y < mlx->s.cam.viewplane.z)
+			while(++mlx->s.cam.chunk.x < mlx->s.cam.viewplane.z)
 			{
-				while(++mlx->s.cam.chunk.x < mlx->s.cam.viewplane.z)
-				{
-					ocl_enqueue_kernel(&(mlx->prog), "raytracer");
-					mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img, 0, 0);
-					mlx_do_sync(mlx->mlx);
-				}
-				mlx->s.cam.chunk.x = -1.0f;
+				ocl_enqueue_kernel(&(mlx->prog), "raytracer");
+				mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img, 0, 0);
+				mlx_do_sync(mlx->mlx);
 			}
+			mlx->s.cam.chunk.x = -1.0f;
 		}
-/* ******************************* NETWORKING ******************************* */
-		else if (!mlx->s.cam.fast) 
-		{
-			send = data_to_str (mlx);
-			pr_mem(send, *(int *)&send[0]);
-			broadcast(msg_tex , send, *(int *)(&send[0]));
-			print_info("data sended");
-			loop_client();
-		}
-/* ************************************************************************** */
 		if(mlx->s.cam.fast) 
 			ocl_enqueue_kernel(&(mlx->prog), "rt_fast");
 		if(!mlx->s.cam.fast && DSR > 1)
@@ -519,7 +446,6 @@ int		main(int ac, char **av)
 	mlx.s.cam.chunk.y = -1;
 	mlx.s.cam.dsr = 1;
 	mlx.p[0] = 0;
-	init_clustering(&mlx, av);
 	pws[0] = WIDTH / mlx.s.cam.viewplane.z;
 	pws[1] = HEIGHT / mlx.s.cam.viewplane.z;
 	pws_f[0] = W / 2;
