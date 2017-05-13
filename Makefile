@@ -6,7 +6,7 @@
 #    By: aviau <aviau@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/09/11 11:02:36 by aviau             #+#    #+#              #
-#    Updated: 2017/05/13 19:56:46 by vthomas          ###   ########.fr        #
+#    Updated: 2017/05/13 20:06:56 by vthomas          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,6 +43,7 @@ OBJ_PATH = ./obj/
 SRC=$(addprefix $(SRC_PATH),$(SRC_NAME))
 OBJ=$(addprefix $(OBJ_PATH),$(OBJ_NAME))
 
+CC = gcc
 OBJ_SUB =	network\
 			bmp
 
@@ -81,7 +82,7 @@ $(DEPDIR)/%.d: $(SRC_PATH)%.c $(DEPDIR)%.d
 -include $(DEPFILES)
 
 $(NAME): lib print_rt $(OBJ)
-	@gcc -g -O0 $(CFLAGS) $(ARG) $(INC) $(OBJ) -o $@
+	@$(CC) -g -O0 $(CFLAGS) $(ARG) $(INC) $(OBJ) -o $@
 lib:
 	@make -C ./$(MLX)
 	@make -C ./libft
@@ -93,7 +94,7 @@ lib:
 #	@make -C ./libmatrix
 $(OBJ_PATH)%.o: $(SRC_PATH)%.c $(INC_FILE)
 	-@mkdir -p $(OBJ_PATH) $(addprefix $(OBJ_PATH),$(OBJ_SUB))
-	@gcc $(CFLAGS) -c -o $@ $< $(INC)
+	@$(CC) $(CFLAGS) -c -o $@ $< $(INC)
 
 clean:
 	-@rm -rf $(OBJ_PATH) $(DEPDIR)
