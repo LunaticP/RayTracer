@@ -6,7 +6,7 @@
 /*   By: vthomas <vthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/13 11:42:10 by vthomas           #+#    #+#             */
-/*   Updated: 2017/05/13 19:16:06 by vthomas          ###   ########.fr       */
+/*   Updated: 2017/05/13 19:48:43 by vthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,7 @@ typedef	struct			s_ubmp
 typedef enum	e_filetype
 {
 	ft_perlin,
+	ft_langton,
 	ft_ppm,
 	ft_bmp
 }				t_filetype;

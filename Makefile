@@ -6,7 +6,7 @@
 #    By: aviau <aviau@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/09/11 11:02:36 by aviau             #+#    #+#              #
-#    Updated: 2017/05/13 19:18:56 by vthomas          ###   ########.fr        #
+#    Updated: 2017/05/13 19:44:41 by vthomas          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,6 +14,9 @@ OS = APPLE
 NAME = rtvocl
 SRC_NAME =	main.c\
 			key.c\
+			texture.c\
+			perlin.c\
+			langton.c\
 			message_info.c\
 			parse_text.c\
 			perlin.c\

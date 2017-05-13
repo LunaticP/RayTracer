@@ -83,6 +83,7 @@ float4	norm_sphere(__global t_obj *o, float4 hit, int id);
 float4	norm_cone(__global t_obj *o, float4 hit, int id, t_ray ray);
 float4	norm_cylindre(__global t_obj *o, float4 hit, int id, t_ray ray);
 float4	refl(float4 ray, float4 normale);
+float4	refr(float4 ray, float4 normale);
 float4	bilinear(float2 polar, __global int *tex);
 float4	ray_from_coord(size_t x, size_t y, __global t_cam *c, int mul);
 float	sq(float a);
@@ -207,6 +208,21 @@ float4		norm_cylindre(__global t_obj *o, float4 hit, int id, t_ray ray)
 }
 
 float4			refl(float4 ray, float4 normale)
+{
+	float4		ret;
+	float4		dir;
+	float4		norma;
+	float		dp;
+
+	dir = normalize(ray);
+	norma = normalize(normale);
+	dp = 2 * dot(dir, norma);
+	ret = norma * dp;
+	ret = dir - ret;
+	return(ret);
+}
+
+float4			refr(float4 ray, float4 normale)
 {
 	float4		ret;
 	float4		dir;
@@ -842,10 +858,11 @@ __kernel void	raytracer(
 	float			oldd;
 	float			rm;
 	float			tm;
+	float			rf;
 	int				id;
 	int				lt;
 	int				stay;
-	int				refmax = 7;
+	int				refmax = 10;
 	int				color = 0;
 	int				old;
 	int				quit;
@@ -891,7 +908,9 @@ __kernel void	raytracer(
 			if(o[id].trans && o[id].trans > EPSILON && o[id].refl < EPSILON)
 			{
 				refmax--;
+				rf = dot(ray.dir, nor);
 				ray.ori = ray.dir * ray.t + ray.ori;
+				ray.dir = normalize(refr(ray.dir, nor * -1.0f));
 				oldr *= (o[id].t_m > 0 ? tm * o[id].trans : o[id].trans);
 				r *= (o[id].t_m > 0 ? 1 - tm : 1 - o[id].trans);
 				g *= (o[id].t_m > 0 ? 1 - tm : 1 - o[id].trans);

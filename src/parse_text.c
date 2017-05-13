@@ -6,7 +6,7 @@
 /*   By: vthomas <vthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/12 19:16:13 by vthomas           #+#    #+#             */
-/*   Updated: 2017/05/13 19:09:35 by vthomas          ###   ########.fr       */
+/*   Updated: 2017/05/13 19:48:26 by vthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ int	get_filetype(char *filename)
 	{
 		if (ft_strcmp(filename, "perlin") == 0)
 			return (ft_perlin);
+		else if (ft_strcmp(filename, "langton") == 0)
+			return (ft_langton);
 		else
 			return (-1);
 	}
@@ -44,6 +46,8 @@ int	*get_anytext(char *filename)
 	t = get_filetype(filename);
 	if (t == ft_perlin)
 		return (perlin());
+	else if (t == ft_langton)
+		return (langton());
 	else if (t == ft_ppm)
 		return (get_ppm(filename));
 	else if (t == ft_bmp)
