@@ -1,8 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parser_error.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jogarcia <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/05/13 04:56:13 by jogarcia          #+#    #+#             */
+/*   Updated: 2017/05/13 04:56:14 by jogarcia         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "parser.h"
 
-static int		s_check_path(char *path);
+#define AN1 static int s_check_path(char *path);
 
-void			parser_error(t_list *file, char *path)
+AN1;
+
+void				parser_error(t_list *file, char *path)
 {
 	if (file == NULL || file->content == NULL)
 		exit_error("error - parser - get_file send NULL");

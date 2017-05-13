@@ -1,49 +1,60 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   rt_parser_lights.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jogarcia <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/05/13 01:41:08 by jogarcia          #+#    #+#             */
+/*   Updated: 2017/05/13 01:41:09 by jogarcia         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "parser.h"
 
-# define MASK_LIGHT		0b0000000000100000100000001
+#define MASK_LIGHT		0b0000000000100000100000001
 
-typedef struct		s_data
-{
-	char 	*name;
-	int		size;
-	void	*(*ft_conv)(char *);
-}					t_data;
+#define AN1 static t_parser *s_init_new_parser(t_parser *new_parser);
+#define AN2 static int s_choice_data(char **file, int size);
+#define AN3 static void s_get_light_var(int index, char *file, t_obj *obj);
 
-static const t_data tab_data[] = {{"pos{", sizeof(cl_float4), &rt_get_float4},
-									{"dir{", sizeof(cl_float4), &rt_get_float3},
-									{"tet=", sizeof(cl_float), &rt_get_float},
-									{"phi=", sizeof(cl_float), &rt_get_float},
-									{"PADDING", 8, &rt_useless},
-									{"rot{", sizeof(cl_float4), &rt_get_float3},
-									{"min{", sizeof(cl_float4), &rt_get_float3},
-									{"max{", sizeof(cl_float4), &rt_get_float3},
-									{"col=", sizeof(int), &rt_get_color},
-									{"diff=", sizeof(cl_float), &rt_get_float},
-									{"refl=", sizeof(cl_float), &rt_get_float},
-									{"trans=", sizeof(cl_float), &rt_get_float},
-									{"refr=", sizeof(cl_float), &rt_get_float},
-									{"PADDING_TYPE", 4, &rt_useless},
-									{"r=", sizeof(cl_float), &rt_get_float},
-									{"su=", sizeof(cl_float), &rt_get_float},
-									{"sd=", sizeof(cl_float), &rt_get_float},
-									{"alpha=", sizeof(cl_float), &rt_get_float},
-									{"caps=", sizeof(char), &rt_get_char},
-									{"PADDING_2", 7, &rt_useless},
-									{"p1{", sizeof(cl_float4), &rt_get_float3},
-									{"p2{", sizeof(cl_float4), &rt_get_float3},
-									{"p3{", sizeof(cl_float4), &rt_get_float3},
-									{"}", 0, NULL}	};
+AN1;
+AN2;
+AN3;
 
-static t_parser		*s_init_new_parser(t_parser *new_parser);
-static int			s_choice_data(char **file, int size);
-static void			s_get_light_var(int index, char *file, t_obj *obj);
+static const t_data g_tab_data[] = {
+	{"pos{", sizeof(cl_float4), &rt_get_float3},
+	{"dir{", sizeof(cl_float4), &rt_get_float3},
+	{"tet=", sizeof(cl_float), &rt_get_float},
+	{"phi=", sizeof(cl_float), &rt_get_float},
+	{"PADDING", 8, &rt_useless},
+	{"rot{", sizeof(cl_float4), &rt_get_float3},
+	{"min{", sizeof(cl_float4), &rt_get_float3},
+	{"max{", sizeof(cl_float4), &rt_get_float3},
+	{"col=", sizeof(int), &rt_get_color},
+	{"diff=", sizeof(cl_float), &rt_get_float},
+	{"refl=", sizeof(cl_float), &rt_get_float},
+	{"trans=", sizeof(cl_float), &rt_get_float},
+	{"refr=", sizeof(cl_float), &rt_get_float},
+	{"PADDING_TYPE", 4, &rt_useless},
+	{"r=", sizeof(cl_float), &rt_get_float},
+	{"su=", sizeof(cl_float), &rt_get_float},
+	{"sd=", sizeof(cl_float), &rt_get_float},
+	{"alpha=", sizeof(cl_float), &rt_get_float},
+	{"caps=", sizeof(char), &rt_get_char},
+	{"PADDING_2", 7, &rt_useless},
+	{"p1{", sizeof(cl_float4), &rt_get_float3},
+	{"p2{", sizeof(cl_float4), &rt_get_float3},
+	{"p3{", sizeof(cl_float4), &rt_get_float3},
+	{"}", 0, NULL}
+};
 
 t_parser			*rt_parser_lights(char *file, t_parser *parser)
 {
 	t_parser		*new_parser;
 	int				mask_check;
 	int				index;
-	const int		size = sizeof(tab_data) / sizeof(t_data) - 1;
+	const int		size = sizeof(g_tab_data) / sizeof(t_data) - 1;
 
 	mask_check = 0;
 	new_parser = s_init_new_parser(new_parser);
@@ -77,9 +88,9 @@ static int			s_choice_data(char **file, int size)
 	size += 1;
 	while (i < size)
 	{
-		if (rt_strcmp(tab_data[i].name, *file) == 0)
+		if (rt_strcmp(g_tab_data[i].name, *file) == 0)
 		{
-			*file += ft_strlen(tab_data[i].name);
+			*file += ft_strlen(g_tab_data[i].name);
 			return (i);
 		}
 		++i;
@@ -90,17 +101,17 @@ static int			s_choice_data(char **file, int size)
 
 static void			s_get_light_var(int index, char *file, t_obj *obj)
 {
-	void	*var;
-	int		i;
-	int		offset;
+	void			*var;
+	int				i;
+	int				offset;
 
-	var = tab_data[index].ft_conv(file);
+	var = g_tab_data[index].ft_conv(file);
 	i = 0;
 	offset = 0;
 	while (i < index)
 	{
-		offset += tab_data[i].size;
+		offset += g_tab_data[i].size;
 		++i;
 	}
-	ft_memcpy((char *)obj + offset, var, tab_data[index].size);
+	ft_memcpy((char *)obj + offset, var, g_tab_data[index].size);
 }

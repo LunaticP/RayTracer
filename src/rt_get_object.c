@@ -1,43 +1,53 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   rt_get_object.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jogarcia <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/05/12 17:52:16 by jogarcia          #+#    #+#             */
+/*   Updated: 2017/05/12 17:52:24 by jogarcia         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "parser.h"
 
-static int			s_choice_data(char **file, int size);
-static void			s_get_object_var(int index, char *file, t_obj *obj);
+#define AN1 static int s_choice_data(char **file, int size)
+#define AN2 static void s_get_object_var(int index, char *file, t_obj *obj)
 
-typedef struct		s_data
-{
-	char 	*name;
-	int		size;
-	void	*(*ft_conv)(char *);
-}					t_data;
+AN1;
+AN2;
 
-static const t_data g_tab_data[] = {{"pos{", sizeof(cl_float4), &rt_get_float4},
-									{"dir{", sizeof(cl_float4), &rt_get_float3},
-									{"tet=", sizeof(cl_float), &rt_get_float},
-									{"phi=", sizeof(cl_float), &rt_get_float},
-									{"PADDING", 8, &rt_useless},
-									{"rot{", sizeof(cl_float4), &rt_get_float3},
-									{"min{", sizeof(cl_float4), &rt_get_float3},
-									{"max{", sizeof(cl_float4), &rt_get_float3},
-									{"col=", sizeof(int), &rt_get_color},
-									{"diff=", sizeof(cl_float), &rt_get_float},
-									{"refl=", sizeof(cl_float), &rt_get_float},
-									{"trans=", sizeof(cl_float), &rt_get_float},
-									{"refr=", sizeof(cl_float), &rt_get_float},
-									{"PADDING_TYPE", 4, &rt_useless},
-									{"r=", sizeof(cl_float), &rt_get_float},
-									{"su=", sizeof(cl_float), &rt_get_float},
-									{"sd=", sizeof(cl_float), &rt_get_float},
-									{"alpha=", sizeof(cl_float), &rt_get_float},
-									{"caps=", sizeof(char), &rt_get_char},
-									{"PADDING_2", 7, &rt_useless},
-									{"p1{", sizeof(cl_float4), &rt_get_float3},
-									{"p2{", sizeof(cl_float4), &rt_get_float3},
-									{"p3{", sizeof(cl_float4), &rt_get_float3},
-									{"tex=", sizeof(short), &rt_get_short},
-									{"n_m=", sizeof(short), &rt_get_short},
-									{"r_m=", sizeof(short), &rt_get_short},
-									{"t_m=", sizeof(short), &rt_get_short},
-									{"}", 0, NULL}	};
+static const t_data g_tab_data[] = {
+	{"pos{", sizeof(cl_float4), &rt_get_float4},
+	{"dir{", sizeof(cl_float4), &rt_get_float3},
+	{"tet=", sizeof(cl_float), &rt_get_float},
+	{"phi=", sizeof(cl_float), &rt_get_float},
+	{"PADDING", 8, &rt_useless},
+	{"rot{", sizeof(cl_float4), &rt_get_float3},
+	{"min{", sizeof(cl_float4), &rt_get_float3},
+	{"max{", sizeof(cl_float4), &rt_get_float3},
+	{"col=", sizeof(int), &rt_get_color},
+	{"diff=", sizeof(cl_float), &rt_get_float},
+	{"refl=", sizeof(cl_float), &rt_get_float},
+	{"trans=", sizeof(cl_float), &rt_get_float},
+	{"refr=", sizeof(cl_float), &rt_get_float},
+	{"PADDING_TYPE", 4, &rt_useless},
+	{"r=", sizeof(cl_float), &rt_get_float},
+	{"su=", sizeof(cl_float), &rt_get_float},
+	{"sd=", sizeof(cl_float), &rt_get_float},
+	{"alpha=", sizeof(cl_float), &rt_get_float},
+	{"caps=", sizeof(char), &rt_get_char},
+	{"PADDING_2", 7, &rt_useless},
+	{"p1{", sizeof(cl_float4), &rt_get_float3},
+	{"p2{", sizeof(cl_float4), &rt_get_float3},
+	{"p3{", sizeof(cl_float4), &rt_get_float3},
+	{"tex=", sizeof(short), &rt_get_short},
+	{"n_m=", sizeof(short), &rt_get_short},
+	{"r_m=", sizeof(short), &rt_get_short},
+	{"t_m=", sizeof(short), &rt_get_short},
+	{"}", 0, NULL}
+};
 
 void						rt_get_object(t_obj *obj, char *file, int mask_type)
 {
@@ -58,9 +68,9 @@ void						rt_get_object(t_obj *obj, char *file, int mask_type)
 	rt_check_all_data(mask_type, check_mask_type);
 }
 
-static int		s_choice_data(char **file, int size)
+static int					s_choice_data(char **file, int size)
 {
-	int			i;
+	int						i;
 
 	size += 1;
 	i = 0;
@@ -77,13 +87,13 @@ static int		s_choice_data(char **file, int size)
 	return (-1);
 }
 
-static void		s_get_object_var(int index, char *file, t_obj *obj)
+static void					s_get_object_var(int index, char *file, t_obj *obj)
 {
-	void	*var;
-	int		i;
-	int		offset;
+	void					*var;
+	int						i;
+	int						offset;
 
-	if (__builtin_expect (obj->type != plan || index != 0, 1))
+	if (__builtin_expect(obj->type != plan || index != 0, true))
 		var = g_tab_data[index].ft_conv(file);
 	else
 		var = rt_get_float4(file);

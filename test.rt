@@ -12,7 +12,7 @@ objects
 			x = 10;
 			y = 3;
 			z = 0;
-			w = 0;
+			neg = 0;
 		}
 		dir
 		{
@@ -40,7 +40,6 @@ lights
 		x = 0;
 		y = 2;
 		z = -10;
-		w = 0;
 	}
 	r = 80;
 	col = #FFFFFF;
@@ -53,7 +52,6 @@ lights
  		x = 15;
 		y = 2;
 		z = -10;
-		w = 0;
 	}
 	r = 80;
 	col = #FFFFFF;
@@ -87,8 +85,8 @@ camera
 	}
 	viewplane
 	{
-		z = 2;
-		w = 2;
+		z = 1;
+		w = 1;
 	}
 	p
 	{
@@ -103,4 +101,15 @@ camera
 	}
 	fast = 1;
 	dsr = 1;
+}
+
+settings
+{
+	width = 700;
+	height = 900;
+	max_reflect = 20;
+	anti_allias = 1;
+	ambient = 10;
+	stereo = 0;
+	name = "path test";
 }

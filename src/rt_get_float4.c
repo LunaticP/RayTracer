@@ -5,7 +5,7 @@ static int				rt_get_pos_choice(char **file, int size);
 static const char	*tab_data[] = {	"x=",
 									"y=",
 									"z=",
-									"w=",
+									"neg=",
 									"}" };
 
 void		*rt_get_float4(char *file)

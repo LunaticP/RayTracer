@@ -27,7 +27,7 @@
 # include <math.h>
 # include <key.h>
 
-#define DEBUG 1
+#define DEBUG 0
 
 typedef enum		e_type
 {
@@ -48,7 +48,6 @@ typedef struct 		s_obj
 	float			tet;
 	float			phi;
 	cl_float4		rot;
-	// float			rot;
 	cl_float4		min; // si pas de min, min float sur chaque
 	cl_float4		max; // si pas de max, max float sur chaque
 	cl_int			col;
