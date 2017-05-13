@@ -6,7 +6,7 @@
 /*   By: jplevy <jplevy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/11 06:10:10 by jplevy            #+#    #+#             */
-/*   Updated: 2017/05/12 12:06:03 by aviau            ###   ########.fr       */
+/*   Updated: 2017/05/13 14:17:45 by aviau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,15 @@
 # include <obj.h>
 # include <pthread.h>
 # include <time.h>
+
+typedef struct		s_ant
+{
+	unsigned char	r;
+	unsigned char	g;
+	unsigned char	b;
+	cl_int2			pos;
+	cl_int2			dir;
+}					t_ant;
 
 typedef struct		s_cam
 {
@@ -81,5 +90,6 @@ int		k_rel(int key, void *param);
 void	k_apply(int key, t_scene *s);
 int		*get_texture(char **file);
 int		*perlin(void);
+int		*langton(void);
 
 #endif

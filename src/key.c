@@ -6,7 +6,7 @@
 /*   By: aviau <aviau@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/30 07:43:39 by aviau             #+#    #+#             */
-/*   Updated: 2017/05/08 19:27:14 by aviau            ###   ########.fr       */
+/*   Updated: 2017/05/13 18:54:54 by aviau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,13 @@ cl_float4	normalize(cl_float4 v1)
 	v1.z /= norm;
 
 	return(v1);
+}
+
+void	trans_cam(t_cam *cam, cl_float4 axis, float dir)
+{
+	cam->ori.x += axis.x * dir;
+	cam->ori.y += axis.y * dir;
+	cam->ori.z += axis.z * dir;
 }
 
 void	rot_cam(t_cam *cam, cl_float4 axis, float angle)
@@ -148,17 +155,17 @@ int		k_rel(int key, void *param)
 void	k_apply(int key, t_scene *s)
 {
 	if (key & POS_XP)
-		s->cam.ori.x += 0.5f;
+		trans_cam(&s->cam, s->cam.dirx, 0.2);
 	if (key & POS_XM)
-		s->cam.ori.x -= 0.5f;
+		trans_cam(&s->cam, s->cam.dirx, -0.2);
 	if (key & POS_YP)
-		s->cam.ori.y += 0.5f;
+		trans_cam(&s->cam, s->cam.diry, 0.2);
 	if (key & POS_YM)
-		s->cam.ori.y -= 0.5f;
+		trans_cam(&s->cam, s->cam.diry, -0.2);
 	if (key & POS_ZP)
-		s->cam.ori.z += 0.5f;
+		trans_cam(&s->cam, s->cam.dirz, 0.2);
 	if (key & POS_ZM)
-		s->cam.ori.z -= 0.5f;
+		trans_cam(&s->cam, s->cam.dirz, -0.2);
 	if (key & ROT_XP)
 		rot_cam(&s->cam, s->cam.dirx, 0.1);
 	if (key & ROT_XM)

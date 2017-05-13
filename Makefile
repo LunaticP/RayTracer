@@ -6,7 +6,7 @@
 #    By: aviau <aviau@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/09/11 11:02:36 by aviau             #+#    #+#              #
-#    Updated: 2017/05/12 12:24:54 by aviau            ###   ########.fr        #
+#    Updated: 2017/05/13 10:04:45 by aviau            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,6 +16,7 @@ SRC_NAME =	main.c\
 			key.c\
 			texture.c\
 			perlin.c\
+			langton.c\
 			message_info.c\
 			network/broadcast.c\
 			network/error.c\

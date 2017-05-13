@@ -1,18 +1,21 @@
 #include <stdlib.h>
-#include <time.h>
+#include <sys/time.h>
 #include <rt.h>
 
 unsigned char	*gen_image(int xx, int yy)
 {
 	unsigned char	*image;
+	struct timeval	time;
 	int				x;
 	int				y;
 
+	gettimeofday(&time, NULL);
+	srandom((time.tv_sec + time.tv_usec) / 2);
 	image = (unsigned char *)ft_memalloc(xx * yy);
 	y = -1;
 	while (++y < yy && (x = -1))
 		while (++x < xx)
-			image[y * xx + x] = (rand() % 32768) / 32768.0 * 255.0;
+			image[y * xx + x] = (random() % 32768) / 32768.0 * 255.0;
 	return (image);
 }
 
@@ -42,7 +45,7 @@ int		merge(unsigned char **images, int x, int y)
 	i = 0;
 	div = 1;
 	val = (int)(smooth(x, y, 2048, 2048, images[0]) * 255.0);
-	while (++i < 11)
+	while (++i < 8)
 	{
 		div *= 2.0;
 		val += (int)(smooth(x / div, y / div, 2048 / div, 2048/ div, images[i]) * 255.0);
@@ -53,12 +56,12 @@ int		merge(unsigned char **images, int x, int y)
 
 int		*perlin(void)
 {
-	unsigned char	*images[11];
+	unsigned char	*images[9];
 	int		*tex;
 	cl_int2	p;
 
 	tex = (int *)ft_memalloc(sizeof(int) * 2048 * 2048 + 3);
-	tex[0] = 2048 * 2048;
+	tex[0] = 2048 * 2048 + 3;
 	tex[1] = 2048;
 	tex[2] = 2048;
 	images[0] = gen_image(2048, 2048);
@@ -70,8 +73,6 @@ int		*perlin(void)
 	images[6] = gen_image(32, 32);
 	images[7] = gen_image(16, 16);
 	images[8] = gen_image(8, 8);
-	images[9] = gen_image(4, 4);
-	images[10] = gen_image(2, 2);
 	p.y = -1;
 	while (++p.y < 2048)
 	{

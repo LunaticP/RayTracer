@@ -6,7 +6,7 @@
 /*   By: aviau <aviau@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/04 13:28:35 by aviau             #+#    #+#             */
-/*   Updated: 2017/05/12 12:07:16 by aviau            ###   ########.fr       */
+/*   Updated: 2017/05/13 10:04:02 by aviau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,8 @@ int		*get_ppm(char *file)
 
 	if (strcmp(file, "perlin") == 0)
 		return (perlin());
+	if (strcmp(file, "langton") == 0)
+		return (langton());
 	line = NULL;
 	fd = open(file, O_RDONLY);
 	init_ppm(fd, &ppm, size, file);
