@@ -21,19 +21,19 @@ unsigned char	*gen_image(int xx, int yy)
 
 double	smooth(double x, double y, int m_w, int m_h, unsigned char *map)
 {
-   double fractX = x - (int)x;
-   double fractY = y - (int)y;
-   int x1 = (int)x % m_w;
-   int y1 = (int)y % m_h;
-   int x2 = ((int)x + m_w - 1) % m_w;
-   int y2 = ((int)y + m_h - 1) % m_h;
-   double value = 0.0;
+	double fractX = x - (int)x;
+	double fractY = y - (int)y;
+	int x1 = (int)x % m_w;
+	int y1 = (int)y % m_h;
+	int x2 = ((int)x + m_w - 1) % m_w;
+	int y2 = ((int)y + m_h - 1) % m_h;
+	double value = 0.0;
 
-   value += fractX * fractY * (map[y1 * m_w + x1] / 255.0);
-   value += (1.0 - fractX) * fractY * (map[y1 * m_w + x2] / 255.0);
-   value += fractX * (1.0 - fractY) * (map[y2 * m_w + x1] / 255.0);
-   value += (1.0 - fractX) * (1.0 - fractY) * (map[y2 * m_w + x2] / 255.0);
-   return (value);
+	value += fractX * fractY * (map[y1 * m_w + x1] / 255.0);
+	value += (1.0 - fractX) * fractY * (map[y1 * m_w + x2] / 255.0);
+	value += fractX * (1.0 - fractY) * (map[y2 * m_w + x1] / 255.0);
+	value += (1.0 - fractX) * (1.0 - fractY) * (map[y2 * m_w + x2] / 255.0);
+	return (value);
 }
 
 int		merge(unsigned char **images, int x, int y)
@@ -41,7 +41,7 @@ int		merge(unsigned char **images, int x, int y)
 	float	div;
 	int		val;
 	int		i;
-	
+
 	i = 0;
 	div = 1;
 	val = (int)(smooth(x, y, 2048, 2048, images[0]) * 255.0);
