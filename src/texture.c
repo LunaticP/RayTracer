@@ -6,13 +6,14 @@
 /*   By: aviau <aviau@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/04 13:28:35 by aviau             #+#    #+#             */
-/*   Updated: 2017/05/12 12:07:16 by aviau            ###   ########.fr       */
+/*   Updated: 2017/05/13 19:14:43 by vthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <fcntl.h>
 #include <unistd.h>
 #include <rt.h>
+#include <rt_bmp.h>
 
 void	disp_perc(int i, int p)
 {
@@ -23,67 +24,6 @@ void	disp_perc(int i, int p)
 	ft_putstr("\e[0m\t[\e[36m");
 	ft_putnbr(i * 100 / p);
 	ft_putstr("%\e[0m]");
-}
-
-void	init_ppm(int fd, int **ppm, int *size, char *file)
-{
-	char	*line;
-	int		i;
-
-	if (fd > 0 && get_next_line(fd, &line) && !ft_strcmp(line, (char *)"P3"))
-	{
-		line = ft_strrchr(file, '/');
-		if (line == NULL)
-			ft_putstr(file);
-		else
-			ft_putstr(line + 1);
-	}
-	else
-		exit(1);
-	while (get_next_line(fd, &line) && line[0] == '#')
-		free(line);
-	size[0] = ft_atoi(line);
-	i = 0;
-	while (line[i] != ' ')
-		i++;
-	while (line[i] == ' ')
-		i++;
-	size[1] = ft_atoi(&line[i]);
-	ft_putstr(" : \e[s");
-	*ppm = ft_memalloc(sizeof(int) * (size[0] * size[1] + 3));
-	(*ppm)[0] = size[0] * size[1] + 3;
-	(*ppm)[1] = size[0];
-	(*ppm)[2] = size[1];
-	free(line);
-}
-
-int		*get_ppm(char *file)
-{
-	int		fd;
-	int		*ppm;
-	char	*line;
-	int		size[3];
-	int		ij[2];
-
-	if (strcmp(file, "perlin") == 0)
-		return (perlin());
-	line = NULL;
-	fd = open(file, O_RDONLY);
-	init_ppm(fd, &ppm, size, file);
-	ij[0] = 3;
-	get_next_line(fd, &line);
-	while (ij[0] <= ppm[0])
-	{
-		ij[1] = -1;
-		while (++ij[1] <= 2 && get_next_line(fd, &line))
-			size[ij[1]] = ft_atoi(line);
-		ppm[ij[0]] = size[0] * 0x10000 + size[1] * 0x100 + size[2];
-		if ((++ij[0] % 100) == 0 || ij[0] == ppm[0])
-			disp_perc(ij[0], ppm[0]);
-	}
-	ft_putendl("");
-	close(fd);
-	return (ppm);
 }
 
 int		*int_join(int *src, int *dst)
@@ -114,10 +54,12 @@ int		*get_texture(char **files)
 	if (files == NULL)
 		return (0);
 	i = 1;
-	out = get_ppm(files[0]);
+	//out = get_ppm(files[0]);
+	out = get_anytext(files[0]);
 	while (files[i] != '\0')
 	{
-		out = int_join(out, get_ppm(files[i]));
+		//out = int_join(out, get_ppm(files[i]));
+		out = int_join(out, get_anytext(files[i]));
 		i++;
 	}
 	return (out);

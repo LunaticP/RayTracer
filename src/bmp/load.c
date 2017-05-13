@@ -1,38 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   message_info.c                                     :+:      :+:    :+:   */
+/*   load.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vthomas <vthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/05/05 16:39:20 by vthomas           #+#    #+#             */
-/*   Updated: 2017/05/13 19:35:50 by vthomas          ###   ########.fr       */
+/*   Created: 2017/05/12 19:07:00 by vthomas           #+#    #+#             */
+/*   Updated: 2017/05/13 19:32:37 by vthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <rt_network.h>
 #include <libft.h>
+#include <rt_bmp.h>
+#include <rt.h>
 
-void print_log(char *str)
+int	*get_bmp(char *file)
 {
-	ft_putstr("\033[90m⦗ log ⦘\033[0m - ");
-	ft_putendl(str);
-}
+	t_bitmap		*file_bmp;
+	t_ubmp			*file_unc;
+	t_point			p;
 
-void print_warning(char *str)
-{
-	ft_putstr("\033[33m⦗ warning ⦘\033[0m - ");
-	ft_putendl(str);
-}
-
-void print_error(char *str)
-{
-	ft_putstr("\033[31m⦗ error ⦘\033[0m - ");
-	ft_putendl(str);
-}
-
-void print_info(char *str)
-{
-	ft_putstr("\033[32m⦗ info ⦘\033[0m - ");
-	ft_putendl(str);
+	print_info("GET FILE START");
+	file_bmp = ft_bitmap_file_load(file);
+	print_info("GET FILE DONE");
+	p = (t_point){.x = (int)file_bmp->info.width,
+		.y = (int)file_bmp->info.height};
+	file_unc = ft_bmp_to_ubmp(file_bmp);
+	return (file_unc->data);
 }

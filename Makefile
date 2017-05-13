@@ -6,7 +6,7 @@
 #    By: aviau <aviau@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/09/11 11:02:36 by aviau             #+#    #+#              #
-#    Updated: 2017/05/12 12:24:54 by aviau            ###   ########.fr        #
+#    Updated: 2017/05/13 19:18:56 by vthomas          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,9 +14,14 @@ OS = APPLE
 NAME = rtvocl
 SRC_NAME =	main.c\
 			key.c\
-			texture.c\
-			perlin.c\
 			message_info.c\
+			parse_text.c\
+			perlin.c\
+			texture.c\
+			bmp/ft_bmp_file_load.c\
+			bmp/ft_bmp_to_ubmp.c\
+			bmp/get_ppm.c\
+			bmp/load.c\
 			network/broadcast.c\
 			network/error.c\
 			network/init_clustering.c\
@@ -37,7 +42,8 @@ OBJ_PATH = ./obj/
 SRC=$(addprefix $(SRC_PATH),$(SRC_NAME))
 OBJ=$(addprefix $(OBJ_PATH),$(OBJ_NAME))
 
-OBJ_SUB = network
+OBJ_SUB =	network\
+			bmp
 
 
 MLX=libmlx
@@ -46,7 +52,7 @@ ARG=-L./libft/ -L./libmlx/ -L./libmatrix -L./libocl \
 	-lft -lmatrix -lmlx -locl \
 	-framework OpenGl -framework AppKit -framework opencl\
 	-lpthread
-CFLAGS =	-Wall -Wextra\
+CFLAGS =	-Wall -Wextra -g\
 			-D USE_CLUSTER=0
 DEPDIR				= .deps/
 DEPFILES			= $(patsubst %.c,$(DEPDIR)%.d,$(SRC_NAME))
@@ -109,6 +115,6 @@ print_rt:
 	@printf "\e[33mrtvocl"
 
 test: all
-	./$(NAME) ~/Downloads/tex/small.ppm
+	./$(NAME) ~/Downloads/tex/small.ppm ./button_plus.bmp
 endif
 .PHONY: fclean clean
