@@ -23,7 +23,7 @@ AN2;
 AN3;
 
 static const t_data g_tab_data[] = {
-	{"pos{", sizeof(cl_float4), &rt_get_float3},
+	{"pos{", sizeof(cl_float4), &rt_get_float4},
 	{"dir{", sizeof(cl_float4), &rt_get_float3},
 	{"tet=", sizeof(cl_float), &rt_get_float},
 	{"phi=", sizeof(cl_float), &rt_get_float},

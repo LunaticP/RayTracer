@@ -20,13 +20,14 @@ AN1;
 AN2;
 AN3;
 
-#define MASK_CAMERA 0b11111001111
+#define MASK_CAMERA 0b111110011111
 
 static const t_data g_tab_data[] = {
 	{"ori{", sizeof(cl_float4), &rt_get_float3},
 	{"dirx{", sizeof(cl_float4), &rt_get_float3},
 	{"diry{", sizeof(cl_float4), &rt_get_float3},
 	{"dirz{", sizeof(cl_float4), &rt_get_float3},
+	{"rot{", sizeof(cl_float4), &rt_get_float3},
 	{"PADDING_SIZE", sizeof(cl_int2), &rt_useless},
 	{"PADDING", 8, &rt_useless},
 	{"viewplane{", sizeof(cl_float4), &rt_get_float4_end},

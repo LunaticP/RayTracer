@@ -20,7 +20,7 @@ static const char	*g_tab_data[] = {
 	"x=",
 	"y=",
 	"z=",
-	"neg=",
+	"w=",
 	"}"
 };
 

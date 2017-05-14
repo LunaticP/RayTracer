@@ -40,6 +40,7 @@ lights
 		x = 0;
 		y = 2;
 		z = -10;
+		w = 0;
 	}
 	r = 80;
 	col = #FFFFFF;
@@ -52,6 +53,7 @@ lights
  		x = 15;
 		y = 2;
 		z = -10;
+		w = 0;
 	}
 	r = 80;
 	col = #FFFFFF;
@@ -82,6 +84,12 @@ camera
 		x = 0;
 		y = 0;
 		z = 1;
+	}
+	rot
+	{
+		x = 0;
+		y = 0;
+		z = 0;
 	}
 	viewplane
 	{

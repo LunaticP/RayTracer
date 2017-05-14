@@ -19,7 +19,7 @@ AN1;
 AN2;
 
 static const t_data g_tab_data[] = {
-	{"pos{", sizeof(cl_float4), &rt_get_float4},
+	{"pos{", sizeof(cl_float4), &rt_get_float4_neg},
 	{"dir{", sizeof(cl_float4), &rt_get_float3},
 	{"tet=", sizeof(cl_float), &rt_get_float},
 	{"phi=", sizeof(cl_float), &rt_get_float},
@@ -42,6 +42,10 @@ static const t_data g_tab_data[] = {
 	{"p1{", sizeof(cl_float4), &rt_get_float3},
 	{"p2{", sizeof(cl_float4), &rt_get_float3},
 	{"p3{", sizeof(cl_float4), &rt_get_float3},
+	{"mod_tex", sizeof(cl_float4), &rt_get_float3},
+	{"mod_normal", sizeof(cl_float4), &rt_get_float3},
+	{"mod_ref", sizeof(cl_float4), &rt_get_float3},
+	{"mod_trans", sizeof(cl_float4), &rt_get_float3},
 	{"tex=", sizeof(short), &rt_get_short},
 	{"n_m=", sizeof(short), &rt_get_short},
 	{"r_m=", sizeof(short), &rt_get_short},
@@ -93,10 +97,10 @@ static void					s_get_object_var(int index, char *file, t_obj *obj)
 	int						i;
 	int						offset;
 
-	if (__builtin_expect(obj->type != plan || index != 0, true))
+	if (__builtin_expect(!(obj->type == plan && index == 0), true))
 		var = g_tab_data[index].ft_conv(file);
 	else
-		var = rt_get_float4(file);
+		var = rt_get_float3(file);
 	i = 0;
 	offset = 0;
 	while (i < index)

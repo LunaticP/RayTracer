@@ -20,11 +20,11 @@ AN1;
 AN2;
 AN3;
 
-#define MASK_PLAN 		0b111100000000001111111000011
-#define MASK_SPHERE		0b111100000000101111111000011
-#define MASK_CYLINDRE 	0b111100001011101111111000011
-#define MASK_CONE		0b111100001111001111111000011
-#define MASK_TRIANGLE 	0b111111100000001111111000011
+#define MASK_PLAN 		0b1111000000000000001111111000011
+#define MASK_SPHERE		0b1111000000000000101111111000011
+#define MASK_CYLINDRE 	0b1111000000001011101111111000011
+#define MASK_CONE		0b1111000000001111001111111000011
+#define MASK_TRIANGLE 	0b1111000011100000001111111000011
 
 static const t_objects	g_tab_objects[] = {
 	{"plan{", MASK_PLAN},
@@ -45,8 +45,8 @@ t_parser				*rt_parser_objects(char *file, t_parser *ptr_parser)
 	while ((index = s_choice_type(&file, size)) != size)
 	{
 		new_parser = s_init_new_parser();
-		rt_get_object(new_parser->content, file, g_tab_objects[index].mask);
 		((t_obj *)new_parser->content)->type = index;
+		rt_get_object(new_parser->content, file, g_tab_objects[index].mask);
 		ptr_parser->next = new_parser;
 		ptr_parser = ptr_parser->next;
 		file = rt_goto_bracket_close(file);

@@ -46,6 +46,10 @@ typedef struct 		s_obj
 	float4			p1;
 	float4			p2;
 	float4			p3;
+	float4			mod_tex;
+	float4			mod_normal;
+	float4			mod_ref;
+	float4			mod_trans;
 	short			tex;
 	short			n_m;
 	short			r_m;
@@ -58,6 +62,7 @@ typedef struct		s_cam
 	float4			dirx;
 	float4			diry;
 	float4			dirz;
+	float4			rot;
 	int2			size;
 	float4			viewplane; // z et w
 	float4			p;

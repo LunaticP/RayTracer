@@ -40,10 +40,10 @@ void					*rt_get_float4_end(char *file)
 			file = rt_next_float(file);
 		}
 		else
-			exit_error("EXIT SECURE : rt_get_float3");
+			exit_error("EXIT SECURE : rt_get_float4_end");
 	}
 	if (*file != '}' || check[0] != 1 || check[1] != 1)
-		exit_error("EXIT : rt_get_float3");
+		exit_error("EXIT : rt_get_float4_end");
 	return ((void *)&pos);
 }
 
@@ -63,5 +63,5 @@ static int				rt_get_pos_choice(char **file, int size)
 		}
 		++i;
 	}
-	return (_(exit_error("EXIT : rt_get_pos_choice [float3]"), false));
+	return (_(exit_error("EXIT : rt_get_pos_choice [float4_end]"), false));
 }
