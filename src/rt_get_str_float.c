@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   rt_get_str_float.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jogarcia <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/05/13 12:17:41 by jogarcia          #+#    #+#             */
+/*   Updated: 2017/05/13 12:17:41 by jogarcia         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "parser.h"
 
 char			*rt_get_str_float(char *file)
@@ -12,7 +24,7 @@ char			*rt_get_str_float(char *file)
 	if (file[i] == ';' || (file[i] == '.' && ft_isdigit(file[i + 1]) == 0))
 	{
 		ft_putendl("EXIT : rt_get_float [fist case]");
-		exit (-1);
+		exit(-1);
 	}
 	while (ft_isdigit(file[i]) == 1)
 		++i;
@@ -23,7 +35,7 @@ char			*rt_get_str_float(char *file)
 	if (file[i] != ';')
 	{
 		ft_putendl("EXIT : rt_get_float [second case]");
-		exit (-1);
+		exit(-1);
 	}
 	return (ft_strncpy(ft_strnew(i), file, i));
 }
