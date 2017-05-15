@@ -6,7 +6,7 @@
 /*   By: jplevy <jplevy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/22 18:57:39 by jplevy            #+#    #+#             */
-/*   Updated: 2017/03/04 05:23:18 by jplevy           ###   ########.fr       */
+/*   Updated: 2017/05/15 16:26:20 by aviau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,10 @@ int		ocl_get_karg(va_list ap, const char *str, t_ocl_kernel *k,
 		if ((str[i] == 'R' || str[i] == 'r') && j < (int)(k->nb_obj) && j >= 0)
 			k->read[j] = va_arg(ap, void *);
 		if (str[i] == 'N' || str[i] == 'n')
-			if ((k->name = va_arg(ap, char *)) && 
+			if ((k->name = va_arg(ap, char *)) &&
 				(k->kernel = clCreateKernel(p->program, k->name, &ret)) &&
 				ret < 0)
-					return (ocl_error(ret, __func__));
+				return (ocl_error(ret, __func__));
 	}
 	return (1);
 }
