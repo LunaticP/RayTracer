@@ -6,7 +6,7 @@
 /*   By: hmartzol <hmartzol@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/08/22 19:43:49 by hmartzol          #+#    #+#             */
-/*   Updated: 2017/05/15 13:45:11 by vthomas          ###   ########.fr       */
+/*   Updated: 2017/05/15 15:24:40 by vthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,10 +74,12 @@ t_ubmp					*ft_bmp_to_ubmp(t_bitmap *bitmap)
 	int		x;
 	int		tmp;
 
-	if (bitmap == NULL || ((out = (t_ubmp*)ft_memalloc(sizeof(t_ubmp))) == NULL))
+	if (bitmap == NULL || ((out = (t_ubmp*)ft_memalloc(sizeof(t_ubmp)))
+		== NULL))
 		return (NULL);
 	out->size = (t_point){bitmap->info.width, bitmap->info.height};
-	if ((out->data = (int*)ft_memalloc(sizeof(int) * out->size.x * out->size.y)) == NULL)
+	if ((out->data = (int*)ft_memalloc(sizeof(int) * out->size.x * out->size.y))
+		== NULL)
 	{
 		ft_memdel((void **)&out);
 		return (NULL);

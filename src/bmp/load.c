@@ -6,30 +6,13 @@
 /*   By: vthomas <vthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/12 19:07:00 by vthomas           #+#    #+#             */
-/*   Updated: 2017/05/15 15:20:56 by vthomas          ###   ########.fr       */
+/*   Updated: 2017/05/15 15:23:44 by vthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
 #include <rt_bmp.h>
 #include <rt.h>
-
-static void print_mem(int	*mem, int len)
-{
-	int i;
-
-	i = 0;
-	while (i < len)
-	{
-		printf("%08X ", mem[i]);
-		i++;
-		if (i % 4 == 0)
-			printf(" ");
-		if (i % 8 == 0)
-			printf("\n");
-	}
-	printf("\n");
-}
 
 int	*get_bmp(char *file)
 {
