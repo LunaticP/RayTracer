@@ -29,7 +29,7 @@ typedef struct 		s_obj
 	float4			dir;
 	float			tet;
 	float			phi;
-	float			rot;
+	float4			rot;
 	float4			min;
 	float4			max;
 	int				col;
@@ -46,6 +46,10 @@ typedef struct 		s_obj
 	float4			p1;
 	float4			p2;
 	float4			p3;
+	float4			mod_tex;
+	float4			mod_normal;
+	float4			mod_ref;
+	float4			mod_trans;
 	short			tex;
 	short			n_m;
 	short			r_m;
@@ -58,10 +62,11 @@ typedef struct		s_cam
 	float4			dirx;
 	float4			diry;
 	float4			dirz;
-	int2			size;
 	float4			viewplane;
+	float4			rot;
 	float4			p;
 	float2			chunk;
+	int2			size;
 	short			fast;
 	short			dsr;
 }					t_cam;
@@ -846,7 +851,7 @@ __kernel void	raytracer(
 	int				id;
 	int				lt;
 	int				stay;
-	int				refmax = 10;
+	int				refmax = 7;
 	int				color = 0;
 	int				old;
 	int				quit;

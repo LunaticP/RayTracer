@@ -6,7 +6,7 @@
 /*   By: aviau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/10 20:21:23 by aviau             #+#    #+#             */
-/*   Updated: 2017/05/15 16:02:23 by aviau            ###   ########.fr       */
+/*   Updated: 2017/05/15 18:20:48 by aviau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,10 @@ typedef struct		s_obj
 	cl_float4		p1;
 	cl_float4		p2;
 	cl_float4		p3;
+	cl_float4		mod_tex;
+	cl_float4		mod_normal;
+	cl_float4		mod_ref;
+	cl_float4		mod_trans;
 	short			tex;
 	short			n_m;
 	short			r_m;

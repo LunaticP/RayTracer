@@ -1,0 +1,123 @@
+textures
+{
+	"fade.ppm";
+}
+
+objects
+{
+	sphere
+	{
+		pos
+		{
+			x = 10;
+			y = 3;
+			z = 0;
+			neg = 0;
+		}
+		dir
+		{
+			x = 0;
+			y = 1;
+			z = 0;
+		}
+		col = #FF0000;
+		diff = 1;
+		refl = 0;
+		trans = 0;
+		refr = 0;
+		tex = 1;
+		n_m = 0;
+		r_m = 0;
+		t_m = 0;
+		r = 3;
+	}
+}
+
+lights
+{
+	pos
+	{
+		x = 0;
+		y = 2;
+		z = -10;
+		w = 0;
+	}
+	r = 80;
+	col = #FFFFFF;
+}
+
+lights
+{
+	pos
+	{
+ 		x = 15;
+		y = 2;
+		z = -10;
+		w = 0;
+	}
+	r = 80;
+	col = #FFFFFF;
+}
+
+camera
+{
+	ori
+	{
+		x = 0;
+		y = 2;
+		z = -15;
+	}
+	dirx
+	{
+		x = 1;
+		y = 0;
+		z = 0;
+	}
+	diry
+	{
+		x = 0;
+		y = 1;
+		z = 0;
+	}
+	dirz
+	{
+		x = 0;
+		y = 0;
+		z = 1;
+	}
+	rot
+	{
+		x = 0;
+		y = 0;
+		z = 0;
+	}
+	viewplane
+	{
+		z = 1;
+		w = 1;
+	}
+	p
+	{
+		x = 0;
+		y = 0;
+		z = 0;
+	}
+	chunk
+	{
+		x = 0;
+		y = 0;
+	}
+	fast = 1;
+	dsr = 1;
+}
+
+settings
+{
+	width = 700;
+	height = 900;
+	max_reflect = 20;
+	anti_allias = 1;
+	ambient = 10;
+	stereo = 0;
+	name = "path test";
+}

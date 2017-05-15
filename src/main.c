@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jplevy <jplevy@student.42.fr>              +#+  +:+       +#+        */
+/*   By: aviau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/03/08 01:37:39 by jplevy            #+#    #+#             */
-/*   Updated: 2017/05/15 15:56:27 by aviau            ###   ########.fr       */
+/*   Created: 2017/05/15 18:03:42 by aviau             #+#    #+#             */
+/*   Updated: 2017/05/15 18:10:44 by aviau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 # define STEREO		0
 # define OUT_FILE	0
+
+// static t_scene				s_test(void);
 
 cl_float4		vec_norm(cl_float4 vec)
 {
@@ -27,6 +29,7 @@ cl_float4		vec_norm(cl_float4 vec)
 	return (norm);
 }
 
+/*
 t_scene	ft_init_scene(void)
 {
 	t_scene	ret;
@@ -177,7 +180,7 @@ t_scene	ft_init_scene(void)
 	ret.obj[5].type = plan;
 	ret.obj[5].diff = 1.0;
 	ret.obj[5].refl = 0.0;
-/*
+
 	ret.obj[6].pos.x = 0.0;
 	ret.obj[6].pos.y = 0.0;
 	ret.obj[6].pos.z = 0.0;
@@ -253,7 +256,7 @@ t_scene	ft_init_scene(void)
 	ret.obj[10].diff = 1.0;
 	ret.obj[10].refl = 0.0;
 	ret.obj[10].alpha = 25.0f;
-*/
+
 	ret.obj[11].pos.x = 0.0;
 	ret.obj[11].pos.y = 0.0;
 	ret.obj[11].pos.z = 0.0;
@@ -274,6 +277,20 @@ t_scene	ft_init_scene(void)
 	ret.obj[12].type = end;
 	ret.n_o = 13;
 	return (ret);
+}
+*/
+
+void		polar_to_vec(float tet, float phi, cl_float4 *dir)
+{
+	dir->x = sin(tet) * cos(phi);
+	dir->z = cos(phi);
+	dir->y = sin(tet) * sin(phi);
+}
+
+void		vec_to_polar(float *tet, float *phi, cl_float4 dir)
+{
+	*tet = acos(dir.y);
+	*phi = atan2(dir.z, dir.x);
 }
 
 void	img_file(unsigned char *img)
@@ -397,15 +414,17 @@ int		ray_loop(t_mlx *mlx)
 int		main(int ac, char **av)
 {
 //	t_datawin	win;
-	t_mlx		mlx;
-	size_t		pws[2];
-	size_t		pws_f[2];
+	static t_mlx	mlx;
+	size_t			pws[2];
+	size_t			pws_f[2];
 	(void)ac;
 
+	mlx = rt_get_parser(av[1], mlx); // mlx tex, return struct mlx
+	// mlx.s = s_test();
 	if (!(ocl_new_prog("./cl_src/rt.cl", 0x1000000 , &(mlx.prog))))
 		return (0);
 //	win = (t_datawin){.name = "test", .xwin = WIDTH, .ywin = HEIGHT, .f_keypress = my_key_func, .data_kp = &mlx, };
-	mlx.s = ft_init_scene();
+//	mlx.s = ft_init_scene();
 	mlx.tex = get_texture(&av[1]);
 	mlx.mlx = mlx_init();
 	mlx.win = mlx_new_window(mlx.mlx, W, H, "rtvocl");
