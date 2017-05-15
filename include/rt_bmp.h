@@ -6,13 +6,24 @@
 /*   By: vthomas <vthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/13 11:42:10 by vthomas           #+#    #+#             */
-/*   Updated: 2017/05/13 19:48:43 by vthomas          ###   ########.fr       */
+/*   Updated: 2017/05/15 12:18:13 by vthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef RT_BMP_H
 # define RT_BMP_H
 # include <libft.h>
+
+typedef struct			s_point
+{
+	int					x;
+	int					y;
+}						t_point;
+
+#  define WORD uint16_t
+#  define DWORD uint32_t
+#  define LONG uint32_t
+#  define O_BINARY 0
 
 /*
 * Set bit padding of the structure
@@ -23,58 +34,56 @@
 /*
 ** file header of a standard bitmap
 */
+
 typedef struct			s_bitmap_file_header
 {
-	unsigned short		file_type;
-	unsigned long		file_size;
-	unsigned long		reserved;
-	unsigned long		offset;
+	WORD		file_type;
+	DWORD		file_size;
+	DWORD		reserved;
+	DWORD		offset;
 }						t_bitmap_file_header;
 
 /*
 ** standard bitmap header
 */
+
 typedef struct			s_dib_header
 {
-	unsigned long		dib_size;
-	long				width;
-	long				height;
-	unsigned short		planes;
-	unsigned short		bit_count;
-	unsigned long		bit_compression;
-	unsigned long		size_image;
-	long				x_pixels_meter;
-	long				y_pixels_meter;
-	unsigned long		colors_in_tab;
-	unsigned long		color_important;
-	unsigned long		red_bmask;
-	unsigned long		green_bmask;
-	unsigned long		blue_bmask;
-	unsigned long		alpha_bmask;
-	unsigned long		color_space_type;
-	char				color_space_endpoint[36];
-	unsigned long		gamma_red;
-	unsigned long		gamma_green;
-	unsigned long		gamma_blue;
-	unsigned long		intent;
-	unsigned long		icc_profile_data;
-	unsigned long		icc_profile_size;
-	unsigned long		reserved;
+	DWORD		dib_size;
+	LONG		width;
+	LONG		height;
+	WORD		planes;
+	WORD		bit_count;
+	DWORD		bit_compression;
+	DWORD		size_image;
+	LONG		x_pixels_meter;
+	LONG		y_pixels_meter;
+	DWORD		colors_in_tab;
+	DWORD		color_important;
+	DWORD		red_bmask;
+	DWORD		green_bmask;
+	DWORD		blue_bmask;
+	DWORD		alpha_bmask;
+	DWORD		color_space_type;
+	char		color_space_endpoint[36];
+	DWORD		gamma_red;
+	DWORD		gamma_green;
+	DWORD		gamma_blue;
+	DWORD		intent;
+	DWORD		icc_profile_data;
+	DWORD		icc_profile_size;
+	DWORD		reserved;
 }						t_dib_header;
 
 /*
-* restore bit padding of the padding
+** restores the padding/alignement from the last call of #pragma pack(push)
 */
+
 # pragma pack(pop)
 
 /*
 ** pair of bitmap header and raw data
 */
-typedef struct			s_point
-{
-	int					x;
-	int					y;
-}						t_point;
 
 typedef struct			s_bitmap
 {
@@ -104,6 +113,7 @@ typedef enum	e_filetype
 
 t_ubmp					*ft_bmp_to_ubmp(t_bitmap *bitmap);
 t_bitmap				*ft_bitmap_file_load(char *path);
+
 int						*get_bmp(char *file);
 
 int						get_filetype(char *filename);
@@ -111,5 +121,8 @@ int						*get_anytext(char *filename);
 
 void					init_ppm(int fd, int **ppm, int *size, char *file);
 int						*get_ppm(char *file);
+
+void					*memjoin(unsigned char *dst, unsigned char *src,
+	int sdst, int ssrc);
 
 #endif

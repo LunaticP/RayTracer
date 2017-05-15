@@ -6,7 +6,7 @@
 #    By: aviau <aviau@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/09/11 11:02:36 by aviau             #+#    #+#              #
-#    Updated: 2017/05/13 20:06:56 by vthomas          ###   ########.fr        #
+#    Updated: 2017/05/15 12:18:56 by vthomas          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,16 +23,7 @@ SRC_NAME =	main.c\
 			bmp/ft_bmp_to_ubmp.c\
 			bmp/get_ppm.c\
 			bmp/load.c\
-			network/broadcast.c\
-			network/error.c\
-			network/init_clustering.c\
-			network/listener.c\
-			network/memjoin.c\
-			network/putimg.c\
-			network/render.c\
-			network/send_message.c\
-			network/server.c\
-			network/todo.c
+			bmp/memjoin.c
 
 INC_FILE = include/key.h\
 		   include/rt.h

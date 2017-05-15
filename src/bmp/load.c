@@ -6,7 +6,7 @@
 /*   By: vthomas <vthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/12 19:07:00 by vthomas           #+#    #+#             */
-/*   Updated: 2017/05/13 19:32:37 by vthomas          ###   ########.fr       */
+/*   Updated: 2017/05/15 12:17:27 by vthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,19 @@ int	*get_bmp(char *file)
 {
 	t_bitmap		*file_bmp;
 	t_ubmp			*file_unc;
-	t_point			p;
+	int				*img;
+	int				*size;
 
 	print_info("GET FILE START");
 	file_bmp = ft_bitmap_file_load(file);
 	print_info("GET FILE DONE");
-	p = (t_point){.x = (int)file_bmp->info.width,
-		.y = (int)file_bmp->info.height};
 	file_unc = ft_bmp_to_ubmp(file_bmp);
-	return (file_unc->data);
+	print_info("SET MLX FILE DONE");
+	size = (int *)ft_memalloc(sizeof(int) * 3);
+	size[0] = file_unc->size.x * file_unc->size.y;
+	size[1] = file_unc->size.x;
+	size[2] = file_unc->size.y;
+	img = (int *)memjoin((unsigned char *)size, (unsigned char *)file_unc->data,
+		3 * sizeof(int), size[0]);
+	return (img);
 }
