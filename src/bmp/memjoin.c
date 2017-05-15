@@ -6,11 +6,11 @@
 /*   By: vthomas <vthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/08 13:22:48 by vthomas           #+#    #+#             */
-/*   Updated: 2017/05/08 21:01:20 by aviau            ###   ########.fr       */
+/*   Updated: 2017/05/15 12:28:21 by vthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <rt_network.h>
+#include <rt_bmp.h>
 #include <libft.h>
 
 void	*memjoin(unsigned char *dst, unsigned char *src, int sdst, int ssrc)

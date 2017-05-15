@@ -6,7 +6,7 @@
 /*   By: jplevy <jplevy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/08 01:37:39 by jplevy            #+#    #+#             */
-/*   Updated: 2017/05/13 20:37:02 by aviau            ###   ########.fr       */
+/*   Updated: 2017/05/15 12:57:48 by vthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,9 +116,9 @@ t_scene	ft_init_scene(void)
 	ret.obj[0].pos.z = 15.0;
 	ret.obj[0].pos.w = 0.0;
 	ret.obj[0].col = 0x888888;
-	ret.obj[0].n_m = 1;
+	ret.obj[0].n_m = 0;
 	ret.obj[0].r_m = 0;
-	ret.obj[0].tex = 0;
+	ret.obj[0].tex = 1;
 	ret.obj[0].type = plan;
 	ret.obj[0].diff = 1.0;
 	ret.obj[0].refl = 0.0;
@@ -131,9 +131,9 @@ t_scene	ft_init_scene(void)
 	ret.obj[1].pos.z = 0.0;
 	ret.obj[1].pos.w = 0.0;
 	ret.obj[1].col = 0x888888;
-	ret.obj[1].n_m = 1;
+	ret.obj[1].n_m = 0;
 	ret.obj[1].r_m = 0;
-	ret.obj[1].tex = 0;
+	ret.obj[1].tex = 1;
 	ret.obj[1].type = plan;
 	ret.obj[1].diff = 1.0;
 	ret.obj[1].refl = 0.0;
@@ -161,9 +161,9 @@ t_scene	ft_init_scene(void)
 	ret.obj[3].pos.z = 0.0;
 	ret.obj[3].pos.w = 0.0;
 	ret.obj[3].col = 0x888888;
-	ret.obj[3].n_m = 1;
+	ret.obj[3].n_m = 0;
 	ret.obj[3].r_m = 0;
-	ret.obj[3].tex = 0;
+	ret.obj[3].tex = 1;
 	ret.obj[3].type = plan;
 	ret.obj[3].diff = 1.0;
 	ret.obj[3].refl = 0.0;
@@ -176,9 +176,9 @@ t_scene	ft_init_scene(void)
 	ret.obj[4].pos.z = 0.0;
 	ret.obj[4].pos.w = 0.0;
 	ret.obj[4].col = 0x888888;
-	ret.obj[4].n_m = 1;
+	ret.obj[4].n_m = 0;
 	ret.obj[4].r_m = 0;
-	ret.obj[4].tex = 0;
+	ret.obj[4].tex = 1;
 	ret.obj[4].type = plan;
 	ret.obj[4].diff = 1.0;
 	ret.obj[4].refl = 0.0;
@@ -193,7 +193,7 @@ t_scene	ft_init_scene(void)
 	ret.obj[5].col = 0x888888;
 	ret.obj[5].n_m = 0;
 	ret.obj[5].r_m = 0;
-	ret.obj[5].tex = 0;
+	ret.obj[5].tex = 1;
 	ret.obj[5].type = plan;
 	ret.obj[5].diff = 1.0;
 	ret.obj[5].refl = 0.0;
@@ -399,7 +399,7 @@ int		ray_loop(t_mlx *mlx)
 			}
 			mlx->s.cam.chunk.x = -1.0f;
 		}
-		if(mlx->s.cam.fast) 
+		if(mlx->s.cam.fast)
 			ocl_enqueue_kernel(&(mlx->prog), "rt_fast");
 		if(!mlx->s.cam.fast && DSR > 1)
 			dsr(mlx);

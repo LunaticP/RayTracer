@@ -6,14 +6,14 @@
 /*   By: hmartzol <hmartzol@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/08/22 19:34:13 by hmartzol          #+#    #+#             */
-/*   Updated: 2017/05/15 11:59:10 by vthomas          ###   ########.fr       */
+/*   Updated: 2017/05/15 12:29:11 by vthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
 #include <rt_bmp.h>
 
-static void				*sf_bmp_file_load_error(int *fd, t_bitmap *out)
+static void				*sf_bmp_file_load_error(int fd, t_bitmap *out)
 {
 	if (out)
 	{
@@ -25,7 +25,7 @@ static void				*sf_bmp_file_load_error(int *fd, t_bitmap *out)
 	return (NULL);
 }
 
-inline static t_bitmap	*sf_bitmap_file_load(t_bitmap *out, int i, int *fd,
+inline static t_bitmap	*sf_bitmap_file_load(t_bitmap *out, int i, int fd,
 										t_bitmap_file_header header)
 {
 	if ((out->bmp = (unsigned char*)ft_memalloc(sizeof(unsigned char*) *
@@ -54,12 +54,12 @@ t_bitmap				*ft_bitmap_file_load(char *path)
 	if (read(fd, &header, sizeof(t_bitmap_file_header))
 		< (int)sizeof(t_bitmap_file_header) || header.file_type != 0x4D42
 		|| (out = (t_bitmap*)ft_memalloc(sizeof(t_bitmap))) == NULL)
-		return (sf_bmp_file_load_error(&fd, out));
+		return (sf_bmp_file_load_error(fd, out));
 	out->info = (t_dib_header){.dib_size = 0};
 	i = (int)sizeof(DWORD);
 	if (read(fd, &(out->info.dib_size), i) < i
 		|| !(i = out->info.dib_size - sizeof(DWORD))
 		|| read(fd, &(out->info.width), i) < i)
-		return (sf_bmp_file_load_error(&fd, out));
-	return (sf_bitmap_file_load(out, i, &fd, header));
+		return (sf_bmp_file_load_error(fd, out));
+	return (sf_bitmap_file_load(out, i, fd, header));
 }

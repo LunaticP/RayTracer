@@ -6,7 +6,7 @@
 /*   By: hmartzol <hmartzol@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/08/22 19:43:49 by hmartzol          #+#    #+#             */
-/*   Updated: 2017/05/15 12:11:18 by vthomas          ###   ########.fr       */
+/*   Updated: 2017/05/15 13:45:11 by vthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ t_ubmp					*ft_bmp_to_ubmp(t_bitmap *bitmap)
 	t_ubmp	*out;
 	t_point	p;
 	int		x;
+	int		tmp;
 
 	if (bitmap == NULL || ((out = (t_ubmp*)ft_memalloc(sizeof(t_ubmp))) == NULL))
 		return (NULL);
@@ -82,7 +83,8 @@ t_ubmp					*ft_bmp_to_ubmp(t_bitmap *bitmap)
 		return (NULL);
 	}
 	x = bitmap->info.width * (bitmap->info.bit_count >> 3);
-	x += (sizeof(DWORD) - x) % sizeof(DWORD);
+	tmp = (sizeof(DWORD) - x);
+	x += (((tmp) < 0 ? -(tmp) : (tmp)) % sizeof(DWORD));
 	p.y = bitmap->info.height;
 	while (--p.y >= 0 && (p.x = -1))
 		while (++p.x < x / (bitmap->info.bit_count >> 3))
