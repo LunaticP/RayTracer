@@ -6,7 +6,7 @@
 /*   By: aviau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/10 20:21:23 by aviau             #+#    #+#             */
-/*   Updated: 2017/05/11 13:04:24 by pgourran         ###   ########.fr       */
+/*   Updated: 2017/05/15 16:02:23 by aviau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ typedef enum		e_type
 	end
 }					t_type;
 
-typedef struct 		s_obj
+typedef struct		s_obj
 {
 	cl_float4		pos;
 	cl_float4		dir;

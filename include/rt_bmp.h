@@ -6,7 +6,7 @@
 /*   By: vthomas <vthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/13 11:42:10 by vthomas           #+#    #+#             */
-/*   Updated: 2017/05/15 12:18:13 by vthomas          ###   ########.fr       */
+/*   Updated: 2017/05/15 16:03:34 by aviau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,13 @@ typedef struct			s_point
 	int					y;
 }						t_point;
 
-#  define WORD uint16_t
-#  define DWORD uint32_t
-#  define LONG uint32_t
-#  define O_BINARY 0
+# define WORD uint16_t
+# define DWORD uint32_t
+# define LONG uint32_t
+# define O_BINARY 0
 
 /*
-* Set bit padding of the structure
+** Set bit padding of the structure
 */
 
 # pragma pack(push, 1)

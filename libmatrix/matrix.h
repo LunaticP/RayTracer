@@ -1,4 +1,16 @@
-#ifndef	MATRIX_H
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   matrix.h                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aviau <marvin@42.fr>                       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/05/15 16:11:49 by aviau             #+#    #+#             */
+/*   Updated: 2017/05/15 16:12:59 by aviau            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#ifndef MATRIX_H
 # define MATRIX_H
 
 # include <math.h>
@@ -37,11 +49,11 @@ typedef struct	s_mtrx3
 	t_vec3		z;
 }				t_mtrx3;
 
-#endif
+float			rad(float deg);
+float			deg(float rad);
+t_vec2			m_rot2(t_vec2 m, float ang);
+t_vec3			m_rot3_x(t_vec3 m, float ang);
+t_vec3			m_rot3_y(t_vec3 m, float ang);
+t_vec3			m_rot3_z(t_vec3 m, float ang);
 
-float	rad(float deg);
-float	deg(float rad);
-t_vec2	m_rot2(t_vec2 m, float ang);
-t_vec3	m_rot3_x(t_vec3 m, float ang);
-t_vec3	m_rot3_y(t_vec3 m, float ang);
-t_vec3	m_rot3_z(t_vec3 m, float ang);
+#endif

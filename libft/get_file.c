@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_file.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aviau <marvin@42.fr>                       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/05/15 16:09:28 by aviau             #+#    #+#             */
+/*   Updated: 2017/05/15 16:10:10 by aviau            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libft.h"
 
 t_list	*get_file(char *path)
@@ -9,20 +21,20 @@ t_list	*get_file(char *path)
 
 	fd = open(path, O_RDONLY);
 	if (fd < 0)
-		return(NULL);
+		return (NULL);
 	if (!(ptr = (t_list *)malloc(sizeof(t_list))))
-		return(NULL);
+		return (NULL);
 	file = ptr;
-	while(0 < get_next_line(fd, &line))
-		{
-			ptr->content_size = sizeof(line);
-			ptr->content = ft_strdup(line);
-			if(!(ptr->next = (t_list *)malloc(sizeof(t_list))))
-				return(NULL);
-			ptr = ptr->next;
-			free(line);
-		}
+	while (0 < get_next_line(fd, &line))
+	{
+		ptr->content_size = sizeof(line);
+		ptr->content = ft_strdup(line);
+		if (!(ptr->next = (t_list *)malloc(sizeof(t_list))))
+			return (NULL);
+		ptr = ptr->next;
+		free(line);
+	}
 	ptr->next = NULL;
 	ptr->content_size = sizeof(ptr->content);
-	return(file);
+	return (file);
 }
