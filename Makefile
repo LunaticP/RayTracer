@@ -6,7 +6,7 @@
 #    By: aviau <aviau@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/09/11 11:02:36 by aviau             #+#    #+#              #
-#    Updated: 2017/05/15 15:02:51 by aviau            ###   ########.fr        #
+#    Updated: 2017/05/15 15:55:24 by aviau            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,6 +19,12 @@ SRC_NAME =	main.c\
 			perlin.c\
 			langton.c\
 			message_info.c\
+			parse_text.c\
+			bmp/ft_bmp_file_load.c\
+			bmp/ft_bmp_to_ubmp.c\
+			bmp/get_ppm.c\
+			bmp/load.c\
+			bmp/memjoin.c
 
 INC_FILE = include/key.h\
 		   include/rt.h
@@ -29,7 +35,9 @@ OBJ_PATH = ./obj/
 SRC=$(addprefix $(SRC_PATH),$(SRC_NAME))
 OBJ=$(addprefix $(OBJ_PATH),$(OBJ_NAME))
 
-OBJ_SUB = network
+CC = gcc
+OBJ_SUB =	network\
+			bmp
 
 
 MLX=libmlx
@@ -64,7 +72,7 @@ $(DEPDIR)/%.d: $(SRC_PATH)%.c $(DEPDIR)%.d
 -include $(DEPFILES)
 
 $(NAME): lib print_rt $(OBJ)
-	@gcc -g -O0 $(CFLAGS) $(ARG) $(INC) $(OBJ) -o $@
+	@$(CC) -g -O0 $(CFLAGS) $(ARG) $(INC) $(OBJ) -o $@
 lib:
 	@make -C ./$(MLX)
 	@make -C ./libft
@@ -76,7 +84,7 @@ lib:
 #	@make -C ./libmatrix
 $(OBJ_PATH)%.o: $(SRC_PATH)%.c $(INC_FILE)
 	-@mkdir -p $(OBJ_PATH) $(addprefix $(OBJ_PATH),$(OBJ_SUB))
-	@gcc $(CFLAGS) -c -o $@ $< $(INC)
+	@$(CC) $(CFLAGS) -c -o $@ $< $(INC)
 
 clean:
 	-@rm -rf $(OBJ_PATH) $(DEPDIR)
@@ -99,6 +107,6 @@ print_rt:
 	@printf "\e[33mrtvocl"
 
 test: all
-	./$(NAME) ~/Downloads/tex/small.ppm
+	./$(NAME) ./button_plus.bmp
 endif
 .PHONY: fclean clean
