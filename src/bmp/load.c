@@ -6,7 +6,7 @@
 /*   By: vthomas <vthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/12 19:07:00 by vthomas           #+#    #+#             */
-/*   Updated: 2017/05/15 15:23:44 by vthomas          ###   ########.fr       */
+/*   Updated: 2017/05/15 16:35:55 by vthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,6 @@ int	*get_bmp(char *file)
 	size[0] = file_unc->size.x * file_unc->size.y + 3;
 	size[1] = file_unc->size.x;
 	size[2] = file_unc->size.y;
-	print_info(ft_itoa(size[0]));
-	print_info(ft_itoa(size[1]));
-	print_info(ft_itoa(size[2]));
 	img = (int *)memjoin((unsigned char *)size, (unsigned char *)file_unc->data,
 		3 * sizeof(int), (size[0] - 3) * sizeof(int));
 	return (img);

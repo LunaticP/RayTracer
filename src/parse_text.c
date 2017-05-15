@@ -6,7 +6,7 @@
 /*   By: vthomas <vthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/12 19:16:13 by vthomas           #+#    #+#             */
-/*   Updated: 2017/05/13 19:48:26 by vthomas          ###   ########.fr       */
+/*   Updated: 2017/05/15 16:36:38 by vthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ int	get_filetype(char *filename)
 	char	*ext;
 
 	i = ft_strlen(filename);
+	ft_putstr(filename);
 	if (i < 5)
 		return (-1);
 	ext = ft_strrchr(filename, '.');
@@ -42,16 +43,19 @@ int	get_filetype(char *filename)
 int	*get_anytext(char *filename)
 {
 	int	t;
+	int	*text;
 
 	t = get_filetype(filename);
 	if (t == ft_perlin)
-		return (perlin());
+		text = perlin();
 	else if (t == ft_langton)
-		return (langton());
+		text = langton();
 	else if (t == ft_ppm)
-		return (get_ppm(filename));
+		text = get_ppm(filename);
 	else if (t == ft_bmp)
-		return (get_bmp(filename));
+		text = get_bmp(filename);
 	else
 		return (NULL);
+	ft_putendl("    \033[32m⦗ OK ⦘\033[0m");
+	return (text);
 }
