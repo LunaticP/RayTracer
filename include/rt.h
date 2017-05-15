@@ -6,7 +6,7 @@
 /*   By: jplevy <jplevy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/11 06:10:10 by jplevy            #+#    #+#             */
-/*   Updated: 2017/05/13 20:36:21 by aviau            ###   ########.fr       */
+/*   Updated: 2017/05/15 15:05:18 by aviau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,11 +83,16 @@ typedef struct		s_mlx
 	t_ocl_prog		prog;
 }					t_mlx;
 
-void	k_press(int key, int *k);
-int		k_rel(int key, void *param);
-void	k_apply(int key, t_scene *s);
-int		*get_texture(char **file);
-int		*perlin(void);
-int		*langton(void);
+int			k_rel(int key, void *param);
+void		k_press(int key, int *k);
+void		k_apply(int key, t_scene *s);
+int			*get_texture(char **file);
+int			*perlin(void);
+int			*langton(void);
+cl_float	cl_dot(cl_float4 v1, cl_float4 v2);
+cl_float4	cl_cross(cl_float4 v1, cl_float4 v2);
+cl_float4	normalize(cl_float4 v1);
+void		trans_cam(t_cam *cam, cl_float4 axis, float dir);
+void		rot_cam(t_cam *cam, cl_float4 axis, float angle);
 
 #endif

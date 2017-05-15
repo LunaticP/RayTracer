@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: aviau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 204817/05/13 09:58:21 by aviau             #+#    #+#             */
-/*   Updated: 2017/05/13 19:41:34 by aviau            ###   ########.fr       */
+/*   Created: 2017/05/15 13:13:41 by aviau             #+#    #+#             */
+/*   Updated: 2017/05/15 15:00:45 by aviau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ cl_int2	gen_pos(void)
 	struct timeval	time;
 	cl_int2			pos;
 
-
 	gettimeofday(&time, NULL);
 	srandom((time.tv_sec + time.tv_usec) / 2);
 	pos.x = random() % 2048;
@@ -27,7 +26,7 @@ cl_int2	gen_pos(void)
 	return (pos);
 }
 
-void	move_ant(t_ant *ant, unsigned char tile)
+void	rot_ant(t_ant *ant, unsigned char tile)
 {
 	if (tile == 0)
 	{
@@ -51,13 +50,16 @@ void	move_ant(t_ant *ant, unsigned char tile)
 		else if (ant->dir.x == -1 && ant->dir.y == 0)
 			ant->dir = (cl_int2){.x = 0, .y = -1};
 	}
+}
+
+void	move_ant(t_ant *ant)
+{
 	ant->pos.x += ant->dir.x;
 	ant->pos.y += ant->dir.y;
 	(ant->pos.x > 2048) ? ant->pos.x = 0 : 0;
-	(ant->pos.y > 2048) ? ant->pos.y = 0 : 0;
+	(ant->pos.y > 2047) ? ant->pos.y = 0 : 0;
 	(ant->pos.x < 0) ? ant->pos.x = 2048 : 0;
-	(ant->pos.y < 0) ? ant->pos.y = 2048 : 0;
-//	printf("%2d %2d | %3d %3d\t\t%d\n", ant->dir.x, ant->dir.y, ant->pos.x, ant->pos.y, tile);
+	(ant->pos.y < 0) ? ant->pos.y = 2047 : 0;
 }
 
 void	gen_ant(long iter, int *tex, t_ant ant, unsigned char *map)
@@ -72,65 +74,21 @@ void	gen_ant(long iter, int *tex, t_ant ant, unsigned char *map)
 	ant.dir.y = -1;
 	while (++i < iter)
 	{
-		col = tex[ant.pos.y * 2048 + ant.pos.x + 3];
+		pos = ant.pos.y * 2048 + ant.pos.x;
+		col = tex[pos + 3];
 		col = (((col & 0xFF0000) / 0x10000) + ant.r) > 255 ?
 			col + (ant.r - 255) * 0x10000 : col + ant.r * 0x10000;
 		col = (((col & 0xFF00) / 0x100) + ant.g) > 255 ?
 			col + (ant.g - 255) * 0x100 : col + ant.g * 0x100;
 		col = ((col & 0xFF) + ant.b) > 255 ?
 			col + (ant.b - 255) : col + ant.b;
-		pos = ant.pos.y * 2048 + ant.pos.x; 
 		tex[pos + 3] = col;
 		map[pos] = (map[pos] == 0) ? 1 : 0;
-		move_ant(&ant, map[pos]);
+		rot_ant(&ant, map[pos]);
+		move_ant(&ant);
 	}
 }
-/*
-double	smooth(double x, double y, int m_w, int m_h, int *map)
-{
-   double fractX = x - (int)x;
-   double fractY = y - (int)y;
-   int x1 = (int)x % m_w;
-   int y1 = (int)y % m_h;
-   int x2 = ((int)x + m_w - 1) % m_w;
-   int y2 = ((int)y + m_h - 1) % m_h;
-   double valuer = 0.0;
-   double valueg = 0.0;
-   double valueb = 0.0;
 
-   valuer += fractX * fractY * (map[y1 * m_w + x1] / 255.0);
-   valuer += (1.0 - fractX) * fractY * (map[y1 * m_w + x2] / 255.0);
-   valuer += fractX * (1.0 - fractY) * (map[y2 * m_w + x1] / 255.0);
-   valuer += (1.0 - fractX) * (1.0 - fractY) * (map[y2 * m_w + x2] / 255.0);
-   valueg += fractX * fractY * (map[y1 * m_w + x1] / 255.0);
-   valueg += (1.0 - fractX) * fractY * (map[y1 * m_w + x2] / 255.0);
-   valueg += fractX * (1.0 - fractY) * (map[y2 * m_w + x1] / 255.0);
-   valueg += (1.0 - fractX) * (1.0 - fractY) * (map[y2 * m_w + x2] / 255.0);
-   valueb += fractX * fractY * (map[y1 * m_w + x1] / 255.0);
-   valueb += (1.0 - fractX) * fractY * (map[y1 * m_w + x2] / 255.0);
-   valueb += fractX * (1.0 - fractY) * (map[y2 * m_w + x1] / 255.0);
-   valueb += (1.0 - fractX) * (1.0 - fractY) * (map[y2 * m_w + x2] / 255.0);
-   return (value);
-}
-
-int		merge(unsigned int **images, int x, int y)
-{
-	float	div;
-	int		val;
-	int		i;
-	
-	i = 0;
-	div = 1;
-	val = (int)(smooth(x, y, 2048, 2048, images[0]) * 255.0);
-	while (++i < 8)
-	{
-		div *= 2.0;
-		val += (int)(smooth(x / div, y / div, 2048 / div, 2048/ div, images[i]) * 255.0);
-	}
-	val /= 11;
-	return(val * 0x10000 + val * 0x100 + val);
-}
-*/
 int		*langton(void)
 {
 	unsigned char	*map;
@@ -144,12 +102,9 @@ int		*langton(void)
 	tex[1] = 2048;
 	tex[2] = 2048;
 	y = -1;
-	while (++y < 2048)
-	{
-		x = -1;
+	while (++y < 2048 && (x = -1))
 		while (++x < 2048)
 			tex[y * 2048 + x + 3] = 0;
-	}
 	gen_ant(10000000, tex, (t_ant){.r = 5, .g = 5, .b = 10}, map);
 	gen_ant(1000000, tex, (t_ant){.r = 10, .g = 10, .b = 5}, map);
 	gen_ant(1000000, tex, (t_ant){.r = 10, .g = 5, .b = 5}, map);

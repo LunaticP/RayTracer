@@ -222,21 +222,6 @@ float4			refl(float4 ray, float4 normale)
 	return(ret);
 }
 
-float4			refr(float4 ray, float4 normale)
-{
-	float4		ret;
-	float4		dir;
-	float4		norma;
-	float		dp;
-
-	dir = normalize(ray);
-	norma = normalize(normale);
-	dp = 2 * dot(dir, norma);
-	ret = norma * dp;
-	ret = dir - ret;
-	return(ret);
-}
-
 int				get_light(__global t_obj *o, __global t_obj *l, float4 hit)
 {
 	t_ray	ray;
@@ -846,19 +831,18 @@ __kernel void	raytracer(
 		__global t_obj *l,
 		__global int* tex)
 {
-	t_ray	ray; 
-	t_ray	tmp;
-	size_t			i = get_global_id(0);
-	size_t			j = get_global_id(1);
+	t_ray			ray; 
+	t_ray			tmp;
 	unsigned short	r;
 	unsigned short	g;
 	unsigned short	b;
+	size_t			i = get_global_id(0);
+	size_t			j = get_global_id(1);
 	float4			nor;
 	float			oldr;
 	float			oldd;
 	float			rm;
 	float			tm;
-	float			rf;
 	int				id;
 	int				lt;
 	int				stay;
@@ -908,9 +892,7 @@ __kernel void	raytracer(
 			if(o[id].trans && o[id].trans > EPSILON && o[id].refl < EPSILON)
 			{
 				refmax--;
-				rf = dot(ray.dir, nor);
 				ray.ori = ray.dir * ray.t + ray.ori;
-				ray.dir = normalize(refr(ray.dir, nor * -1.0f));
 				oldr *= (o[id].t_m > 0 ? tm * o[id].trans : o[id].trans);
 				r *= (o[id].t_m > 0 ? 1 - tm : 1 - o[id].trans);
 				g *= (o[id].t_m > 0 ? 1 - tm : 1 - o[id].trans);

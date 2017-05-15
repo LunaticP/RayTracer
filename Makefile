@@ -6,7 +6,7 @@
 #    By: aviau <aviau@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/09/11 11:02:36 by aviau             #+#    #+#              #
-#    Updated: 2017/05/13 20:41:52 by aviau            ###   ########.fr        #
+#    Updated: 2017/05/15 15:02:51 by aviau            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,6 +14,7 @@ OS = APPLE
 NAME = rtvocl
 SRC_NAME =	main.c\
 			key.c\
+			key_f.c\
 			texture.c\
 			perlin.c\
 			langton.c\
@@ -36,7 +37,7 @@ INC=-I./include -I./libft -I./libmlx -I./libmatrix -I ./libocl
 ARG=-L./libft/ -L./libmlx/ -L./libmatrix -L./libocl \
 	-lft -lmatrix -lmlx -locl \
 	-framework OpenGl -framework AppKit -framework opencl
-CFLAGS =	-Wall -Wextra
+CFLAGS =	-Wall -Wextra -g
 DEPDIR				= .deps/
 DEPFILES			= $(patsubst %.c,$(DEPDIR)%.d,$(SRC_NAME))
 
