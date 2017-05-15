@@ -14,7 +14,7 @@
 
 #define AN1 static t_parser *s_init_new_parser(t_parser *new_parser);
 #define AN2 static char *s_get_path(char *file);
-#define AN3 static int s_exception(char *file, char **path)
+#define AN3 static char **s_exception(char *file, char **path)
 #define AN4 static void s_move_next_path(char **file);
 
 AN1;
@@ -26,7 +26,6 @@ t_parser				*rt_parser_textures(char *file, t_parser *parser)
 {
 	t_parser			*new_parser;
 	char				*path;
-	int					*tab_textures;
 
 	while (*file != '}')
 	{
@@ -56,6 +55,7 @@ static char				*s_get_path(char *file)
 	char				**path;
 
 	file++;
+	path = NULL;
 	if ((path = s_exception(file, path)))
 		return ((char *)path);
 	i = 0;
@@ -69,7 +69,7 @@ static char				*s_get_path(char *file)
 	return ((char *)path);
 }
 
-static int				s_exception(char *file, char **path)
+static char				**s_exception(char *file, char **path)
 {
 	if (rt_strcmp("perlin", file) == 0)
 	{

@@ -100,9 +100,10 @@ static void				s_check_texture(void ***tab, int max_textures)
 	int					i;
 
 	i = 0;
-	while ((t_obj *)(((t_obj *)tab[0]) + i)->type != end)
+	while ((int)((t_obj *)(((t_obj *)tab[0]) + i)->type) != end)
 	{
-		if ((t_obj *)(((t_obj *)tab[0]) + i)->tex > max_textures - 1)
+		if ((int)((t_obj *)(((t_obj *)tab[0]) + i))->tex > max_textures - 1)
+		// if (((short)((t_obj *)(((t_obj *)tab[0]) + i)->tex)) > max_textures - 1)
 			exit_error("EXIT : Bad Textures in entry data");
 		++i;
 	}

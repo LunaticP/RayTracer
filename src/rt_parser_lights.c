@@ -56,6 +56,7 @@ t_parser			*rt_parser_lights(char *file, t_parser *parser)
 	int				index;
 	const int		size = sizeof(g_tab_data) / sizeof(t_data) - 1;
 
+	new_parser = NULL;
 	mask_check = 0;
 	new_parser = s_init_new_parser(new_parser);
 	((t_obj *)new_parser->content)->type = light;

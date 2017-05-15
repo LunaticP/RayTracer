@@ -13,7 +13,7 @@
 #include "parser.h"
 
 #define AN1 static int s_choice_lvl_1(char **file, int size);
-#define AN2 t_parser *s_init_settings(char *file, t_parser *parser);
+#define AN2 t_parser *s_init_settings(t_parser *parser);
 #define AN3 static void s_check_exception(int index, int *check);
 
 AN1;
@@ -44,12 +44,12 @@ t_parser				*rt_parser_file(char *file)
 	size = sizeof(g_tab_elem) / sizeof(t_type_elem) - 1;
 	while ((index = s_choice_lvl_1(&file, size)) != size)
 	{
-		s_check_exception(index, &check);
+		s_check_exception(index, (int *)&check);
 		ptr_parser = g_tab_elem[index].ft_elem(file, ptr_parser);
 		file = rt_goto_bracket_close(file);
 	}
 	if (check[0] != 1)
-		ptr_parser = s_init_settings(file, ptr_parser);
+		ptr_parser = s_init_settings(ptr_parser);
 	return (parser);
 }
 
@@ -72,7 +72,7 @@ static int				s_choice_lvl_1(char **file, int size)
 	return (_(exit_error("EXIT : rt_choice_lvl_1"), false));
 }
 
-t_parser				*s_init_settings(char *file, t_parser *parser)
+t_parser				*s_init_settings(t_parser *parser)
 {
 	t_parser			*new_parser;
 	t_set				*set;

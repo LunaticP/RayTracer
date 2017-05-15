@@ -38,6 +38,7 @@ t_parser				*rt_parser_settings(char *file, t_parser *parser)
 	int					mask_check;
 	int					index;
 
+	new_parser = NULL;
 	mask_check = 0;
 	new_parser = s_init_new_parser(new_parser);
 	while ((index = s_index_data(&file, size)) != size)
