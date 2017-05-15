@@ -6,7 +6,11 @@
 #    By: aviau <aviau@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/09/11 11:02:36 by aviau             #+#    #+#              #
-#    Updated: 2017/05/15 12:18:56 by vthomas          ###   ########.fr        #
+#    Updated: 2017/05/15 12:25:36 by vthomas          ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+#    Updated: 2017/05/13 20:41:52 by aviau            ###   ########.fr        #
+>>>>>>> rt_aviau
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,10 +47,8 @@ MLX=libmlx
 INC=-I./include -I./libft -I./libmlx -I./libmatrix -I ./libocl
 ARG=-L./libft/ -L./libmlx/ -L./libmatrix -L./libocl \
 	-lft -lmatrix -lmlx -locl \
-	-framework OpenGl -framework AppKit -framework opencl\
-	-lpthread
-CFLAGS =	-Wall -Wextra -g\
-			-D USE_CLUSTER=0
+	-framework OpenGl -framework AppKit -framework opencl
+CFLAGS =	-Wall -Wextra
 DEPDIR				= .deps/
 DEPFILES			= $(patsubst %.c,$(DEPDIR)%.d,$(SRC_NAME))
 
