@@ -80,7 +80,7 @@ INC=-I./include -I./libft -I./libmlx -I./libmatrix -I ./libocl
 ARG=-L./libft/ -L./libmlx/ -L./libmatrix -L./libocl \
 	-lft -lmatrix -lmlx -locl \
 	-framework OpenGl -framework AppKit -framework opencl
-CFLAGS = -g
+CFLAGS = -g 
 DEPDIR				= .deps/
 DEPFILES			= $(patsubst %.c,$(DEPDIR)%.d,$(SRC_NAME))
 

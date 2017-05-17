@@ -119,7 +119,7 @@ int						*get_bmp(char *file);
 int						get_filetype(char *filename);
 int						*get_anytext(char *filename);
 
-void					init_ppm(int fd, int **ppm, int *size, char *file);
+void					init_ppm(int fd, int **ppm, int *size);
 int						*get_ppm(char *file);
 
 void					*memjoin(unsigned char *dst, unsigned char *src,

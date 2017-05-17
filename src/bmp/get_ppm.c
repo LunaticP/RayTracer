@@ -13,7 +13,7 @@
 #include <rt_bmp.h>
 #include <libft.h>
 
-void	init_ppm(int fd, int **ppm, int *size, char *file)
+void	init_ppm(int fd, int **ppm, int *size)
 {
 	char	*line;
 	int		i;
@@ -46,7 +46,7 @@ int		*get_ppm(char *file)
 
 	line = NULL;
 	fd = open(file, O_RDONLY);
-	init_ppm(fd, &ppm, size, file);
+	init_ppm(fd, &ppm, size);
 	ij[0] = 3;
 	get_next_line(fd, &line);
 	while (ij[0] <= ppm[0])
