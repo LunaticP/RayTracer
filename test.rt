@@ -1,6 +1,6 @@
 textures
 {
-	"fade.ppm";
+	"test.ppm";
 }
 
 objects
@@ -9,8 +9,8 @@ objects
 	{
 		pos
 		{
-			x = 10;
-			y = 3;
+			x = 0;
+			y = 0;
 			z = 0;
 			neg = 0;
 		}
@@ -31,6 +31,151 @@ objects
 		t_m = 0;
 		r = 3;
 	}
+	plan
+	{
+		pos
+		{
+			x = 0;
+			y = -15;
+			z = 0;
+		}
+		dir
+		{
+			x = 0;
+			y = 1;
+			z = 0;
+		}
+		col = #FFFFFF;
+		diff = 1;
+		refl = 0;
+		trans = 0;
+		refr = 0;
+		tex = 0;
+		n_m = 0;
+		r_m = 0;
+		t_m = 0;
+	}
+	plan
+	{
+		pos
+		{
+			x = 0;
+			y = 15;
+			z = 0;
+		}
+		dir
+		{
+			x = 0;
+			y = -1;
+			z = 0;
+		}
+		col = #FFFFFF;
+		diff = 1;
+		refl = 0;
+		trans = 0;
+		refr = 0;
+		tex = 0;
+		n_m = 0;
+		r_m = 0;
+		t_m = 0;
+	}
+	plan
+	{
+		pos
+		{
+			x = -15;
+			y = 0;
+			z = 0;
+		}
+		dir
+		{
+			x = 1;
+			y = 0;
+			z = 0;
+		}
+		col = #FFFFFF;
+		diff = 1;
+		refl = 0;
+		trans = 0;
+		refr = 0;
+		tex = 0;
+		n_m = 0;
+		r_m = 0;
+		t_m = 0;
+	}
+	plan
+	{
+		pos
+		{
+			x = 15;
+			y = 0;
+			z = 0;
+		}
+		dir
+		{
+			x = -1;
+			y = 0;
+			z = 0;
+		}
+		col = #FFFFFF;
+		diff = 1;
+		refl = 0;
+		trans = 0;
+		refr = 0;
+		tex = 0;
+		n_m = 0;
+		r_m = 0;
+		t_m = 0;
+	}
+	plan
+	{
+		pos
+		{
+			x = 0;
+			y = 0;
+			z = 15;
+		}
+		dir
+		{
+			x = 0;
+			y = 0;
+			z = -1;
+		}
+		col = #FFFFFF;
+		diff = 1;
+		refl = 0;
+		trans = 0;
+		refr = 0;
+		tex = 0;
+		n_m = 0;
+		r_m = 0;
+		t_m = 0;
+	}
+	plan
+	{
+		pos
+		{
+			x = 0;
+			y = 0;
+			z = -15;
+		}
+		dir
+		{
+			x = 0;
+			y = 0;
+			z = 1;
+		}
+		col = #FFFFFF;
+		diff = 1;
+		refl = 0;
+		trans = 0;
+		refr = 0;
+		tex = 0;
+		n_m = 0;
+		r_m = 0;
+		t_m = 0;
+	}
+
 }
 
 lights
@@ -38,8 +183,8 @@ lights
 	pos
 	{
 		x = 0;
-		y = 2;
-		z = -10;
+		y = 7.5;
+		z = 0;
 		w = 0;
 	}
 	r = 80;
@@ -50,9 +195,22 @@ lights
 {
 	pos
 	{
- 		x = 15;
-		y = 2;
-		z = -10;
+ 		x = 7.5;
+		y = 0;
+		z = 0;
+		w = 0;
+	}
+	r = 80;
+	col = #FFFFFF;
+}
+
+lights
+{
+	pos
+	{
+ 		x = 0;
+		y = 0;
+		z = -7.5;
 		w = 0;
 	}
 	r = 80;
@@ -93,8 +251,8 @@ camera
 	}
 	viewplane
 	{
-		z = 1;
-		w = 1;
+		z = 0;
+		w = 0;
 	}
 	p
 	{

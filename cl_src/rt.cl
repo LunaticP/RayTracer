@@ -62,11 +62,11 @@ typedef struct		s_cam
 	float4			dirx;
 	float4			diry;
 	float4			dirz;
-	float4			viewplane;
 	float4			rot;
+	int2			size;
+	float4			viewplane;
 	float4			p;
 	float2			chunk;
-	int2			size;
 	short			fast;
 	short			dsr;
 }					t_cam;

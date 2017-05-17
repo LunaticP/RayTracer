@@ -16,10 +16,10 @@
 # define USAGE "./rtv1 file\n"
 # define DEBUG	0
 # define DSR	1
-# define W		1280
-# define H		720
-# define WIDTH	W * (DSR > 1 ? DSR : 1)
-# define HEIGHT	H * (DSR > 1 ? DSR : 1)
+# define W		1280 //
+# define H		720 //
+# define WIDTH	W * (DSR > 1 ? DSR : 1) //
+# define HEIGHT	H * (DSR > 1 ? DSR : 1) //
 # define _
 
 # include <libft.h>
