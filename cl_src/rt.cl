@@ -439,7 +439,14 @@ int				diffuse(__global t_obj *o,float *t, __global t_obj *l, t_ray ray, int id,
 	if (o[id].pos.w > 0.5f || ray.imp == -1)
 		normale *= -1.0f;
 	*n = normale;
-	vlight = l[in].pos - hit;
+	if(l[in].pos.w < 0.5)
+		vlight = l[in].pos - hit;
+	else
+	{
+		vlight = -l[in].pos;
+		vlight.w = 0.0;
+		vlight = normalize(vlight);
+	}
 	shad.ori = hit;
 	shad.dir = normalize(vlight) * (o[id].pos.w < 0.5f ? 1.0f : -1.0f);
 	tmp = vlight;

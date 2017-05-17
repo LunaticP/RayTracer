@@ -35,12 +35,12 @@ objects
 		col = #FF0000;
 		diff = 1;
 		refl = 0;
-		trans = 0;
+		trans = 0.01;
 		refr = 0;
-		tex = 1;
+		tex = 0;
 		n_m = 0;
 		r_m = 0;
-		t_m = 0;
+		t_m = 1;
 		r = 3;
 	}
 }
@@ -91,7 +91,7 @@ lights
  		x = 15;
 		y = 2;
 		z = -10;
-		w = 0;
+		w = 1;
 	}
 	r = 10;
 	col = #FF0000;
