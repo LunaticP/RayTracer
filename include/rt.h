@@ -6,7 +6,8 @@
 /*   By: jplevy <jplevy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/11 06:10:10 by jplevy            #+#    #+#             */
-/*   Updated: 2017/05/15 18:16:06 by aviau            ###   ########.fr       */
+/*   Updated: 2017/05/17 18:07:13 by pgourran         ###   ########.fr       */
+/*   Updated: 2017/05/12 17:54:43 by pgourran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +15,7 @@
 # define RT_H
 
 # define USAGE "./rtv1 file\n"
-# define DEBUG	1
+# define DEBUG	0
 # define DSR	1
 # define W		1280 //
 # define H		720 //
