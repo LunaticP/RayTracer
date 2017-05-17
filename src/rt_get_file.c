@@ -1,14 +1,28 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   rt_get_file.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jogarcia <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/05/13 05:09:51 by jogarcia          #+#    #+#             */
+/*   Updated: 2017/05/13 05:11:57 by jogarcia         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "parser.h"
 
-static char			*s_file_nospace(char *f);
-static int				rt_isspace(char c);
+#define AN1 static char *s_file_nospace(char *f);
+#define AN2 static int rt_isspace(char c);
 
-char			*rt_get_file(char *path)
+AN1;
+AN2;
+
+char					*rt_get_file(char *path)
 {
-	int			fd;
-	char		*file;
-	char		*line;
-
+	int					fd;
+	char				*file;
+	char				*line;
 
 	fd = open(path, O_RDONLY);
 	if (fd < 0)
@@ -21,11 +35,11 @@ char			*rt_get_file(char *path)
 	return (file);
 }
 
-static char			*s_file_nospace(char *file)
+static char				*s_file_nospace(char *file)
 {
-	char		*file_ns;
-	char		*ptr;
-	bool		check_str;
+	char				*file_ns;
+	char				*ptr;
+	bool				check_str;
 
 	file_ns = (char *)rt_memalloc(ft_strlen(file) + 1);
 	ptr = file_ns;
@@ -47,7 +61,7 @@ static char			*s_file_nospace(char *file)
 static int				rt_isspace(char c)
 {
 	if (c == ' ' || c == '\t' || c == '\v'
-	|| c == '\n' || c == '\f' || c == '\r')
+			|| c == '\n' || c == '\f' || c == '\r')
 		return (1);
-	return (0);		
+	return (0);
 }

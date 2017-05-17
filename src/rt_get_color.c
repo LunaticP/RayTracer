@@ -1,6 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   rt_get_color.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jogarcia <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/05/13 05:08:47 by jogarcia          #+#    #+#             */
+/*   Updated: 2017/05/13 05:09:10 by jogarcia         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "parser.h"
-static int		s_check_color(char *file);
-static int		s_check_hexa(char c);
+
+#define AN1 static int		s_check_color(char *file);
+#define AN2 static int		s_check_hexa(char c);
+
+AN1;
+AN2;
 
 void			*rt_get_color(char *file)
 {
@@ -42,7 +58,8 @@ static int		s_check_color(char *file)
 
 static int		s_check_hexa(char c)
 {
-	if (('0' <= c && c <= '9') || ('a' <= c && c <= 'f') || ('A' <= c && c <= 'F'))
+	if (('0' <= c && c <= '9')
+			|| ('a' <= c && c <= 'f') || ('A' <= c && c <= 'F'))
 		return (1);
 	return (0);
 }

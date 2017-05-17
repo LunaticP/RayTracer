@@ -1,16 +1,33 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   rt_get_int_2.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jogarcia <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/05/13 12:16:27 by jogarcia          #+#    #+#             */
+/*   Updated: 2017/05/13 12:16:28 by jogarcia         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "parser.h"
 
-static int			rt_get_nb_choice(char **file, int size);
-static void			s_next_int(char **file);
+#define AN1 static int rt_get_nb_choice(char **file, int size);
+#define AN2 static void s_next_int(char **file);
 
-static const char *tab_data[] = { 	"x=",
-									"y=",
-									"}"		};
+AN1;
+AN2;
+
+static const char *g_tab_data[] = {
+	"x=",
+	"y=",
+	"}"
+};
 
 void				*rt_get_int2(char *file)
 {
 	static cl_int2	nb;
-	const int		size = sizeof(tab_data) / sizeof(char *) - 1;
+	const int		size = sizeof(g_tab_data) / sizeof(char *) - 1;
 	int				index;
 	char			check[2];
 
@@ -39,16 +56,16 @@ static int			rt_get_nb_choice(char **file, int size)
 	i = 0;
 	while (i <= size)
 	{
-		if (rt_strcmp(tab_data[i], *file) == 0)
+		if (rt_strcmp(g_tab_data[i], *file) == 0)
 		{
 			if (**file == '}')
 				return (i);
-			*file += ft_strlen(tab_data[i]);
+			*file += ft_strlen(g_tab_data[i]);
 			return (i);
 		}
 		++i;
 	}
-	return (exit_error("EXIT : rt_get_nb_choice [int2]"), false);
+	return (_(exit_error("EXIT : rt_get_nb_choice [int2]"), false));
 }
 
 static void			s_next_int(char **file)
@@ -57,11 +74,3 @@ static void			s_next_int(char **file)
 		++(*file);
 	++(*file);
 }
-
-
-
-
-
-
-
-

@@ -1,18 +1,31 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   rt_parser_textures.c                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jogarcia <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/05/13 12:22:51 by jogarcia          #+#    #+#             */
+/*   Updated: 2017/05/13 12:22:52 by jogarcia         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "parser.h"
 
-static t_parser			*s_init_new_parser(t_parser *new_parser);
-static char				*s_get_path(char *file);
-static void				s_move_next_path(char **file);
+#define AN1 static t_parser *s_init_new_parser(t_parser *new_parser);
+#define AN2 static char *s_get_path(char *file);
+#define AN3 static char **s_exception(char *file, char **path)
+#define AN4 static void s_move_next_path(char **file);
 
-/*
-*******************************************************************************
-*/
+AN1;
+AN2;
+AN3;
+AN4;
 
 t_parser				*rt_parser_textures(char *file, t_parser *parser)
 {
 	t_parser			*new_parser;
 	char				*path;
-	int					*tab_textures;
 
 	while (*file != '}')
 	{
@@ -28,10 +41,6 @@ t_parser				*rt_parser_textures(char *file, t_parser *parser)
 	return (parser);
 }
 
-/*
-*******************************************************************************
-*/
-
 static t_parser			*s_init_new_parser(t_parser *new_parser)
 {
 	new_parser = (t_parser *)rt_memalloc(sizeof(t_parser));
@@ -46,18 +55,37 @@ static char				*s_get_path(char *file)
 	char				**path;
 
 	file++;
+	path = NULL;
+	if ((path = s_exception(file, path)))
+		return ((char *)path);
 	i = 0;
-	while (file[i] != '"' && file[i] != '\0')
+	while (file[i] != '\0' && file[i] != '"')
 		i++;
 	if (file[i] == '\0')
 		exit_error("s_get_path [rt_parser_textures.c]");
 	path = (char **)rt_memalloc(sizeof(char *));
 	*path = (char *)rt_memalloc(sizeof(char *) * i + 1);
-	// path = (char **)rt_memalloc(sizeof(char) * i + sizeof(char *));
-	// *path = (char *)path + 8;
 	ft_memcpy(*path, file, i);
 	return ((char *)path);
+}
 
+static char				**s_exception(char *file, char **path)
+{
+	if (rt_strcmp("perlin", file) == 0)
+	{
+		path = (char **)rt_memalloc(sizeof(char *));
+		*path = (char *)rt_memalloc(sizeof(char *) * strlen("perlin") + 1);
+		ft_memcpy("perlin", file, strlen("perlin"));
+		return ((char **)path);
+	}
+	if (rt_strcmp(file, "langton") == 0)
+	{
+		path = (char **)rt_memalloc(sizeof(char *));
+		*path = (char *)rt_memalloc(sizeof(char *) * strlen("langton") + 1);
+		ft_memcpy("langton", file, strlen("langton"));
+		return ((char **)path);
+	}
+	return (NULL);
 }
 
 static void				s_move_next_path(char **file)

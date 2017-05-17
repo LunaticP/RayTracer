@@ -48,7 +48,6 @@ typedef struct 		s_obj
 	float			tet;
 	float			phi;
 	cl_float4		rot;
-	// float			rot;
 	cl_float4		min; // si pas de min, min float sur chaque
 	cl_float4		max; // si pas de max, max float sur chaque
 	cl_int			col;
@@ -65,6 +64,10 @@ typedef struct 		s_obj
 	cl_float4		p1;
 	cl_float4		p2;
 	cl_float4		p3;
+	cl_float4		mod_tex;
+	cl_float4		mod_normal;
+	cl_float4		mod_ref;
+	cl_float4		mod_trans;
 	short			tex;
 	short			n_m;
 	short			r_m;
@@ -81,6 +84,7 @@ typedef struct		s_cam
 	cl_float4		dirx;
 	cl_float4		diry;
 	cl_float4		dirz;
+	cl_float4		rot;
 	cl_int2			size; // no
 	cl_float4		viewplane; // z et w
 	cl_float4		p; //
@@ -186,6 +190,7 @@ void			*rt_get_float2(char *file);
 void			*rt_get_float3(char *file);
 void			*rt_get_float4(char *file);
 void			*rt_get_float4_end(char *file);
+void			*rt_get_float4_neg(char *file);
 
 void			rt_check_value(void ***tab);
 

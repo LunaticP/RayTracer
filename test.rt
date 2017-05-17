@@ -12,7 +12,7 @@ objects
 			x = 10;
 			y = 3;
 			z = 0;
-			w = 0;
+			neg = 0;
 		}
 		dir
 		{
@@ -123,6 +123,12 @@ camera
 		y = 0;
 		z = 1;
 	}
+	rot
+	{
+		x = 0;
+		y = 0;
+		z = 0;
+	}
 	viewplane
 	{
 		z = 1;
@@ -141,4 +147,15 @@ camera
 	}
 	fast = 1;
 	dsr = 1;
+}
+
+settings
+{
+	width = 700;
+	height = 900;
+	max_reflect = 20;
+	anti_allias = 1;
+	ambient = 10;
+	stereo = 0;
+	name = "path test";
 }

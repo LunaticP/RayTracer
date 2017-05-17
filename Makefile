@@ -48,6 +48,7 @@ SRC_NAME =	main.c\
 			rt_get_float3_init.c\
 			rt_check_value.c\
 			rt_get_float4_end.c\
+			rt_get_float4_neg.c\
 
 INC_FILE = include/key.h\
 		   include/rt.h\
@@ -64,7 +65,7 @@ INC=-I./include -I./libft -I./libmlx -I./libmatrix -I ./libocl
 ARG=-L./libft/ -L./libmlx/ -L./libmatrix -L./libocl \
 	-lft -lmatrix -lmlx -locl \
 	-framework OpenGl -framework AppKit -framework opencl
-CFLAGS = 
+CFLAGS = -Wall -Werror -Wextra
 DEPDIR				= .deps/
 DEPFILES			= $(patsubst %.c,$(DEPDIR)%.d,$(SRC_NAME))
 

@@ -1,9 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   rt_atoi.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jogarcia <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/05/13 05:00:10 by jogarcia          #+#    #+#             */
+/*   Updated: 2017/05/13 05:01:05 by jogarcia         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "parser.h"
 
-void		*rt_atoi(char *str)
+void				*rt_atoi(char *str)
 {
-	static int 	out;
-	int 		is_negative;
+	static int		out;
+	int				is_negative;
 
 	out = 0;
 	while (*str > '\0' && *str <= ' ')

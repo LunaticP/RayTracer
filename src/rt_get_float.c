@@ -1,6 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   rt_get_float.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jogarcia <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/05/13 05:12:26 by jogarcia          #+#    #+#             */
+/*   Updated: 2017/05/13 05:12:57 by jogarcia         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "parser.h"
 
-static float		s_get_mentisse(char *str);
+#define AN1 static float		s_get_mentisse(char *str);
+
+AN1;
 
 void				*rt_get_float(char *str)
 {
@@ -14,12 +28,12 @@ void				*rt_get_float(char *str)
 	full = ft_atoi(str);
 	full += s_get_mentisse(str) * neg;
 	return ((void *)&full);
-} 
+}
 
 static float		s_get_mentisse(char *str)
 {
-	float		full;
-	float		multiple;
+	float			full;
+	float			multiple;
 
 	full = 0;
 	multiple = 10;

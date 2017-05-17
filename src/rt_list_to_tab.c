@@ -1,20 +1,39 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   rt_list_to_tab.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jogarcia <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/05/13 12:18:46 by jogarcia          #+#    #+#             */
+/*   Updated: 2017/05/13 12:18:47 by jogarcia         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "parser.h"
 
-static const int g_tab_data[] = {	sizeof(t_obj),
-									sizeof(t_obj),
-									sizeof(t_cam),
-									sizeof(t_set),
-									sizeof(char **) };
+static const int g_tab_data[] = {
+	sizeof(t_obj),
+	sizeof(t_obj),
+	sizeof(t_cam),
+	sizeof(t_set),
+	sizeof(char **)
+};
 
-static void			s_tab_size_count(int *tab_size, t_parser *parser);
-static void			s_tab_alloc(void ****tab, int *tab_size);
-static void			s_tab_set(void ***tab, t_parser *parser);
-void				s_check_texture(void ***tab, int max_textures);
+#define AN1 static void s_tab_size_count(int *tab_size, t_parser *parser);
+#define AN2 static void s_tab_alloc(void ****tab, int *tab_size);
+#define AN3 static void s_tab_set(void ***tab, t_parser *parser);
+#define AN4 static void s_check_texture(void ***tab, int max_textures);
 
-void				***rt_list_to_tab(t_parser *parser, int *tab_size)
+AN1;
+AN2;
+AN3;
+AN4;
+
+void					***rt_list_to_tab(t_parser *parser, int *tab_size)
 {
-	t_parser		*ptr_parser;
-	void			***tab;
+	t_parser			*ptr_parser;
+	void				***tab;
 
 	ptr_parser = parser;
 	s_tab_size_count(tab_size, ptr_parser);
@@ -26,7 +45,7 @@ void				***rt_list_to_tab(t_parser *parser, int *tab_size)
 
 static void				s_tab_size_count(int *tab_size, t_parser *parser)
 {
-	t_parser		*ptr_parser;
+	t_parser			*ptr_parser;
 
 	memset(tab_size, 0, sizeof(int) * SIZE);
 	ptr_parser = parser;
@@ -44,8 +63,8 @@ static void				s_tab_size_count(int *tab_size, t_parser *parser)
 
 static void				s_tab_alloc(void ****tab, int *tab_size)
 {
-	int				i;
-	int				j;
+	int					i;
+	int					j;
 
 	i = 0;
 	j = 0;
@@ -59,14 +78,15 @@ static void				s_tab_alloc(void ****tab, int *tab_size)
 
 static void				s_tab_set(void ***tab, t_parser *parser)
 {
-	t_parser		*ptr_parser;
-	char			count[SIZE];
+	t_parser			*ptr_parser;
+	char				count[SIZE];
 
 	memset(count, 0, sizeof(char) * SIZE);
 	ptr_parser = parser;
 	while (ptr_parser)
 	{
-		ft_memcpy((((char **)tab)[ptr_parser->elem]) + (g_tab_data[ptr_parser->elem] * count[ptr_parser->elem]),
+		ft_memcpy((((char **)tab)[ptr_parser->elem])
+			+ (g_tab_data[ptr_parser->elem] * count[ptr_parser->elem]),
 			ptr_parser->content, g_tab_data[ptr_parser->elem]);
 		count[ptr_parser->elem]++;
 		ptr_parser = ptr_parser->next;
@@ -75,14 +95,15 @@ static void				s_tab_set(void ***tab, t_parser *parser)
 	((t_obj *)(((char **)tab)[1] + (g_tab_data[1] * count[1])))->type = end;
 }
 
-void					s_check_texture(void ***tab, int max_textures)
+static void				s_check_texture(void ***tab, int max_textures)
 {
 	int					i;
 
 	i = 0;
-	while ((t_obj *)(((t_obj *)tab[0]) + i)->type != end)
+	while ((int)((t_obj *)(((t_obj *)tab[0]) + i)->type) != end)
 	{
-		if ((t_obj *)(((t_obj *)tab[0]) + i)->tex > max_textures - 1)
+		if ((int)((t_obj *)(((t_obj *)tab[0]) + i))->tex > max_textures - 1)
+		// if (((short)((t_obj *)(((t_obj *)tab[0]) + i)->tex)) > max_textures - 1)
 			exit_error("EXIT : Bad Textures in entry data");
 		++i;
 	}
