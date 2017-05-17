@@ -321,8 +321,8 @@ int				tex_num(int num, __global t_obj *o, int id, __global int *tex, float2 pol
 	i = 1;
 	j = 1;
 	out = 0;
-	tile.x = 0.0f;
-	tile.y = 0.0f;
+	tile.x = 5.0f;
+	tile.y = 5.0f;
 	tile.z = 0.0f;
 	tile.w = 0.0f;
 	polar.x += tile.z;
@@ -397,8 +397,8 @@ int				diffuse(__global t_obj *o,float *t, __global t_obj *l, t_ray ray, int id,
 	}
 	else if (o[id].type == plan)
 	{
-		polar.x = fabs(ctsn.x + 5000);
-		polar.y = fabs(ctsn.z + 5000);
+		polar.x = fabs(ctsn.x + 15000);
+		polar.y = fabs(ctsn.z + 15000);
 		normale = o[id].dir;
 	}
 	else if (o[id].type == cone)
