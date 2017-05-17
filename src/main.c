@@ -6,7 +6,7 @@
 /*   By: jplevy <jplevy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/08 01:37:39 by jplevy            #+#    #+#             */
-/*   Updated: 2017/05/15 15:56:27 by aviau            ###   ########.fr       */
+/*   Updated: 2017/05/17 16:43:28 by aviau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -269,7 +269,7 @@ t_scene	ft_init_scene(void)
 	ret.obj[11].type = sphere;
 	ret.obj[11].diff = 1.0;
 	ret.obj[11].refl = 0.0;
-	ret.obj[11].trans = 1.0;
+	ret.obj[11].trans = 0.0;
 	ret.obj[11].r = 3.0;
 	ret.obj[12].type = end;
 	ret.n_o = 13;

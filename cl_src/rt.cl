@@ -315,10 +315,18 @@ int				tex_num(int num, __global t_obj *o, int id, __global int *tex, float2 pol
 	int	i;
 	int j;
 	int out;
+	int2	pol;
+	float4	tile;
 
 	i = 1;
 	j = 1;
 	out = 0;
+	tile.x = 0.0f;
+	tile.y = 0.0f;
+	tile.z = 0.0f;
+	tile.w = 0.0f;
+	polar.x += tile.z;
+	polar.y += tile.w;
 	while (i < num && j + 3 < tex[0])
 	{
 		j += tex[j] * tex[j + 1] + 2;
@@ -326,19 +334,22 @@ int				tex_num(int num, __global t_obj *o, int id, __global int *tex, float2 pol
 	}
 	if (o[id].type == sphere)
 	{
-		out = (int)(polar.x * (float)tex[j + 1] / M_PI) * tex[j] \
-			  + (int)(polar.y * (float)tex[j] / M_PI) + j + 2;
+		pol.x = (int)((polar.x * tile.x) * (float)tex[j + 1] / M_PI) % tex[j + 1];
+		pol.y = (int)((polar.y * tile.y) * (float)tex[j] / M_PI) % tex[j];
 	}
-	if (o[id].type == plan)
+	else if (o[id].type == plan)
 	{
-		out = (int)((polar.x / 10) * (float)tex[j + 1]) % tex[j + 1] * tex[j] \
-			  + (int)((polar.y / 10) * (float)tex[j]) + j + 2;
+		pol.x = (int)(polar.x / tile.x * (float)tex[j + 1]) % tex[j + 1];
+		pol.y = (int)(polar.y / tile.y * (float)tex[j]) % tex[j];
 	}
-	if (o[id].type == cone || o[id].type == cylindre)
+	else if (o[id].type == cone || o[id].type == cylindre)
 	{
-		out = abs((int)(polar.x / 5 * (float)tex[j + 1]) % tex[j + 1]) * tex[j] \
-			  + (int)(polar.y * tex[j] / M_PI) % tex[j] + j + 2;
+		pol.x = (int)(polar.x / tile.x * (float)tex[j + 1]) % tex[j + 1];
+		pol.y = (int)((polar.y * tile.y) * (float)tex[j] / M_PI) % tex[j];
 	}
+	else
+		out = 0;
+	out = pol.x * tex[j] + pol.y + j + 2;
 	return (out > tex[0] || out < 0 ? 0 : out);
 }
 
@@ -386,8 +397,8 @@ int				diffuse(__global t_obj *o,float *t, __global t_obj *l, t_ray ray, int id,
 	}
 	else if (o[id].type == plan)
 	{
-		polar.x = fabs(ctsn.x + 15);
-		polar.y = fabs(ctsn.z + 15);
+		polar.x = fabs(ctsn.x + 5000);
+		polar.y = fabs(ctsn.z + 5000);
 		normale = o[id].dir;
 	}
 	else if (o[id].type == cone)
@@ -817,7 +828,7 @@ int				ray_match(__global t_obj *o, t_ray *ray)
 
 float4			ray_from_coord(size_t x, size_t y, __global t_cam *c, int mul)
 {
-	float4		ret = 0;
+	float4		ret = 0; 
 	ret += c->dirx * (c->p.x + ((float)x * c->viewplane.x / (float)c->size.x * mul));
 	ret += c->diry * (c->p.y - ((float)y * c->viewplane.y / (float)c->size.y * mul));
 	ret += c->dirz * (c->p.z);
@@ -921,7 +932,7 @@ __kernel void	rt_fast(
 		__global int* string,
 		__global t_cam *c,
 		__global t_obj *o/*, 
-		__global int *m_id*/)
+						   __global int *m_id*/)
 {
 	t_ray			ray;
 	size_t			i = get_global_id(0) * 2;
@@ -950,8 +961,8 @@ __kernel void	rt_fast(
 			string[j * c[0].size.x + i + 1] = color;
 			string[(j + 1) * c[0].size.x + i] = color;
 			string[(j + 1) * c[0].size.x + i + 1] = color;
-//			if (m_id[0] == (i - (i % 2)) && m_id[1] == (j - (j % 2)))
-//				m_id[2] = id;
+			//			if (m_id[0] == (i - (i % 2)) && m_id[1] == (j - (j % 2)))
+			//				m_id[2] = id;
 		}
 	}
 }
