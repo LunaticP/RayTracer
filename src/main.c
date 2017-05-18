@@ -6,7 +6,7 @@
 /*   By: jplevy <jplevy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/08 01:37:39 by jplevy            #+#    #+#             */
-/*   Updated: 2017/05/17 16:43:28 by aviau            ###   ########.fr       */
+/*   Updated: 2017/05/18 18:37:34 by aviau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -425,6 +425,7 @@ int		main(int ac, char **av)
 	pws_f[0] = W / 2;
 	pws_f[1] = H / 2;
 	mlx.key = REDRAW;
+//	int	mouse[2] = {x, y};
 	ocl_new_kernel(&(mlx.prog), 5, pws, "norowowowowd", "raytracer", WIDTH * HEIGHT
 			* sizeof(int), mlx.p, sizeof(t_cam), &(mlx.s.cam), sizeof(t_obj) * mlx.s.n_o,
 			mlx.s.obj, sizeof(t_obj) * mlx.s.n_l, mlx.s.light, sizeof(int) * (mlx.tex[0] + 1), mlx.tex, 2);
