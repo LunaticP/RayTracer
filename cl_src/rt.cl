@@ -931,8 +931,9 @@ __kernel void	raytracer(
 __kernel void	rt_fast(
 		__global int* string,
 		__global t_cam *c,
-		__global t_obj *o/*, 
-						   __global int *m_id*/)
+		__global t_obj *o, 
+		__global int *mouse,
+		__global int *obj_id)
 {
 	t_ray			ray;
 	size_t			i = get_global_id(0) * 2;
@@ -961,8 +962,8 @@ __kernel void	rt_fast(
 			string[j * c[0].size.x + i + 1] = color;
 			string[(j + 1) * c[0].size.x + i] = color;
 			string[(j + 1) * c[0].size.x + i + 1] = color;
-			//			if (m_id[0] == (i - (i % 2)) && m_id[1] == (j - (j % 2)))
-			//				m_id[2] = id;
+			if (mouse[0] == (i - (i % 2)) && mouse[1] == (j - (j % 2)))
+				*obj_id = id;
 		}
 	}
 }
