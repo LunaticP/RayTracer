@@ -6,7 +6,7 @@
 /*   By: gsimeon <gsimeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/11 06:10:10 by jplevy            #+#    #+#             */
-/*   Updated: 2017/05/18 17:03:30 by gsimeon          ###   ########.fr       */
+/*   Updated: 2017/05/18 20:22:53 by gsimeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,13 @@
 
 # define USAGE "./rtv1 file\n"
 # define DEBUG	0
-# define DSR	1
+# define DSR	2
 # define W		1280
 # define H		720
 # define STEREO		0
 # define OUT_FILE	0
-# define WIDTH	W * (DSR > 1 ? DSR : 1)
-# define HEIGHT	H * (DSR > 1 ? DSR : 1)
+# define WIDTH	(W * (DSR > 1 ? DSR : 1))
+# define HEIGHT	(H * (DSR > 1 ? DSR : 1))
 # define _
 
 # include <libft.h>

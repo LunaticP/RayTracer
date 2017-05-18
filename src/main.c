@@ -167,16 +167,24 @@ int		main(int ac, char **av)
 			.f_keyrelease = k_rel, .data_kr = &mlx,
 			.f_loop = ray_loop, .data_lp = &mlx};
 	parent = mmlx_create_parent(mlx.mlx, &data);
-	win_create_plan(parent, &mlx.s.obj[0]);
-
+	//win_create_plan(parent, &mlx.s.obj[0]);
 	mlx.win = parent->win;
+
+	if (DSR > 1)
+	{
+		mlx_destroy_image(parent->mlx, parent->img);
+		parent->img = mlx_new_image(parent->mlx, WIDTH, HEIGHT);
+		parent->data = mlx_get_data_addr(parent->img, &mlx.bp, &mlx.sl, &mlx.endian);
+	}
 	mlx.img = parent->img;
 	mlx.p = (unsigned char*)parent->data;
 
-	mlx.atmp = (char*)malloc(WIDTH * HEIGHT * parent->bpp / 8);
-	mlx.atmp2 = (char*)malloc(WIDTH * HEIGHT * parent->bpp / 8);
+	mlx.tmp = mlx_new_image(mlx.mlx, WIDTH, HEIGHT);
+	mlx.tmp2 = mlx_new_image(mlx.mlx, WIDTH, HEIGHT);
+	mlx.atmp = mlx_get_data_addr(mlx.tmp, &mlx.bp, &mlx.sl, &mlx.endian);
+	mlx.atmp2 = mlx_get_data_addr(mlx.tmp2, &mlx.bp, &mlx.sl, &mlx.endian);
 
-	mlx.s.cam.viewplane.z = 8;
+	mlx.s.cam.viewplane.z = 1;
 	mlx.s.cam.chunk.x = -1;
 	mlx.s.cam.chunk.y = -1;
 	mlx.s.cam.dsr = 1;
