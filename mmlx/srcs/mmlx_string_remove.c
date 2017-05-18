@@ -6,13 +6,13 @@
 /*   By: gsimeon <gsimeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/02 06:28:32 by gsimeon           #+#    #+#             */
-/*   Updated: 2017/05/02 06:35:41 by gsimeon          ###   ########.fr       */
+/*   Updated: 2017/05/13 08:07:04 by gsimeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mmlx.h"
 
-int		mmlx_string_remove(int id, t_mlx *win)
+int		mmlx_string_remove(int id, t_mmlx *win)
 {
 	int		i;
 

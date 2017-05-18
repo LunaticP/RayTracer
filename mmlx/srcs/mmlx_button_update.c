@@ -6,7 +6,7 @@
 /*   By: gsimeon <gsimeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/27 21:32:19 by gsimeon           #+#    #+#             */
-/*   Updated: 2017/05/07 13:05:15 by gsimeon          ###   ########.fr       */
+/*   Updated: 2017/05/13 07:59:17 by gsimeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static char	*mmlx_fill_unused(t_clickon *button)
 	return ((char*)data);
 }
 
-static char	*mmlx_get_img(t_mlx *mlx, int i)
+static char	*mmlx_get_img(t_mmlx *mlx, int i)
 {
 	char	*tmp;
 
@@ -54,7 +54,7 @@ static char	*mmlx_get_img(t_mlx *mlx, int i)
 	}
 }
 
-static void	mmlx_stepbystep(t_mlx *mlx, char *button_img, int i)
+static void	mmlx_stepbystep(t_mmlx *mlx, char *button_img, int i)
 {
 	int		x;
 	int		y;
@@ -80,7 +80,7 @@ static void	mmlx_stepbystep(t_mlx *mlx, char *button_img, int i)
 	}
 }
 
-int			mmlx_button_update(t_mlx *mlx, int i)
+int			mmlx_button_update(t_mmlx *mlx, int i)
 {
 	char	*img;
 

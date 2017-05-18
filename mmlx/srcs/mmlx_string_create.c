@@ -6,13 +6,13 @@
 /*   By: gsimeon <gsimeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/02 03:46:35 by gsimeon           #+#    #+#             */
-/*   Updated: 2017/05/03 08:01:59 by gsimeon          ###   ########.fr       */
+/*   Updated: 2017/05/13 10:19:58 by gsimeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mmlx.h"
 
-static int	mmlx_check_data(t_mlx *win, t_stringput *data)
+static int	mmlx_check_data(t_mmlx *win, t_stringput *data)
 {
 	if (!(data->xpos >= 0 && data->xpos < win->xwin))
 		return (mmlx_error(__func__, WRONG_XSTART_STRING));
@@ -34,7 +34,7 @@ static int	mmlx_string_freespace(int *i, int *string_used)
 	return (0);
 }
 
-int			mmlx_string_create(t_mlx *win, t_stringput *data)
+int			mmlx_string_create(t_mmlx *win, t_stringput *data)
 {
 	int			i;
 
@@ -49,6 +49,8 @@ int			mmlx_string_create(t_mlx *win, t_stringput *data)
 	win->string_tab[i].f_data = data->f_data;
 	if (data->string)
 		win->string_tab[i].string = ml_strdup(data->string);
+	else
+		win->string_tab[i].string = NULL;
 	win->string_tab[i].f_string = data->f_string;
 	win->string_used[i] = 1;
 	return (i);

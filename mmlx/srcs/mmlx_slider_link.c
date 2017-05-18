@@ -6,13 +6,13 @@
 /*   By: gsimeon <gsimeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/04 12:04:12 by gsimeon           #+#    #+#             */
-/*   Updated: 2017/05/07 13:19:55 by gsimeon          ###   ########.fr       */
+/*   Updated: 2017/05/13 08:07:04 by gsimeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mmlx.h"
 
-static int	mmlx_slider_in_win(t_sliderlink *link, t_slider *data, t_mlx *mlx)
+static int	mmlx_slider_in_win(t_sliderlink *link, t_slider *data, t_mmlx *mlx)
 {
 	if (link->pos_x < 0 || link->pos_x + data->slider_sizex >= mlx->xwin)
 		return (mmlx_error(__func__, SLIDER_BAD_XPOS));
@@ -27,7 +27,7 @@ static int	mmlx_slider_in_win(t_sliderlink *link, t_slider *data, t_mlx *mlx)
 	return (0);
 }
 
-static int	mmlx_check_data(t_slideon *dst, t_sliderlink *data, t_mlx *win)
+static int	mmlx_check_data(t_slideon *dst, t_sliderlink *data, t_mmlx *win)
 {
 	if (!win || !data)
 		return (mmlx_error(__func__, LACK_DATA));
@@ -52,7 +52,7 @@ static int	mmlx_slider_freespace(int *i, int *slider_used)
 	return (0);
 }
 
-int			mmlx_slider_link(t_mlx *win, t_sliderlink *data)
+int			mmlx_slider_link(t_mmlx *win, t_sliderlink *data)
 {
 	int			i;
 

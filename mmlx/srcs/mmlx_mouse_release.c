@@ -6,13 +6,13 @@
 /*   By: gsimeon <gsimeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/04 06:07:50 by gsimeon           #+#    #+#             */
-/*   Updated: 2017/05/06 08:17:35 by gsimeon          ###   ########.fr       */
+/*   Updated: 2017/05/13 08:02:57 by gsimeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mmlx.h"
 
-int		mmlx_mouse_release(int keycode, int x, int y, t_mlx *mlx)
+int		mmlx_mouse_release(int keycode, int x, int y, t_mmlx *mlx)
 {
 	if (keycode == SLIDER_MOUSE_KEYCODE)
 		mmlx_slider_released(mlx, x, y);

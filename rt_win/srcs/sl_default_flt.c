@@ -6,13 +6,13 @@
 /*   By: gsimeon <gsimeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/07 17:47:26 by gsimeon           #+#    #+#             */
-/*   Updated: 2017/05/09 17:24:53 by gsimeon          ###   ########.fr       */
+/*   Updated: 2017/05/13 08:07:04 by gsimeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt_win.h"
 
-int		sl_default_flt(t_mlx *win, t_pos *pos, t_fslider *sldr)
+int		sl_default_flt(t_mmlx *win, t_pos *pos, t_fslider *sldr)
 {
 	t_sliderlink	link;
 

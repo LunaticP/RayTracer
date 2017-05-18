@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pgourran <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: gsimeon <gsimeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/11/30 21:57:30 by pgourran          #+#    #+#             */
-/*   Updated: 2017/04/27 06:22:12 by pgourran         ###   ########.fr       */
+/*   Updated: 2017/05/17 19:17:34 by gsimeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,5 +114,7 @@ size_t				ft_strlcat(char *dst, const char *src, size_t buf_size);
 t_list				*ft_lstmap(t_list *lst, t_list *(*f)(t_list *elem));
 t_list				*ft_lstnew(void const *content, size_t content_size);
 t_list				*get_file(char *path);
+
+char				*pf_itoa(void *ptr, char output, int flags);
 
 #endif

@@ -6,13 +6,13 @@
 /*   By: gsimeon <gsimeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/06 01:17:23 by gsimeon           #+#    #+#             */
-/*   Updated: 2017/05/07 13:31:46 by gsimeon          ###   ########.fr       */
+/*   Updated: 2017/05/13 08:00:54 by gsimeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mmlx.h"
 
-static void	mmlx_keep_cursor_inside_win(t_mlx *mlx, t_slideon *slider)
+static void	mmlx_keep_cursor_inside_win(t_mmlx *mlx, t_slideon *slider)
 {
 	if (slider->cursor_pos_x >= mlx->xwin - slider->pos_x
 													- slider->data.cursor_sizex)
@@ -44,7 +44,7 @@ static void	mmlx_cursor_inside_slider(t_slideon *slider)
 					slider->data.slider_sizey - slider->data.cursor_sizey / 2;
 }
 
-void		mmlx_cursorpos_update(t_mlx *mlx, t_slideon *slider,
+void		mmlx_cursorpos_update(t_mmlx *mlx, t_slideon *slider,
 														int pos_x, int pos_y)
 {
 	slider->old_cursor_pos_x = slider->cursor_pos_x;

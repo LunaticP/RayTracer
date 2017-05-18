@@ -6,13 +6,13 @@
 /*   By: gsimeon <gsimeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/11 18:50:01 by gsimeon           #+#    #+#             */
-/*   Updated: 2017/04/22 16:29:46 by gsimeon          ###   ########.fr       */
+/*   Updated: 2017/05/13 07:59:01 by gsimeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mmlx.h"
 
-int		mmlx_button_unlink(int id, t_mlx *win)
+int		mmlx_button_unlink(int id, t_mmlx *win)
 {
 	int		i;
 

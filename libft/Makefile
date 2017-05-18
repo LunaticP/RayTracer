@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: pgourran <pgourran@student.42.fr>          +#+  +:+       +#+         #
+#    By: gsimeon <gsimeon@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/11/30 21:57:41 by pgourran          #+#    #+#              #
-#    Updated: 2017/05/13 19:29:53 by vthomas          ###   ########.fr        #
+#    Updated: 2017/05/18 17:50:42 by gsimeon          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -92,7 +92,8 @@ SRC		= ft_atoi.c\
 		  ft_put_tab_array.c\
 		  ft_freeinttab.c\
 		  get_file.c\
-		  ft_lsttotab.c
+		  ft_lsttotab.c\
+		  pf_itoa.c
 
 I		= $$(($(words $(SRC)) / 2))
 K		= $$(($(I) * 2 + 1))

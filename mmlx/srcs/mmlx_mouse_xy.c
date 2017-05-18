@@ -6,13 +6,13 @@
 /*   By: gsimeon <gsimeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/27 18:26:19 by gsimeon           #+#    #+#             */
-/*   Updated: 2017/05/06 07:20:17 by gsimeon          ###   ########.fr       */
+/*   Updated: 2017/05/13 08:07:04 by gsimeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mmlx.h"
 
-int		mmlx_mouse_xy(int x, int y, t_mlx *mlx)
+int		mmlx_mouse_xy(int x, int y, t_mmlx *mlx)
 {
 	mmlx_slider_catched(mlx, x, y);
 	mmlx_button_flyed(mlx, x, y);

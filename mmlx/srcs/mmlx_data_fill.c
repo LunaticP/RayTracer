@@ -6,13 +6,13 @@
 /*   By: gsimeon <gsimeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/13 00:57:47 by gsimeon           #+#    #+#             */
-/*   Updated: 2017/05/02 08:15:40 by gsimeon          ###   ########.fr       */
+/*   Updated: 2017/05/13 08:01:07 by gsimeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mmlx.h"
 
-void	mmlx_data_fill(t_mlx *mlx)
+void	mmlx_data_fill(t_mmlx *mlx)
 {
 	int		*pixel;
 	int		i;

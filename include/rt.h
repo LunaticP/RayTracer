@@ -3,13 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   rt.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jplevy <jplevy@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gsimeon <gsimeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/11 06:10:10 by jplevy            #+#    #+#             */
-/*   Updated: 2017/05/17 18:07:13 by pgourran         ###   ########.fr       */
-/*   Updated: 2017/05/12 17:54:43 by pgourran         ###   ########.fr       */
+/*   Updated: 2017/05/18 17:03:30 by gsimeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #ifndef RT_H
 # define RT_H
@@ -17,22 +17,24 @@
 # define USAGE "./rtv1 file\n"
 # define DEBUG	0
 # define DSR	1
-# define W		1280 //
-# define H		720 //
-# define WIDTH	W * (DSR > 1 ? DSR : 1) //
-# define HEIGHT	H * (DSR > 1 ? DSR : 1) //
+# define W		1280
+# define H		720
+# define STEREO		0
+# define OUT_FILE	0
+# define WIDTH	W * (DSR > 1 ? DSR : 1)
+# define HEIGHT	H * (DSR > 1 ? DSR : 1)
 # define _
 
 # include <libft.h>
 # include <libocl.h>
 # include <matrix.h>
-# include <mlx.h>
 # include <stdlib.h>
 # include <float.h>
 # include <math.h>
 # include <key.h>
 # include <obj.h>
 # include <time.h>
+# include <rt_win.h>
 
 typedef struct		s_ant
 {
@@ -102,8 +104,10 @@ typedef struct		s_mlx
 }					t_mlx;
 
 int					k_rel(int key, void *param);
-void				k_press(int key, int *k);
+int					k_press(int key, void *param);
 void				k_apply(int key, t_scene *s);
+int					ray_loop(void *param);
+
 int					*get_texture(char **file);
 int					*perlin(void);
 int					*langton(void);

@@ -50,41 +50,48 @@ SRC_FT = ml_memcpy \
 		ml_putstr_fd \
 		ml_strdel \
 		ml_strdup \
-		mmlx_keypress \
-		mmlx_mouse_press \
-		mmlx_mouse_release \
-		mmlx_mouse_xy \
-		mmlx_buttontype_create \
 		mmlx_button_flyed \
+		mmlx_button_link \
 		mmlx_button_pressed \
 		mmlx_button_released \
-		mmlx_button_link \
 		mmlx_button_unlink \
 		mmlx_button_update \
-		mmlx_onbutton \
-		mmlx_slidertype_create \
-		mmlx_slider_pressed \
-		mmlx_slider_released \
-		mmlx_slider_catched \
-		mmlx_slider_link \
-		mmlx_slider_unlink \
-		mmlx_slider_update \
-		mmlx_cursorpos_update \
-		mmlx_onslider \
-		mmlx_string_create \
-		mmlx_string_remove \
-		mmlx_string_update \
+		mmlx_buttontype_create \
 		mmlx_close \
 		mmlx_create_child \
+		mmlx_create_id \
 		mmlx_create_parent \
 		mmlx_create_win \
-		mmlx_create_id \
+		mmlx_cursorpos_update \
 		mmlx_data_fill \
 		mmlx_error \
 		mmlx_get_parent \
 		mmlx_init_tmlx \
+		mmlx_inside_data_button \
+		mmlx_keypress \
+		mmlx_keyrelease \
+		mmlx_mouse_press \
+		mmlx_mouse_release \
+		mmlx_mouse_xy \
+		mmlx_onbutton \
+		mmlx_onslider \
+		mmlx_onswitch \
 		mmlx_refresh \
-		mmlx_inside_data_button
+		mmlx_slider_catched \
+		mmlx_slider_link \
+		mmlx_slider_pressed \
+		mmlx_slider_released \
+		mmlx_slider_unlink \
+		mmlx_slider_update \
+		mmlx_slidertype_create \
+		mmlx_string_create \
+		mmlx_string_remove \
+		mmlx_string_update \
+		mmlx_switch_link \
+		mmlx_switch_pressed \
+		mmlx_switch_unlink \
+		mmlx_switch_update \
+		mmlx_switchtype_create
 
 ## List of Utilities
 

@@ -6,13 +6,13 @@
 /*   By: gsimeon <gsimeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/15 20:16:04 by gsimeon           #+#    #+#             */
-/*   Updated: 2017/05/04 06:21:59 by gsimeon          ###   ########.fr       */
+/*   Updated: 2017/05/13 08:02:22 by gsimeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mmlx.h"
 
-int		mmlx_keypress(int keycode, t_mlx *mlx)
+int		mmlx_keypress(int keycode, t_mmlx *mlx)
 {
 	if (mlx->f_keypress)
 	{

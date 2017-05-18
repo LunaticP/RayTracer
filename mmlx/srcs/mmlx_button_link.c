@@ -6,13 +6,13 @@
 /*   By: gsimeon <gsimeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/05 12:25:18 by gsimeon           #+#    #+#             */
-/*   Updated: 2017/05/06 02:15:54 by gsimeon          ###   ########.fr       */
+/*   Updated: 2017/05/13 07:58:20 by gsimeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mmlx.h"
 
-static int	mmlx_check_data(t_clickon *dst, t_buttonlink *data, t_mlx *win)
+static int	mmlx_check_data(t_clickon *dst, t_buttonlink *data, t_mmlx *win)
 {
 	if (!win || !data)
 		return (mmlx_error(__func__, LACK_DATA));
@@ -40,7 +40,7 @@ static int	mmlx_button_freespace(int *i, int *button_used)
 	return (0);
 }
 
-int			mmlx_button_link(t_mlx *win, t_buttonlink *data)
+int			mmlx_button_link(t_mmlx *win, t_buttonlink *data)
 {
 	int			i;
 

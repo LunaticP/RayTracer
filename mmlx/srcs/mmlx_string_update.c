@@ -6,13 +6,13 @@
 /*   By: gsimeon <gsimeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/02 06:39:04 by gsimeon           #+#    #+#             */
-/*   Updated: 2017/05/02 08:17:28 by gsimeon          ###   ########.fr       */
+/*   Updated: 2017/05/13 08:07:04 by gsimeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mmlx.h"
 
-void	mmlx_string_update(t_mlx *mlx)
+void	mmlx_string_update(t_mmlx *mlx)
 {
 	int		i;
 

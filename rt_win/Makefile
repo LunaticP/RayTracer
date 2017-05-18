@@ -1,6 +1,6 @@
 ## Name of Project
 
-NAME = rt_win.a
+NAME = librt_win.a
 
 ## Color for compilating (red)
 
@@ -40,31 +40,41 @@ CC = clang $(FLAGS) $(INC) $(MMLX_INC) $(EXTERN_INC)
 SRC_FT = bc_decrease \
 		bc_increase \
 		bc_modify_pitch \
-		bl_modify_pitch \
 		bl_decr_flt \
 		bl_incr_flt \
+		bl_modify_pitch \
 		bl_settings_cone \
 		bl_settings_cylinder \
 		bl_settings_default \
 		bl_settings_sphere \
 		bp_decrease_f \
-		bp_modify_pitch \
 		bp_increase_f \
+		bp_modify_pitch \
+		mod_color_block \
+		mod_color \
+		mod_pitch \
+		rt_fclose \
+		rt_fkeypress \
 		rt_win_error \
-		rt_win_getpitch \
-		rt_win_unused_pitch \
 		rt_win_ftoa \
+		rt_win_getpitch \
+		sc_default \
+		sl_color_int \
+		sl_default_flt \
+		sl_pitch_flt \
+		sm_color_blue \
+		sm_color_green \
+		sm_color_red \
+		sm_default_flt \
+		str_get_color \
 		str_get_value \
+		swc_basic \
+		swl_basic_flt \
+		swp_basic_f \
 		win_create_cone \
 		win_create_cylinder \
 		win_create_plan \
-		win_create_sphere \
-		sl_default_flt \
-		sl_pitch_flt \
-		sc_default \
-		sc_pitch \
-		mod_pitch \
-		sm_default_flt
+		win_create_sphere
 
 ## List of Utilities
 
@@ -102,7 +112,7 @@ clean:
 
 fclean: clean
 	@rm -f $(NAME)
-	@make fclean -j -C $(MMLX_DIR)
+	@make aclean -j -C $(MMLX_DIR)
 	@echo "$(COLOR)$(NAME)\t$(RED)[Deleted]$(COLOR_OUT)"
 
 re: fclean all

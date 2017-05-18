@@ -6,13 +6,13 @@
 /*   By: gsimeon <gsimeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/06 08:09:46 by gsimeon           #+#    #+#             */
-/*   Updated: 2017/05/06 11:53:42 by gsimeon          ###   ########.fr       */
+/*   Updated: 2017/05/13 07:58:50 by gsimeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mmlx.h"
 
-void	mmlx_button_released(t_mlx *mlx, int x, int y)
+void	mmlx_button_released(t_mmlx *mlx, int x, int y)
 {
 	int		i;
 

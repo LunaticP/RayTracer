@@ -1,8 +1,5 @@
 #include <rt.h>
 
-# define STEREO		0
-# define OUT_FILE	0
-
 cl_float4		vec_norm(cl_float4 vec)
 {
 	cl_float4	norm;
@@ -110,8 +107,11 @@ void	dsr(t_mlx *mlx)
 	}
 }
 
-int		ray_loop(t_mlx *mlx)
+int		ray_loop(void *param)
 {
+	t_mlx	*mlx;
+
+	mlx = (t_mlx*)param;
 	if (mlx->key & REDRAW)
 	{
 		k_apply(mlx->key, &mlx->s);
@@ -141,45 +141,52 @@ int		ray_loop(t_mlx *mlx)
 		mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img, 0, 0);
 		if (OUT_FILE && !mlx->s.cam.fast)
 			img_file(mlx->p);
-		mlx->key -= REDRAW;
+		mlx->key &= ~REDRAW;
 	}
 	return (0);
 }
 
 int		main(int ac, char **av)
 {
-//	t_datawin	win;
+	t_datawin	data;
+	t_mmlx		*parent;
 	static t_mlx	mlx;
 	size_t			pws[2];
 	size_t			pws_f[2];
 	(void)ac;
 
 	mlx = rt_get_parser(av[1], mlx); // mlx tex, return struct mlx
-	// mlx.s = s_test();
+
 	if (!(ocl_new_prog("./cl_src/rt.cl", 0x1000000 , &(mlx.prog))))
 		return (0);
-//	win = (t_datawin){.name = "test", .xwin = WIDTH, .ywin = HEIGHT, .f_keypress = my_key_func, .data_kp = &mlx, };
-//	mlx.s = ft_init_scene();
-	// mlx.tex = get_texture(le fameux char etoile etoile);
+
 	mlx.mlx = mlx_init();
-	mlx.win = mlx_new_window(mlx.mlx, W, H, "rtvocl");
-	mlx.img = mlx_new_image(mlx.mlx, WIDTH, HEIGHT);
-	mlx.p = (unsigned char *)mlx_get_data_addr(mlx.img, &(mlx.bp), &(mlx.sl), &(mlx.endian));
-	mlx.tmp = mlx_new_image(mlx.mlx, WIDTH, HEIGHT);
-	mlx.atmp = mlx_get_data_addr(mlx.tmp, &(mlx.bp), &(mlx.sl), &(mlx.endian));
-	mlx.tmp2 = mlx_new_image(mlx.mlx, WIDTH, HEIGHT);
-	mlx.atmp2 = mlx_get_data_addr(mlx.tmp, &(mlx.bp), &(mlx.sl), &(mlx.endian));
+
+	data = (t_datawin){.name = "rtvocl", .xwin = W, .ywin = H,
+			.f_keypress = k_press, .data_kp = &mlx,
+			.f_keyrelease = k_rel, .data_kr = &mlx,
+			.f_loop = ray_loop, .data_lp = &mlx};
+	parent = mmlx_create_parent(mlx.mlx, &data);
+	win_create_plan(parent, &mlx.s.obj[0]);
+
+	mlx.win = parent->win;
+	mlx.img = parent->img;
+	mlx.p = (unsigned char*)parent->data;
+
+	mlx.atmp = (char*)malloc(WIDTH * HEIGHT * parent->bpp / 8);
+	mlx.atmp2 = (char*)malloc(WIDTH * HEIGHT * parent->bpp / 8);
+
 	mlx.s.cam.viewplane.z = 8;
 	mlx.s.cam.chunk.x = -1;
 	mlx.s.cam.chunk.y = -1;
 	mlx.s.cam.dsr = 1;
-	mlx.p[0] = 0;
+//	mlx.p[0] = 0;
 	pws[0] = WIDTH / mlx.s.cam.viewplane.z;
 	pws[1] = HEIGHT / mlx.s.cam.viewplane.z;
 	pws_f[0] = W / 2;
 	pws_f[1] = H / 2;
 	mlx.key = REDRAW;
-	// printf("1\n");
+
 	ocl_new_kernel(&(mlx.prog), 5, pws, "norowowowowd", "raytracer", WIDTH * HEIGHT
 			* sizeof(int), mlx.p, sizeof(t_cam),
 			&(mlx.s.cam), sizeof(t_obj) * mlx.s.n_o,
@@ -187,7 +194,6 @@ int		main(int ac, char **av)
 			sizeof(t_obj) * mlx.s.n_l,
 			mlx.s.light, sizeof(int) * (mlx.tex[0] + 1),
 			mlx.tex, 2);
-	// printf("2\n");
 	ocl_new_kernel(&(mlx.prog), 3, pws_f, "norowowd", "rt_fast", WIDTH * HEIGHT
 			* sizeof(int), mlx.p, sizeof(t_cam), &(mlx.s.cam), sizeof(t_obj) * mlx.s.n_o,
 			mlx.s.obj, 2);
@@ -196,9 +202,8 @@ int		main(int ac, char **av)
 	ocl_new_kernel(&(mlx.prog), 4, pws, "nowoworowd", "stereo", WIDTH * HEIGHT
 			* sizeof(int), mlx.p, WIDTH * HEIGHT * sizeof(int), mlx.atmp, WIDTH * HEIGHT * sizeof(int), mlx.p,
 			sizeof(size_t) * 2, pws, 2);
-	mlx_hook(mlx.win, 2, (1L << 0), my_key_func, &mlx);
-	mlx_hook(mlx.win, 3, (1L << 1), &k_rel, &mlx);
-	mlx_loop_hook(mlx.mlx, ray_loop, &mlx);
+
+
 	mlx_loop(mlx.mlx);
 	ocl_finish(mlx.prog);
 	return (0);

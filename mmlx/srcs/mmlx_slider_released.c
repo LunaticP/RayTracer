@@ -6,13 +6,13 @@
 /*   By: gsimeon <gsimeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/06 04:30:39 by gsimeon           #+#    #+#             */
-/*   Updated: 2017/05/07 13:20:55 by gsimeon          ###   ########.fr       */
+/*   Updated: 2017/05/13 08:07:04 by gsimeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mmlx.h"
 
-void	mmlx_slider_released(t_mlx *mlx, int x, int y)
+void	mmlx_slider_released(t_mmlx *mlx, int x, int y)
 {
 	int		i;
 

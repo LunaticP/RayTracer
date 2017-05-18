@@ -6,13 +6,13 @@
 /*   By: gsimeon <gsimeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/04 14:11:37 by gsimeon           #+#    #+#             */
-/*   Updated: 2017/05/07 13:04:33 by gsimeon          ###   ########.fr       */
+/*   Updated: 2017/05/13 08:07:04 by gsimeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mmlx.h"
 
-static void	mmlx_old_cursorbar(t_mlx *mlx, int i)
+static void	mmlx_old_cursorbar(t_mmlx *mlx, int i)
 {
 	int		x;
 	int		y;
@@ -39,7 +39,7 @@ static void	mmlx_old_cursorbar(t_mlx *mlx, int i)
 	}
 }
 
-static void	mmlx_cursorbar(t_mlx *mlx, char *texture, int i)
+static void	mmlx_cursorbar(t_mmlx *mlx, char *texture, int i)
 {
 	int		x;
 	int		y;
@@ -58,7 +58,8 @@ static void	mmlx_cursorbar(t_mlx *mlx, char *texture, int i)
 		while (x < mlx->slider_tab[i].data.cursor_sizex)
 		{
 			if (mmlx_inside_data_button(mlx, cursor_start + x * mlx->bpp / 8
-														+ y * mlx->sizeline))
+					+ y * mlx->sizeline) &&
+					((uint32_t*)(texture + cursor_x * y))[x] != BG_BUTTON_COLOR)
 				((uint32_t*)(cursor_start + y * mlx->sizeline))[x] =
 					((uint32_t*)(texture + cursor_x * y))[x];
 			x++;
@@ -67,7 +68,7 @@ static void	mmlx_cursorbar(t_mlx *mlx, char *texture, int i)
 	}
 }
 
-static void	mmlx_sliderbar(t_mlx *mlx, char *texture, int i)
+static void	mmlx_sliderbar(t_mmlx *mlx, char *texture, int i)
 {
 	int		x;
 	int		y;
@@ -93,7 +94,7 @@ static void	mmlx_sliderbar(t_mlx *mlx, char *texture, int i)
 	}
 }
 
-static void	mmlx_old_sliderbar(t_mlx *mlx, int i)
+static void	mmlx_old_sliderbar(t_mmlx *mlx, int i)
 {
 	int		x;
 	int		y;
@@ -118,7 +119,7 @@ static void	mmlx_old_sliderbar(t_mlx *mlx, int i)
 	}
 }
 
-int			mmlx_slider_update(t_mlx *mlx, int i)
+int			mmlx_slider_update(t_mmlx *mlx, int i)
 {
 	mmlx_old_cursorbar(mlx, i);
 	if (!mlx->slider_used[i])

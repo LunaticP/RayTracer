@@ -6,7 +6,7 @@
 /*   By: gsimeon <gsimeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/09 04:15:50 by gsimeon           #+#    #+#             */
-/*   Updated: 2017/05/09 18:52:28 by gsimeon          ###   ########.fr       */
+/*   Updated: 2017/05/18 16:45:02 by gsimeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,12 +172,14 @@
 # define DFLT_MAX_PARENT		10
 # define DFLT_MAX_CHILD			10
 
-# define DFLT_MAX_BUTTONTYPE	20
-# define DFLT_MAX_SLIDERTYPE	10
+# define DFLT_MAX_BUTTONTYPE	5
+# define DFLT_MAX_SLIDERTYPE	6
+# define DFLT_MAX_SWITCHTYPE	5
 
-# define DFLT_MAX_BUTTONWIN		50
+# define DFLT_MAX_BUTTONWIN		30
 # define DFLT_MAX_STRINGWIN		50
 # define DFLT_MAX_SLIDERWIN		10
+# define DFLT_MAX_SWITCHWIN		10
 
 /*
 ** ------------------------ Default Settings ------------------------
@@ -214,6 +216,7 @@
 */
 
 # define KEYPRESS		2
+# define KEYRELEASE		3
 # define BUTTONPRESS	4
 # define BUTTONRELEASE	5
 # define MOTIONNOTIFY	6
@@ -227,6 +230,7 @@
 */
 
 # define KEYPRESSMASK			(1L << 0)
+# define KEYRELEASEMASK			(1L << 1)
 # define BUTTONPRESSMASK		(1L << 2)
 # define BUTTONRELEASEMASK		(1L << 3)
 # define POINTERMOTIONMASK		(1L << 6)
@@ -253,9 +257,12 @@ enum			e_mmlx_error_array
 	MAX_CHILD_ERROR,
 	MAX_BUTTONTYPE_ERROR,
 	MAX_SLIDERTYPE_ERROR,
+	MAX_SWITCHTYPE_ERROR,
 	MAX_BUTTONWIN_ERROR,
 	MAX_SLIDERWIN_ERROR,
+	MAX_SWITCHWIN_ERROR,
 	BAD_STATUS_BUTTON,
+	BAD_STATUS_SWITCH,
 	MISSED_IMG,
 	LACK_DATA,
 	DFLT_BUTTON_NOIMG,
@@ -271,27 +278,38 @@ enum			e_mmlx_error_array
 	CURSOR_WRONG_Y,
 	BUTTON_BAD_ID,
 	SLIDER_BAD_ID,
+	SWITCH_BAD_ID,
 	BUTTON_BAD_FUNCTION,
 	SLIDER_BAD_FUNCTION,
+	SWITCH_BAD_FUNCTION,
 	BUTTON_BAD_FUNC_DATA,
 	SLIDER_BAD_FUNC_DATA,
+	SWITCH_BAD_FUNC_DATA,
 	BUTTON_BAD_XPOS,
 	SLIDER_BAD_XPOS,
 	CURSOR_BAD_XPOS,
+	SWITCH_BAD_XPOS,
 	BUTTON_BAD_YPOS,
 	SLIDER_BAD_YPOS,
 	CURSOR_BAD_YPOS,
+	SWITCH_BAD_YPOS,
 	BUTTON_NEGATIVE_ID,
 	SLIDER_NEGATIVE_ID,
+	STRING_NEGATIVE_ID,
+	SWITCH_NEGATIVE_ID,
 	BUTTON_UNUSED_ID,
 	SLIDER_UNUSED_ID,
+	STRING_UNUSED_ID,
+	SWITCH_UNUSED_ID,
 	WRONG_XSTART_STRING,
 	WRONG_YSTART_STRING,
 	LACK_OF_DATA_FOR_STRING,
 	TOO_MANY_DATA_FOR_STRING,
 	MAX_STRINGWIN_ERROR,
-	STRING_NEGATIVE_ID,
-	STRING_UNUSED_ID,
+	SWITCH_ON_NOIMG,
+	SWITCH_OFF_NOIMG,
+	SWITCH_WRONG_X,
+	SWITCH_WRONG_Y,
 	UNEXPECTED_ERROR,
 	ENUM_ERROR_SIZE
 };
@@ -305,11 +323,14 @@ static const char *g_mmlx_error_array[ENUM_ERROR_SIZE] = {
 	"New Child can't be Malloc.",
 	"No more Parent can be created, check the mmlx.h.",
 	"No more Child can be created, check the mmlx.h.",
-	"No more Buttontype can be created, check the mmlx.h.",
-	"No more Slidertype can be created, check the mmlx.h.",
-	"No more Button in this win can be created, check the mmlx.h.",
-	"No more Slider in this win can be created, check the mmlx.h.",
-	"Internal error, the status of button is wrong, Don't touch to t_mlx!!",
+	"No more {Buttontype} can be created, check the mmlx.h.",
+	"No more {Slidertype} can be created, check the mmlx.h.",
+	"No more {Switchtype} can be created, check the mmlx.h.",
+	"No more {Button} in this win can be created, check the mmlx.h.",
+	"No more {Slider} in this win can be created, check the mmlx.h.",
+	"No more {Switch} in this win can be created, check the mmlx.h.",
+	"Internal error, the status of {button} is wrong, Don't touch to {t_mmlx}!",
+	"Internal error, the status of {switch} is wrong, Don't touch to {t_mmlx}!",
 	"It seems that the texture has evolved in NULL !",
 	"Where is the data ? A NULL appear in the data.",
 	"Where is the default button image ?",
@@ -317,35 +338,46 @@ static const char *g_mmlx_error_array[ENUM_ERROR_SIZE] = {
 	"where is the fly button image.",
 	"where is the slider image.",
 	"where is the cursor image.",
-	"looks like the button x size is not good.",
-	"looks like the button y size is not good.",
-	"looks like the slider x size is not good.",
-	"looks like the slider y size is not good.",
-	"looks like the cursor x size is not good.",
-	"looks like the cursor y size is not good.",
-	"looks like the ID of the button is wrong.",
-	"looks like the ID of the slider is wrong.",
-	"looks like the function linked for the button is wrong.",
-	"looks like the function linked for the slider is wrong.",
-	"looks like the data linked for the function of the button is wrong.",
-	"looks like the data linked for the function of the slider is wrong.",
-	"looks like the xpos make the button out of the window.",
-	"looks like the xpos make the slider out of the window.",
-	"looks like the xpos make the cursor out of the window.",
-	"looks like the ypos make the button out of the window.",
-	"looks like the ypos make the slider out of the window.",
-	"looks like the ypos make the cursor out of the window.",
-	"The ID is negative, all button are unlink!",
-	"The ID is negative, all slider are unlink!",
-	"The ID of the button is unused, nothing to do!",
-	"The ID of the slider is unused, nothing to do!",
+	"looks like the {button} x size is not good.",
+	"looks like the {button} y size is not good.",
+	"looks like the {slider} x size is not good.",
+	"looks like the {slider} y size is not good.",
+	"looks like the {cursor} x size is not good.",
+	"looks like the {cursor} y size is not good.",
+	"looks like the ID of the {button} is wrong.",
+	"looks like the ID of the {slider} is wrong.",
+	"looks like the ID of the {switch} is wrong.",
+	"looks like the function linked for the {button} is wrong.",
+	"looks like the function linked for the {slider} is wrong.",
+	"looks like the function linked for the {switch} is wrong.",
+	"looks like the {data} linked for the function of the {button} is wrong.",
+	"looks like the {data} linked for the function of the {slider} is wrong.",
+	"looks like the {data} linked for the function of the {switch} is wrong.",
+	"looks like the {xpos} make the {button} out of the window.",
+	"looks like the {xpos} make the {slider} out of the window.",
+	"looks like the {xpos} make the {cursor} out of the window.",
+	"looks like the {xpos} make the {switch} out of the window.",
+	"looks like the {ypos} make the {button} out of the window.",
+	"looks like the {ypos} make the {slider} out of the window.",
+	"looks like the {ypos} make the {cursor} out of the window.",
+	"looks like the {ypos} make the {switch} out of the window.",
+	"The ID is negative, all {button} are unlink!",
+	"The ID is negative, all {slider} are unlink!",
+	"The ID is negative, all {string} are remove!",
+	"The ID is negative, all {switch} are remove!",
+	"The ID of the {button} is unused, nothing to do!",
+	"The ID of the {slider} is unused, nothing to do!",
+	"The ID of the {string} is unused, nothing to do!",
+	"The ID of the {switch} is unused, nothing to do!",
 	"looks like the xpos of a string don't start in the window",
 	"looks like the ypos of a string don't start in the window",
 	"The function and the string are unavailable, please give one of them",
 	"The function and the string are both available, please give just one",
 	"No more Strings in this win can be created, check the mmlx.h.",
-	"The ID is negative, all string are remove!",
-	"The ID of the string is unused, nothing to do!",
+	"Where is the {switch_on} image, here set on (null)",
+	"Where is the {switch_off} image, here set on (null)",
+	"looks like the {switch.size_x} is not good",
+	"looks like the {switch.size_y} is not good",
 	"Unexpected error !"
 };
 
@@ -370,6 +402,10 @@ static const char *g_mmlx_error_array[ENUM_ERROR_SIZE] = {
 # define ST_CURSOR_XCENTER		((1 << 3) | ST_CURSOR_XFIXED)
 # define ST_CURSOR_YCENTER		((1 << 4) | ST_CURSOR_YFIXED)
 
+# define SWITCH_UNUSED		(1 << 0)
+# define SWITCH_ON			(1 << 1)
+# define SWITCH_OFF			(1 << 2)
+
 # define BG_BUTTON_COLOR	0xFF000000
 # define BG_DFLT_COLOR		0x00000000
 
@@ -381,20 +417,30 @@ static const char *g_mmlx_error_array[ENUM_ERROR_SIZE] = {
 ** - int	t_mousefollow(int x, int y, void *data)                 -
 ** - int	t_keypress(int keycode void *data)                      -
 ** - int	t_buttonpress(int id, int keycode, void *data)          -
+** - int	t_switchpress(int id, int status, void *data)           -
 ** ------------------------------------------------------------------
 */
 
 typedef int(*t_mousepress)(int, int, int, void *);
 typedef int(*t_mousefollow)(int, int, void *);
 typedef int(*t_keypress)(int, void *);
+typedef int(*t_close)(void *);
 
 typedef struct	s_datawin
 {
 	char			*name;
+	t_close			f_close;
+	void			*data_cl;
+	t_close			f_loop;
+	void			*data_lp;
 	t_keypress		f_keypress;
 	void			*data_kp;
+	t_keypress		f_keyrelease;
+	void			*data_kr;
 	t_mousepress	f_mousepress;
 	void			*data_mp;
+	t_mousepress	f_mouserelease;
+	void			*data_mr;
 	t_mousefollow	f_followmouse;
 	void			*data_fm;
 	int				xwin;
@@ -420,8 +466,28 @@ typedef struct	s_buttonlink
 	int				id;
 	int				pos_x;
 	int				pos_y;
-
 }				t_buttonlink;
+
+typedef int(*t_switchpress)(int, int, void *);
+
+typedef struct	s_switch
+{
+	char	*switch_on;
+	char	*switch_off;
+	int		size_x;
+	int		size_y;
+}				t_switch;
+
+typedef struct	s_switchlink
+{
+	t_switchpress	f_spress;
+	void			*data_sp;
+	size_t			data_len;
+	int				id;
+	int				pos_x;
+	int				pos_y;
+	int				switch_status;
+}				t_switchlink;
 
 typedef struct	s_slider
 {
@@ -519,7 +585,17 @@ typedef struct	s_slideon
 	int				slider_status;
 }				t_slideon;
 
-typedef struct	s_mlx
+typedef struct	s_switchon
+{
+	t_switchpress	f_switch;
+	void			*data_sp;
+	t_switch		data;
+	int				pos_x;
+	int				pos_y;
+	int				switch_status;
+}				t_switchon;
+
+typedef struct	s_mmlx
 {
 	void			*mlx;
 	void			*win;
@@ -530,8 +606,14 @@ typedef struct	s_mlx
 	char			*name;
 	int				*used;
 	int				*count;
+	t_close			f_close;
+	void			*data_cl;
+	t_close			f_loop;
+	void			*data_lp;
 	t_keypress		f_keypress;
 	void			*data_kp;
+	t_keypress		f_keyrelease;
+	void			*data_kr;
 	t_mousepress	f_mousepress;
 	void			*data_mp;
 	t_mousepress	f_mouserelease;
@@ -544,7 +626,9 @@ typedef struct	s_mlx
 	int				string_used[DFLT_MAX_STRINGWIN];
 	t_slideon		slider_tab[DFLT_MAX_SLIDERWIN];
 	int				slider_used[DFLT_MAX_SLIDERWIN];
-	struct s_mlx	*child_tab[DFLT_MAX_CHILD];
+	t_switchon		switch_tab[DFLT_MAX_SWITCHWIN];
+	int				switch_used[DFLT_MAX_SWITCHWIN];
+	struct s_mmlx	*child_tab[DFLT_MAX_CHILD];
 	int				child_used[DFLT_MAX_CHILD];
 	int				id;
 	int				child;
@@ -553,7 +637,7 @@ typedef struct	s_mlx
 	int				bpp;
 	int				sizeline;
 	int				endian;
-}				t_mlx;
+}				t_mmlx;
 
 /*
 ** ----------------------- Internal Function ------------------------
@@ -578,18 +662,24 @@ void			ml_strdel(char **as);
 */
 
 int				mmlx_onbutton(t_clickon *button, int x, int y);
+void			mmlx_button_flyed(t_mmlx *mlx, int x, int y);
+void			mmlx_button_pressed(t_mmlx *mlx, int x, int y, int keycode);
+void			mmlx_button_released(t_mmlx *mlx, int x, int y);
+int				mmlx_button_update(t_mmlx *mlx, int i);
 
-void			mmlx_button_flyed(t_mlx *mlx, int x, int y);
-void			mmlx_button_pressed(t_mlx *mlx, int x, int y, int keycode);
-void			mmlx_button_released(t_mlx *mlx, int x, int y);
+/*
+**	Switch features
+*/
 
-int				mmlx_button_update(t_mlx *mlx, int i);
+int				mmlx_onswitch(t_switchon *data, int x, int y);
+void			mmlx_switch_pressed(t_mmlx *mlx, int x, int y);
+int				mmlx_switch_update(t_mmlx *mlx, int i);
 
 /*
 **	String features
 */
 
-void			mmlx_string_update(t_mlx *mlx);
+void			mmlx_string_update(t_mmlx *mlx);
 
 /*
 **	Slider features
@@ -597,35 +687,36 @@ void			mmlx_string_update(t_mlx *mlx);
 
 int				mmlx_onslider(t_slideon *slider, int x, int y);
 
-void			mmlx_slider_pressed(t_mlx *mlx, int x, int y);
-void			mmlx_slider_released(t_mlx *mlx, int x, int y);
-void			mmlx_slider_catched(t_mlx *mlx, int x, int y);
+void			mmlx_slider_pressed(t_mmlx *mlx, int x, int y);
+void			mmlx_slider_released(t_mmlx *mlx, int x, int y);
+void			mmlx_slider_catched(t_mmlx *mlx, int x, int y);
 
-void			mmlx_cursorpos_update(t_mlx *mlx, t_slideon *slider,
+void			mmlx_cursorpos_update(t_mmlx *mlx, t_slideon *slider,
 														int pos_x, int pos_y);
-int				mmlx_slider_update(t_mlx *mlx, int i);
+int				mmlx_slider_update(t_mmlx *mlx, int i);
 
 /*
 **	Window Features
 */
 
-int				mmlx_inside_data_button(t_mlx *mlx, void *pixel);
+int				mmlx_inside_data_button(t_mmlx *mlx, void *pixel);
 int				mmlx_create_id(void);
-int				mmlx_create_win(t_mlx *mlx);
-t_mlx			*mmlx_get_parent(int id);
-void			mmlx_init_tmlx(t_mlx *x);
-void			mmlx_data_fill(t_mlx *mlx);
-int				mmlx_refresh(t_mlx *mlx);
+int				mmlx_create_win(t_mmlx *mlx);
+t_mmlx			*mmlx_get_parent(int id);
+void			mmlx_init_tmlx(t_mmlx *x, t_datawin *data);
+void			mmlx_data_fill(t_mmlx *mlx);
+int				mmlx_refresh(t_mmlx *mlx);
 
 /*
 **	Hooked functions
 */
 
-int				mmlx_close(t_mlx *mlx);
-int				mmlx_keypress(int keycode, t_mlx *mlx);
-int				mmlx_mouse_press(int keycode, int x, int y, t_mlx *mlx);
-int				mmlx_mouse_release(int keycode, int x, int y, t_mlx *mlx);
-int				mmlx_mouse_xy(int x, int y, t_mlx *mlx);
+int				mmlx_close(t_mmlx *mlx);
+int				mmlx_keypress(int keycode, t_mmlx *mlx);
+int				mmlx_keyrelease(int keycode, t_mmlx *mlx);
+int				mmlx_mouse_press(int keycode, int x, int y, t_mmlx *mlx);
+int				mmlx_mouse_release(int keycode, int x, int y, t_mmlx *mlx);
+int				mmlx_mouse_xy(int x, int y, t_mmlx *mlx);
 
 /*
 ** ----------------------- External Function ------------------------
@@ -633,17 +724,21 @@ int				mmlx_mouse_xy(int x, int y, t_mlx *mlx);
 ** ------------------------------------------------------------------
 */
 
-t_mlx			*mmlx_create_child(t_mlx *parent, t_datawin *data);
-t_mlx			*mmlx_create_parent(void *mlx, t_datawin *data);
+t_mmlx			*mmlx_create_child(t_mmlx *parent, t_datawin *data);
+t_mmlx			*mmlx_create_parent(void *mlx, t_datawin *data);
 
 int				mmlx_buttontype_create(int id, t_button *data);
 int				mmlx_slidertype_create(int id, t_slider *data);
-int				mmlx_string_create(t_mlx *win, t_stringput *data);
+int				mmlx_switchtype_create(int id, t_switch *data);
+int				mmlx_string_create(t_mmlx *win, t_stringput *data);
 
-int				mmlx_button_link(t_mlx *win, t_buttonlink *data);
-int				mmlx_slider_link(t_mlx *win, t_sliderlink *data);
+int				mmlx_button_link(t_mmlx *win, t_buttonlink *data);
+int				mmlx_slider_link(t_mmlx *win, t_sliderlink *data);
+int				mmlx_switch_link(t_mmlx *win, t_switchlink *data);
 
-int				mmlx_button_unlink(int id, t_mlx *win);
-int				mmlx_string_remove(int id, t_mlx *win);
+int				mmlx_button_unlink(int id, t_mmlx *win);
+int				mmlx_switch_unlink(int id, t_mmlx *win);
+int				mmlx_slider_unlink(int id, t_mmlx *win);
+int				mmlx_string_remove(int id, t_mmlx *win);
 
 #endif

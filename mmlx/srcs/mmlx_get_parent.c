@@ -6,15 +6,15 @@
 /*   By: gsimeon <gsimeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/25 18:30:21 by gsimeon           #+#    #+#             */
-/*   Updated: 2017/05/04 07:56:38 by gsimeon          ###   ########.fr       */
+/*   Updated: 2017/05/13 08:01:26 by gsimeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mmlx.h"
 
-t_mlx	*mmlx_get_parent(int id)
+t_mmlx	*mmlx_get_parent(int id)
 {
-	static t_mlx	parent[DFLT_MAX_PARENT];
+	static t_mmlx	parent[DFLT_MAX_PARENT];
 	static int		used[DFLT_MAX_PARENT];
 	static int		current_parent;
 	int				i;

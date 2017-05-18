@@ -3,30 +3,34 @@
 /*                                                        :::      ::::::::   */
 /*   key.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aviau <aviau@student.42.fr>                +#+  +:+       +#+        */
+/*   By: gsimeon <gsimeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/30 07:43:39 by aviau             #+#    #+#             */
-/*   Updated: 2017/05/15 15:06:00 by aviau            ###   ########.fr       */
+/*   Updated: 2017/05/18 17:09:37 by gsimeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
 
-void	k_press(int key, int *k)
+int		k_press(int key, void *param)
 {
-	(LEFT && !(*k & POS_XM)) ? *k += POS_XM : 0;
-	(RIGHT && !(*k & POS_XP)) ? *k += POS_XP : 0;
-	(UP && !(*k & POS_ZP)) ? *k += POS_ZP : 0;
-	(DOWN && !(*k & POS_ZM)) ? *k += POS_ZM : 0;
-	(P_UP && !(*k & POS_YP)) ? *k += POS_YP : 0;
-	(P_DOWN && !(*k & POS_YM)) ? *k += POS_YM : 0;
-	(KP_8 && !(*k & ROT_XM)) ? *k += ROT_XM : 0;
-	(KP_2 && !(*k & ROT_XP)) ? *k += ROT_XP : 0;
-	(KP_7 && !(*k & ROT_ZP)) ? *k += ROT_ZP : 0;
-	(KP_9 && !(*k & ROT_ZM)) ? *k += ROT_ZM : 0;
-	(KP_4 && !(*k & ROT_YP)) ? *k += ROT_YP : 0;
-	(KP_6 && !(*k & ROT_YM)) ? *k += ROT_YM : 0;
-	(*k ^ REDRAW && !(SPACE)) ? *k |= REDRAW : 0;
+	int *k;
+
+	k = &((t_mlx*)param)->key;
+	(LEFT && !(*k & POS_XM)) ? *k |= POS_XM : 0;
+	(RIGHT && !(*k & POS_XP)) ? *k |= POS_XP : 0;
+	(UP && !(*k & POS_ZP)) ? *k |= POS_ZP : 0;
+	(DOWN && !(*k & POS_ZM)) ? *k |= POS_ZM : 0;
+	(P_UP && !(*k & POS_YP)) ? *k |= POS_YP : 0;
+	(P_DOWN && !(*k & POS_YM)) ? *k |= POS_YM : 0;
+	(KP_8 && !(*k & ROT_XM)) ? *k |= ROT_XM : 0;
+	(KP_2 && !(*k & ROT_XP)) ? *k |= ROT_XP : 0;
+	(KP_7 && !(*k & ROT_ZP)) ? *k |= ROT_ZP : 0;
+	(KP_9 && !(*k & ROT_ZM)) ? *k |= ROT_ZM : 0;
+	(KP_4 && !(*k & ROT_YP)) ? *k |= ROT_YP : 0;
+	(KP_6 && !(*k & ROT_YM)) ? *k |= ROT_YM : 0;
+	((*k ^ REDRAW) && !(SPACE)) ? *k |= REDRAW : 0;
+	return (0);
 }
 
 int		k_rel(int key, void *param)
@@ -34,24 +38,24 @@ int		k_rel(int key, void *param)
 	int *k;
 
 	k = &((t_mlx*)param)->key;
-	(LEFT) ? *k -= POS_XM : 0;
-	(RIGHT) ? *k -= POS_XP : 0;
-	(UP) ? *k -= POS_ZP : 0;
-	(DOWN) ? *k -= POS_ZM : 0;
-	(P_UP) ? *k -= POS_YP : 0;
-	(P_DOWN) ? *k -= POS_YM : 0;
-	(KP_8) ? *k -= ROT_XM : 0;
-	(KP_2) ? *k -= ROT_XP : 0;
-	(KP_7) ? *k -= ROT_ZP : 0;
-	(KP_9) ? *k -= ROT_ZM : 0;
-	(KP_4) ? *k -= ROT_YP : 0;
-	(KP_6) ? *k -= ROT_YM : 0;
+	(LEFT) ? *k &= ~POS_XM : 0;
+	(RIGHT) ? *k &= ~POS_XP : 0;
+	(UP) ? *k &= ~POS_ZP : 0;
+	(DOWN) ? *k &= ~POS_ZM : 0;
+	(P_UP) ? *k &= ~POS_YP : 0;
+	(P_DOWN) ? *k &= ~POS_YM : 0;
+	(KP_8) ? *k &= ~ROT_XM : 0;
+	(KP_2) ? *k &= ~ROT_XP : 0;
+	(KP_7) ? *k &= ~ROT_ZP : 0;
+	(KP_9) ? *k &= ~ROT_ZM : 0;
+	(KP_4) ? *k &= ~ROT_YP : 0;
+	(KP_6) ? *k &= ~ROT_YM : 0;
 	if (SPACE)
 	{
 		if (*k & BSPACE)
-			*k -= BSPACE;
+			*k &= ~BSPACE;
 		else
-			*k += BSPACE;
+			*k |= BSPACE;
 	}
 	if (!(*k & REDRAW))
 		*k |= REDRAW;

@@ -6,13 +6,13 @@
 /*   By: gsimeon <gsimeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/26 00:54:53 by gsimeon           #+#    #+#             */
-/*   Updated: 2017/05/04 08:07:59 by gsimeon          ###   ########.fr       */
+/*   Updated: 2017/05/13 08:42:32 by gsimeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mmlx.h"
 
-int		mmlx_create_win(t_mlx *mlx)
+int		mmlx_create_win(t_mmlx *mlx)
 {
 	if (!(mlx->win = mlx_new_window(mlx->mlx, mlx->xwin, mlx->ywin, mlx->name)))
 		return (mmlx_error(__func__, NEW_WIN_ERROR));
@@ -32,6 +32,7 @@ int		mmlx_create_win(t_mlx *mlx)
 		&mlx->sizeline, &mlx->endian);
 	mmlx_data_fill(mlx);
 	mlx_hook(mlx->win, KEYPRESS, KEYPRESSMASK, mmlx_keypress, mlx);
+	mlx_hook(mlx->win, KEYRELEASE, KEYRELEASEMASK, mmlx_keyrelease, mlx);
 	mlx_hook(mlx->win, DESTROYNOTIFY, EXPOSUREMASK, mmlx_close, mlx);
 	mlx_hook(mlx->win, MOTIONNOTIFY, POINTERMOTIONMASK, mmlx_mouse_xy, mlx);
 	mlx_hook(mlx->win, BUTTONPRESS, BUTTONPRESSMASK, mmlx_mouse_press, mlx);

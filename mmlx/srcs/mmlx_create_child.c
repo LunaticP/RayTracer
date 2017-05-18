@@ -6,19 +6,19 @@
 /*   By: gsimeon <gsimeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/26 01:01:18 by gsimeon           #+#    #+#             */
-/*   Updated: 2017/04/10 00:15:34 by gsimeon          ###   ########.fr       */
+/*   Updated: 2017/05/13 10:50:13 by gsimeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mmlx.h"
 
-static void	mmlx_fill_child(t_mlx *parent, t_datawin *data, int i)
+static void	mmlx_fill_child(t_mmlx *parent, t_datawin *data, int i)
 {
-	ml_memset(parent->child_tab[i], 0, sizeof(t_mlx));
+	ml_memset(parent->child_tab[i], 0, sizeof(t_mmlx));
 	parent->child_tab[i]->mlx = parent->mlx;
 	parent->child_tab[i]->count = &(parent->child);
 	parent->child_tab[i]->used = &(parent->child_used[i]);
-	mmlx_init_tmlx(parent->child_tab[i]);
+	mmlx_init_tmlx(parent->child_tab[i], data);
 	if (data && data->xwin <= DFLT_MAX_XWIN && data->xwin >= DFLT_MIN_XWIN)
 		parent->child_tab[i]->xwin = data->xwin;
 	else
@@ -33,7 +33,7 @@ static void	mmlx_fill_child(t_mlx *parent, t_datawin *data, int i)
 		parent->child_tab[i]->name = ml_strdup(data->name);
 }
 
-t_mlx		*mmlx_create_child(t_mlx *parent, t_datawin *data)
+t_mmlx		*mmlx_create_child(t_mmlx *parent, t_datawin *data)
 {
 	int		i;
 
@@ -45,7 +45,7 @@ t_mlx		*mmlx_create_child(t_mlx *parent, t_datawin *data)
 		mmlx_error(__func__, MAX_CHILD_ERROR);
 		return (NULL);
 	}
-	if (!(parent->child_tab[i] = (t_mlx*)malloc(sizeof(t_mlx))))
+	if (!(parent->child_tab[i] = (t_mmlx*)malloc(sizeof(t_mmlx))))
 	{
 		mmlx_error(__func__, NEW_CHILD_ERROR);
 		return (NULL);

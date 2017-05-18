@@ -6,13 +6,13 @@
 /*   By: gsimeon <gsimeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/06 00:38:10 by gsimeon           #+#    #+#             */
-/*   Updated: 2017/05/07 13:20:46 by gsimeon          ###   ########.fr       */
+/*   Updated: 2017/05/13 08:07:04 by gsimeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mmlx.h"
 
-void	mmlx_slider_pressed(t_mlx *mlx, int x, int y)
+void	mmlx_slider_pressed(t_mmlx *mlx, int x, int y)
 {
 	int		i;
 	float	ratio_x;

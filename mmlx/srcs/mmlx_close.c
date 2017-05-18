@@ -6,22 +6,25 @@
 /*   By: gsimeon <gsimeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/25 21:15:51 by gsimeon           #+#    #+#             */
-/*   Updated: 2017/05/06 08:07:46 by gsimeon          ###   ########.fr       */
+/*   Updated: 2017/05/13 11:05:26 by gsimeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mmlx.h"
 
-static void	mmlx_free_button_and_string(t_mlx *win)
+static void	mmlx_free_button_and_string(t_mmlx *win)
 {
 	size_t		id;
 
 	id = 0;
 	while (id < DFLT_MAX_BUTTONWIN)
-	{
-		ml_memdel(&win->button_tab[id].data_bp);
-		id++;
-	}
+		ml_memdel(&win->button_tab[id++].data_bp);
+	id = 0;
+	while (id < DFLT_MAX_SLIDERWIN)
+		ml_memdel(&win->slider_tab[id++].data_sm);
+	id = 0;
+	while (id < DFLT_MAX_SWITCHWIN)
+		ml_memdel(&win->switch_tab[id++].data_sp);
 	id = 0;
 	while (id < DFLT_MAX_STRINGWIN)
 	{
@@ -30,7 +33,7 @@ static void	mmlx_free_button_and_string(t_mlx *win)
 	}
 }
 
-static void	mmlx_destroy(t_mlx *mlx)
+static void	mmlx_destroy(t_mmlx *mlx)
 {
 	mlx_destroy_image(mlx->mlx, mlx->img);
 	mlx_destroy_image(mlx->mlx, mlx->img_button);
@@ -39,7 +42,7 @@ static void	mmlx_destroy(t_mlx *mlx)
 	mmlx_free_button_and_string(mlx);
 }
 
-static void	mmlx_free_struct(t_mlx *mlx)
+static void	mmlx_free_struct(t_mmlx *mlx)
 {
 	int		i;
 
@@ -57,7 +60,7 @@ static void	mmlx_free_struct(t_mlx *mlx)
 		exit(0);
 }
 
-int			mmlx_close(t_mlx *mlx)
+int			mmlx_close(t_mmlx *mlx)
 {
 	if (mlx->used)
 		*(mlx->used) = 0;

@@ -6,13 +6,13 @@
 /*   By: gsimeon <gsimeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/09 17:58:50 by gsimeon           #+#    #+#             */
-/*   Updated: 2017/05/09 19:16:55 by gsimeon          ###   ########.fr       */
+/*   Updated: 2017/05/13 08:07:04 by gsimeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt_win.h"
 
-int		bl_modify_pitch(t_mlx *win, t_fslider *slider, int x, int y)
+int		bl_modify_pitch(t_mmlx *win, t_fslider *slider, int x, int y)
 {
 	t_buttonlink	link;
 

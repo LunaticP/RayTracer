@@ -6,13 +6,13 @@
 /*   By: gsimeon <gsimeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/23 19:06:39 by gsimeon           #+#    #+#             */
-/*   Updated: 2017/05/07 17:44:49 by gsimeon          ###   ########.fr       */
+/*   Updated: 2017/05/13 08:07:04 by gsimeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt_win.h"
 
-int		bl_incr_flt(cl_float *value, t_mlx *win, float *pitch, t_pos *pos)
+int		bl_incr_flt(cl_float *value, t_mmlx *win, float *pitch, t_pos *pos)
 {
 	t_buttonlink	link;
 	t_fbutton		button;
