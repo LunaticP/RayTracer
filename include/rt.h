@@ -6,7 +6,7 @@
 /*   By: gsimeon <gsimeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/11 06:10:10 by jplevy            #+#    #+#             */
-/*   Updated: 2017/05/18 20:22:53 by gsimeon          ###   ########.fr       */
+/*   Updated: 2017/05/18 20:47:53 by gsimeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,8 @@ typedef struct		s_mlx
 	t_scene			s;
 	t_ocl_prog		prog;
 	int				tab_size[5];
+	int				mouse[2];
+	int				oid;
 }					t_mlx;
 
 int					k_rel(int key, void *param);
