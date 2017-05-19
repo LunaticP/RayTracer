@@ -6,7 +6,7 @@
 /*   By: gsimeon <gsimeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/11 06:10:10 by jplevy            #+#    #+#             */
-/*   Updated: 2017/05/18 20:47:53 by gsimeon          ###   ########.fr       */
+/*   Updated: 2017/05/18 21:23:21 by gsimeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 # define USAGE "./rtv1 file\n"
 # define DEBUG	0
-# define DSR	2
+# define DSR	1
 # define W		1280
 # define H		720
 # define STEREO		0
@@ -103,11 +103,13 @@ typedef struct		s_mlx
 	int				tab_size[5];
 	int				mouse[2];
 	int				oid;
+	t_mmlx			*parent;
 }					t_mlx;
 
 int					k_rel(int key, void *param);
 int					k_press(int key, void *param);
 void				k_apply(int key, t_scene *s);
+int					m_press(int keycode, int x, int y, void *param);
 int					ray_loop(void *param);
 
 int					*get_texture(char **file);

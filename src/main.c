@@ -142,10 +142,27 @@ int		ray_loop(void *param)
 		if (OUT_FILE && !mlx->s.cam.fast)
 			img_file(mlx->p);
 		mlx->key &= ~REDRAW;
-		printf("%d\n", mlx->oid);
+	//	printf("%d\n", mlx->oid);
 	}
 	return (0);
 }
+
+int		m_press(int keycode, int x, int y, void *param)
+{
+	t_mlx	*mlx;
+
+	mlx = (t_mlx*)param;
+	if (keycode == L_CLICK && 0 <= x && x < W && 0 <= y && y < H)
+	{
+		mlx->mouse[0] = x;
+		mlx->mouse[1] = y;
+		printf("x : %d | y : %d \t %d\n", x, y, mlx->oid);
+		ocl_enqueue_kernel(&(mlx->prog), "rt_fast");
+		win_create_plan(mlx->parent, &mlx->s.obj[mlx->oid]);
+	}
+	return (0);
+}
+
 
 int		main(int ac, char **av)
 {
@@ -165,12 +182,12 @@ int		main(int ac, char **av)
 
 	data = (t_datawin){.name = "rtvocl", .xwin = W, .ywin = H,
 			.f_keypress = k_press, .data_kp = &mlx,
+			.f_mousepress = m_press, .data_mp = &mlx,
 			.f_keyrelease = k_rel, .data_kr = &mlx,
 			.f_loop = ray_loop, .data_lp = &mlx};
 	parent = mmlx_create_parent(mlx.mlx, &data);
-	//win_create_plan(parent, &mlx.s.obj[0]);
 	mlx.win = parent->win;
-
+	mlx.parent = parent;
 	if (DSR > 1)
 	{
 		mlx_destroy_image(parent->mlx, parent->img);
@@ -195,8 +212,6 @@ int		main(int ac, char **av)
 	pws_f[0] = W / 2;
 	pws_f[1] = H / 2;
 	mlx.key = REDRAW;
-	mlx.mouse[0] = W / 2;
-	mlx.mouse[1] = H / 2;
 	ocl_new_kernel(&(mlx.prog), 5, pws, "norowowowowd", "raytracer", WIDTH * HEIGHT
 			* sizeof(int), mlx.p, sizeof(t_cam),
 			&(mlx.s.cam), sizeof(t_obj) * mlx.s.n_o,
