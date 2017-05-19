@@ -6,7 +6,7 @@
 /*   By: gsimeon <gsimeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/10 22:25:03 by gsimeon           #+#    #+#             */
-/*   Updated: 2017/05/11 02:12:44 by gsimeon          ###   ########.fr       */
+/*   Updated: 2017/05/19 21:13:09 by gsimeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,4 +21,5 @@ void	sm_color_blue(float ratiox, float ratioy, void *data)
 	*color->color = ((uint32_t)(BLUE * ratiox) & BLUE) |
 														(*color->color & ~BLUE);
 	mod_color_block(color->pos.x, color->pos.y, *color->color, color->win);
+	rt_win_redraw(NULL);
 }

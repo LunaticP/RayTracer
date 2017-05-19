@@ -6,7 +6,7 @@
 /*   By: gsimeon <gsimeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/19 23:39:01 by gsimeon           #+#    #+#             */
-/*   Updated: 2017/05/09 20:17:06 by gsimeon          ###   ########.fr       */
+/*   Updated: 2017/05/19 21:11:59 by gsimeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,5 +26,6 @@ int		bp_increase_f(int id, int keycode, void *dta)
 		else
 			*data->value += *data->pitch;
 	}
+	rt_win_redraw(NULL);
 	return (id);
 }

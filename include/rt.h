@@ -6,10 +6,9 @@
 /*   By: gsimeon <gsimeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/11 06:10:10 by jplevy            #+#    #+#             */
-/*   Updated: 2017/05/18 21:23:21 by gsimeon          ###   ########.fr       */
+/*   Updated: 2017/05/19 22:15:33 by gsimeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #ifndef RT_H
 # define RT_H
@@ -59,8 +58,12 @@ typedef struct		s_cam
 	short			fast;
 	short			dsr;
 }					t_cam;
-/* A voir si bien tout dans les settings */
-typedef struct 		s_set
+
+/*
+** A voir si bien tout dans les settings
+*/
+
+typedef struct		s_set
 {
 	int				width;
 	int				height;
@@ -121,7 +124,9 @@ cl_float4			normalize(cl_float4 v1);
 void				trans_cam(t_cam *cam, cl_float4 axis, float dir);
 void				rot_cam(t_cam *cam, cl_float4 axis, float angle);
 
-/*---------------------------------------------------*/
+/*
+** ---------------------------------------------------
+*/
 
 #define PADDING(X, Y)	char padding ## X[Y]
 
@@ -135,62 +140,62 @@ typedef	enum		e_elem
 	SIZE
 }					t_elem;
 
-typedef struct 		s_parser
+typedef struct		s_parser
 {
 	void				*content;
 	t_elem				elem;
 	struct s_parser		*next;
 }					t_parser;
 
-t_mlx			rt_get_parser(char *path, t_mlx mlx);
-t_parser		*rt_parser_file(char *file);
-char			*rt_get_file(char *path);
-void			rt_free_after_parser(char *file, t_parser *parser);
+t_mlx				rt_get_parser(char *path, t_mlx mlx);
+t_parser			*rt_parser_file(char *file);
+char				*rt_get_file(char *path);
+void				rt_free_after_parser(char *file, t_parser *parser);
 
-t_parser		*rt_parser_objects(char	*file, t_parser *ptr_parser);
-t_parser		*rt_parser_camera(char *file, t_parser *parser);
-t_parser		*rt_parser_lights(char *file, t_parser *parser);
-t_parser		*rt_parser_textures(char *file, t_parser *parser);
-t_parser		*rt_parser_settings(char *file, t_parser *parser);
-void			rt_get_object(t_obj *obj, char *file, int mask_type);
+t_parser			*rt_parser_objects(char	*file, t_parser *ptr_parser);
+t_parser			*rt_parser_camera(char *file, t_parser *parser);
+t_parser			*rt_parser_lights(char *file, t_parser *parser);
+t_parser			*rt_parser_textures(char *file, t_parser *parser);
+t_parser			*rt_parser_settings(char *file, t_parser *parser);
+void				rt_get_object(t_obj *obj, char *file, int mask_type);
 
-void			***rt_list_to_tab(t_parser *parser, int *tab_size);
+void				***rt_list_to_tab(t_parser *parser, int *tab_size);
 
-char			*rt_goto_bracket_close(char *file);
-char			*rt_goto_data_end(char *file);
+char				*rt_goto_bracket_close(char *file);
+char				*rt_goto_data_end(char *file);
 
-char			*rt_get_str_float(char *file);
-char			*rt_next_float(char *file);
+char				*rt_get_str_float(char *file);
+char				*rt_next_float(char *file);
 
-void			*rt_atoi(char *str);
-void			*rt_get_char(char *file);
-void			*rt_get_short(char *file);
-void			*rt_get_str(char *file);
-void			*rt_get_color(char *file);
-void			*rt_get_int2(char *file);
-void			*rt_get_float(char *str);
-void			*rt_get_float2(char *file);
-void			*rt_get_float3(char *file);
-void			*rt_get_float4(char *file);
-void			*rt_get_float4_end(char *file);
-void			*rt_get_float4_neg(char *file);
+void				*rt_atoi(char *str);
+void				*rt_get_char(char *file);
+void				*rt_get_short(char *file);
+void				*rt_get_str(char *file);
+void				*rt_get_color(char *file);
+void				*rt_get_int2(char *file);
+void				*rt_get_float(char *str);
+void				*rt_get_float2(char *file);
+void				*rt_get_float3(char *file);
+void				*rt_get_float4(char *file);
+void				*rt_get_float4_end(char *file);
+void				*rt_get_float4_neg(char *file);
 
-void			rt_check_value(void ***tab);
+void				rt_check_value(void ***tab);
 
-int				rt_strcmp(const char *s1, const char *s2);
-void			*rt_memalloc(size_t size);
-char			*rt_strjoin(char *s1, char *s2);
-void			*rt_useless(char *useless);
-void			parser_error(t_list *file, char *path);
-void			exit_error(char *str);
+int					rt_strcmp(const char *s1, const char *s2);
+void				*rt_memalloc(size_t size);
+char				*rt_strjoin(char *s1, char *s2);
+void				*rt_useless(char *useless);
+void				parser_error(t_list *file, char *path);
+void				exit_error(char *str);
 
-void			rt_add_mask(int *mask_check, int index);
-void			rt_check_all_data(int mask, int check);
-void			rt_check_min_max(int *mask, t_obj *obj);
+void				rt_add_mask(int *mask_check, int index);
+void				rt_check_all_data(int mask, int check);
+void				rt_check_min_max(int *mask, t_obj *obj);
 
-void			print_data_obj(t_obj *obj);
-void			print_data_camera(t_cam *cam);
-void			print_data_settings(t_set *set);
-void			test_read_tab(void *** tab);
+void				print_data_obj(t_obj *obj);
+void				print_data_camera(t_cam *cam);
+void				print_data_settings(t_set *set);
+void				test_read_tab(void ***tab);
 
 #endif

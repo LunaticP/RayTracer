@@ -142,26 +142,9 @@ int		ray_loop(void *param)
 		if (OUT_FILE && !mlx->s.cam.fast)
 			img_file(mlx->p);
 		mlx->key &= ~REDRAW;
-	//	printf("%d\n", mlx->oid);
 	}
 	return (0);
 }
-
-int		m_press(int keycode, int x, int y, void *param)
-{
-	t_mlx	*mlx;
-
-	mlx = (t_mlx*)param;
-	if (keycode == L_CLICK && 0 <= x && x < W && 0 <= y && y < H)
-	{
-		mlx->mouse[0] = x;
-		mlx->mouse[1] = y;
-		if (ocl_enqueue_kernel(&(mlx->prog), "rt_fast"))
-			win_create_plan(mlx->parent, &mlx->s.obj[mlx->oid]);
-	}
-	return (0);
-}
-
 
 int		main(int ac, char **av)
 {
@@ -178,6 +161,7 @@ int		main(int ac, char **av)
 		return (0);
 
 	mlx.mlx = mlx_init();
+	rt_win_redraw(&mlx.key);
 
 	data = (t_datawin){.name = "rtvocl", .xwin = W, .ywin = H,
 			.f_keypress = k_press, .data_kp = &mlx,

@@ -1,25 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sm_color_green.c                                   :+:      :+:    :+:   */
+/*   str_get_switch.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gsimeon <gsimeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/05/10 22:24:26 by gsimeon           #+#    #+#             */
-/*   Updated: 2017/05/19 21:13:04 by gsimeon          ###   ########.fr       */
+/*   Created: 2017/05/19 18:41:11 by gsimeon           #+#    #+#             */
+/*   Updated: 2017/05/19 18:49:10 by gsimeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt_win.h"
 
-void	sm_color_green(float ratiox, float ratioy, void *data)
+char	*str_get_switch(void *data)
 {
-	t_cslider *color;
+	cl_float	*number;
 
-	ratioy = 0;
-	color = (t_cslider*)data;
-	*color->color = ((uint32_t)(GREEN * ratiox) & GREEN) |
-													(*color->color & ~GREEN);
-	mod_color_block(color->pos.x, color->pos.y, *color->color, color->win);
-	rt_win_redraw(NULL);
+	number = (cl_float*)data;
+	if (*number < 0.5)
+		return (ft_strdup("Off"));
+	return (ft_strdup("On"));
 }

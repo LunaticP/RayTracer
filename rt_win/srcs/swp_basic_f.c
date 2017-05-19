@@ -6,7 +6,7 @@
 /*   By: gsimeon <gsimeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/13 01:54:44 by gsimeon           #+#    #+#             */
-/*   Updated: 2017/05/13 05:55:59 by gsimeon          ###   ########.fr       */
+/*   Updated: 2017/05/19 21:12:41 by gsimeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,5 +21,6 @@ int		swp_basic_f(int id, int status, void *dta)
 		*data->value = data->on;
 	else
 		*data->value = data->off;
+	rt_win_redraw(NULL);
 	return (id);
 }

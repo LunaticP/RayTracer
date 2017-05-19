@@ -56,6 +56,7 @@ SRC_FT = bc_decrease \
 		rt_fclose \
 		rt_fkeypress \
 		rt_win_error \
+		rt_win_redraw \
 		rt_win_ftoa \
 		rt_win_getpitch \
 		sc_default \
@@ -68,6 +69,7 @@ SRC_FT = bc_decrease \
 		sm_default_flt \
 		str_get_color \
 		str_get_value \
+		str_get_switch \
 		swc_basic \
 		swl_basic_flt \
 		swp_basic_f \

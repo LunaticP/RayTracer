@@ -6,7 +6,7 @@
 /*   By: gsimeon <gsimeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/25 21:15:51 by gsimeon           #+#    #+#             */
-/*   Updated: 2017/05/13 11:05:26 by gsimeon          ###   ########.fr       */
+/*   Updated: 2017/05/19 21:00:22 by gsimeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ static void	mmlx_destroy(t_mmlx *mlx)
 {
 	mlx_destroy_image(mlx->mlx, mlx->img);
 	mlx_destroy_image(mlx->mlx, mlx->img_button);
-	mlx_destroy_window(mlx->mlx, mlx->win);
 	ml_strdel(&(mlx->name));
 	mmlx_free_button_and_string(mlx);
 }
@@ -51,7 +50,10 @@ static void	mmlx_free_struct(t_mmlx *mlx)
 	while (i < DFLT_MAX_CHILD && mlx->child > 0)
 	{
 		if (mlx->child_used[i])
+		{
 			mmlx_close(mlx->child_tab[i]);
+			mlx_destroy_window(mlx->mlx, mlx->child_tab[i]->win);
+		}
 		i++;
 	}
 	if (mlx->id >= DFLT_MAX_PARENT)
@@ -70,6 +72,8 @@ int			mmlx_close(t_mmlx *mlx)
 		*(mlx->count) -= 1;
 	else
 		mmlx_error(__func__, UNEXPECTED_ERROR);
+	if (mlx->f_close)
+		(*(mlx->f_close))(mlx->data_cl);
 	mmlx_free_struct(mlx);
 	return (42);
 }

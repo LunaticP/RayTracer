@@ -6,7 +6,7 @@
 /*   By: gsimeon <gsimeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/30 07:43:39 by aviau             #+#    #+#             */
-/*   Updated: 2017/05/18 17:09:37 by gsimeon          ###   ########.fr       */
+/*   Updated: 2017/05/19 21:37:20 by gsimeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,4 +80,29 @@ void	k_apply(int key, t_scene *s)
 		s->cam.fast = 0;
 	else
 		s->cam.fast = 1;
+}
+
+int		m_press(int keycode, int x, int y, void *param)
+{
+	t_mlx	*mlx;
+
+	mlx = (t_mlx*)param;
+	if (keycode == R_CLICK && 0 <= x && x < W && 0 <= y && y < H)
+	{
+		mlx->mouse[0] = x;
+		mlx->mouse[1] = y;
+		if (ocl_enqueue_kernel(&(mlx->prog), "rt_fast") && mlx->oid >= 0)
+		{
+			if (mlx->s.obj[mlx->oid].type == plan)
+				win_create_plan(mlx->parent, &mlx->s.obj[mlx->oid]);
+			else if (mlx->s.obj[mlx->oid].type == sphere)
+				win_create_sphere(mlx->parent, &mlx->s.obj[mlx->oid]);
+			else if (mlx->s.obj[mlx->oid].type == cone)
+				win_create_cone(mlx->parent, &mlx->s.obj[mlx->oid]);
+			else if (mlx->s.obj[mlx->oid].type == cylindre)
+				win_create_cylinder(mlx->parent, &mlx->s.obj[mlx->oid]);
+			mlx->oid = -1;
+		}
+	}
+	return (0);
 }

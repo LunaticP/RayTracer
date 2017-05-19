@@ -6,7 +6,7 @@
 /*   By: gsimeon <gsimeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/20 01:16:53 by gsimeon           #+#    #+#             */
-/*   Updated: 2017/05/19 17:04:03 by gsimeon          ###   ########.fr       */
+/*   Updated: 2017/05/19 22:08:02 by gsimeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@
 # define WIN_NAME_SPHERE	"Edition de Sphere"
 # define WIN_NAME_CYLINDER	"Edition de Cylindre"
 
-# define WIN_XLEN_EDIT		(1000)
+# define WIN_XLEN_EDIT		(350)
 # define WIN_YLEN_EDIT		(1200)
 
 # define FTOA_MAX_VALUE		(2000000000)
@@ -118,6 +118,7 @@ typedef struct	s_cslider
 int				rt_fkeypress(int keypress, void *data);
 int				rt_fclose(void *data);
 int				rt_win_getpitch(int i, float **pitch);
+void			rt_win_redraw(int *key);
 
 int				bc_modify_pitch(void);
 int				sl_pitch_flt(t_mmlx *win, t_pos *pos, t_fslider *sldr, int *id);
@@ -164,6 +165,7 @@ int				win_create_cylinder(t_mmlx *parent, t_obj *obj);
 char			*rt_win_ftoa(float number);
 char			*str_get_value(void *data);
 char			*str_get_color(void *data);
+char			*str_get_switch(void *data);
 
 /*
 ** -------------------------- Errors entry --------------------------
@@ -208,8 +210,13 @@ static const char *g_rt_win_error_array[RT_ENUM_ERROR_SIZE] = {
 # define NUM_DFLT_PARAM	(NUM_DFLT_BUTTON + NUM_DFLT_SLIDER + NUM_DFLT_SWITCH)
 
 # define NUM_SPHERE_BUTTON		(1)
-# define NUM_CYLINDER_BUTTON	(3)
-# define NUM_CONE_BUTTON		(3)
+# define NUM_SPHERE_PARAM		(NUM_SPHERE_BUTTON)
+
+# define NUM_CYLINDER_BUTTON	(4)
+# define NUM_CYLINDER_PARAM		(NUM_CYLINDER_BUTTON)
+
+# define NUM_CONE_BUTTON		(4)
+# define NUM_CONE_PARAM			(NUM_CONE_BUTTON)
 
 # define XLEN_SEP				(BUTTON_DFLT_X + BUTTON_DFLT_X / 2)
 # define XLEN_STR				(150)
@@ -226,9 +233,12 @@ static const char *g_rt_win_error_array[RT_ENUM_ERROR_SIZE] = {
 # define XPOS_BUTTON_START		(XPOS_STR_START + XLEN_STR)
 # define XPOS_SLIDER_START		(XPOS_BUTTON_START)
 
-# define YPOS_SWITCH_START		(150)
+# define YPOS_SWITCH_START		(50)
 # define YPOS_BUTTON_START		(YPOS_SWITCH_START + YLEN_SEP * NUM_DFLT_SWITCH)
 # define YPOS_SLIDER_START		(YPOS_BUTTON_START + YLEN_SEP * NUM_DFLT_BUTTON)
+# define YPOS_SPHERE_START		(YPOS_SLIDER_START + YLEN_SEP * NUM_DFLT_SLIDER)
+# define YPOS_CYLINDER_START	(YPOS_SPHERE_START)
+# define YPOS_CONE_START		(YPOS_SPHERE_START)
 # define YPOS_STR_START			(YPOS_SWITCH_START)
 # define SLIDER_DIFF_Y			((MAX_DFLT_Y - SLIDER_DFLT_Y) / 2)
 # define BUTTON_DIFF_Y			((MAX_DFLT_Y - BUTTON_DFLT_Y) / 2)
@@ -244,7 +254,7 @@ static const char *g_rt_win_error_array[RT_ENUM_ERROR_SIZE] = {
 # define MOD_PITCH_SIZE_Y	(MAX(BUTTON_PITCH_Y, NORM_1Y))
 # define MOD_PITCH_X(xwin)	(xwin - MOD_PITCH_SIZE_X - 1)
 # define MOD_PITCH_Y(ywin)	(ywin - MOD_PITCH_SIZE_Y - 1)
-# define MOD_PITCH_XSTART	(50)
+# define MOD_PITCH_XSTART	((WIN_XLEN_EDIT - MOD_PITCH_SIZE_X) / 2)
 # define MOD_PITCH_YSTART	(MOD_PITCH_Y(WIN_YLEN_EDIT - 50))
 
 # define MOD_COLOR_STRING	(4)
@@ -260,8 +270,8 @@ static const char *g_rt_win_error_array[RT_ENUM_ERROR_SIZE] = {
 # define MOD_COLOR_SIZE_X	(MOD_COLOR_STRING_X + MAX_COLOR_X + CURSOR_COLOR_X)
 # define MOD_COLOR_X(xwin)	(xwin - MOD_COLOR_SIZE_X)
 # define MOD_COLOR_Y(ywin)	(ywin - MOD_COLOR_SIZE_Y)
-# define MOD_COLOR_XSTART	(MOD_COLOR_X(WIN_XLEN_EDIT - 40))
-# define MOD_COLOR_YSTART	(MOD_COLOR_Y(WIN_YLEN_EDIT - 50))
+# define MOD_COLOR_XSTART	((WIN_XLEN_EDIT - MOD_COLOR_SIZE_X) / 2)
+# define MOD_COLOR_YSTART	(MOD_COLOR_Y(MOD_PITCH_YSTART))
 
 # define F4_X		(0)
 # define F4_Y		(1)
@@ -298,14 +308,16 @@ static const uint64_t		g_rt_offset_button_sphere[NUM_SPHERE_BUTTON] = {
 
 static const uint64_t		g_rt_offset_button_cylinder[NUM_CYLINDER_BUTTON] = {
 	OFFSETOF(t_obj, r),
+	OFFSETOF(t_obj, caps),
 	OFFSETOF(t_obj, su),
 	OFFSETOF(t_obj, sd)
 };
 
 static const uint64_t		g_rt_offset_button_cone[NUM_CONE_BUTTON] = {
+	OFFSETOF(t_obj, alpha),
+	OFFSETOF(t_obj, caps),
 	OFFSETOF(t_obj, su),
-	OFFSETOF(t_obj, sd),
-	OFFSETOF(t_obj, alpha)
+	OFFSETOF(t_obj, sd)
 };
 
 static const uint64_t		g_rt_offset_button_all_object[NUM_DFLT_BUTTON] = {
@@ -358,7 +370,29 @@ static const t_stringput	g_rt_strname_allobj[NUM_DFLT_PARAM] = {
 	{.color = STRING_COLOR, .f_string = NULL, .string = "Refraction"}
 };
 
+static const t_stringput	g_rt_strname_sphere[NUM_SPHERE_PARAM] = {
+	{.color = STRING_COLOR, .f_string = NULL, .string = "Rayon"}
+};
+
+static const t_stringput	g_rt_strname_cylinder[NUM_CYLINDER_PARAM] = {
+	{.color = STRING_COLOR, .f_string = NULL, .string = "Rayon"},
+	{.color = STRING_COLOR, .f_string = NULL, .string = "Capsule"},
+	{.color = STRING_COLOR, .f_string = NULL, .string = "su"},
+	{.color = STRING_COLOR, .f_string = NULL, .string = "sd"}
+};
+
+static const t_stringput	g_rt_strname_cone[NUM_CONE_PARAM] = {
+	{.color = STRING_COLOR, .f_string = NULL, .string = "Alpha"},
+	{.color = STRING_COLOR, .f_string = NULL, .string = "Capsule"},
+	{.color = STRING_COLOR, .f_string = NULL, .string = "su"},
+	{.color = STRING_COLOR, .f_string = NULL, .string = "sd"}
+};
+
 static const t_stringput	g_rt_strvalue_allobj[NUM_DFLT_PARAM] = {
+	{.color = STRING_COLOR, .f_string = str_get_switch, .string = NULL},
+	{.color = STRING_COLOR, .f_string = str_get_switch, .string = NULL},
+	{.color = STRING_COLOR, .f_string = str_get_switch, .string = NULL},
+	{.color = STRING_COLOR, .f_string = str_get_switch, .string = NULL},
 	{.color = STRING_COLOR, .f_string = str_get_value, .string = NULL},
 	{.color = STRING_COLOR, .f_string = str_get_value, .string = NULL},
 	{.color = STRING_COLOR, .f_string = str_get_value, .string = NULL},
@@ -373,7 +407,21 @@ static const t_stringput	g_rt_strvalue_allobj[NUM_DFLT_PARAM] = {
 	{.color = STRING_COLOR, .f_string = str_get_value, .string = NULL},
 	{.color = STRING_COLOR, .f_string = str_get_value, .string = NULL},
 	{.color = STRING_COLOR, .f_string = str_get_value, .string = NULL},
+	{.color = STRING_COLOR, .f_string = str_get_value, .string = NULL}
+};
+
+static const t_stringput	g_rt_strvalue_sphere[NUM_SPHERE_PARAM] = {
+	{.color = STRING_COLOR, .f_string = str_get_value, .string = NULL}
+};
+
+static const t_stringput	g_rt_strvalue_cylinder[NUM_CYLINDER_PARAM] = {
 	{.color = STRING_COLOR, .f_string = str_get_value, .string = NULL},
+	{.color = STRING_COLOR, .f_string = str_get_value, .string = NULL},
+	{.color = STRING_COLOR, .f_string = str_get_value, .string = NULL},
+	{.color = STRING_COLOR, .f_string = str_get_value, .string = NULL}
+};
+
+static const t_stringput	g_rt_strvalue_cone[NUM_CYLINDER_PARAM] = {
 	{.color = STRING_COLOR, .f_string = str_get_value, .string = NULL},
 	{.color = STRING_COLOR, .f_string = str_get_value, .string = NULL},
 	{.color = STRING_COLOR, .f_string = str_get_value, .string = NULL},
