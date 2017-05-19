@@ -156,9 +156,13 @@ int		m_press(int keycode, int x, int y, void *param)
 	{
 		mlx->mouse[0] = x;
 		mlx->mouse[1] = y;
+		mlx_do_sync(mlx->mlx);
+//		if(!(ocl_enqueue_kernel(&(mlx->prog), "rt_fast")))
+//				printf("Kernel Unlaunched\n");
+		mlx->key |= REDRAW;
+		ray_loop(param);
 		printf("x : %d | y : %d \t %d\n", x, y, mlx->oid);
-		ocl_enqueue_kernel(&(mlx->prog), "rt_fast");
-		win_create_plan(mlx->parent, &mlx->s.obj[mlx->oid]);
+//		win_create_plan(mlx->parent, &mlx->s.obj[mlx->oid]);
 	}
 	return (0);
 }

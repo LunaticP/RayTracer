@@ -6,7 +6,7 @@
 /*   By: gsimeon <gsimeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/20 01:16:53 by gsimeon           #+#    #+#             */
-/*   Updated: 2017/05/19 15:25:34 by gsimeon          ###   ########.fr       */
+/*   Updated: 2017/05/19 15:55:00 by pgourran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@
 ** ------------------------------------------------------------------
 */
 
-# define MAX(x, y)			(x > y ? x : y)
 # define DFLT_MAX_PITCH		(DFLT_MAX_CHILD)
 
 # define WIN_NAME_PLAN		"Edition de Plan"

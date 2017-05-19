@@ -29,7 +29,7 @@ MLX_DIR = minilibx_macos
 LINK_ELCAPITAN = https://projects.intra.42.fr/uploads/document/document/287/minilibx_macos_20151105.tgz
 LINK_SIERRA = https://projects.intra.42.fr/uploads/document/document/356/minilibx_macos_sierra_20161017.tgz
 
-MLX_LINK = $(LINK_SIERRA)
+MLX_LINK = $(LINK_ELCAPITAN)
 
 ## Compilating Utilities
 

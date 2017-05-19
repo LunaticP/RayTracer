@@ -1003,10 +1003,15 @@ __kernel void	rt_fast(
 			string[j * c[0].size.x + i + 1] = color;
 			string[(j + 1) * c[0].size.x + i] = color;
 			string[(j + 1) * c[0].size.x + i + 1] = color;
-			if (m_id[0] == (i - (i % 2)) && m_id[1] == (j - (j % 2)))
+//				printf("-----------kernel---------\n");
+//				printf("-------------------------\n");
+			if ((m_id[0] == ((int)i) && m_id[1] == ((int)j))
+			|| (m_id[0] + 1 == ((int)i) && m_id[1] == ((int)j))
+			|| (m_id[0] == ((int)i) && m_id[1] + 1== ((int)j))
+			|| (m_id[0] + 1 == ((int)i) && m_id[1] + 1 == ((int)j)))
 				{
 					*obj_id = id;
-//				printf("%d\n", id);
+//					printf("-- x : %d | y : %d | i : %lu | j : %lu | id : %d --\n", m_id[0], m_id[1], i, j, id);
 				}
 		}
 	}
