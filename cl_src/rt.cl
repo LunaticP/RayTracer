@@ -152,12 +152,12 @@ float			sq(float a)
 
 int				limit(__global t_obj *o, float4 hit, int id)
 {
-	return(	hit.x > o[id].max.x ||
+	return(((hit.x > o[id].max.x ||
 			hit.y > o[id].max.y ||
-			hit.z > o[id].max.z ||
-			hit.x < o[id].min.x ||
+			hit.z > o[id].max.z) && o[id].max.w > 0.5) ||
+			((hit.x < o[id].min.x ||
 			hit.y < o[id].min.y ||
-			hit.z < o[id].min.z);
+			hit.z < o[id].min.z) && o[id].min.w > 0.5));
 }
 
 
