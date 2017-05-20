@@ -6,7 +6,7 @@
 /*   By: gsimeon <gsimeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/09 04:15:50 by gsimeon           #+#    #+#             */
-/*   Updated: 2017/05/20 01:17:13 by gsimeon          ###   ########.fr       */
+/*   Updated: 2017/05/20 17:59:17 by gsimeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,8 +188,8 @@
 ** ------------------------------------------------------------------
 */
 
-# define DFLT_XWIN			800
-# define DFLT_YWIN			600
+# define DFLT_XWIN			(DFLT_MAX_XWIN)
+# define DFLT_YWIN			(DFLT_MAX_YWIN)
 # define DFLT_XWIN_CHILD	200
 # define DFLT_YWIN_CHILD	150
 # define DFLT_PARENTNAME	"Parent"

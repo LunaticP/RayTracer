@@ -6,7 +6,7 @@
 /*   By: gsimeon <gsimeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/20 01:16:53 by gsimeon           #+#    #+#             */
-/*   Updated: 2017/05/20 02:24:10 by gsimeon          ###   ########.fr       */
+/*   Updated: 2017/05/20 18:52:36 by gsimeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@
 # define FTOA_NUM_FLOAT		(4)
 # define FTOA_SEPARATOR		","
 # define FTOA_SIZE_X		(160)
+
+# define BG_PLAN			"./img/plan.xpm"
 
 /*
 ** -------------------- Color Button Settings -----------------------
