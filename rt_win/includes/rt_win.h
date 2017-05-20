@@ -6,7 +6,7 @@
 /*   By: gsimeon <gsimeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/20 01:16:53 by gsimeon           #+#    #+#             */
-/*   Updated: 2017/05/19 22:08:02 by gsimeon          ###   ########.fr       */
+/*   Updated: 2017/05/20 02:24:10 by gsimeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -212,10 +212,10 @@ static const char *g_rt_win_error_array[RT_ENUM_ERROR_SIZE] = {
 # define NUM_SPHERE_BUTTON		(1)
 # define NUM_SPHERE_PARAM		(NUM_SPHERE_BUTTON)
 
-# define NUM_CYLINDER_BUTTON	(4)
+# define NUM_CYLINDER_BUTTON	(1)
 # define NUM_CYLINDER_PARAM		(NUM_CYLINDER_BUTTON)
 
-# define NUM_CONE_BUTTON		(4)
+# define NUM_CONE_BUTTON		(1)
 # define NUM_CONE_PARAM			(NUM_CONE_BUTTON)
 
 # define XLEN_SEP				(BUTTON_DFLT_X + BUTTON_DFLT_X / 2)
@@ -307,17 +307,11 @@ static const uint64_t		g_rt_offset_button_sphere[NUM_SPHERE_BUTTON] = {
 };
 
 static const uint64_t		g_rt_offset_button_cylinder[NUM_CYLINDER_BUTTON] = {
-	OFFSETOF(t_obj, r),
-	OFFSETOF(t_obj, caps),
-	OFFSETOF(t_obj, su),
-	OFFSETOF(t_obj, sd)
+	OFFSETOF(t_obj, r)
 };
 
 static const uint64_t		g_rt_offset_button_cone[NUM_CONE_BUTTON] = {
-	OFFSETOF(t_obj, alpha),
-	OFFSETOF(t_obj, caps),
-	OFFSETOF(t_obj, su),
-	OFFSETOF(t_obj, sd)
+	OFFSETOF(t_obj, alpha)
 };
 
 static const uint64_t		g_rt_offset_button_all_object[NUM_DFLT_BUTTON] = {
@@ -375,17 +369,11 @@ static const t_stringput	g_rt_strname_sphere[NUM_SPHERE_PARAM] = {
 };
 
 static const t_stringput	g_rt_strname_cylinder[NUM_CYLINDER_PARAM] = {
-	{.color = STRING_COLOR, .f_string = NULL, .string = "Rayon"},
-	{.color = STRING_COLOR, .f_string = NULL, .string = "Capsule"},
-	{.color = STRING_COLOR, .f_string = NULL, .string = "su"},
-	{.color = STRING_COLOR, .f_string = NULL, .string = "sd"}
+	{.color = STRING_COLOR, .f_string = NULL, .string = "Rayon"}
 };
 
 static const t_stringput	g_rt_strname_cone[NUM_CONE_PARAM] = {
-	{.color = STRING_COLOR, .f_string = NULL, .string = "Alpha"},
-	{.color = STRING_COLOR, .f_string = NULL, .string = "Capsule"},
-	{.color = STRING_COLOR, .f_string = NULL, .string = "su"},
-	{.color = STRING_COLOR, .f_string = NULL, .string = "sd"}
+	{.color = STRING_COLOR, .f_string = NULL, .string = "Alpha"}
 };
 
 static const t_stringput	g_rt_strvalue_allobj[NUM_DFLT_PARAM] = {
@@ -415,16 +403,10 @@ static const t_stringput	g_rt_strvalue_sphere[NUM_SPHERE_PARAM] = {
 };
 
 static const t_stringput	g_rt_strvalue_cylinder[NUM_CYLINDER_PARAM] = {
-	{.color = STRING_COLOR, .f_string = str_get_value, .string = NULL},
-	{.color = STRING_COLOR, .f_string = str_get_value, .string = NULL},
-	{.color = STRING_COLOR, .f_string = str_get_value, .string = NULL},
 	{.color = STRING_COLOR, .f_string = str_get_value, .string = NULL}
 };
 
-static const t_stringput	g_rt_strvalue_cone[NUM_CYLINDER_PARAM] = {
-	{.color = STRING_COLOR, .f_string = str_get_value, .string = NULL},
-	{.color = STRING_COLOR, .f_string = str_get_value, .string = NULL},
-	{.color = STRING_COLOR, .f_string = str_get_value, .string = NULL},
+static const t_stringput	g_rt_strvalue_cone[NUM_CONE_PARAM] = {
 	{.color = STRING_COLOR, .f_string = str_get_value, .string = NULL}
 };
 

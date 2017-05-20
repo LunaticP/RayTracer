@@ -6,7 +6,7 @@
 /*   By: gsimeon <gsimeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/09 04:15:50 by gsimeon           #+#    #+#             */
-/*   Updated: 2017/05/18 16:45:02 by gsimeon          ###   ########.fr       */
+/*   Updated: 2017/05/20 01:17:13 by gsimeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,8 +176,8 @@
 # define DFLT_MAX_SLIDERTYPE	6
 # define DFLT_MAX_SWITCHTYPE	5
 
-# define DFLT_MAX_BUTTONWIN		30
-# define DFLT_MAX_STRINGWIN		50
+# define DFLT_MAX_BUTTONWIN		40
+# define DFLT_MAX_STRINGWIN		60
 # define DFLT_MAX_SLIDERWIN		10
 # define DFLT_MAX_SWITCHWIN		10
 
