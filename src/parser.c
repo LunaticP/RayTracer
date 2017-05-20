@@ -92,6 +92,10 @@ void			print_data_obj(t_obj *obj)
 	printf("p3.x : %f | p3.y : %f | p3.z : %f\n", obj->p3.x, obj->p3.y, obj->p3.z);
 	printf("tex : %hd | n_m : %hd | r_m : %hd | t_m : %hd\n", obj->tex, obj->n_m, obj->r_m, obj->t_m);
 	printf("type : %d\n", obj->type);
+	printf("mod_tex.x : %f, mod_tex.y : %f, mod_tex.z : %f, mod_tex.w : %f\n", obj->mod_tex.x, obj->mod_tex.y, obj->mod_tex.z, obj->mod_tex.w);
+	printf("mod_normal.x : %f, mod_normal.y : %f, mod_normal.z : %f, mod_normal.w : %f\n", obj->mod_normal.x, obj->mod_normal.y, obj->mod_normal.z, obj->mod_normal.w);
+	printf("mod_ref.x : %f, mod_ref.y : %f, mod_ref.z : %f, mod_ref.w : %f\n", obj->mod_ref.x, obj->mod_ref.y, obj->mod_ref.z, obj->mod_ref.w);
+	printf("mod_trans.x : %f, mod_trans.y : %f, mod_trans.z : %f, mod_trans.w : %f\n", obj->mod_trans.x, obj->mod_trans.y, obj->mod_trans.z, obj->mod_trans.w);
 	printf("________\n");
 }
 

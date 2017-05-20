@@ -33,11 +33,11 @@ void				rt_check_min_max(int *mask, t_obj *obj)
 	if (!(*mask & (1 << 6)))
 	{
 		*mask |= 1 << 6;
-		obj->min = (cl_float4){.x = -FLT_MAX, .y = -FLT_MAX, .z = -FLT_MAX};
+		obj->min = (cl_float4){.x = -FLT_MAX, .y = -FLT_MAX, .z = -FLT_MAX, .w = 0};
 	}
 	if (!(*mask & (1 << 7)))
 	{
 		*mask |= 1 << 7;
-		obj->max = (cl_float4){.x = FLT_MAX, .y = FLT_MAX, .z = FLT_MAX};
+		obj->max = (cl_float4){.x = FLT_MAX, .y = FLT_MAX, .z = FLT_MAX, .w = 0};
 	}
 }

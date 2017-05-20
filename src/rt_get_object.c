@@ -12,9 +12,11 @@
 
 #include "parser.h"
 
+#define AN0 static void s_init_base(t_obj *obj)
 #define AN1 static int s_choice_data(char **file, int size)
 #define AN2 static void s_get_object_var(int index, char *file, t_obj *obj)
 
+AN0;
 AN1;
 AN2;
 
@@ -62,14 +64,28 @@ void						rt_get_object(t_obj *obj, char *file, int mask_type)
 	check_mask_type = 0;
 	size = sizeof(g_tab_data) / sizeof(t_data) - 1;
 	rt_check_min_max(&check_mask_type, obj);
+	s_init_base(obj);
 	while ((index = s_choice_data(&file, size)) != size)
 	{
-		if (index != 6 && index != 7)
+		if (index != 6 && index != 7 &&
+				index != 23 && index != 24 && index != 25 && index != 26)
 			rt_add_mask(&check_mask_type, index);
 		s_get_object_var(index, file, obj);
+		if (index == 6)
+			obj->min.w = 1;
+		if (index == 7)
+			obj->max.w = 1;
 		file = rt_goto_data_end(file - 1);
 	}
 	rt_check_all_data(mask_type, check_mask_type);
+}
+
+static void					s_init_base(t_obj *obj)
+{
+	obj->mod_tex = (cl_float3){.x = 1, .y = 1, .z = 0, .w = 0};
+	obj->mod_normal = (cl_float3){.x = 1, .y = 1, .z = 0, .w = 0};
+	obj->mod_ref = (cl_float3){.x = 1, .y = 1, .z = 0, .w = 0};
+	obj->mod_trans = (cl_float3){.x = 1, .y = 1, .z = 0, .w = 0};
 }
 
 static int					s_choice_data(char **file, int size)

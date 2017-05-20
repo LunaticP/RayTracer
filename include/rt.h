@@ -14,7 +14,7 @@
 # define RT_H
 
 # define USAGE "./rtv1 file\n"
-# define DEBUG	0
+# define DEBUG	1
 # define DSR	1
 # define W		1280
 # define H		720
