@@ -6,7 +6,7 @@
 #    By: gsimeon <gsimeon@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/09/11 11:02:36 by aviau             #+#    #+#              #
-#    Updated: 2017/05/17 20:31:47 by gsimeon          ###   ########.fr        #
+#    Updated: 2017/05/21 18:05:25 by aviau            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,6 +20,7 @@ SRC_NAME =	main.c\
 			langton.c\
 			message_info.c\
 			parse_text.c\
+			vec.c\
 			bmp/ft_bmp_file_load.c\
 			bmp/ft_bmp_to_ubmp.c\
 			bmp/get_ppm.c\

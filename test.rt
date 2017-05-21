@@ -35,7 +35,7 @@ objects
 		tex = 0;
 		n_m = 0;
 		r_m = 0;
-		t_m = 1;
+		t_m = 0;
 		r = 3;
 		mod_tex{x = 0; y = 0; z = 0; w = 0;}
 		mod_normal{x = 0; y = 0; z = 0; w = 0;}
@@ -77,7 +77,7 @@ objects
 		tex = 0;
 		n_m = 0;
 		r_m = 0;
-		t_m = 1;
+		t_m = 0;
 		r = 3;
 		mod_tex{x = 0; y = 0; z = 0; w = 0;}
 		mod_normal{x = 0; y = 0; z = 0; w = 0;}
