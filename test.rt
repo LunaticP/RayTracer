@@ -397,15 +397,15 @@ camera
 		y = 0;
 	}
 	fast = 1;
-	dsr = 1;
+	dsr = 2;
 }
 
 settings
 {
-	width = 700;
-	height = 900;
+	width = 1280;
+	height = 720;
 	max_reflect = 20;
-	anti_allias = 1;
+	anti_allias = 2;
 	ambient = 10;
 	stereo = 0;
 	name = "path test";
