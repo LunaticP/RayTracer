@@ -69,6 +69,7 @@ typedef struct		s_cam
 	float2			chunk;
 	short			fast;
 	short			dsr;
+	int				ambient;
 }					t_cam;
 
 typedef struct		s_ray
@@ -93,7 +94,7 @@ float4	bilinear(float2 polar, __global int *tex);
 float4	ray_from_coord(size_t x, size_t y, __global t_cam *c, int mul);
 float	sq(float a);
 int		get_light(__global t_obj *o, __global t_obj *l, float4 hit);
-int		tex_num(int num, __global t_obj *o, int id, __global int *tex, float2 polar);
+int		tex_num(int num, __global t_obj *o, int id, __global int *tex, float2 polar, float4 tile);
 int		diffuse(__global t_obj *o,float *t, __global t_obj *l, t_ray ray, int id, int in, __global int *tex, float4 *n, float *rm, float *tm);
 int		quadratic(float a, float b, float c, float2 *ret);
 int		ray_neg(__global t_obj *o, t_ray *ray, float2 *t);
@@ -327,15 +328,18 @@ float4			bilinear(float2 polar, __global int *tex)
 	return (out);
 }
 
-int				tex_num(int num, __global t_obj *o, int id, __global int *tex, float2 polar)
+int				tex_num(int num, __global t_obj *o, int id, __global int *tex, float2 polar, float4 tile)
 {
 	int	i;
 	int j;
 	int out;
+	int2	pol;
 
 	i = 1;
 	j = 1;
 	out = 0;
+	polar.x += tile.z;
+	polar.y += tile.w;
 	while (i < num && j + 3 < tex[0])
 	{
 		j += tex[j] * tex[j + 1] + 2;
@@ -343,19 +347,22 @@ int				tex_num(int num, __global t_obj *o, int id, __global int *tex, float2 pol
 	}
 	if (o[id].type == sphere)
 	{
-		out = (int)(polar.x * (float)tex[j + 1] / M_PI) * tex[j] \
-			  + (int)(polar.y * (float)tex[j] / M_PI) + j + 2;
+		pol.x = (int)((polar.x * tile.x) * (float)tex[j + 1] / M_PI) % tex[j + 1];
+		pol.y = (int)((polar.y * tile.y) * (float)tex[j] / M_PI) % tex[j];
 	}
-	if (o[id].type == plan)
+	else if (o[id].type == plan)
 	{
-		out = (int)((polar.x / 10) * (float)tex[j + 1]) % tex[j + 1] * tex[j] \
-			  + (int)((polar.y / 10) * (float)tex[j]) + j + 2;
+		pol.x = (int)(polar.x / tile.x * (float)tex[j + 1]) % tex[j + 1];
+		pol.y = (int)(polar.y / tile.y * (float)tex[j]) % tex[j];
 	}
-	if (o[id].type == cone || o[id].type == cylindre)
+	else if (o[id].type == cone || o[id].type == cylindre)
 	{
-		out = abs((int)(polar.x / 5 * (float)tex[j + 1]) % tex[j + 1]) * tex[j] \
-			  + (int)(polar.y * tex[j] / M_PI) % tex[j] + j + 2;
+		pol.x = (int)(polar.x / tile.x * (float)tex[j + 1]) % tex[j + 1];
+		pol.y = (int)((polar.y * tile.y) * (float)tex[j] / M_PI) % tex[j];
 	}
+	else
+		out = 0;
+	out = pol.x * tex[j] + pol.y + j + 2;
 	return (out > tex[0] || out < 0 ? 0 : out);
 }
 
@@ -423,23 +430,23 @@ int				diffuse(__global t_obj *o,float *t, __global t_obj *l, t_ray ray, int id,
 		normale = hit - o[id].pos;
 	if (o[id].n_m)
 	{
-		color = tex[tex_num(o[id].n_m, o, id, tex, polar)];
+		color = tex[tex_num(o[id].n_m, o, id, tex, polar, o[id].mod_normal)];
 		normale.x += (color & 0xFF0000 / 0x10000) / 128.0 - 1.0;
 		normale.y += (color & 0xFF00 / 0x100) / 128.0 - 1.0;
 		normale.z += (color & 0xFF) / 128.0 - 2.0;
 	}
 	if (o[id].r_m)
 	{
-		color = tex[tex_num(o[id].r_m, o, id, tex, polar)];
+		color = tex[tex_num(o[id].r_m, o, id, tex, polar, o[id].mod_ref)];
 		*rm = (float)((color & 0xFF0000) / 0x10000 + (color & 0xFF00) / 0x100 + (color & 0xFF)) / 765.0f;
 	}
 	if (o[id].t_m)
 	{
-		color = tex[tex_num(o[id].t_m, o, id, tex, polar)];
+		color = tex[tex_num(o[id].t_m, o, id, tex, polar, o[id].mod_trans)];
 		*tm = (float)((color & 0xFF0000) / 0x10000 + (color & 0xFF00) / 0x100 + (color & 0xFF)) / 765.0f;
 	}
 	if (o[id].tex)
-		color = tex[tex_num(o[id].tex, o, id, tex, polar)];
+		color = tex[tex_num(o[id].tex, o, id, tex, polar, o[id].mod_tex)];
 	else
 		color = o[id].col;
 	if (o[id].pos.w > 0.5f || ray.imp == -1)
@@ -462,8 +469,6 @@ int				diffuse(__global t_obj *o,float *t, __global t_obj *l, t_ray ray, int id,
 	b = (color & 0xFF);
 	if ((lol = ray_match(o, &shad)) != -1 && shad.t < norme && o[id].pos.w < 0.5f)
 	{
-		//		if (o[id].pos.w > 0.5f)
-		//			return (o[lol].col);
 		r /= 50;
 		g /= 50;
 		b /= 50;
@@ -902,7 +907,7 @@ __kernel void	raytracer(
 	j += c[0].chunk.y;
 	if (i < (size_t)c[0].size.x && j < (size_t)c[0].size.y)
 	{
-		string[j * c[0].size.x + i] = 0;
+		string[j * c[0].size.x + i] = 0xFF00FF;
 		ray.dir = normalize(ray_from_coord(i, j, c, 1));
 		ray.ori = c[0].ori;
 		r = 0;
@@ -955,7 +960,15 @@ __kernel void	raytracer(
 				stay++;
 			}
 			else
+			{
+				r = r + (((c[0].ambient & 0xFF0000) / 0x10000) * (o[id].diff)) > 255 ?
+				255 : r + (((c[0].ambient & 0xFF0000) / 0x10000) * (o[id].diff));
+				g = g + (((c[0].ambient & 0xFF00) / 0x100) * (o[id].diff)) > 255 ?
+				255 : g + (((c[0].ambient & 0xFF00) / 0x100) * o[id].diff);
+				b = b + (((c[0].ambient & 0xFF)) * (o[id].diff)) > 255 ?
+				255 : b + ((c[0].ambient & 0xFF) * o[id].diff);
 				break;
+			}
 		}
 		color = r * 0x10000 + g * 0x100 + b;
 		string[j * c[0].size.x + i] = color;
@@ -996,16 +1009,11 @@ __kernel void	rt_fast(
 			string[j * c[0].size.x + i + 1] = color;
 			string[(j + 1) * c[0].size.x + i] = color;
 			string[(j + 1) * c[0].size.x + i + 1] = color;
-//				printf("-----------kernel---------\n");
-//				printf("-------------------------\n");
 			if ((m_id[0] == ((int)i) && m_id[1] == ((int)j))
 			|| (m_id[0] + 1 == ((int)i) && m_id[1] == ((int)j))
 			|| (m_id[0] == ((int)i) && m_id[1] + 1== ((int)j))
 			|| (m_id[0] + 1 == ((int)i) && m_id[1] + 1 == ((int)j)))
-				{
 					*obj_id = id;
-//					printf("-- x : %d | y : %d | i : %lu | j : %lu | id : %d --\n", m_id[0], m_id[1], i, j, id);
-				}
 		}
 	}
 }

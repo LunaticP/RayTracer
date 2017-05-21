@@ -35,7 +35,7 @@ objects
 		tex = 0;
 		n_m = 0;
 		r_m = 0;
-		t_m = 1;
+		t_m = 0;
 		r = 3;
 		mod_tex{x = 0; y = 0; z = 0; w = 0;}
 		mod_normal{x = 0; y = 0; z = 0; w = 0;}
@@ -77,7 +77,7 @@ objects
 		tex = 0;
 		n_m = 0;
 		r_m = 0;
-		t_m = 1;
+		t_m = 0;
 		r = 3;
 		mod_tex{x = 0; y = 0; z = 0; w = 0;}
 		mod_normal{x = 0; y = 0; z = 0; w = 0;}
@@ -255,7 +255,7 @@ objects
 		n_m = 0;
 		r_m = 0;
 		t_m = 0;
-		mod_tex{x = 0; y = 0; z = 0; w = 0;}
+		mod_tex{x = 30; y = 30; z = 0; w = 0;}
 		mod_normal{x = 0; y = 0; z = 0; w = 0;}
 		mod_ref{x = 0; y = 0; z = 0; w = 0;}
 		mod_trans{x = 0; y = 0; z = 0; w = 0;}
@@ -392,15 +392,15 @@ camera
 		y = 0;
 	}
 	fast = 1;
-	dsr = 1;
+	dsr = 2;
 }
 
 settings
 {
-	width = 700;
-	height = 900;
+	width = 1280;
+	height = 720;
 	max_reflect = 20;
-	anti_allias = 1;
+	anti_allias = 2;
 	ambient = 10;
 	stereo = 0;
 	name = "path test";
