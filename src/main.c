@@ -52,19 +52,6 @@ void	img_file(unsigned char *img)
 	ft_putendl("File Rendered.");
 }
 
-int		my_key_func(int key, void *param)
-{
-	if (ESC)
-	{
-		mlx_destroy_image(((t_mlx*)(param))->mlx, ((t_mlx*)(param))->img);
-		ocl_finish(((t_mlx*)(param))->prog);
-		exit(0);
-	}
-	else
-		k_press(key, &(((t_mlx*)(param))->key));
-	return (0);
-}
-
 void	dsr(t_mlx *mlx)
 {
 	unsigned int	r;
@@ -180,7 +167,7 @@ int		main(int ac, char **av)
 	mlx.tmp2 = mlx_new_image(mlx.mlx, WIDTH, HEIGHT);
 	mlx.atmp = mlx_get_data_addr(mlx.tmp, &mlx.bp, &mlx.sl, &mlx.endian);
 	mlx.atmp2 = mlx_get_data_addr(mlx.tmp2, &mlx.bp, &mlx.sl, &mlx.endian);
-	mlx.s.cam.viewplane.z = 1;
+	mlx.s.cam.viewplane.z = 4;
 	mlx.s.cam.chunk.x = -1;
 	mlx.s.cam.chunk.y = -1;
 	mlx.s.cam.dsr = DSR;
