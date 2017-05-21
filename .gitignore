@@ -33,9 +33,10 @@
 *.su
 
 *.ppm
+*.bmp
 *.swp
 *.swo
 .DS_Store
 rtvocl
 rt_client/rt_client
-Rendu.ppm
+.rt

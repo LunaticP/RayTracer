@@ -6,12 +6,7 @@
 /*   By: gsimeon <gsimeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/11 06:10:10 by jplevy            #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2017/05/21 19:16:49 by gsimeon          ###   ########.fr       */
-=======
-/*   Updated: 2017/05/21 19:27:31 by pgourran         ###   ########.fr       */
-/*   Updated: 2017/05/21 18:45:48 by aviau            ###   ########.fr       */
->>>>>>> 6fc8fe632d54a33bc08c9f06f361442beb25d613
+/*   Updated: 2017/05/21 19:48:22 by gsimeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +15,7 @@
 
 # define USAGE "./rtv1 file\n"
 # define DEBUG	0
-<<<<<<< HEAD
 # define DSR	8
-=======
-# define DSR	4
->>>>>>> 6fc8fe632d54a33bc08c9f06f361442beb25d613
 # define W		1280
 # define H		720
 # define STEREO		0

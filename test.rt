@@ -1,3 +1,8 @@
+textures
+{
+	"WOOD.bmp";
+}
+
 objects
 {
 	sphere
