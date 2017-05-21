@@ -6,13 +6,13 @@
 /*   By: aviau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/21 18:05:06 by aviau             #+#    #+#             */
-/*   Updated: 2017/05/21 18:05:08 by aviau            ###   ########.fr       */
+/*   Updated: 2017/05/21 20:22:56 by aviau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <rt.h>
 
-cl_float4		vec_norm(cl_float4 vec)
+cl_float4	vec_norm(cl_float4 vec)
 {
 	cl_float4	norm;
 	float		lenght;

@@ -406,7 +406,7 @@ settings
 	height = 720;
 	max_reflect = 20;
 	anti_allias = 2;
-	ambient = 10;
+	ambient = 1;
 	stereo = 0;
 	name = "path test";
 }
