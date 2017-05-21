@@ -6,7 +6,7 @@
 /*   By: gsimeon <gsimeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/20 01:16:53 by gsimeon           #+#    #+#             */
-/*   Updated: 2017/05/20 18:52:36 by gsimeon          ###   ########.fr       */
+/*   Updated: 2017/05/21 05:53:44 by gsimeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@
 # define FTOA_SIZE_X		(160)
 
 # define BG_PLAN			"./img/plan.xpm"
+# define BG_SPHERE			"./img/sphere.xpm"
+# define BG_CYLINDER		"./img/cylinder.xpm"
 
 /*
 ** -------------------- Color Button Settings -----------------------
@@ -207,7 +209,7 @@ static const char *g_rt_win_error_array[RT_ENUM_ERROR_SIZE] = {
 */
 
 # define NUM_DFLT_BUTTON		(12)
-# define NUM_DFLT_SLIDER		(3)
+# define NUM_DFLT_SLIDER		(2)
 # define NUM_DFLT_SWITCH		(4)
 # define NUM_DFLT_PARAM	(NUM_DFLT_BUTTON + NUM_DFLT_SLIDER + NUM_DFLT_SWITCH)
 
@@ -300,8 +302,7 @@ static const uint64_t		g_rt_offset_allobj[NUM_DFLT_PARAM] = {
 	OFFSETOF(t_obj, dir.s[F4_Y]),
 	OFFSETOF(t_obj, dir.s[F4_Z]),
 	OFFSETOF(t_obj, diff),
-	OFFSETOF(t_obj, refl),
-	OFFSETOF(t_obj, refr)
+	OFFSETOF(t_obj, refl)
 };
 
 static const uint64_t		g_rt_offset_button_sphere[NUM_SPHERE_BUTTON] = {
@@ -333,8 +334,7 @@ static const uint64_t		g_rt_offset_button_all_object[NUM_DFLT_BUTTON] = {
 
 static const t_fslider		g_rt_slider_all_object[NUM_DFLT_SLIDER] = {
 	{.offset = OFFSETOF(t_obj, diff), .min = 0.0, .max = 1.0},
-	{.offset = OFFSETOF(t_obj, refl), .min = 0.0, .max = 1.0},
-	{.offset = OFFSETOF(t_obj, refr), .min = 0.0, .max = 1.0}
+	{.offset = OFFSETOF(t_obj, refl), .min = 0.0, .max = 1.0}
 };
 
 static const t_fswitch	g_rt_switch_all_object[NUM_DFLT_SWITCH] = {
@@ -362,8 +362,7 @@ static const t_stringput	g_rt_strname_allobj[NUM_DFLT_PARAM] = {
 	{.color = STRING_COLOR, .f_string = NULL, .string = "Direction (y)"},
 	{.color = STRING_COLOR, .f_string = NULL, .string = "Direction (z)"},
 	{.color = STRING_COLOR, .f_string = NULL, .string = "Diffuse"},
-	{.color = STRING_COLOR, .f_string = NULL, .string = "Reflection"},
-	{.color = STRING_COLOR, .f_string = NULL, .string = "Refraction"}
+	{.color = STRING_COLOR, .f_string = NULL, .string = "Reflection"}
 };
 
 static const t_stringput	g_rt_strname_sphere[NUM_SPHERE_PARAM] = {
@@ -383,7 +382,6 @@ static const t_stringput	g_rt_strvalue_allobj[NUM_DFLT_PARAM] = {
 	{.color = STRING_COLOR, .f_string = str_get_switch, .string = NULL},
 	{.color = STRING_COLOR, .f_string = str_get_switch, .string = NULL},
 	{.color = STRING_COLOR, .f_string = str_get_switch, .string = NULL},
-	{.color = STRING_COLOR, .f_string = str_get_value, .string = NULL},
 	{.color = STRING_COLOR, .f_string = str_get_value, .string = NULL},
 	{.color = STRING_COLOR, .f_string = str_get_value, .string = NULL},
 	{.color = STRING_COLOR, .f_string = str_get_value, .string = NULL},
