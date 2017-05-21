@@ -8,24 +8,24 @@ int		ray_loop(void *param)
 	if (mlx->key & REDRAW)
 	{
 		k_apply(mlx->key, &mlx->s);
-		while(!mlx->s.cam.fast && ++mlx->s.cam.chunk.y < mlx->s.cam.viewplane.w)
+		while (!mlx->s.cam.fast && ++mlx->s.cam.chunk.y < mlx->s.cam.viewplane.w)
 		{
-			while(++mlx->s.cam.chunk.x < mlx->s.cam.viewplane.z)
+			while (++mlx->s.cam.chunk.x < mlx->s.cam.viewplane.z)
 			{
-				if(!(ocl_enqueue_kernel(&(mlx->prog), "raytracer")))
+				if (!(ocl_enqueue_kernel(&(mlx->prog), "raytracer")))
 					exit_error("Cannot full render, chnge your scene");
 				mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img, 0, 0);
 				mlx_do_sync(mlx->mlx);
 			}
 			mlx->s.cam.chunk.x = -1.0f;
 		}
-		if(mlx->s.cam.fast)
-			if(!(ocl_enqueue_kernel(&(mlx->prog), "rt_fast")))
+		if (mlx->s.cam.fast)
+			if (!(ocl_enqueue_kernel(&(mlx->prog), "rt_fast")))
 				exit_error("Cannot open, chnge your scene");
-		if(!mlx->s.cam.fast && DSR > 1)
+		if (!mlx->s.cam.fast && DSR > 1)
 			dsr(mlx);
 		mlx->s.cam.chunk = (cl_float2){.x = -1.0f, .y = -1.0f};
-		if(STEREO)
+		if (STEREO)
 		{
 			ocl_enqueue_kernel(&(mlx->prog), "cpy");
 			++mlx->s.cam.ori.x;
@@ -47,10 +47,10 @@ int		main(int ac, char **av)
 	static t_mlx	mlx;
 	size_t			pws[2];
 	size_t			pws_f[2];
-	(void)ac;
 
+	(void)ac;
 	mlx = rt_get_parser(av[1], mlx);
-	if (!(ocl_new_prog("./cl_src/rt.cl", 0x1000000 , &(mlx.prog))))
+	if (!(ocl_new_prog("./cl_src/rt.cl", 0x1000000, &(mlx.prog))))
 		return (0);
 	mlx.mlx = mlx_init();
 	rt_win_redraw(&mlx.key);
