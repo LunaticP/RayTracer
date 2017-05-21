@@ -6,7 +6,7 @@
 /*   By: gsimeon <gsimeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/11 06:10:10 by jplevy            #+#    #+#             */
-/*   Updated: 2017/05/19 22:15:33 by gsimeon          ###   ########.fr       */
+/*   Updated: 2017/05/21 15:24:17 by pgourran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define RT_H
 
 # define USAGE "./rtv1 file\n"
-# define DEBUG	1
+# define DEBUG	0
 # define DSR	1
 # define W		1280
 # define H		720

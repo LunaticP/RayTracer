@@ -677,22 +677,15 @@ int				rt_cone(__global t_obj *o, int i, int *i2, t_ray *ray)
 	c = dot(x, x) - k * sq(dot(x, odir));
 	if (quadratic(a, b, c, &t) && !(a = 0) && (o[i].pos.w > 0.5f || (a = ray_neg(o, ray, &t)) != 0))
 	{
-	float4 point = (t.x * ray->dir + ray->ori) - o[i].pos;
-	float4 point2 = (t.y * ray->dir + ray->ori) - o[i].pos;
-	float4 temp = normalize(o[i].dir);
-	float angle = acos(dot(temp, (float4)(0.0f,1.0f,0.0f,0.0f)));
-	float4 axis = normalize(cross(temp, (float4)(0.0f,1.0f,0.0f,0.0f)));
-	point = point * cos(angle) + cross(axis, point) * sin(angle) + axis * dot(axis, point) * (1 - cos(angle));
-	point2 = point2 * cos(angle) + cross(axis, point2) * sin(angle) + axis * dot(axis, point2) * (1 - cos(angle));
 		if (o[i].pos.w < 0.5f)
 			*i2 = a - 1;
-		if ((t.x < t.y && (o[i].pos.w > 0.5f || t.x > 0.01f) && (t.x < ray->t || ray->t <= 0)) && !limit(o, point, i))
+		if ((t.x < t.y && (o[i].pos.w > 0.5f || t.x > 0.01f) && (t.x < ray->t || ray->t <= 0)))
 		{
 			ray->t = t.x;
 			ray->t2 = t.y;
 				return (1);
 		}
-		else if ((o[i].pos.w > 0.5f || t.y > 0.01f) && (t.y < ray->t || ray->t <= 0) && !limit(o, point2, i))
+		else if ((o[i].pos.w > 0.5f || t.y > 0.01f) && (t.y < ray->t || ray->t <= 0))
 		{
 			ray->t = t.y;
 			ray->t2 = t.x;
