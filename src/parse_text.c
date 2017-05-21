@@ -55,7 +55,7 @@ int	*get_anytext(char *filename)
 	else if (t == ft_bmp)
 		text = get_bmp(filename);
 	else
-		return (NULL);
+		exit_error("AVAILABLE FILE");
 	ft_putendl("    \033[32m⦗ OK ⦘\033[0m");
 	return (text);
 }

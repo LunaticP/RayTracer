@@ -903,7 +903,7 @@ __kernel void	raytracer(
 
 	i *= c[0].viewplane.z;
 	i += c[0].chunk.x;
-	j *= c[0].viewplane.z;
+	j *= c[0].viewplane.w;
 	j += c[0].chunk.y;
 	if (i < (size_t)c[0].size.x && j < (size_t)c[0].size.y)
 	{
