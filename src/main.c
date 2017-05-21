@@ -119,14 +119,16 @@ int		ray_loop(void *param)
 		{
 			while(++mlx->s.cam.chunk.x < mlx->s.cam.viewplane.z)
 			{
-				ocl_enqueue_kernel(&(mlx->prog), "raytracer");
+				if(!(ocl_enqueue_kernel(&(mlx->prog), "raytracer")))
+					exit_error("Cannot full render, chnge your scene");
 				mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img, 0, 0);
 				mlx_do_sync(mlx->mlx);
 			}
 			mlx->s.cam.chunk.x = -1.0f;
 		}
 		if(mlx->s.cam.fast)
-			ocl_enqueue_kernel(&(mlx->prog), "rt_fast");
+			if(!(ocl_enqueue_kernel(&(mlx->prog), "rt_fast")))
+				exit_error("Cannot open, chnge your scene");
 		if(!mlx->s.cam.fast && DSR > 1)
 			dsr(mlx);
 		mlx->s.cam.chunk = (cl_float2){.x = -1.0f, .y = -1.0f};
@@ -179,12 +181,6 @@ int		main(int ac, char **av)
 	}
 	mlx.img = parent->img;
 	mlx.p = (unsigned char*)parent->data;
-
-	mlx.tmp = mlx_new_image(mlx.mlx, WIDTH, HEIGHT);
-	mlx.tmp2 = mlx_new_image(mlx.mlx, WIDTH, HEIGHT);
-	mlx.atmp = mlx_get_data_addr(mlx.tmp, &mlx.bp, &mlx.sl, &mlx.endian);
-	mlx.atmp2 = mlx_get_data_addr(mlx.tmp2, &mlx.bp, &mlx.sl, &mlx.endian);
-
 	mlx.s.cam.viewplane.z = 1;
 	mlx.s.cam.chunk.x = -1;
 	mlx.s.cam.chunk.y = -1;
@@ -211,8 +207,6 @@ int		main(int ac, char **av)
 	ocl_new_kernel(&(mlx.prog), 4, pws, "nowoworowd", "stereo", WIDTH * HEIGHT
 			* sizeof(int), mlx.p, WIDTH * HEIGHT * sizeof(int), mlx.atmp, WIDTH * HEIGHT * sizeof(int), mlx.p,
 			sizeof(size_t) * 2, pws, 2);
-
-
 	mlx_loop(mlx.mlx);
 	ocl_finish(mlx.prog);
 	return (0);
