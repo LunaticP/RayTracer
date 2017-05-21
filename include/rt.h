@@ -6,7 +6,7 @@
 /*   By: gsimeon <gsimeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/11 06:10:10 by jplevy            #+#    #+#             */
-/*   Updated: 2017/05/21 17:23:43 by aviau            ###   ########.fr       */
+/*   Updated: 2017/05/21 18:45:48 by aviau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,11 @@
 
 # define USAGE "./rtv1 file\n"
 # define DEBUG	0
-# define DSR	2
+# define DSR	4
 # define W		1280
 # define H		720
 # define STEREO		0
-# define OUT_FILE	0
+# define OUT_FILE	1
 # define WIDTH	(W * (DSR > 1 ? DSR : 1))
 # define HEIGHT	(H * (DSR > 1 ? DSR : 1))
 # define _
@@ -59,21 +59,16 @@ typedef struct		s_cam
 	short			dsr;
 }					t_cam;
 
-/*
-** A voir si bien tout dans les settings
-*/
-
 typedef struct		s_set
 {
 	int				width;
 	int				height;
-	int				max_reflect; // pas supp 50
-	int				anti_allias; // theoriquement jamais supp a 4
+	int				max_reflect;
+	int				anti_allias;
 	int				ambient;
-	cl_float		stereo; // stereoscopie 0 ou 1
+	cl_float		stereo;
 	char			*name;
 }					t_set;
-/**/
 
 typedef struct		s_scene
 {
@@ -123,10 +118,6 @@ cl_float4			cl_cross(cl_float4 v1, cl_float4 v2);
 cl_float4			normalize(cl_float4 v1);
 void				trans_cam(t_cam *cam, cl_float4 axis, float dir);
 void				rot_cam(t_cam *cam, cl_float4 axis, float angle);
-
-/*
-** ---------------------------------------------------
-*/
 
 #define PADDING(X, Y)	char padding ## X[Y]
 
