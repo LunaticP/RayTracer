@@ -33,6 +33,7 @@
 *.su
 
 *.ppm
+*.bmp
 *.swp
 *.swo
 .DS_Store

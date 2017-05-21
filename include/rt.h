@@ -6,7 +6,7 @@
 /*   By: gsimeon <gsimeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/11 06:10:10 by jplevy            #+#    #+#             */
-/*   Updated: 2017/05/21 19:38:53 by aviau            ###   ########.fr       */
+/*   Updated: 2017/05/21 19:43:30 by aviau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ typedef struct		s_cam
 	cl_float2		chunk;
 	short			fast;
 	short			dsr;
+	cl_int			ambient;
 }					t_cam;
 
 typedef struct		s_set
