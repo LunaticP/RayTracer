@@ -155,14 +155,11 @@ int		main(int ac, char **av)
 	size_t			pws_f[2];
 	(void)ac;
 
-	mlx = rt_get_parser(av[1], mlx); // mlx tex, return struct mlx
-
+	mlx = rt_get_parser(av[1], mlx);
 	if (!(ocl_new_prog("./cl_src/rt.cl", 0x1000000 , &(mlx.prog))))
 		return (0);
-
 	mlx.mlx = mlx_init();
 	rt_win_redraw(&mlx.key);
-
 	data = (t_datawin){.name = "rtvocl", .xwin = W, .ywin = H,
 			.f_keypress = k_press, .data_kp = &mlx,
 			.f_mousepress = m_press, .data_mp = &mlx,
@@ -179,40 +176,43 @@ int		main(int ac, char **av)
 	}
 	mlx.img = parent->img;
 	mlx.p = (unsigned char*)parent->data;
-
 	mlx.tmp = mlx_new_image(mlx.mlx, WIDTH, HEIGHT);
 	mlx.tmp2 = mlx_new_image(mlx.mlx, WIDTH, HEIGHT);
 	mlx.atmp = mlx_get_data_addr(mlx.tmp, &mlx.bp, &mlx.sl, &mlx.endian);
 	mlx.atmp2 = mlx_get_data_addr(mlx.tmp2, &mlx.bp, &mlx.sl, &mlx.endian);
-
 	mlx.s.cam.viewplane.z = 1;
 	mlx.s.cam.chunk.x = -1;
 	mlx.s.cam.chunk.y = -1;
-	mlx.s.cam.dsr = 1;
-//	mlx.p[0] = 0;
+	mlx.s.cam.dsr = DSR;
+	mlx.s.cam.size.x = WIDTH;
+	mlx.s.cam.size.y = HEIGHT;
 	pws[0] = WIDTH / mlx.s.cam.viewplane.z;
 	pws[1] = HEIGHT / mlx.s.cam.viewplane.z;
 	pws_f[0] = W / 2;
 	pws_f[1] = H / 2;
+	printf("%lu %lu %lu %lu\n", pws[0], pws[1], pws_f[0], pws_f[1]);
 	mlx.key = REDRAW;
-	ocl_new_kernel(&(mlx.prog), 5, pws, "norowowowowd", "raytracer", WIDTH * HEIGHT
-			* sizeof(int), mlx.p, sizeof(t_cam),
-			&(mlx.s.cam), sizeof(t_obj) * mlx.s.n_o,
-			mlx.s.obj,
-			sizeof(t_obj) * mlx.s.n_l,
-			mlx.s.light, sizeof(int) * (mlx.tex[0] + 1),
-			mlx.tex, 2);
-	ocl_new_kernel(&(mlx.prog), 5, pws_f, "norowowoword", "rt_fast", WIDTH * HEIGHT
-			* sizeof(int), mlx.p, sizeof(t_cam), &(mlx.s.cam),
-			sizeof(t_obj) * mlx.s.n_o, mlx.s.obj, sizeof(int) * 2, &mlx.mouse
-			, sizeof(int), &mlx.oid, 2);
-	ocl_new_kernel(&(mlx.prog), 3, pws, "norowowd", "cpy", WIDTH * HEIGHT
-			* sizeof(int), mlx.atmp, WIDTH * HEIGHT * sizeof(int), mlx.p, sizeof(size_t) * 2, pws, 2);
-	ocl_new_kernel(&(mlx.prog), 4, pws, "nowoworowd", "stereo", WIDTH * HEIGHT
-			* sizeof(int), mlx.p, WIDTH * HEIGHT * sizeof(int), mlx.atmp, WIDTH * HEIGHT * sizeof(int), mlx.p,
+	ocl_new_kernel(&(mlx.prog), 5, pws, "norowowowowd", "raytracer",\
+			sizeof(int) * WIDTH * HEIGHT, mlx.p,\
+			sizeof(t_cam), &(mlx.s.cam),\
+			sizeof(t_obj) * mlx.s.n_o, mlx.s.obj,\
+			sizeof(t_obj) * mlx.s.n_l, mlx.s.light,\
+			sizeof(int) * (mlx.tex[0] + 1), mlx.tex, 2);
+	ocl_new_kernel(&(mlx.prog), 5, pws_f, "norowowoword", "rt_fast",\
+			sizeof(int) * WIDTH * HEIGHT, mlx.p,\
+			sizeof(t_cam), &(mlx.s.cam),\
+			sizeof(t_obj) * mlx.s.n_o, mlx.s.obj,\
+			sizeof(int) * 2, &mlx.mouse,\
+			sizeof(int), &mlx.oid, 2);
+	ocl_new_kernel(&(mlx.prog), 3, pws, "norowowd", "cpy",\
+			sizeof(int) * WIDTH * HEIGHT, mlx.atmp,\
+			sizeof(int) * WIDTH * HEIGHT, mlx.p,\
 			sizeof(size_t) * 2, pws, 2);
-
-
+	ocl_new_kernel(&(mlx.prog), 4, pws, "nowoworowd", "stereo",\
+			sizeof(int) * WIDTH * HEIGHT, mlx.p,\
+			sizeof(int) * WIDTH * HEIGHT, mlx.atmp,\
+			sizeof(int) * WIDTH * HEIGHT, mlx.p,
+			sizeof(size_t) * 2, pws, 2);
 	mlx_loop(mlx.mlx);
 	ocl_finish(mlx.prog);
 	return (0);

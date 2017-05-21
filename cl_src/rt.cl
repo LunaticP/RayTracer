@@ -908,7 +908,7 @@ __kernel void	raytracer(
 	j += c[0].chunk.y;
 	if (i < (size_t)c[0].size.x && j < (size_t)c[0].size.y)
 	{
-		string[j * c[0].size.x + i] = 0;
+		string[j * c[0].size.x + i] = 0xFF00FF;
 		ray.dir = normalize(ray_from_coord(i, j, c, 1));
 		ray.ori = c[0].ori;
 		r = 0;
@@ -1002,16 +1002,11 @@ __kernel void	rt_fast(
 			string[j * c[0].size.x + i + 1] = color;
 			string[(j + 1) * c[0].size.x + i] = color;
 			string[(j + 1) * c[0].size.x + i + 1] = color;
-//				printf("-----------kernel---------\n");
-//				printf("-------------------------\n");
 			if ((m_id[0] == ((int)i) && m_id[1] == ((int)j))
 			|| (m_id[0] + 1 == ((int)i) && m_id[1] == ((int)j))
 			|| (m_id[0] == ((int)i) && m_id[1] + 1== ((int)j))
 			|| (m_id[0] + 1 == ((int)i) && m_id[1] + 1 == ((int)j)))
-				{
 					*obj_id = id;
-//					printf("-- x : %d | y : %d | i : %lu | j : %lu | id : %d --\n", m_id[0], m_id[1], i, j, id);
-				}
 		}
 	}
 }
