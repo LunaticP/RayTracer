@@ -1,5 +1,16 @@
 #include <rt.h>
 
+char	*ft_stroccur(char *str, char a, char b)
+{
+	char	*tmp;
+
+	while ((tmp = ft_strchr(str, a)))
+		*tmp = b;
+	if (str[ft_strlen(str) - 1] == '\n')
+		str[ft_strlen(str) - 1] = '\0';
+	return (str);
+}
+
 void	img_file(unsigned char *img)
 {
 	time_t	t;
@@ -9,7 +20,7 @@ void	img_file(unsigned char *img)
 	int		y;
 
 	t = time(NULL);
-	name = ft_strjoin(ctime(&t), "_rt.ppm");
+	name = ft_strjoin(ft_stroccur(ctime(&t), ' ', '_'), "_rt.ppm");
 	fd = open(name, O_CREAT | O_TRUNC | O_WRONLY, 0775);
 	ft_putstr_fd("P6\n", fd);
 	ft_putstr_fd(ft_itoa(W), fd);
@@ -148,12 +159,8 @@ int		main(int ac, char **av)
 	mlx.tmp2 = mlx_new_image(mlx.mlx, WIDTH, HEIGHT);
 	mlx.atmp = mlx_get_data_addr(mlx.tmp, &mlx.bp, &mlx.sl, &mlx.endian);
 	mlx.atmp2 = mlx_get_data_addr(mlx.tmp2, &mlx.bp, &mlx.sl, &mlx.endian);
-<<<<<<< HEAD
-	mlx.s.cam.viewplane.z = 4;
-=======
 	mlx.s.cam.viewplane.z = 2;
 	mlx.s.cam.viewplane.w = 4;
->>>>>>> 6fc8fe632d54a33bc08c9f06f361442beb25d613
 	mlx.s.cam.chunk.x = -1;
 	mlx.s.cam.chunk.y = -1;
 	mlx.s.cam.dsr = DSR;
