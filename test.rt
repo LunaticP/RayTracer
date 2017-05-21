@@ -382,8 +382,8 @@ camera
 	}
 	viewplane
 	{
-		z = 0;
-		w = 0;
+		z = 2;
+		w = 2;
 	}
 	p
 	{

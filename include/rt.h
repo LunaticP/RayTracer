@@ -6,7 +6,7 @@
 /*   By: gsimeon <gsimeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/11 06:10:10 by jplevy            #+#    #+#             */
-/*   Updated: 2017/05/21 20:17:24 by aviau            ###   ########.fr       */
+/*   Updated: 2017/05/21 21:09:58 by aviau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,6 +143,8 @@ t_mlx				rt_get_parser(char *path, t_mlx mlx);
 t_parser			*rt_parser_file(char *file);
 char				*rt_get_file(char *path);
 void				rt_free_after_parser(char *file, t_parser *parser);
+void				img_file(unsigned char *img);
+void				dsr(t_mlx *mlx);
 
 t_parser			*rt_parser_objects(char	*file, t_parser *ptr_parser);
 t_parser			*rt_parser_camera(char *file, t_parser *parser);
@@ -190,9 +192,9 @@ void				print_data_camera(t_cam *cam);
 void				print_data_settings(t_set *set);
 void				test_read_tab(void ***tab);
 
-void	print_log(char *str);
-void	print_warning(char *str);
-void	print_error(char *str);
-void	print_info(char *str);
+void				print_log(char *str);
+void				print_warning(char *str);
+void				print_error(char *str);
+void				print_info(char *str);
 
 #endif
