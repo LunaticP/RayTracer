@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include <rt_bmp.h>
+#include <rt.h>
 #include <libft.h>
 
 void	init_ppm(int fd, int **ppm, int *size)
@@ -46,6 +47,8 @@ int		*get_ppm(char *file)
 
 	line = NULL;
 	fd = open(file, O_RDONLY);
+	if (fd < 1)
+		exit_error("TEXTURE INVALIDE");
 	init_ppm(fd, &ppm, size);
 	ij[0] = 3;
 	get_next_line(fd, &line);

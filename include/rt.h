@@ -189,4 +189,9 @@ void				print_data_camera(t_cam *cam);
 void				print_data_settings(t_set *set);
 void				test_read_tab(void ***tab);
 
+void	print_log(char *str);
+void	print_warning(char *str);
+void	print_error(char *str);
+void	print_info(char *str);
+
 #endif
