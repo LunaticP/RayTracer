@@ -1,3 +1,8 @@
+textures
+{
+	"WOOD.bmp";
+}
+
 objects
 {
 	sphere
@@ -251,11 +256,11 @@ objects
 		refl = 0;
 		trans = 0;
 		refr = 0;
-		tex = 0;
+		tex = 1;
 		n_m = 0;
 		r_m = 0;
 		t_m = 0;
-		mod_tex{x = 0; y = 0; z = 0; w = 0;}
+		mod_tex{x = 30; y = 30; z = 0; w = 0;}
 		mod_normal{x = 0; y = 0; z = 0; w = 0;}
 		mod_ref{x = 0; y = 0; z = 0; w = 0;}
 		mod_trans{x = 0; y = 0; z = 0; w = 0;}
