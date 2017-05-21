@@ -1,6 +1,6 @@
 textures
 {
-	"WOOD.bmp";
+	"test.ppm";
 }
 
 objects

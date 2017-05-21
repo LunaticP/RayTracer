@@ -222,3 +222,7 @@ settings
 	name = "path test";
 }
 
+textures
+{
+	"exemple.ppm"	
+}

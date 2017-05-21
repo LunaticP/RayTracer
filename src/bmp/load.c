@@ -22,6 +22,8 @@ int	*get_bmp(char *file)
 	int				*size;
 
 	file_bmp = ft_bitmap_file_load(file);
+	if (file_bmp == NULL)
+		exit_error("TEXTURE INVALIDE");
 	file_unc = ft_bmp_to_ubmp(file_bmp);
 	size = (int *)ft_memalloc(sizeof(int) * 3);
 	size[0] = file_unc->size.x * file_unc->size.y + 3;

@@ -11,9 +11,10 @@
 /* ************************************************************************** */
 
 #include "parser.h"
+#include <rt.h>
 
 void			exit_error(char *str)
 {
-	ft_putendl(str);
+	print_error(str);
 	exit(0);
 }
