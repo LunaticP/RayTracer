@@ -6,7 +6,7 @@
 /*   By: gsimeon <gsimeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/11 06:10:10 by jplevy            #+#    #+#             */
-/*   Updated: 2017/05/21 17:23:43 by aviau            ###   ########.fr       */
+/*   Updated: 2017/05/21 19:16:49 by gsimeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # define USAGE "./rtv1 file\n"
 # define DEBUG	0
-# define DSR	2
+# define DSR	8
 # define W		1280
 # define H		720
 # define STEREO		0

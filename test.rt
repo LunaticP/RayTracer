@@ -1,8 +1,3 @@
-textures
-{
-	"test.ppm";
-}
-
 objects
 {
 	sphere
@@ -256,7 +251,7 @@ objects
 		refl = 0;
 		trans = 0;
 		refr = 0;
-		tex = 1;
+		tex = 0;
 		n_m = 0;
 		r_m = 0;
 		t_m = 0;
