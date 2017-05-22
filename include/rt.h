@@ -57,7 +57,7 @@ typedef struct		s_cam
 	cl_float2		chunk;
 	short			fast;
 	short			dsr;
-	cl_int			ambient;
+	cl_int			ambient; // color +  a voir
 }					t_cam;
 
 typedef struct		s_set
@@ -65,9 +65,7 @@ typedef struct		s_set
 	int				width;
 	int				height;
 	int				max_reflect;
-	int				anti_allias;
-	int				ambient;
-	cl_float		stereo;
+	int				ambient; // color + a voir
 	char			*name;
 }					t_set;
 

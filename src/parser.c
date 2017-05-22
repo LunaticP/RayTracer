@@ -18,7 +18,6 @@ t_mlx			rt_get_parser(char *path, t_mlx mlx)
 
 	file = rt_get_file(path);
 	parser = rt_parser_file(file);
-	// while (1);
 	tab = rt_list_to_tab(parser->next, mlx.tab_size); // gerer le tab[4] -> textures
 	// rt_clean_tab(tab, mlx.tab_size); // Pas tres utile
 	mlx.s = rt_alloc_scene(tab, mlx);
@@ -36,8 +35,6 @@ t_mlx			rt_get_parser(char *path, t_mlx mlx)
 		s_print_all(tab, mlx.tab_size);
 		exit(0);
 	}
-	// while(1);
-	// exit(0);
 	return (mlx);
 }
 
