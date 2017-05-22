@@ -70,7 +70,7 @@ OBJ_PATH = ./obj/
 SRC=$(addprefix $(SRC_PATH),$(SRC_NAME))
 OBJ=$(addprefix $(OBJ_PATH),$(OBJ_NAME))
 
-CC = gcc
+CC = gcc -g
 OBJ_SUB =	network\
 			bmp
 

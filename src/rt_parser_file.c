@@ -48,6 +48,9 @@ t_parser				*rt_parser_file(char *file)
 		ptr_parser = g_tab_elem[index].ft_elem(file, ptr_parser);
 		file = rt_goto_bracket_close(file);
 	}
+	//free(file);
+// printf("FIN\n");
+// while (1);
 	if (check[0] != 1)
 		ptr_parser = s_init_settings(ptr_parser);
 	return (parser);
@@ -57,9 +60,12 @@ static int				s_choice_lvl_1(char **file, int size)
 {
 	int					i;
 
+	// void *olol = malloc(45458);
 	i = 0;
 	if (**file == '\0')
+	{
 		return (size);
+	}
 	while (i < size)
 	{
 		if (rt_strcmp(g_tab_elem[i].name, *file) == 0)
@@ -69,6 +75,8 @@ static int				s_choice_lvl_1(char **file, int size)
 		}
 		++i;
 	}
+// printf("FIN 2\n");
+// exit(1);
 	return (_(exit_error("EXIT : rt_choice_lvl_1"), false));
 }
 
@@ -77,6 +85,7 @@ t_parser				*s_init_settings(t_parser *parser)
 	t_parser			*new_parser;
 	t_set				*set;
 
+	while (1);
 	new_parser = (t_parser *)rt_memalloc(sizeof(t_parser));
 	new_parser->elem = SETTINGS;
 	new_parser->next = NULL;
@@ -90,7 +99,7 @@ t_parser				*s_init_settings(t_parser *parser)
 	new_parser->content = set;
 	parser->next = new_parser;
 	parser = parser->next;
-	return (new_parser);
+	return (parser);
 }
 
 static void				s_check_exception(int index, int *check)

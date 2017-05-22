@@ -190,7 +190,6 @@ int		main(int ac, char **av)
 	pws[1] = HEIGHT / mlx.s.cam.viewplane.z;
 	pws_f[0] = W / 2;
 	pws_f[1] = H / 2;
-	printf("%lu %lu %lu %lu\n", pws[0], pws[1], pws_f[0], pws_f[1]);
 	mlx.key = REDRAW;
 	ocl_new_kernel(&(mlx.prog), 5, pws, "norowowowowd", "raytracer",\
 			sizeof(int) * WIDTH * HEIGHT, mlx.p,\

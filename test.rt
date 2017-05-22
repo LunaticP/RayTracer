@@ -1,6 +1,12 @@
-textures
+settings
 {
-	"test.ppm";
+	width = 1280;
+	height = 720;
+	max_reflect = 20;
+	anti_allias = 2;
+	ambient = 10;
+	stereo = 0;
+	name = "path test";
 }
 
 objects
@@ -256,7 +262,7 @@ objects
 		refl = 0;
 		trans = 0;
 		refr = 0;
-		tex = 1;
+		tex = 0;
 		n_m = 0;
 		r_m = 0;
 		t_m = 0;
@@ -398,15 +404,4 @@ camera
 	}
 	fast = 1;
 	dsr = 2;
-}
-
-settings
-{
-	width = 1280;
-	height = 720;
-	max_reflect = 20;
-	anti_allias = 2;
-	ambient = 10;
-	stereo = 0;
-	name = "path test";
 }

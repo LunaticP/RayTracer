@@ -27,6 +27,7 @@ void				*rt_get_float(char *str)
 		neg = -1;
 	full = ft_atoi(str);
 	full += s_get_mentisse(str) * neg;
+	free(str);
 	return ((void *)&full);
 }
 
