@@ -6,7 +6,7 @@
 /*   By: vthomas <vthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/13 19:15:03 by vthomas           #+#    #+#             */
-/*   Updated: 2017/05/15 16:33:47 by aviau            ###   ########.fr       */
+/*   Updated: 2017/05/22 13:23:14 by pgourran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ int		*get_ppm(char *file)
 	int		size[3];
 	int		ij[2];
 
-	line = NULL;
 	fd = open(file, O_RDONLY);
 	if (fd < 1)
 		exit_error("TEXTURE INVALIDE");
@@ -56,7 +55,10 @@ int		*get_ppm(char *file)
 	{
 		ij[1] = -1;
 		while (++ij[1] <= 2 && get_next_line(fd, &line))
+		{
 			size[ij[1]] = ft_atoi(line);
+			free(line);
+		}
 		ppm[ij[0]] = size[0] * 0x10000 + size[1] * 0x100 + size[2];
 		ij[0]++;
 	}
