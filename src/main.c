@@ -5,65 +5,76 @@ t_scene	ft_init_scene(void)
 	t_scene	ret;
 
 	ret.cam.ori.x = 0.0;
-	ret.cam.ori.y = -7.0;
-	ret.cam.ori.z = -14.0;
+	ret.cam.ori.y = 0.0;
+	ret.cam.ori.z = -10.0;
+
 	ret.cam.dirx.x = 1.0;
 	ret.cam.dirx.y = 0.0;
 	ret.cam.dirx.z = 0.0;
+
 	ret.cam.diry.x = 0.0;
 	ret.cam.diry.y = 1.0;
 	ret.cam.diry.z = 0.0;
+
 	ret.cam.dirz.x = 0.0;
 	ret.cam.dirz.y = 0.0;
-	ret.cam.dirz.z = 0.1;
-	ret.cam.size.x = WIDTH;
-	ret.cam.size.y = HEIGHT;
+	ret.cam.dirz.z = 1.0;
+
 	ret.cam.viewplane.x = 10.0 * ((float)(WIDTH) / (float)(HEIGHT));
 	ret.cam.viewplane.y = 10.0;
 	ret.cam.p.x = -5.0 * ((float)(WIDTH) / (float)(HEIGHT));
 	ret.cam.p.y = 5.0;
 	ret.cam.p.z = 5.0;
+
 	ret.light = ft_memalloc(sizeof(t_obj) * 7);
+/**/
 	ret.light[0].pos.x = 9.0;
 	ret.light[0].pos.y = 0.0;
 	ret.light[0].pos.z = 0.0;
 	ret.light[0].col = 0xFFFFFF;
 	ret.light[0].type = light;
 	ret.light[0].r = 50.0;
+
 	ret.light[1].pos.x = -9.0;
 	ret.light[1].pos.y = 0.0;
 	ret.light[1].pos.z = 0.0;
 	ret.light[1].col = 0xFFFFFF;
 	ret.light[1].type = light;
 	ret.light[1].r = 50.0;
+
 	ret.light[2].pos.x = 0.0;
 	ret.light[2].pos.y = 0.0;
 	ret.light[2].pos.z = 9.0;
 	ret.light[2].col = 0xFFFFFF;
 	ret.light[2].type = light;
 	ret.light[2].r = 50.0;
+
 	ret.light[3].pos.x = 0.0;
 	ret.light[3].pos.y = 0.0;
 	ret.light[3].pos.z = -9.0;
 	ret.light[3].col = 0xFFFFFF;
 	ret.light[3].type = light;
 	ret.light[3].r = 50.0;
+
 	ret.light[4].pos.x = 0.0;
 	ret.light[4].pos.y = 9.0;
 	ret.light[4].pos.z = 0.0;
 	ret.light[4].col = 0xFFFFFF;
 	ret.light[4].type = light;
 	ret.light[4].r = 50.0;
+
 	ret.light[5].pos.x = 0.0;
 	ret.light[5].pos.y = -9.0;
 	ret.light[5].pos.z = 0.0;
 	ret.light[5].col = 0xFFFFFF;
 	ret.light[5].type = light;
 	ret.light[5].r = 50.0;
+/**/
 	ret.light[6].type = end;
 	ret.n_l = 7;
-	/*
+
 	ret.obj = ft_memalloc(sizeof(t_obj) * 13);
+/**/
 	ret.obj[0].dir.x = 0.0;
 	ret.obj[0].dir.y = 0.0;
 	ret.obj[0].dir.z = -1.0;
@@ -78,6 +89,7 @@ t_scene	ft_init_scene(void)
 	ret.obj[0].type = plan;
 	ret.obj[0].diff = 1.0;
 	ret.obj[0].refl = 0.0;
+
 	ret.obj[1].dir.x = 1.0;
 	ret.obj[1].dir.y = 0.0;
 	ret.obj[1].dir.z = 0.0;
@@ -92,6 +104,7 @@ t_scene	ft_init_scene(void)
 	ret.obj[1].type = plan;
 	ret.obj[1].diff = 1.0;
 	ret.obj[1].refl = 0.0;
+
 	ret.obj[2].dir.x = 0.0;
 	ret.obj[2].dir.y = 1.0;
 	ret.obj[2].dir.z = 0.0;
@@ -106,6 +119,7 @@ t_scene	ft_init_scene(void)
 	ret.obj[2].type = plan;
 	ret.obj[2].diff = 1.0;
 	ret.obj[2].refl = 0.0;
+
 	ret.obj[3].dir.x = 0.0;
 	ret.obj[3].dir.y = -1.0;
 	ret.obj[3].dir.z = 0.0;
@@ -120,6 +134,7 @@ t_scene	ft_init_scene(void)
 	ret.obj[3].type = plan;
 	ret.obj[3].diff = 1.0;
 	ret.obj[3].refl = 0.0;
+
 	ret.obj[4].dir.x = -1.0;
 	ret.obj[4].dir.y = 0.0;
 	ret.obj[4].dir.z = 0.0;
@@ -134,6 +149,7 @@ t_scene	ft_init_scene(void)
 	ret.obj[4].type = plan;
 	ret.obj[4].diff = 1.0;
 	ret.obj[4].refl = 0.0;
+
 	ret.obj[5].dir.x = 0.0;
 	ret.obj[5].dir.y = 0.0;
 	ret.obj[5].dir.z = 1.0;
@@ -148,7 +164,7 @@ t_scene	ft_init_scene(void)
 	ret.obj[5].type = plan;
 	ret.obj[5].diff = 1.0;
 	ret.obj[5].refl = 0.0;
-	
+
 	ret.obj[6].pos.x = 0.0;
 	ret.obj[6].pos.y = 0.0;
 	ret.obj[6].pos.z = 0.0;
@@ -164,6 +180,7 @@ t_scene	ft_init_scene(void)
 	ret.obj[6].diff = 0.0;
 	ret.obj[6].refl = 0.0;
 	ret.obj[6].alpha = 25.0f;
+
 	ret.obj[7].pos.x = 7.5;
 	ret.obj[7].pos.y = 0.0;
 	ret.obj[7].pos.z = 0.0;
@@ -179,6 +196,7 @@ t_scene	ft_init_scene(void)
 	ret.obj[7].diff = 1.0;
 	ret.obj[7].refl = 0.0;
 	ret.obj[7].alpha = 25.0f;
+
 	ret.obj[8].pos.x = -7.5;
 	ret.obj[8].pos.y = 0.0;
 	ret.obj[8].pos.z = 0.0;
@@ -194,6 +212,7 @@ t_scene	ft_init_scene(void)
 	ret.obj[8].diff = 1.0;
 	ret.obj[8].refl = 0.0;
 	ret.obj[8].alpha = 25.0f;
+
 	ret.obj[9].pos.x = 0.0;
 	ret.obj[9].pos.y = 0.0;
 	ret.obj[9].pos.z = 7.5;
@@ -209,6 +228,7 @@ t_scene	ft_init_scene(void)
 	ret.obj[9].diff = 1.0;
 	ret.obj[9].refl = 0.0;
 	ret.obj[9].alpha = 25.0f;
+
 	ret.obj[10].pos.x = 0.0;
 	ret.obj[10].pos.y = 0.0;
 	ret.obj[10].pos.z = -7.5;
@@ -224,7 +244,7 @@ t_scene	ft_init_scene(void)
 	ret.obj[10].diff = 1.0;
 	ret.obj[10].refl = 0.0;
 	ret.obj[10].alpha = 25.0f;
-	*/
+
 	ret.obj[11].pos.x = 0.0;
 	ret.obj[11].pos.y = 0.0;
 	ret.obj[11].pos.z = 0.0;
@@ -242,6 +262,7 @@ t_scene	ft_init_scene(void)
 	ret.obj[11].refl = 0.0;
 	ret.obj[11].trans = 0.0;
 	ret.obj[11].r = 3.0;
+/**/
 	ret.obj[12].type = end;
 	ret.n_o = 13;
 	return (ret);
@@ -261,6 +282,7 @@ int		ray_loop(void *param)
 	if (mlx->key & REDRAW)
 	{
 		k_apply(mlx->key, &mlx->s);
+		printf("%f %f %f\n", mlx->s.cam.dirz.x, mlx->s.cam.dirz.y, mlx->s.cam.dirz.z);
 		while (!mlx->s.cam.fast && ++mlx->s.cam.chunk.y < mlx->s.cam.viewplane.w)
 		{
 			while (++mlx->s.cam.chunk.x < mlx->s.cam.viewplane.z)
@@ -322,9 +344,7 @@ int		main(int ac, char **av)
 		parent->data = mlx_get_data_addr(parent->img, &mlx.bp, &mlx.sl, &mlx.endian);
 	}
 	mlx.s = ft_init_scene();
-	print_info("0");
 	mlx.tex = get_texture(&av[1]);
-	print_info("1");
 	mlx.img = parent->img;
 	mlx.p = (unsigned char*)parent->data;
 	mlx.tmp = mlx_new_image(mlx.mlx, WIDTH, HEIGHT);
@@ -333,7 +353,10 @@ int		main(int ac, char **av)
 	mlx.atmp2 = mlx_get_data_addr(mlx.tmp2, &mlx.bp, &mlx.sl, &mlx.endian);
 	mlx.s.cam.chunk = (cl_float2){.x = -1, .y = -1};
 	mlx.s.cam.size = (cl_int2){.x = WIDTH, .y = HEIGHT};
+	mlx.s.cam.dsr = 1;
 	mlx.s.cam.ambient = 0x252525;
+	mlx.s.cam.viewplane.z = 2;
+	mlx.s.cam.viewplane.w = 2;
 	pws[0] = WIDTH / mlx.s.cam.viewplane.z;
 	pws[1] = HEIGHT / mlx.s.cam.viewplane.w;
 	pws_f[0] = W / 2;

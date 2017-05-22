@@ -871,7 +871,7 @@ float4			ray_from_coord(size_t x, size_t y, __global t_cam *c, int mul)
 	ret += c->dirx * (c->p.x + ((float)x * c->viewplane.x / (float)c->size.x * mul));
 	ret += c->diry * (c->p.y - ((float)y * c->viewplane.y / (float)c->size.y * mul));
 	ret += c->dirz * (c->p.z);
-	return ((ret)); 
+	return (normalize(ret)); 
 }
 
 __kernel void	raytracer(
@@ -908,7 +908,7 @@ __kernel void	raytracer(
 	if (i < (size_t)c[0].size.x && j < (size_t)c[0].size.y)
 	{
 		string[j * c[0].size.x + i] = 0xFF00FF;
-		ray.dir = normalize(ray_from_coord(i, j, c, 1));
+		ray.dir = ray_from_coord(i, j, c, 1);
 		ray.ori = c[0].ori;
 		r = 0;
 		g = 0;
@@ -994,7 +994,7 @@ __kernel void	rt_fast(
 	if (i < (size_t)c[0].size.x && j < (size_t)c[0].size.y)
 	{
 		string[j * c[0].size.x + i] = 0;
-		ray.dir = normalize(ray_from_coord(i, j, c, c[0].dsr));
+		ray.dir = ray_from_coord(i, j, c, c[0].dsr);
 		ray.ori = c[0].ori;
 		if ((id = ray_match(o, &ray)) != -1)
 		{

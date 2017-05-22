@@ -6,7 +6,7 @@
 /*   By: vthomas <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/21 20:52:20 by vthomas           #+#    #+#             */
-/*   Updated: 2017/05/22 19:19:10 by aviau            ###   ########.fr       */
+/*   Updated: 2017/05/22 20:45:24 by aviau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # define USAGE		"./rtv1 file\n"
 # define DEBUG		0
-# define DSR		2
+# define DSR		1
 # define W			1280
 # define H			720
 # define STEREO		0
