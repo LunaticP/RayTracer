@@ -22,7 +22,7 @@ int		ray_loop(void *param)
 		if (mlx->s.cam.fast)
 			if (!(ocl_enqueue_kernel(&(mlx->prog), "rt_fast")))
 				exit_error("Cannot open, change your scene");
-		if (!mlx->s.cam.fast && DSR > 1)
+		if (!mlx->s.cam.fast && mlx->s.cam.dsr > 1)
 			dsr(mlx);
 		mlx->s.cam.chunk = (cl_float2){.x = -1.0f, .y = -1.0f};
 		if (STEREO)
@@ -34,7 +34,7 @@ int		ray_loop(void *param)
 			--mlx->s.cam.ori.x;
 		}
 		if (OUT_FILE && !mlx->s.cam.fast)
-			img_file(mlx->p);
+			img_file(mlx->p, mlx);
 		mlx->key &= ~REDRAW;
 	}
 	return (0);
@@ -54,7 +54,8 @@ int		main(int ac, char **av)
 		return (0);
 	mlx.mlx = mlx_init();
 	rt_win_redraw(&mlx.key);
-	data = (t_datawin){.name = "rtvocl", .xwin = W, .ywin = H,\
+	data = (t_datawin){.name = "rtvocl",\
+			.xwin = mlx.s.set->width, .ywin = mlx.s.set->height,\
 			.f_keypress = k_press, .data_kp = &mlx,\
 			.f_mousepress = m_press, .data_mp = &mlx,\
 			.f_keyrelease = k_rel, .data_kr = &mlx,\
@@ -62,8 +63,10 @@ int		main(int ac, char **av)
 	parent = mmlx_create_parent(mlx.mlx, &data);
 	mlx.win = parent->win;
 	mlx.parent = parent;
-	if (DSR > 1)
+	if (mlx.s.cam.dsr > 1)
 	{
+		mlx.s.set->width *= mlx.s.cam.dsr;
+		mlx.s.set->height *= mlx.s.cam.dsr;
 		mlx_destroy_image(parent->mlx, parent->img);
 		parent->img = mlx_new_image(parent->mlx, WIDTH, HEIGHT);
 		parent->data = mlx_get_data_addr(parent->img, &mlx.bp, &mlx.sl, &mlx.endian);
@@ -76,7 +79,6 @@ int		main(int ac, char **av)
 	mlx.atmp2 = mlx_get_data_addr(mlx.tmp2, &mlx.bp, &mlx.sl, &mlx.endian);
 	mlx.s.cam.chunk = (cl_float2){.x = -1, .y = -1};
 	mlx.s.cam.size = (cl_int2){.x = WIDTH, .y = HEIGHT};
-	mlx.s.cam.dsr = 2;
 	mlx.s.cam.ambient = 0x252525;
 	pws[0] = WIDTH / mlx.s.cam.viewplane.z;
 	pws[1] = HEIGHT / mlx.s.cam.viewplane.w;

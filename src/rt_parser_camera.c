@@ -6,7 +6,7 @@
 /*   By: gsimeon <gsimeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/13 01:08:03 by jogarcia          #+#    #+#             */
-/*   Updated: 2017/05/18 20:46:02 by gsimeon          ###   ########.fr       */
+/*   Updated: 2017/05/22 12:56:31 by aviau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,9 +103,9 @@ static void					s_get_camera_var(t_cam *cam, char *file, int index)
 
 static void					s_init_parser_content(t_cam *cam)
 {
-	cam->viewplane.x = 10.0 * ((float)WIDTH / (float)HEIGHT);
+	cam->viewplane.x = 10.0 * ((float)W / (float)H);
 	cam->viewplane.y = 10.0;
-	cam->p.x = -5.0 * ((float)WIDTH / (float)HEIGHT);
+	cam->p.x = -5.0 * ((float)W / (float)H);
 	cam->p.y = 5.0;
 	cam->p.z = 5;
 }

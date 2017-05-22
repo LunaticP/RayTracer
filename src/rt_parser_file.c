@@ -6,7 +6,7 @@
 /*   By: jogarcia <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/13 03:26:24 by jogarcia          #+#    #+#             */
-/*   Updated: 2017/05/13 03:26:25 by jogarcia         ###   ########.fr       */
+/*   Updated: 2017/05/22 13:19:21 by aviau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,12 +81,10 @@ t_parser				*s_init_settings(t_parser *parser)
 	new_parser->elem = SETTINGS;
 	new_parser->next = NULL;
 	set = (t_set *)rt_memalloc(sizeof(t_parser));
-	set->width = WIDTH;
-	set->height = HEIGHT;
-	set->max_reflect = 20;
-	set->anti_allias = 1;
-	set->ambient = 10;
-	set->stereo = 0;
+	set->width = 1280;
+	set->height = 720;
+	set->max_reflect = 5;
+	set->ambient = 0x000000;
 	new_parser->content = set;
 	parser->next = new_parser;
 	parser = parser->next;

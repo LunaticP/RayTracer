@@ -6,22 +6,24 @@
 /*   By: vthomas <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/21 20:52:20 by vthomas           #+#    #+#             */
-/*   Updated: 2017/05/21 21:31:43 by aviau            ###   ########.fr       */
+/*   Updated: 2017/05/22 12:53:25 by aviau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef RT_H
 # define RT_H
 
-# define USAGE "./rtv1 file\n"
-# define DEBUG	0
-# define DSR	2
-# define W		1280
-# define H		720
+# define USAGE		"./rtv1 file\n"
+# define DEBUG		0
+# define DSR		2
+# define W			1280
+# define H			720
 # define STEREO		0
 # define OUT_FILE	1
-# define WIDTH	(W * (DSR > 1 ? DSR : 1))
-# define HEIGHT	(H * (DSR > 1 ? DSR : 1))
+# define WIDTH		(W * (mlx.s.cam.dsr > 1 ? mlx.s.cam.dsr : 1))
+# define HEIGHT		(H * (mlx.s.cam.dsr > 1 ? mlx.s.cam.dsr : 1))
+# define WIDTHP		(W * (mlx->s.cam.dsr > 1 ? mlx->s.cam.dsr : 1))
+# define HEIGHTP	(H * (mlx->s.cam.dsr > 1 ? mlx->s.cam.dsr : 1))
 # define _
 
 # include <libft.h>
@@ -143,7 +145,7 @@ t_mlx				rt_get_parser(char *path, t_mlx mlx);
 t_parser			*rt_parser_file(char *file);
 char				*rt_get_file(char *path);
 void				rt_free_after_parser(char *file, t_parser *parser);
-void				img_file(unsigned char *img);
+void				img_file(unsigned char *img, t_mlx *mlx);
 void				dsr(t_mlx *mlx);
 
 t_parser			*rt_parser_objects(char	*file, t_parser *ptr_parser);

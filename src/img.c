@@ -6,7 +6,7 @@
 /*   By: aviau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/21 20:45:24 by aviau             #+#    #+#             */
-/*   Updated: 2017/05/21 20:46:18 by aviau            ###   ########.fr       */
+/*   Updated: 2017/05/22 12:52:10 by aviau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char	*ft_stroccur(char *str, char a, char b)
 	return (str);
 }
 
-void	img_file(unsigned char *img)
+void	img_file(unsigned char *img, t_mlx *mlx)
 {
 	time_t	t;
 	char	*name;
@@ -43,9 +43,9 @@ void	img_file(unsigned char *img)
 	while (++y < H && (x = -1))
 		while (++x < W)
 		{
-			write(fd, &(img[(y * WIDTH + x) * 4 + 2]), 1);
-			write(fd, &(img[(y * WIDTH + x) * 4 + 1]), 1);
-			write(fd, &(img[(y * WIDTH + x) * 4]), 1);
+			write(fd, &(img[(y * WIDTHP + x) * 4 + 2]), 1);
+			write(fd, &(img[(y * WIDTHP + x) * 4 + 1]), 1);
+			write(fd, &(img[(y * WIDTHP + x) * 4]), 1);
 		}
 	close(fd);
 	ft_putendl("File Rendered.");
