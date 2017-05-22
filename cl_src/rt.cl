@@ -14,11 +14,9 @@
 typedef enum		e_type
 {
 	plan,
-	triangle,
 	sphere,
 	cylindre,
 	cone,
-	para,
 	light,
 	end
 }					t_type;
@@ -27,25 +25,15 @@ typedef struct 		s_obj
 {
 	float4			pos;
 	float4			dir;
-	float			tet;
-	float			phi;
-	float4			rot;
 	float4			min;
 	float4			max;
 	int				col;
 	float			diff;
 	float			refl;
 	float			trans;
-	float			refr;
 	t_type			type;
 	float			r;
-	float			su;
-	float			sd;
 	float			alpha;
-	char			caps;
-	float4			p1;
-	float4			p2;
-	float4			p3;
 	float4			mod_tex;
 	float4			mod_normal;
 	float4			mod_ref;
@@ -81,10 +69,6 @@ typedef struct		s_ray
 	int				imp;
 }					t_ray;
 
-float4	qt_conjugate(float4 qt);
-float4	qt_cross(float4 u, float4 v);
-float4	qt_gen(float4 axis, float tet);
-float4	qt_rot(float4 qt, float4 p);
 float4	norm_sphere(__global t_obj *o, float4 hit, int id);
 float4	norm_cone(__global t_obj *o, float4 hit, int id, t_ray ray);
 float4	norm_cylindre(__global t_obj *o, float4 hit, int id, t_ray ray);
@@ -99,52 +83,11 @@ int		diffuse(__global t_obj *o,float *t, __global t_obj *l, t_ray ray, int id, i
 int		quadratic(float a, float b, float c, float2 *ret);
 int		ray_neg(__global t_obj *o, t_ray *ray, float2 *t);
 int		rt_plan(__global t_obj *o, int i, t_ray *ray);
-int		rt_triangle(__global t_obj *o, t_ray *ray);
 int		rt_cone(__global t_obj *o, int i, int *i2, t_ray *ray);
 int		rt_cylindre(__global t_obj *o, int i, int *i2, t_ray *ray);
 int		rt_sphere(__global t_obj *o, int i, int *i2, t_ray *ray);
-int		rt_para(__global t_obj *o, t_ray *ray);
 int		ray_match(__global t_obj *o, t_ray *ray);
-t_ray	rot_ray(t_ray from, float tet, float phi, float4 center);
 int				limit(__global t_obj *o, float4 hit, int id);
-
-float4			qt_conjugate(float4 qt)
-{
-	float4	ret;
-
-	ret = -qt;
-	ret.w = qt.w;
-	return (ret);
-}
-
-float4			qt_cross(float4 u, float4 v)
-{
-	float4	ret;
-
-	ret.x = (u.w * v.x) + (u.x * v.w) + (u.y * v.z) - (u.z * v.y);
-	ret.y = (u.w * v.y) - (u.x * v.z) + (u.y * v.w) + (u.z * v.x);
-	ret.z = (u.w * v.z) + (u.x * v.y) - (u.y * v.x) + (u.z * v.w);
-	ret.w = (u.w * v.w) - (u.x * v.x) - (u.y * v.y) - (u.z * v.z);
-	return (ret); 
-}
-
-float4			qt_gen(float4 axis, float tet)
-{
-	float4	ret;
-
-	ret = axis * sin(tet / 2);
-	ret.w = cos(tet / 2);
-	return (ret);
-}
-
-float4			qt_rot(float4 qt, float4 p)
-{
-	float4	ret;
-
-	ret = qt_cross(qt, p);
-	ret = qt_cross(ret, qt_conjugate(qt));
-	return (ret);
-}
 
 float			sq(float a)
 {
@@ -159,24 +102,6 @@ int				limit(__global t_obj *o, float4 hit, int id)
 			((hit.x < o[id].min.x ||
 			hit.y < o[id].min.y ||
 			hit.z < o[id].min.z) && o[id].min.w > 0.5));
-}
-
-
-t_ray			rot_ray(t_ray from, float tet, float phi, float4 center)
-{
-	float4	qt;
-	float4	tmp;
-	float4	yaxis = (float4)(0.0f, 1.0f, 0.0f, 0.0f);
-	float4	zaxis = (float4)(0.0f, 0.0f, 1.0f, 0.0f);
-	t_ray	ret;
-
-	qt = qt_cross(qt_gen(zaxis, tet), qt_gen(yaxis, phi));
-	// qt = qt_cross(qt, qt_gen(o[i].dir, o[i].rot));
-	ret.dir = qt_rot(qt, from.dir);
-	tmp = center - from.ori;
-	tmp = qt_rot(qt, tmp);
-	ret.ori = center - tmp;
-	return (ret);
 }
 
 int				quadratic(float a, float b, float c, float2 *ret)
@@ -426,8 +351,6 @@ int				diffuse(__global t_obj *o,float *t, __global t_obj *l, t_ray ray, int id,
 		polar.x = ctsn.y;
 		polar.y = (atan(ctsn.x / -ctsn.z)) + M_PI_2_F;
 	}
-	else if (o[id].type == para)
-		normale = hit - o[id].pos;
 	if (o[id].n_m)
 	{
 		color = tex[tex_num(o[id].n_m, o, id, tex, polar, o[id].mod_normal)];
@@ -620,47 +543,6 @@ int				rt_plan(__global t_obj *o, int i, t_ray *ray)
 	return (0);
 }
 
-int				rt_triangle(__global t_obj *o, t_ray *ray)
-{
-	float4		e1;
-	float4		e2;
-	float4		p;
-	float4		q;
-	float4		T;
-	float		d;
-	float		u;
-	float		v;
-	float		t;
-
-	e1 = o->p2 - o->p1;
-	e2 = o->p3 - o->p1;
-	// vecteurs definissant les triangles
-	p = cross(ray->dir, e2);
-	//normale a la direction et e2
-	d = dot(e1, p);
-	// derminant se raprochant de 0 quand on est paralelle au triangle et servant a mettre le triangle a echelle 1
-	if (d > -EPSILON && d < EPSILON)
-		return (0);
-	T = ray->ori - o->p1;
-	// T est le vecteur entre l'origine et le sommet reunissant les deux vecteurs du triangle
-	u = dot(T, p) / d;
-	// on regarde si le vecteur est dansle premier vecteur du triangle
-	if (u < 0 || u > 1)
-		return (0);
-	q = cross(T, e1);
-	v = dot(ray->dir, q) / d;
-	// on regarde si le vecteur est dans le deuxieme vecteur du triangle, si u + v pour ne pas faire un parallelogramme
-	if (v < 0 || v + u > 1)
-		return (0);
-	t = dot(e2, q) / d;
-	if (t > 0.01 && (t < ray->t || ray->t <= 0))
-	{
-		ray->t = t;
-		return (d > 0 ? -1 : 1);
-	}
-	return (0);
-}
-
 int				rt_cone(__global t_obj *o, int i, int *i2, t_ray *ray)
 {
 	float2	t;
@@ -782,39 +664,6 @@ int				rt_sphere(__global t_obj *o, int i, int *i2, t_ray *ray)
 	return (0);
 }
 
-int				rt_para(__global t_obj *o, t_ray *ray)
-{
-	float2	t;
-	float4	pos;
-	float	a;
-	float	b;
-	float	c;
-	t_ray	rcp;
-	float4	opos;
-
-	rcp = *ray;
-	opos = o->pos;
-	pos = rcp.ori - opos;
-	//	float4	k = dot(pos, o->dir);
-	a = dot(rcp.dir, rcp.dir) - pow(dot(rcp.dir, o->dir), 2);
-	b = 2.0f * (dot(rcp.dir, pos) - dot(rcp.dir, o->dir));// * (dot(pos, o->dir) + 2 * k));
-	c = dot(pos, pos) - dot(pos, o->dir) * (dot(pos, o->dir));// + 4 * k);
-	if ((quadratic(a, b, c, &t)))
-	{
-		if (t.x < t.y && t.x > 0.001 && (t.x < ray->t || ray->t <= 0.001))
-		{
-			ray->t = t.x;
-			return (1);
-		}
-		else if (t.y > 0.001 && (t.y < ray->t || ray->t <= 0.001))
-		{
-			ray->t = t.y;
-			return (-1);
-		}
-	}
-	return(0);
-}
-
 int				ray_match(__global t_obj *o, t_ray *ray)
 {
 	int		i = -1;
@@ -852,11 +701,6 @@ int				ray_match(__global t_obj *o, t_ray *ray)
 							ret = (i2 > 0) ? i2 : i;
 					}
 					break;
-				case para :
-					{
-						if ((ray->imp = rt_para(&(o[i]), ray)) != 0)
-							ret = i;
-					}
 				default :
 					break;
 			}
@@ -1016,91 +860,4 @@ __kernel void	rt_fast(
 					*obj_id = id;
 		}
 	}
-}
-
-__kernel void	rng(
-		__global int* in,
-		__global t_cam *c,
-		__global t_obj *o,
-		__global int* dst,
-		__global int* out)
-{
-	t_ray	ray;
-	size_t			i = get_global_id(0);
-	size_t			j = get_global_id(1);
-	unsigned char	r;
-	unsigned char	g;
-	unsigned char	b;
-	float4			k;
-	float			dist;
-	int				color;
-	int				id;
-	int				lt;
-	if (i < (size_t)c[0].size.x && j < (size_t)c[0].size.y)
-	{
-		ray.dir = ray_from_coord(i, j, c, 1);
-		ray.ori = c[0].ori;
-		if ((id = ray_match(o, &ray)) != -1)
-		{
-			lt = -1;
-			k.x = (in[j * c[0].size.x + i] & 0xFF0000) / 0x10000;
-			k.y = (in[j * c[0].size.x + i] & 0xFF00) / 0x100;
-			k.z = (in[j * c[0].size.x + i] & 0xFF) / 0x1;
-			dist = (floor(ray.t) - dst[0]);
-			dist = dist < 0 ? 0 : dist;
-			dist = dist > 255 ? 255 : dist;
-			dist /= 255;
-			float filter[filterHeight * filterWidth] =
-			{
-				0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
-				0.0, 0.0, 0.0, 0.5, 0.5, 0.5, 0.0, 0.0, 0.0,
-				0.0, 0.0, 0.5, 0.5, 0.5, 0.5, 0.5, 0.0, 0.0,
-				0.0, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.0,
-				0.0, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.0,
-				0.0, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.0,
-				0.0, 0.0, 0.5, 0.5, 0.5, 0.5, 0.5, 0.0, 0.0,
-				0.0, 0.0, 0.0, 0.5, 0.5, 0.5, 0.0, 0.0, 0.0,
-				0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
-			};
-			float factor = dist;
-			float bias = dist;
-			for(int filterY = 0; filterY < filterHeight; filterY++)
-				for(int filterX = 0; filterX < filterWidth; filterX++)
-				{
-					int imageX = (i - filterWidth / 2 + filterX + c[0].size.x) % c[0].size.x;
-					int imageY = (j - filterHeight / 2 + filterY + c[0].size.y) % c[0].size.y;
-					k.x += ((in[imageY * c[0].size.x + imageX] & 0xFF0000) / 0x10000) * filter[filterY * filterWidth + filterX];
-					k.y += ((in[imageY * c[0].size.x + imageX] & 0xFF00) / 0x100) * filter[filterY * filterWidth + filterX];
-					k.z += ((in[imageY * c[0].size.x + imageX] & 0xFF) / 0x1) * filter[filterY * filterWidth + filterX];
-				}
-			r = (unsigned char)(min(max((int)floor(factor * k.x + bias), 0), 255));
-			g = (unsigned char)(min(max((int)floor(factor * k.y + bias), 0), 255));
-			b = (unsigned char)(min(max((int)floor(factor * k.z + bias), 0), 255));
-			color = r * 0x10000 + g * 0x100 + b;
-			out[j * c[0].size.x + i] = color;
-		}
-	}
-}
-
-__kernel void	cpy(
-		__global int* out,
-		__global int* in,
-		__global int* col
-		)
-{
-	size_t	i = get_global_id(0);
-	size_t	j = get_global_id(1);
-	out[j * col[0] + i] = in[j * col[0] + i];
-}
-
-__kernel void	stereo(
-		__global int* red,
-		__global int* vb,
-		__global int* out,
-		__global int* size
-		)
-{
-	size_t	i = get_global_id(0);
-	size_t	j = get_global_id(1);
-	out[j * size[0] + i] = ((red[j * size[0] + i] & 0xFF0000) + (vb[j * size[0] + i] & 0x00FFFF));
 }

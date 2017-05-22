@@ -6,7 +6,7 @@
 /*   By: gsimeon <gsimeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/10 20:21:23 by aviau             #+#    #+#             */
-/*   Updated: 2017/05/22 12:41:34 by gsimeon          ###   ########.fr       */
+/*   Updated: 2017/05/22 13:08:36 by gsimeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ typedef enum		e_type
 	sphere,
 	cylindre,
 	cone,
-	para,
 	light,
 	end
 }					t_type;
