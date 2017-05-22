@@ -6,7 +6,7 @@
 /*   By: vthomas <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/21 20:52:20 by vthomas           #+#    #+#             */
-/*   Updated: 2017/05/22 20:45:24 by aviau            ###   ########.fr       */
+/*   Updated: 2017/05/22 23:04:58 by aviau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,10 @@
 # define RT_H
 
 # define USAGE		"./rtv1 file\n"
-# define DEBUG		0
 # define DSR		1
+# define OUT_FILE	0
 # define W			1280
 # define H			720
-# define STEREO		0
-# define OUT_FILE	1
 # define WIDTH		(W * (DSR > 1 ? DSR : 1))
 # define HEIGHT		(H * (DSR > 1 ? DSR : 1))
 # define _

@@ -7,7 +7,7 @@ t_scene	ft_init_scene(void)
 	ret.cam.ori.x = 0.0;
 	ret.cam.ori.y = 0.0;
 	ret.cam.ori.z = -10.0;
-
+/* CAMERA DIRECTIONS */
 	ret.cam.dirx.x = 1.0;
 	ret.cam.dirx.y = 0.0;
 	ret.cam.dirx.z = 0.0;
@@ -19,15 +19,14 @@ t_scene	ft_init_scene(void)
 	ret.cam.dirz.x = 0.0;
 	ret.cam.dirz.y = 0.0;
 	ret.cam.dirz.z = 1.0;
-
-	ret.cam.viewplane.x = 10.0 * ((float)(WIDTH) / (float)(HEIGHT));
+/* VIEWPLANE - VIEWPORT */
+	ret.cam.viewplane.x = 10.0 * ((float)W / (float)H);
 	ret.cam.viewplane.y = 10.0;
-	ret.cam.p.x = -5.0 * ((float)(WIDTH) / (float)(HEIGHT));
+	ret.cam.p.x = -5.0 * ((float)W / (float)H);
 	ret.cam.p.y = 5.0;
 	ret.cam.p.z = 5.0;
-
+/* LIGHTS */
 	ret.light = ft_memalloc(sizeof(t_obj) * 7);
-/**/
 	ret.light[0].pos.x = 9.0;
 	ret.light[0].pos.y = 0.0;
 	ret.light[0].pos.z = 0.0;
@@ -69,12 +68,10 @@ t_scene	ft_init_scene(void)
 	ret.light[5].col = 0xFFFFFF;
 	ret.light[5].type = light;
 	ret.light[5].r = 50.0;
-/**/
 	ret.light[6].type = end;
 	ret.n_l = 7;
-
+/* OBJECTS */
 	ret.obj = ft_memalloc(sizeof(t_obj) * 13);
-/**/
 	ret.obj[0].dir.x = 0.0;
 	ret.obj[0].dir.y = 0.0;
 	ret.obj[0].dir.z = -1.0;
@@ -89,6 +86,7 @@ t_scene	ft_init_scene(void)
 	ret.obj[0].type = plan;
 	ret.obj[0].diff = 1.0;
 	ret.obj[0].refl = 0.0;
+	ret.obj[0].mod_tex = (cl_float4){.x = 30.0, .y = 30.0, .z = 0.0, .w = 0.0};
 
 	ret.obj[1].dir.x = 1.0;
 	ret.obj[1].dir.y = 0.0;
@@ -104,6 +102,7 @@ t_scene	ft_init_scene(void)
 	ret.obj[1].type = plan;
 	ret.obj[1].diff = 1.0;
 	ret.obj[1].refl = 0.0;
+	ret.obj[1].mod_tex = (cl_float4){.x = 30.0, .y = 30.0, .z = 0.0, .w = 0.0};
 
 	ret.obj[2].dir.x = 0.0;
 	ret.obj[2].dir.y = 1.0;
@@ -119,6 +118,7 @@ t_scene	ft_init_scene(void)
 	ret.obj[2].type = plan;
 	ret.obj[2].diff = 1.0;
 	ret.obj[2].refl = 0.0;
+	ret.obj[2].mod_tex = (cl_float4){.x = 30.0, .y = 30.0, .z = 0.0, .w = 0.0};
 
 	ret.obj[3].dir.x = 0.0;
 	ret.obj[3].dir.y = -1.0;
@@ -134,6 +134,7 @@ t_scene	ft_init_scene(void)
 	ret.obj[3].type = plan;
 	ret.obj[3].diff = 1.0;
 	ret.obj[3].refl = 0.0;
+	ret.obj[3].mod_tex = (cl_float4){.x = 30.0, .y = 30.0, .z = 0.0, .w = 0.0};
 
 	ret.obj[4].dir.x = -1.0;
 	ret.obj[4].dir.y = 0.0;
@@ -149,6 +150,7 @@ t_scene	ft_init_scene(void)
 	ret.obj[4].type = plan;
 	ret.obj[4].diff = 1.0;
 	ret.obj[4].refl = 0.0;
+	ret.obj[4].mod_tex = (cl_float4){.x = 30.0, .y = 30.0, .z = 0.0, .w = 0.0};
 
 	ret.obj[5].dir.x = 0.0;
 	ret.obj[5].dir.y = 0.0;
@@ -164,6 +166,7 @@ t_scene	ft_init_scene(void)
 	ret.obj[5].type = plan;
 	ret.obj[5].diff = 1.0;
 	ret.obj[5].refl = 0.0;
+	ret.obj[5].mod_tex = (cl_float4){.x = 30.0, .y = 30.0, .z = 0.0, .w = 0.0};
 
 	ret.obj[6].pos.x = 0.0;
 	ret.obj[6].pos.y = 0.0;
@@ -180,6 +183,7 @@ t_scene	ft_init_scene(void)
 	ret.obj[6].diff = 0.0;
 	ret.obj[6].refl = 0.0;
 	ret.obj[6].alpha = 25.0f;
+	ret.obj[6].mod_tex = (cl_float4){.x = 1.0, .y = 1.0, .z = 0.0, .w = 0.0};
 
 	ret.obj[7].pos.x = 7.5;
 	ret.obj[7].pos.y = 0.0;
@@ -196,6 +200,7 @@ t_scene	ft_init_scene(void)
 	ret.obj[7].diff = 1.0;
 	ret.obj[7].refl = 0.0;
 	ret.obj[7].alpha = 25.0f;
+	ret.obj[7].mod_tex = (cl_float4){.x = 1.0, .y = 1.0, .z = 0.0, .w = 0.0};
 
 	ret.obj[8].pos.x = -7.5;
 	ret.obj[8].pos.y = 0.0;
@@ -212,6 +217,7 @@ t_scene	ft_init_scene(void)
 	ret.obj[8].diff = 1.0;
 	ret.obj[8].refl = 0.0;
 	ret.obj[8].alpha = 25.0f;
+	ret.obj[8].mod_tex = (cl_float4){.x = 1.0, .y = 1.0, .z = 0.0, .w = 0.0};
 
 	ret.obj[9].pos.x = 0.0;
 	ret.obj[9].pos.y = 0.0;
@@ -228,6 +234,7 @@ t_scene	ft_init_scene(void)
 	ret.obj[9].diff = 1.0;
 	ret.obj[9].refl = 0.0;
 	ret.obj[9].alpha = 25.0f;
+	ret.obj[9].mod_tex = (cl_float4){.x = 1.0, .y = 1.0, .z = 0.0, .w = 0.0};
 
 	ret.obj[10].pos.x = 0.0;
 	ret.obj[10].pos.y = 0.0;
@@ -244,6 +251,7 @@ t_scene	ft_init_scene(void)
 	ret.obj[10].diff = 1.0;
 	ret.obj[10].refl = 0.0;
 	ret.obj[10].alpha = 25.0f;
+	ret.obj[10].mod_tex = (cl_float4){.x = 1.0, .y = 1.0, .z = 0.0, .w = 0.0};
 
 	ret.obj[11].pos.x = 0.0;
 	ret.obj[11].pos.y = 0.0;
@@ -262,9 +270,11 @@ t_scene	ft_init_scene(void)
 	ret.obj[11].refl = 0.0;
 	ret.obj[11].trans = 0.0;
 	ret.obj[11].r = 3.0;
-/**/
+	ret.obj[11].mod_tex =  (cl_float4){.x = 1.0, .y = 1.0, .z = 0.0, .w = 0.0};
+
 	ret.obj[12].type = end;
 	ret.n_o = 13;
+/**/
 	return (ret);
 }
 
@@ -282,7 +292,6 @@ int		ray_loop(void *param)
 	if (mlx->key & REDRAW)
 	{
 		k_apply(mlx->key, &mlx->s);
-		printf("%f %f %f\n", mlx->s.cam.dirz.x, mlx->s.cam.dirz.y, mlx->s.cam.dirz.z);
 		while (!mlx->s.cam.fast && ++mlx->s.cam.chunk.y < mlx->s.cam.viewplane.w)
 		{
 			while (++mlx->s.cam.chunk.x < mlx->s.cam.viewplane.z)
@@ -300,14 +309,6 @@ int		ray_loop(void *param)
 		if (!mlx->s.cam.fast && mlx->s.cam.dsr > 1)
 			dsr(mlx);
 		mlx->s.cam.chunk = (cl_float2){.x = -1.0f, .y = -1.0f};
-		if (STEREO)
-		{
-			ocl_enqueue_kernel(&(mlx->prog), "cpy");
-			++mlx->s.cam.ori.x;
-			ocl_enqueue_kernel(&(mlx->prog), "raytracer");
-			ocl_enqueue_kernel(&(mlx->prog), "stereo");
-			--mlx->s.cam.ori.x;
-		}
 		if (OUT_FILE && !mlx->s.cam.fast)
 			img_file(mlx->p, mlx);
 		mlx->key &= ~REDRAW;
@@ -324,6 +325,9 @@ int		main(int ac, char **av)
 	size_t			pws_f[2];
 
 	(void)ac;
+	mlx.tex = get_texture(&av[1]);
+	mlx.s = ft_init_scene();
+	mlx.s.cam.dsr = 1;
 	if (!(ocl_new_prog("./cl_src/rt.cl", 0x1000000, &(mlx.prog))))
 		return (0);
 	mlx.mlx = mlx_init();
@@ -343,8 +347,6 @@ int		main(int ac, char **av)
 		parent->img = mlx_new_image(parent->mlx, WIDTH, HEIGHT);
 		parent->data = mlx_get_data_addr(parent->img, &mlx.bp, &mlx.sl, &mlx.endian);
 	}
-	mlx.s = ft_init_scene();
-	mlx.tex = get_texture(&av[1]);
 	mlx.img = parent->img;
 	mlx.p = (unsigned char*)parent->data;
 	mlx.tmp = mlx_new_image(mlx.mlx, WIDTH, HEIGHT);
@@ -353,7 +355,6 @@ int		main(int ac, char **av)
 	mlx.atmp2 = mlx_get_data_addr(mlx.tmp2, &mlx.bp, &mlx.sl, &mlx.endian);
 	mlx.s.cam.chunk = (cl_float2){.x = -1, .y = -1};
 	mlx.s.cam.size = (cl_int2){.x = WIDTH, .y = HEIGHT};
-	mlx.s.cam.dsr = 1;
 	mlx.s.cam.ambient = 0x252525;
 	mlx.s.cam.viewplane.z = 2;
 	mlx.s.cam.viewplane.w = 2;
@@ -374,15 +375,6 @@ int		main(int ac, char **av)
 			sizeof(t_obj) * mlx.s.n_o, mlx.s.obj,\
 			sizeof(int) * 2, &mlx.mouse,\
 			sizeof(int), &mlx.oid, 2);
-	ocl_new_kernel(&(mlx.prog), 3, pws, "norowowd", "cpy",\
-			sizeof(int) * WIDTH * HEIGHT, mlx.atmp,\
-			sizeof(int) * WIDTH * HEIGHT, mlx.p,\
-			sizeof(size_t) * 2, pws, 2);
-	ocl_new_kernel(&(mlx.prog), 4, pws, "nowoworowd", "stereo",\
-			sizeof(int) * WIDTH * HEIGHT, mlx.p,\
-			sizeof(int) * WIDTH * HEIGHT, mlx.atmp,\
-			sizeof(int) * WIDTH * HEIGHT, mlx.p,
-			sizeof(size_t) * 2, pws, 2);
 	mlx_loop(mlx.mlx);
 	ocl_finish(mlx.prog);
 	return (0);

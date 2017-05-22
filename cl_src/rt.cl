@@ -1009,98 +1009,11 @@ __kernel void	rt_fast(
 			string[j * c[0].size.x + i + 1] = color;
 			string[(j + 1) * c[0].size.x + i] = color;
 			string[(j + 1) * c[0].size.x + i + 1] = color;
-			if ((m_id[0] == ((int)i) && m_id[1] == ((int)j))
-			|| (m_id[0] + 1 == ((int)i) && m_id[1] == ((int)j))
-			|| (m_id[0] == ((int)i) && m_id[1] + 1== ((int)j))
-			|| (m_id[0] + 1 == ((int)i) && m_id[1] + 1 == ((int)j)))
+			if ((m_id[0] == (int)i && m_id[1] == (int)j)
+			|| (m_id[0] + 1 == (int)i && m_id[1] == (int)j)
+			|| (m_id[0] == (int)i && m_id[1] + 1== (int)j)
+			|| (m_id[0] + 1 == (int)i && m_id[1] + 1 == (int)j))
 					*obj_id = id;
 		}
 	}
-}
-
-__kernel void	rng(
-		__global int* in,
-		__global t_cam *c,
-		__global t_obj *o,
-		__global int* dst,
-		__global int* out)
-{
-	t_ray	ray;
-	size_t			i = get_global_id(0);
-	size_t			j = get_global_id(1);
-	unsigned char	r;
-	unsigned char	g;
-	unsigned char	b;
-	float4			k;
-	float			dist;
-	int				color;
-	int				id;
-	int				lt;
-	if (i < (size_t)c[0].size.x && j < (size_t)c[0].size.y)
-	{
-		ray.dir = ray_from_coord(i, j, c, 1);
-		ray.ori = c[0].ori;
-		if ((id = ray_match(o, &ray)) != -1)
-		{
-			lt = -1;
-			k.x = (in[j * c[0].size.x + i] & 0xFF0000) / 0x10000;
-			k.y = (in[j * c[0].size.x + i] & 0xFF00) / 0x100;
-			k.z = (in[j * c[0].size.x + i] & 0xFF) / 0x1;
-			dist = (floor(ray.t) - dst[0]);
-			dist = dist < 0 ? 0 : dist;
-			dist = dist > 255 ? 255 : dist;
-			dist /= 255;
-			float filter[filterHeight * filterWidth] =
-			{
-				0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
-				0.0, 0.0, 0.0, 0.5, 0.5, 0.5, 0.0, 0.0, 0.0,
-				0.0, 0.0, 0.5, 0.5, 0.5, 0.5, 0.5, 0.0, 0.0,
-				0.0, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.0,
-				0.0, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.0,
-				0.0, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.0,
-				0.0, 0.0, 0.5, 0.5, 0.5, 0.5, 0.5, 0.0, 0.0,
-				0.0, 0.0, 0.0, 0.5, 0.5, 0.5, 0.0, 0.0, 0.0,
-				0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
-			};
-			float factor = dist;
-			float bias = dist;
-			for(int filterY = 0; filterY < filterHeight; filterY++)
-				for(int filterX = 0; filterX < filterWidth; filterX++)
-				{
-					int imageX = (i - filterWidth / 2 + filterX + c[0].size.x) % c[0].size.x;
-					int imageY = (j - filterHeight / 2 + filterY + c[0].size.y) % c[0].size.y;
-					k.x += ((in[imageY * c[0].size.x + imageX] & 0xFF0000) / 0x10000) * filter[filterY * filterWidth + filterX];
-					k.y += ((in[imageY * c[0].size.x + imageX] & 0xFF00) / 0x100) * filter[filterY * filterWidth + filterX];
-					k.z += ((in[imageY * c[0].size.x + imageX] & 0xFF) / 0x1) * filter[filterY * filterWidth + filterX];
-				}
-			r = (unsigned char)(min(max((int)floor(factor * k.x + bias), 0), 255));
-			g = (unsigned char)(min(max((int)floor(factor * k.y + bias), 0), 255));
-			b = (unsigned char)(min(max((int)floor(factor * k.z + bias), 0), 255));
-			color = r * 0x10000 + g * 0x100 + b;
-			out[j * c[0].size.x + i] = color;
-		}
-	}
-}
-
-__kernel void	cpy(
-		__global int* out,
-		__global int* in,
-		__global int* col
-		)
-{
-	size_t	i = get_global_id(0);
-	size_t	j = get_global_id(1);
-	out[j * col[0] + i] = in[j * col[0] + i];
-}
-
-__kernel void	stereo(
-		__global int* red,
-		__global int* vb,
-		__global int* out,
-		__global int* size
-		)
-{
-	size_t	i = get_global_id(0);
-	size_t	j = get_global_id(1);
-	out[j * size[0] + i] = ((red[j * size[0] + i] & 0xFF0000) + (vb[j * size[0] + i] & 0x00FFFF));
 }
