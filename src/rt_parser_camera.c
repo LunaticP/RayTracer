@@ -50,8 +50,6 @@ t_parser					*rt_parser_camera(char *file, t_parser *parser)
 	new_parser->content = (t_cam *)rt_memalloc(sizeof(t_cam));
 	new_parser->elem = CAMERA;
 	new_parser->next = NULL;
-	((t_cam *)(new_parser->content))->size.x = W;
-	((t_cam *)(new_parser->content))->size.y = H;
 	while ((index = s_choice_data(&file, size)) != size)
 	{
 		rt_add_mask(&mask_check, index);
@@ -103,9 +101,7 @@ static void					s_get_camera_var(t_cam *cam, char *file, int index)
 
 static void					s_init_parser_content(t_cam *cam)
 {
-	cam->viewplane.x = 10.0 * ((float)WIDTH / (float)HEIGHT);
 	cam->viewplane.y = 10.0;
-	cam->p.x = -5.0 * ((float)WIDTH / (float)HEIGHT);
 	cam->p.y = 5.0;
 	cam->p.z = 5;
 }

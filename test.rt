@@ -377,8 +377,8 @@ camera
 	}
 	viewplane
 	{
-		z = 2;
-		w = 2;
+		z = 3;
+		w = 4;
 	}
 	p
 	{
@@ -392,7 +392,7 @@ camera
 		y = 0;
 	}
 	fast = 1;
-	dsr = 1;
+	dsr = -1;
 }
 
 settings
