@@ -6,7 +6,7 @@
 /*   By: gsimeon <gsimeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/21 20:52:20 by vthomas           #+#    #+#             */
-/*   Updated: 2017/05/22 21:47:54 by gsimeon          ###   ########.fr       */
+/*   Updated: 2017/05/22 22:55:54 by gsimeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,12 @@
 
 # define USAGE "./rtv1 file\n"
 # define DEBUG	0
-# define DSR	1
-# define W		1280
-# define H		720
+# define DSR	s.cam.dsr
+# define W		s.set->width
+# define H		s.set->height
+# define WIDTH	s.cam.size.x
+# define HEIGHT	s.cam.size.y
 # define OUT_FILE	0
-# define WIDTH	(W * (DSR > 1 ? DSR : 1))
-# define HEIGHT	(H * (DSR > 1 ? DSR : 1))
 # define _
 
 # include <libft.h>
@@ -134,7 +134,7 @@ t_mlx				rt_get_parser(char *path, t_mlx mlx);
 t_parser			*rt_parser_file(char *file);
 char				*rt_get_file(char *path);
 void				rt_free_after_parser(char *file, t_parser *parser);
-void				img_file(unsigned char *img);
+void				img_file(t_mlx *mlx);
 void				dsr(t_mlx *mlx);
 
 t_parser			*rt_parser_objects(char	*file, t_parser *ptr_parser);

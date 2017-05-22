@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dsr.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aviau <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: gsimeon <gsimeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/21 20:49:33 by aviau             #+#    #+#             */
-/*   Updated: 2017/05/21 21:00:44 by aviau            ###   ########.fr       */
+/*   Updated: 2017/05/22 22:36:43 by gsimeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,23 +22,23 @@ void	dsr(t_mlx *mlx)
 	cl_int2			p;
 	cl_int2			d;
 
-	p.y = -DSR;
-	while ((p.y += DSR) + 1 < YM && (p.x = -DSR))
-		while ((p.x += DSR) + 1 < XM && (d.y = -1))
+	p.y = -mlx->DSR;
+	while ((p.y += mlx->DSR) + 1 < YM && (p.x = -mlx->DSR))
+		while ((p.x += mlx->DSR) + 1 < XM && (d.y = -1))
 		{
 			r = 0;
 			g = 0;
 			b = 0;
-			while (++d.y < DSR && (d.x = -1))
-				while (++d.x < DSR)
+			while (++d.y < mlx->DSR && (d.x = -1))
+				while (++d.x < mlx->DSR)
 				{
 					r += mlx->p[((p.y + d.y) * XM + (p.x + d.x)) * 4 + 2];
 					g += mlx->p[((p.y + d.y) * XM + (p.x + d.x)) * 4 + 1];
 					b += mlx->p[((p.y + d.y) * XM + (p.x + d.x)) * 4 + 0];
 				}
-			mlx->p[(p.y / DSR * XM + p.x / DSR) * 4 + 0] = b / (DSR * DSR);
-			mlx->p[(p.y / DSR * XM + p.x / DSR) * 4 + 1] = g / (DSR * DSR);
-			mlx->p[(p.y / DSR * XM + p.x / DSR) * 4 + 2] = r / (DSR * DSR);
-			mlx->p[(p.y / DSR * XM + p.x / DSR) * 4 + 3] = 0;
+			mlx->p[(p.y / mlx->DSR * XM + p.x / mlx->DSR) * 4 + 0] = b / (mlx->DSR * mlx->DSR);
+			mlx->p[(p.y / mlx->DSR * XM + p.x / mlx->DSR) * 4 + 1] = g / (mlx->DSR * mlx->DSR);
+			mlx->p[(p.y / mlx->DSR * XM + p.x / mlx->DSR) * 4 + 2] = r / (mlx->DSR * mlx->DSR);
+			mlx->p[(p.y / mlx->DSR * XM + p.x / mlx->DSR) * 4 + 3] = 0;
 		}
 }

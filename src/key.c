@@ -6,7 +6,7 @@
 /*   By: gsimeon <gsimeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/30 07:43:39 by aviau             #+#    #+#             */
-/*   Updated: 2017/05/19 21:37:20 by gsimeon          ###   ########.fr       */
+/*   Updated: 2017/05/22 23:33:29 by gsimeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ int		m_press(int keycode, int x, int y, void *param)
 	t_mlx	*mlx;
 
 	mlx = (t_mlx*)param;
-	if (keycode == R_CLICK && 0 <= x && x < W && 0 <= y && y < H)
+	if (keycode == R_CLICK && 0 <= x && x < mlx->W && 0 <= y && y < mlx->H)
 	{
 		mlx->mouse[0] = x;
 		mlx->mouse[1] = y;
