@@ -15,6 +15,8 @@
 #define AN1 static t_parser *s_init_new_parser(t_parser *new_parser);
 #define AN2 static int s_index_data(char **file, int size);
 #define AN3 static void s_get_settings_var(int index, char *file, t_set *set);
+#define AD sizeof(g_tab_data) / sizeof(t_data) - 1;const int size = ts[i32 - 1]
+// #define T_SOEUR static int ts[3000];static int i32 = -1;ts[++i32] = AD
 
 AN1;
 AN2;
@@ -33,10 +35,13 @@ static const t_data	g_tab_data[] = {
 
 t_parser				*rt_parser_settings(char *file, t_parser *parser)
 {
+	
 	const int			size = sizeof(g_tab_data) / sizeof(t_data) - 1;
+	// int					size;
 	t_parser			*new_parser;
 	int					mask_check;
 	int					index;
+	// T_SOEUR;
 
 	new_parser = NULL;
 	mask_check = 0;
@@ -83,6 +88,7 @@ static void				s_get_settings_var(int index, char *file, t_set *set)
 	void				*var;
 	int					i;
 	int					offset;
+	var = NULL;
 
 	var = g_tab_data[index].ft_conv(file);
 	i = 0;
