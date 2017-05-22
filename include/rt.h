@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rt.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vthomas <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: gsimeon <gsimeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/21 20:52:20 by vthomas           #+#    #+#             */
-/*   Updated: 2017/05/21 21:31:43 by aviau            ###   ########.fr       */
+/*   Updated: 2017/05/22 21:39:02 by gsimeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,10 @@
 
 # define USAGE "./rtv1 file\n"
 # define DEBUG	0
-# define DSR	2
+# define DSR	1
 # define W		1280
 # define H		720
-# define STEREO		0
-# define OUT_FILE	1
+# define OUT_FILE	0
 # define WIDTH	(W * (DSR > 1 ? DSR : 1))
 # define HEIGHT	(H * (DSR > 1 ? DSR : 1))
 # define _
@@ -87,10 +86,6 @@ typedef struct		s_mlx
 	void			*mlx;
 	void			*win;
 	void			*img;
-	void			*tmp;
-	void			*tmp2;
-	char			*atmp;
-	char			*atmp2;
 	int				*tex;
 	int				endian;
 	int				key;

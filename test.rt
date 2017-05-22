@@ -392,7 +392,7 @@ camera
 		y = 0;
 	}
 	fast = 1;
-	dsr = 2;
+	dsr = 1;
 }
 
 settings

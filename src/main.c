@@ -25,14 +25,6 @@ int		ray_loop(void *param)
 		if (!mlx->s.cam.fast && DSR > 1)
 			dsr(mlx);
 		mlx->s.cam.chunk = (cl_float2){.x = -1.0f, .y = -1.0f};
-		if (STEREO)
-		{
-			ocl_enqueue_kernel(&(mlx->prog), "cpy");
-			++mlx->s.cam.ori.x;
-			ocl_enqueue_kernel(&(mlx->prog), "raytracer");
-			ocl_enqueue_kernel(&(mlx->prog), "stereo");
-			--mlx->s.cam.ori.x;
-		}
 		if (OUT_FILE && !mlx->s.cam.fast)
 			img_file(mlx->p);
 		mlx->key &= ~REDRAW;
@@ -70,13 +62,8 @@ int		main(int ac, char **av)
 	}
 	mlx.img = parent->img;
 	mlx.p = (unsigned char*)parent->data;
-	mlx.tmp = mlx_new_image(mlx.mlx, WIDTH, HEIGHT);
-	mlx.tmp2 = mlx_new_image(mlx.mlx, WIDTH, HEIGHT);
-	mlx.atmp = mlx_get_data_addr(mlx.tmp, &mlx.bp, &mlx.sl, &mlx.endian);
-	mlx.atmp2 = mlx_get_data_addr(mlx.tmp2, &mlx.bp, &mlx.sl, &mlx.endian);
 	mlx.s.cam.chunk = (cl_float2){.x = -1, .y = -1};
 	mlx.s.cam.size = (cl_int2){.x = WIDTH, .y = HEIGHT};
-	mlx.s.cam.dsr = 2;
 	mlx.s.cam.ambient = 0x252525;
 	pws[0] = WIDTH / mlx.s.cam.viewplane.z;
 	pws[1] = HEIGHT / mlx.s.cam.viewplane.w;
@@ -95,15 +82,6 @@ int		main(int ac, char **av)
 			sizeof(t_obj) * mlx.s.n_o, mlx.s.obj,\
 			sizeof(int) * 2, &mlx.mouse,\
 			sizeof(int), &mlx.oid, 2);
-	ocl_new_kernel(&(mlx.prog), 3, pws, "norowowd", "cpy",\
-			sizeof(int) * WIDTH * HEIGHT, mlx.atmp,\
-			sizeof(int) * WIDTH * HEIGHT, mlx.p,\
-			sizeof(size_t) * 2, pws, 2);
-	ocl_new_kernel(&(mlx.prog), 4, pws, "nowoworowd", "stereo",\
-			sizeof(int) * WIDTH * HEIGHT, mlx.p,\
-			sizeof(int) * WIDTH * HEIGHT, mlx.atmp,\
-			sizeof(int) * WIDTH * HEIGHT, mlx.p,
-			sizeof(size_t) * 2, pws, 2);
 	mlx_loop(mlx.mlx);
 	ocl_finish(mlx.prog);
 	return (0);

@@ -81,10 +81,6 @@ typedef struct		s_ray
 	int				imp;
 }					t_ray;
 
-float4	qt_conjugate(float4 qt);
-float4	qt_cross(float4 u, float4 v);
-float4	qt_gen(float4 axis, float tet);
-float4	qt_rot(float4 qt, float4 p);
 float4	norm_sphere(__global t_obj *o, float4 hit, int id);
 float4	norm_cone(__global t_obj *o, float4 hit, int id, t_ray ray);
 float4	norm_cylindre(__global t_obj *o, float4 hit, int id, t_ray ray);
@@ -105,46 +101,7 @@ int		rt_cylindre(__global t_obj *o, int i, int *i2, t_ray *ray);
 int		rt_sphere(__global t_obj *o, int i, int *i2, t_ray *ray);
 int		rt_para(__global t_obj *o, t_ray *ray);
 int		ray_match(__global t_obj *o, t_ray *ray);
-t_ray	rot_ray(t_ray from, float tet, float phi, float4 center);
-int				limit(__global t_obj *o, float4 hit, int id);
-
-float4			qt_conjugate(float4 qt)
-{
-	float4	ret;
-
-	ret = -qt;
-	ret.w = qt.w;
-	return (ret);
-}
-
-float4			qt_cross(float4 u, float4 v)
-{
-	float4	ret;
-
-	ret.x = (u.w * v.x) + (u.x * v.w) + (u.y * v.z) - (u.z * v.y);
-	ret.y = (u.w * v.y) - (u.x * v.z) + (u.y * v.w) + (u.z * v.x);
-	ret.z = (u.w * v.z) + (u.x * v.y) - (u.y * v.x) + (u.z * v.w);
-	ret.w = (u.w * v.w) - (u.x * v.x) - (u.y * v.y) - (u.z * v.z);
-	return (ret); 
-}
-
-float4			qt_gen(float4 axis, float tet)
-{
-	float4	ret;
-
-	ret = axis * sin(tet / 2);
-	ret.w = cos(tet / 2);
-	return (ret);
-}
-
-float4			qt_rot(float4 qt, float4 p)
-{
-	float4	ret;
-
-	ret = qt_cross(qt, p);
-	ret = qt_cross(ret, qt_conjugate(qt));
-	return (ret);
-}
+int		limit(__global t_obj *o, float4 hit, int id);
 
 float			sq(float a)
 {
@@ -159,24 +116,6 @@ int				limit(__global t_obj *o, float4 hit, int id)
 			((hit.x < o[id].min.x ||
 			hit.y < o[id].min.y ||
 			hit.z < o[id].min.z) && o[id].min.w > 0.5));
-}
-
-
-t_ray			rot_ray(t_ray from, float tet, float phi, float4 center)
-{
-	float4	qt;
-	float4	tmp;
-	float4	yaxis = (float4)(0.0f, 1.0f, 0.0f, 0.0f);
-	float4	zaxis = (float4)(0.0f, 0.0f, 1.0f, 0.0f);
-	t_ray	ret;
-
-	qt = qt_cross(qt_gen(zaxis, tet), qt_gen(yaxis, phi));
-	// qt = qt_cross(qt, qt_gen(o[i].dir, o[i].rot));
-	ret.dir = qt_rot(qt, from.dir);
-	tmp = center - from.ori;
-	tmp = qt_rot(qt, tmp);
-	ret.ori = center - tmp;
-	return (ret);
 }
 
 int				quadratic(float a, float b, float c, float2 *ret)
@@ -1080,27 +1019,4 @@ __kernel void	rng(
 			out[j * c[0].size.x + i] = color;
 		}
 	}
-}
-
-__kernel void	cpy(
-		__global int* out,
-		__global int* in,
-		__global int* col
-		)
-{
-	size_t	i = get_global_id(0);
-	size_t	j = get_global_id(1);
-	out[j * col[0] + i] = in[j * col[0] + i];
-}
-
-__kernel void	stereo(
-		__global int* red,
-		__global int* vb,
-		__global int* out,
-		__global int* size
-		)
-{
-	size_t	i = get_global_id(0);
-	size_t	j = get_global_id(1);
-	out[j * size[0] + i] = ((red[j * size[0] + i] & 0xFF0000) + (vb[j * size[0] + i] & 0x00FFFF));
 }
