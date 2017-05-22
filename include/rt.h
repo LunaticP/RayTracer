@@ -65,7 +65,6 @@ typedef struct		s_set
 	int				width;
 	int				height;
 	int				max_reflect;
-	int				ambient; // color + a voir
 	char			*name;
 }					t_set;
 
