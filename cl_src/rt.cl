@@ -69,6 +69,7 @@ typedef struct		s_cam
 	float2			chunk;
 	short			fast;
 	short			dsr;
+	int				ambient;
 }					t_cam;
 
 typedef struct		s_ray
@@ -468,8 +469,6 @@ int				diffuse(__global t_obj *o,float *t, __global t_obj *l, t_ray ray, int id,
 	b = (color & 0xFF);
 	if ((lol = ray_match(o, &shad)) != -1 && shad.t < norme && o[id].pos.w < 0.5f)
 	{
-		//		if (o[id].pos.w > 0.5f)
-		//			return (o[lol].col);
 		r /= 50;
 		g /= 50;
 		b /= 50;
@@ -904,7 +903,7 @@ __kernel void	raytracer(
 
 	i *= c[0].viewplane.z;
 	i += c[0].chunk.x;
-	j *= c[0].viewplane.z;
+	j *= c[0].viewplane.w;
 	j += c[0].chunk.y;
 	if (i < (size_t)c[0].size.x && j < (size_t)c[0].size.y)
 	{
@@ -961,7 +960,15 @@ __kernel void	raytracer(
 				stay++;
 			}
 			else
+			{
+				r = r + (((c[0].ambient & 0xFF0000) / 0x10000) * (o[id].diff)) > 255 ?
+				255 : r + (((c[0].ambient & 0xFF0000) / 0x10000) * (o[id].diff));
+				g = g + (((c[0].ambient & 0xFF00) / 0x100) * (o[id].diff)) > 255 ?
+				255 : g + (((c[0].ambient & 0xFF00) / 0x100) * o[id].diff);
+				b = b + (((c[0].ambient & 0xFF)) * (o[id].diff)) > 255 ?
+				255 : b + ((c[0].ambient & 0xFF) * o[id].diff);
 				break;
+			}
 		}
 		color = r * 0x10000 + g * 0x100 + b;
 		string[j * c[0].size.x + i] = color;
