@@ -20,7 +20,7 @@ AN1;
 AN2;
 AN3;
 
-#define MASK_CAMERA 0b111110011111
+#define MASK_CAMERA 0b1111110011111
 
 static const t_data g_tab_data[] = {
 	{"ori{", sizeof(cl_float4), &rt_get_float3},
@@ -28,13 +28,17 @@ static const t_data g_tab_data[] = {
 	{"diry{", sizeof(cl_float4), &rt_get_float3},
 	{"dirz{", sizeof(cl_float4), &rt_get_float3},
 	{"rot{", sizeof(cl_float4), &rt_get_float3},
+
 	{"PADDING_SIZE", sizeof(cl_int2), &rt_useless},
 	{"PADDING", 8, &rt_useless},
+
 	{"viewplane{", sizeof(cl_float4), &rt_get_float4_end},
 	{"p{", sizeof(cl_float4), &rt_get_float3},
+
 	{"chunk{", sizeof(cl_float2), &rt_get_float2},
 	{"fast=", sizeof(short), &rt_get_short},
 	{"dsr=", sizeof(short), &rt_get_short},
+	{"ambient=", sizeof(int), &rt_get_color}, // 1 padd de fin, bas les ***
 	{"}", 0, NULL}
 };
 
@@ -50,8 +54,8 @@ t_parser					*rt_parser_camera(char *file, t_parser *parser)
 	new_parser->content = (t_cam *)rt_memalloc(sizeof(t_cam));
 	new_parser->elem = CAMERA;
 	new_parser->next = NULL;
-	((t_cam *)(new_parser->content))->size.x = W;
-	((t_cam *)(new_parser->content))->size.y = H;
+	((t_cam *)(new_parser->content))->size.x = 1280; // mettre ailleur, car pas de DEFINE
+	((t_cam *)(new_parser->content))->size.y = 720; // mettre ailleur, car pas de DEFINE
 	while ((index = s_choice_data(&file, size)) != size)
 	{
 		rt_add_mask(&mask_check, index);

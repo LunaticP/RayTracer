@@ -15,20 +15,19 @@
 #define AN1 static t_parser *s_init_new_parser(t_parser *new_parser);
 #define AN2 static int s_index_data(char **file, int size);
 #define AN3 static void s_get_settings_var(int index, char *file, t_set *set);
-#define AD sizeof(g_tab_data) / sizeof(t_data) - 1;const int size = ts[i32 - 1]
+#define AN4 static void s_init_settings(t_set *set);
+// #define AD sizeof(g_tab_data) / sizeof(t_data) - 1;const int size = ts[i32 - 1]
 // #define T_SOEUR static int ts[3000];static int i32 = -1;ts[++i32] = AD
 
 AN1;
 AN2;
 AN3;
+AN4;
 
 static const t_data	g_tab_data[] = {
 	{"width=", sizeof(int), &rt_atoi},
 	{"height=", sizeof(int), &rt_atoi},
 	{"max_reflect=", sizeof(int), &rt_atoi},
-	{"anti_allias=", sizeof(int), &rt_atoi}, //
-	{"ambient=", sizeof(int), &rt_atoi},
-	{"stereo=", sizeof(cl_float), &rt_get_float},
 	{"name=", sizeof(char *), &rt_get_str},
 	{"}", 0, NULL}
 };
@@ -60,9 +59,18 @@ static t_parser			*s_init_new_parser(t_parser *new_parser)
 {
 	new_parser = (t_parser *)rt_memalloc(sizeof(t_parser));
 	new_parser->content = (t_set *)rt_memalloc(sizeof(t_set));
+	s_init_settings(new_parser->content);
 	new_parser->elem = SETTINGS;
 	new_parser->next = NULL;
 	return (new_parser);
+}
+
+static void				s_init_settings(t_set *set)
+{
+	set->width = 1280;
+	set->height = 720;
+	set->max_reflect = 10;
+	set->name = ft_strdup("RT");
 }
 
 static int				s_index_data(char **file, int size)

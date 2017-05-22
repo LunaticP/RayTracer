@@ -13,7 +13,7 @@
 #include "parser.h"
 
 #define AN1 static int s_choice_lvl_1(char **file, int size);
-#define AN2 t_parser *s_init_settings(t_parser *parser);
+#define AN2 static t_parser *s_init_settings(t_parser *parser);
 #define AN3 static void s_check_exception(int index, int *check);
 
 AN1;
@@ -74,22 +74,19 @@ static int				s_choice_lvl_1(char **file, int size)
 	return (_(exit_error("EXIT : rt_choice_lvl_1"), false));
 }
 
-t_parser				*s_init_settings(t_parser *parser)
+static t_parser				*s_init_settings(t_parser *parser)
 {
 	t_parser			*new_parser;
 	t_set				*set;
 
-	while (1);
 	new_parser = (t_parser *)rt_memalloc(sizeof(t_parser));
 	new_parser->elem = SETTINGS;
 	new_parser->next = NULL;
 	set = (t_set *)rt_memalloc(sizeof(t_parser));
 	set->width = 1280;
 	set->height = 720;
-	set->max_reflect = 20;
-	set->anti_allias = 1;
-	set->ambient = 10;
-	set->stereo = 0;
+	set->max_reflect = 10;
+	set->name = ft_strdup("RT");
 	new_parser->content = set;
 	parser->next = new_parser;
 	parser = parser->next;

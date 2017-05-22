@@ -31,7 +31,6 @@ objects
 		diff = 1;
 		refl = 0;
 		trans = 0;
-		refr = 0;
 		tex = 0;
 		n_m = 0;
 		r_m = 0;
@@ -73,7 +72,6 @@ objects
 		diff = 1;
 		refl = 0;
 		trans = 0;
-		refr = 0;
 		tex = 0;
 		n_m = 0;
 		r_m = 0;
@@ -83,9 +81,6 @@ objects
 		mod_normal{x = 0; y = 0; z = 0; w = 0;}
 		mod_ref{x = 0; y = 0; z = 0; w = 0;}
 		mod_trans{x = 0; y = 0; z = 0; w = 0;}
-		su = 1;
-		sd = 1;
-		caps = 1;
 	}
 	cone
 	{
@@ -106,7 +101,6 @@ objects
 		diff = 1;
 		refl = 0;
 		trans = 0;
-		refr = 0;
 		tex = 0;
 		n_m = 0;
 		r_m = 0;
@@ -115,10 +109,7 @@ objects
 		mod_normal{x = 0; y = 0; z = 0; w = 0;}
 		mod_ref{x = 0; y = 0; z = 0; w = 0;}
 		mod_trans{x = 0; y = 0; z = 0; w = 0;}
-		su = 0;
-		sd = 0;
 		alpha = 20;
-		caps = 0;
 	}
 	plan
 	{
@@ -138,7 +129,6 @@ objects
 		diff = 1;
 		refl = 0;
 		trans = 0;
-		refr = 0;
 		tex = 0;
 		n_m = 0;
 		r_m = 0;
@@ -166,7 +156,6 @@ objects
 		diff = 1;
 		refl = 0;
 		trans = 0;
-		refr = 0;
 		tex = 0;
 		n_m = 0;
 		r_m = 0;
@@ -194,7 +183,6 @@ objects
 		diff = 1;
 		refl = 0;
 		trans = 0;
-		refr = 0;
 		tex = 0;
 		n_m = 0;
 		r_m = 0;
@@ -222,7 +210,6 @@ objects
 		diff = 1;
 		refl = 0;
 		trans = 0;
-		refr = 0;
 		tex = 0;
 		n_m = 0;
 		r_m = 0;
@@ -250,7 +237,6 @@ objects
 		diff = 1;
 		refl = 0;
 		trans = 0;
-		refr = 0;
 		tex = 0;
 		n_m = 0;
 		r_m = 0;
@@ -278,7 +264,6 @@ objects
 		diff = 1;
 		refl = 0;
 		trans = 0;
-		refr = 0;
 		tex = 0;
 		n_m = 0;
 		r_m = 0;
@@ -300,7 +285,7 @@ lights
 		z = 0;
 		w = 0;
 	}
-	r = 80;
+	r = 10;
 	col = #00FF00;
 }
 
@@ -339,7 +324,7 @@ lights
 		z = 0;
 		w = 0;
 	}
-	r = 80;
+	r = 10;
 	col = #FFFFFF;
 }
 
@@ -377,8 +362,8 @@ camera
 	}
 	viewplane
 	{
-		z = 2;
-		w = 2;
+		z = 1;
+		w = 1;
 	}
 	p
 	{
@@ -392,16 +377,13 @@ camera
 		y = 0;
 	}
 	fast = 1;
-	dsr = 2;
+	dsr = 1;
+	ambient = #00FF00;
 }
 
 settings
 {
 	width = 1280;
 	height = 720;
-	max_reflect = 20;
-	anti_allias = 2;
-	ambient = 1;
-	stereo = 0;
-	name = "path test";
+	max_reflect = 5;
 }

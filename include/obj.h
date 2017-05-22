@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   obj.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aviau <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: gsimeon <gsimeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/10 20:21:23 by aviau             #+#    #+#             */
-/*   Updated: 2017/05/15 18:20:48 by aviau            ###   ########.fr       */
+/*   Updated: 2017/05/22 13:08:36 by gsimeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ typedef struct		s_obj
 {
 	cl_float4		pos;
 	cl_float4		dir;
-	cl_float4		rot;
 	cl_float4		min;
 	cl_float4		max;
 	cl_int			col;

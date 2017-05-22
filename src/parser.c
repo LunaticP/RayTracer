@@ -57,18 +57,19 @@ void			print_data_camera(t_cam *cam)
 	printf("dirx.x : %f | dirx.y : %f | dirx.z : %f\n", cam->dirx.x, cam->dirx.y, cam->dirx.z);
 	printf("diry.x : %f | diry.y : %f | diry.z : %f\n", cam->diry.x, cam->diry.y, cam->diry.z);
 	printf("dirz.x : %f | dirz.y : %f | dirz.z : %f\n", cam->dirz.z, cam->dirz.y, cam->dirz.z);
-	// printf("size.x : %d | size.y : %d\n", cam->size.x, cam->size.y);
+	printf("rot.x : %f | rot.y : %f | rot.z : %f\n", cam->rot.z, cam->rot.y, cam->rot.z);
+	printf("size.x : %d | size.y : %d\n", cam->size.x, cam->size.y);
 	printf("viewplane.x : %f | viewplane.y : %f | viewplane.z : %f | viewplane.w : %f\n", cam->viewplane.x, cam->viewplane.y, cam->viewplane.z, cam->viewplane.w);
 	printf("p.x : %f | p.y : %f | p.z : %f\n", cam->p.x, cam->p.y, cam->p.z);
 	printf("chunk.x : %f | chunk.y : %f\n", cam->chunk.x, cam->chunk.y);
-	printf("fast : %d | dsr : %d\n", cam->fast, cam->dsr);
+	printf("fast : %d | dsr : %d | ambient : %.8x\n", cam->fast, cam->dsr, cam->ambient);
 	printf("________\n");
 }
 
 void			print_data_settings(t_set *set)
 {
 	printf("width : %d | height : %d\n", set->width, set->height);
-	printf("max_reflect : %d | anti_allias : %d | ambient : %d | stereo : %f\n", set->max_reflect, set->anti_allias, set->ambient, set->stereo);
+	printf("max_reflect : %d\n", set->max_reflect);
 	printf("name : %s\n", set->name);	
 }
 
@@ -76,20 +77,12 @@ void			print_data_obj(t_obj *obj)
 {
 	printf("pos.x : %f | pos.y : %f | pos.z : %f | pos.w : %f\n", obj->pos.x, obj->pos.y, obj->pos.z, obj->pos.w);
 	printf("dir.x : %f | dir.y : %f | dir.z : %f | dir.w : %f\n", obj->dir.x, obj->dir.y, obj->dir.z, obj->dir.w);
-	printf("tet : %f\n", obj->tet);
-	printf("phi : %f\n", obj->phi);
-	printf("rot : %f\n", obj->rot);
 	printf("min.x : %f | min.y : %f | min.z : %f | min.w : %f\n", obj->min.x, obj->min.y, obj->min.z, obj->min.w);
 	printf("max.x : %f | max.y : %f | max.z : %f | max.w : %f\n", obj->max.x, obj->max.y, obj->max.z, obj->max.w);
-	printf("col : %d\n", obj->col);
-	printf("diff : %f | refl : %f | trans : %f | refr : %f\n", obj->diff, obj->refl, obj->trans, obj->refr);
+	printf("col : %.8x\n", obj->col);
+	printf("diff : %f | refl : %f | trans : %f\n", obj->diff, obj->refl, obj->trans);
 	printf("r : %f\n", obj->r);
-	printf("su : %f | sd : %f\n", obj->su, obj->sd);
 	printf("alpha : %f\n", obj->alpha);	
-	printf("caps : %d\n", obj->caps);
-	printf("p1.x : %f | p1.y : %f | p1.z : %f\n", obj->p1.x, obj->p1.y, obj->p1.z);
-	printf("p2.x : %f | p2.y : %f | p2.z : %f\n", obj->p2.x, obj->p2.y, obj->p2.z);
-	printf("p3.x : %f | p3.y : %f | p3.z : %f\n", obj->p3.x, obj->p3.y, obj->p3.z);
 	printf("tex : %hd | n_m : %hd | r_m : %hd | t_m : %hd\n", obj->tex, obj->n_m, obj->r_m, obj->t_m);
 	printf("type : %d\n", obj->type);
 	printf("mod_tex.x : %f, mod_tex.y : %f, mod_tex.z : %f, mod_tex.w : %f\n", obj->mod_tex.x, obj->mod_tex.y, obj->mod_tex.z, obj->mod_tex.w);

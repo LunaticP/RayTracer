@@ -30,15 +30,15 @@ void				rt_check_all_data(int mask, int check)
 
 void				rt_check_min_max(int *mask, t_obj *obj)
 {
-	if (!(*mask & (1 << 6)))
+	if (!(*mask & (1 << 2)))
 	{
-		*mask |= 1 << 6;
+		*mask |= 1 << 2;
 		obj->min = (cl_float4){\
 			.x = -FLT_MAX, .y = -FLT_MAX, .z = -FLT_MAX, .w = 0};
 	}
-	if (!(*mask & (1 << 7)))
+	if (!(*mask & (1 << 3)))
 	{
-		*mask |= 1 << 7;
+		*mask |= 1 << 3;
 		obj->max = (cl_float4){\
 			.x = FLT_MAX, .y = FLT_MAX, .z = FLT_MAX, .w = 0};
 	}
