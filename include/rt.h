@@ -6,7 +6,7 @@
 /*   By: gsimeon <gsimeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/21 20:52:20 by vthomas           #+#    #+#             */
-/*   Updated: 2017/05/22 21:39:02 by gsimeon          ###   ########.fr       */
+/*   Updated: 2017/05/22 21:47:54 by gsimeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,10 +64,6 @@ typedef struct		s_set
 	int				width;
 	int				height;
 	int				max_reflect;
-	int				anti_allias;
-	int				ambient;
-	cl_float		stereo;
-	char			*name;
 }					t_set;
 
 typedef struct		s_scene
