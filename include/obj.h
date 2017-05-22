@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   obj.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aviau <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: gsimeon <gsimeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/10 20:21:23 by aviau             #+#    #+#             */
-/*   Updated: 2017/05/15 18:20:48 by aviau            ###   ########.fr       */
+/*   Updated: 2017/05/22 12:41:34 by gsimeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 typedef enum		e_type
 {
 	plan,
-	triangle,
 	sphere,
 	cylindre,
 	cone,
@@ -31,25 +30,15 @@ typedef struct		s_obj
 {
 	cl_float4		pos;
 	cl_float4		dir;
-	float			tet;
-	float			phi;
-	cl_float4		rot;
 	cl_float4		min;
 	cl_float4		max;
 	cl_int			col;
 	cl_float		diff;
 	cl_float		refl;
 	cl_float		trans;
-	cl_float		refr;
 	t_type			type;
 	cl_float		r;
-	cl_float		su;
-	cl_float		sd;
 	cl_float		alpha;
-	cl_char			caps;
-	cl_float4		p1;
-	cl_float4		p2;
-	cl_float4		p3;
 	cl_float4		mod_tex;
 	cl_float4		mod_normal;
 	cl_float4		mod_ref;
