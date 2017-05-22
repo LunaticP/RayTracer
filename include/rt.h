@@ -6,7 +6,7 @@
 /*   By: vthomas <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/21 20:52:20 by vthomas           #+#    #+#             */
-/*   Updated: 2017/05/22 12:53:25 by aviau            ###   ########.fr       */
+/*   Updated: 2017/05/22 19:19:10 by aviau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,8 @@
 # define H			720
 # define STEREO		0
 # define OUT_FILE	1
-# define WIDTH		(W * (mlx.s.cam.dsr > 1 ? mlx.s.cam.dsr : 1))
-# define HEIGHT		(H * (mlx.s.cam.dsr > 1 ? mlx.s.cam.dsr : 1))
-# define WIDTHP		(W * (mlx->s.cam.dsr > 1 ? mlx->s.cam.dsr : 1))
-# define HEIGHTP	(H * (mlx->s.cam.dsr > 1 ? mlx->s.cam.dsr : 1))
+# define WIDTH		(W * (DSR > 1 ? DSR : 1))
+# define HEIGHT		(H * (DSR > 1 ? DSR : 1))
 # define _
 
 # include <libft.h>
@@ -62,17 +60,6 @@ typedef struct		s_cam
 	cl_int			ambient;
 }					t_cam;
 
-typedef struct		s_set
-{
-	int				width;
-	int				height;
-	int				max_reflect;
-	int				anti_allias;
-	int				ambient;
-	cl_float		stereo;
-	char			*name;
-}					t_set;
-
 typedef struct		s_scene
 {
 	int				n_o;
@@ -80,7 +67,6 @@ typedef struct		s_scene
 	t_cam			cam;
 	t_obj			*obj;
 	t_obj			*light;
-	t_set			*set;
 }					t_scene;
 
 typedef struct		s_mlx
@@ -107,96 +93,26 @@ typedef struct		s_mlx
 	t_mmlx			*parent;
 }					t_mlx;
 
-int					k_rel(int key, void *param);
-int					k_press(int key, void *param);
-void				k_apply(int key, t_scene *s);
-int					m_press(int keycode, int x, int y, void *param);
-int					ray_loop(void *param);
-
-int					*get_texture(char **file);
-int					*perlin(void);
-int					*langton(void);
-cl_float			cl_dot(cl_float4 v1, cl_float4 v2);
 cl_float4			cl_cross(cl_float4 v1, cl_float4 v2);
 cl_float4			normalize(cl_float4 v1);
+cl_float			cl_dot(cl_float4 v1, cl_float4 v2);
 void				trans_cam(t_cam *cam, cl_float4 axis, float dir);
 void				rot_cam(t_cam *cam, cl_float4 axis, float angle);
-
-#define PADDING(X, Y)	char padding ## X[Y]
-
-typedef	enum		e_elem
-{
-	OBJECTS,
-	LIGHTS,
-	CAMERA,
-	SETTINGS,
-	TEXTURES,
-	SIZE
-}					t_elem;
-
-typedef struct		s_parser
-{
-	void				*content;
-	t_elem				elem;
-	struct s_parser		*next;
-}					t_parser;
-
-t_mlx				rt_get_parser(char *path, t_mlx mlx);
-t_parser			*rt_parser_file(char *file);
-char				*rt_get_file(char *path);
-void				rt_free_after_parser(char *file, t_parser *parser);
 void				img_file(unsigned char *img, t_mlx *mlx);
 void				dsr(t_mlx *mlx);
-
-t_parser			*rt_parser_objects(char	*file, t_parser *ptr_parser);
-t_parser			*rt_parser_camera(char *file, t_parser *parser);
-t_parser			*rt_parser_lights(char *file, t_parser *parser);
-t_parser			*rt_parser_textures(char *file, t_parser *parser);
-t_parser			*rt_parser_settings(char *file, t_parser *parser);
-void				rt_get_object(t_obj *obj, char *file, int mask_type);
-
-void				***rt_list_to_tab(t_parser *parser, int *tab_size);
-
-char				*rt_goto_bracket_close(char *file);
-char				*rt_goto_data_end(char *file);
-
-char				*rt_get_str_float(char *file);
-char				*rt_next_float(char *file);
-
-void				*rt_atoi(char *str);
-void				*rt_get_char(char *file);
-void				*rt_get_short(char *file);
-void				*rt_get_str(char *file);
-void				*rt_get_color(char *file);
-void				*rt_get_int2(char *file);
-void				*rt_get_float(char *str);
-void				*rt_get_float2(char *file);
-void				*rt_get_float3(char *file);
-void				*rt_get_float4(char *file);
-void				*rt_get_float4_end(char *file);
-void				*rt_get_float4_neg(char *file);
-
-void				rt_check_value(void ***tab);
-
-int					rt_strcmp(const char *s1, const char *s2);
-void				*rt_memalloc(size_t size);
-char				*rt_strjoin(char *s1, char *s2);
-void				*rt_useless(char *useless);
-void				parser_error(t_list *file, char *path);
-void				exit_error(char *str);
-
-void				rt_add_mask(int *mask_check, int index);
-void				rt_check_all_data(int mask, int check);
-void				rt_check_min_max(int *mask, t_obj *obj);
-
-void				print_data_obj(t_obj *obj);
-void				print_data_camera(t_cam *cam);
-void				print_data_settings(t_set *set);
-void				test_read_tab(void ***tab);
-
 void				print_log(char *str);
 void				print_warning(char *str);
 void				print_error(char *str);
 void				print_info(char *str);
+void				k_apply(int key, t_scene *s);
+void				exit_error(char *str);
+int					k_rel(int key, void *param);
+int					k_press(int key, void *param);
+int					m_press(int keycode, int x, int y, void *param);
+int					ray_loop(void *param);
+int					*get_texture(char **file);
+int					*perlin(void);
+int					*langton(void);
+int					*get_texture(char **files);
 
 #endif

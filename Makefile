@@ -6,7 +6,7 @@
 #    By: gsimeon <gsimeon@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/09/11 11:02:36 by aviau             #+#    #+#              #
-#    Updated: 2017/05/21 20:55:23 by aviau            ###   ########.fr        #
+#    Updated: 2017/05/22 19:26:01 by aviau            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,53 +19,18 @@ SRC_NAME =	main.c\
 			perlin.c\
 			langton.c\
 			message_info.c\
-			parse_text.c\
 			vec.c\
 			img.c\
 			dsr.c\
+			parse_text.c\
 			bmp/ft_bmp_file_load.c\
 			bmp/ft_bmp_to_ubmp.c\
 			bmp/get_ppm.c\
 			bmp/load.c\
-			bmp/memjoin.c\
-			rt_get_char.c\
-			rt_get_color.c\
-			rt_get_float.c\
-			rt_get_float2.c\
-			rt_get_float3.c\
-			rt_get_float4.c\
-			rt_get_int_2.c\
-			rt_get_short.c\
-			rt_get_str_float.c\
-			rt_end_data.c\
-			rt_goto_close_bracket.c\
-			exit_error.c\
-			folder_mask.c\
-			rt_free_after_parser.c\
-			rt_memalloc.c\
-			rt_strcmp.c\
-			rt_useless.c\
-			parser_error.c\
-			rt_get_file.c\
-			rt_get_object.c\
-			rt_parser_camera.c\
-			rt_parser_file.c\
-			rt_parser_lights.c\
-			rt_parser_objects.c\
-			parser.c\
-			rt_list_to_tab.c\
-			rt_parser_textures.c\
-			rt_atoi.c\
-			rt_parser_settings.c\
-			rt_get_str.c\
-			rt_get_float3_init.c\
-			rt_check_value.c\
-			rt_get_float4_end.c\
-			rt_get_float4_neg.c\
+			bmp/memjoin.c
 
 INC_FILE = include/key.h\
-		   include/rt.h\
-		   include/parser.h
+		   include/rt.h
 
 OBJ_NAME = $(SRC_NAME:.c=.o)
 SRC_PATH = ./src/
