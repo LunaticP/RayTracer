@@ -29,7 +29,7 @@ char					*rt_get_file(char *path)
 		exit_error("EXIT : [get_file.c] WRONG FILE");
 	file = ft_strnew(0);
 	while (0 < get_next_line(fd, &line))
-		file = ft_strjoin(file, line);
+		file = ft_strjoin_free(file, line, 0);
 	file = s_file_nospace(file);
 	close(fd);
 	return (file);
@@ -40,7 +40,9 @@ static char				*s_file_nospace(char *file)
 	char				*file_ns;
 	char				*ptr;
 	bool				check_str;
+	char				*file_free;
 
+	file_free = file;
 	file_ns = (char *)rt_memalloc(ft_strlen(file) + 1);
 	ptr = file_ns;
 	check_str = 0;
@@ -55,6 +57,7 @@ static char				*s_file_nospace(char *file)
 		}
 		++file;
 	}
+	free(file_free);
 	return (file_ns);
 }
 
