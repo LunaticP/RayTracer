@@ -2,7 +2,6 @@ textures
 {
 	"langton";
 	"perlin";
-	"../RayTracer/tex/test.ppm";
 }
 
 objects

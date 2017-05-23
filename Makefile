@@ -6,7 +6,7 @@
 #    By: gsimeon <gsimeon@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/09/11 11:02:36 by aviau             #+#    #+#              #
-#    Updated: 2017/05/23 16:45:55 by gsimeon          ###   ########.fr        #
+#    Updated: 2017/05/23 21:02:39 by pgourran         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -85,7 +85,6 @@ ARG=-L./libft/ -L./rt_win -L./libmatrix -L./libocl \
 	-lft -lmatrix -lrt_win -locl \
 	-framework OpenGl -framework AppKit -framework opencl
 CFLAGS = -Wall -Wextra -Werror
-CFLAGS = 
 DEPDIR				= .deps/
 DEPFILES			= $(patsubst %.c,$(DEPDIR)%.d,$(SRC_NAME))
 
