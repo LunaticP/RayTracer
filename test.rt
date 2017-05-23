@@ -1,6 +1,6 @@
 textures
 {
-	"../rttex/tex/texture.bmp";
+	"littleSquare.bmp";
 }
 
 objects
@@ -24,7 +24,7 @@ objects
 		diff = 1;
 		refl = 0;
 		trans = 0;
-		tex = 1;
+		tex = 0;
 		n_m = 0;
 		r_m = 0;
 		t_m = 0;
@@ -280,24 +280,6 @@ camera
 		y = 2;
 		z = -15;
 	}
-	dirx
-	{
-		x = 1;
-		y = 0;
-		z = 0;
-	}
-	diry
-	{
-		x = 0;
-		y = 1;
-		z = 0;
-	}
-	dirz
-	{
-		x = 0;
-		y = 0;
-		z = 1;
-	}
 	rot
 	{
 		x = 0;
@@ -309,19 +291,8 @@ camera
 		z = 3;
 		w = 4;
 	}
-	p
-	{
-		x = 0;
-		y = 0;
-		z = 0;
-	}
-	chunk
-	{
-		x = 0;
-		y = 0;
-	}
-	fast = 1;
 	dsr = 1;
+	ambient = #FF1515;
 }
 
 settings

@@ -27,7 +27,7 @@ t_mlx			rt_get_parser(char *path, t_mlx mlx)
 		mlx.tex = rt_memalloc(sizeof(int *));
 		mlx.tex[0] = 0;
 	}
-	rt_check_value(tab);
+	rt_check_value(tab, mlx.tab_size);
 	rt_free_after_parser(file, parser); // free les str
 	// if (DEBUG)
 	// {
@@ -60,6 +60,8 @@ static t_scene			rt_alloc_scene(void ***tab, t_mlx mlx)
 	scene.cam.size.y = scene.set->height * scene.cam.dsr;
 	scene.cam.viewplane.x = 10.0 * ((float)scene.cam.size.x / (float)scene.cam.size.y);
 	scene.cam.p.x = -5.0 * ((float)scene.cam.size.x / (float)scene.cam.size.y);
+	scene.cam.max_reflect = scene.set->max_reflect;
+	scene.cam.fast = 1;
 	return (scene);
 }
 

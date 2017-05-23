@@ -14,8 +14,6 @@
 
 #define MASK_LIGHT		0b00000000000000010100000000001
 
-// #define MASK_LIGHT	0b0000000000100000100000001
-
 #define AN1 static t_parser *s_init_new_parser(t_parser *new_parser);
 #define AN2 static int s_choice_data(char **file, int size);
 #define AN3 static void s_get_light_var(int index, char *file, t_obj *obj);

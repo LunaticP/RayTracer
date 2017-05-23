@@ -59,6 +59,7 @@ typedef struct		s_cam
 	short			fast;
 	short			dsr;
 	cl_int			ambient;
+	cl_int			max_reflect;
 }					t_cam;
 
 typedef struct		s_set
@@ -165,7 +166,7 @@ void				*rt_get_float4(char *file);
 void				*rt_get_float4_end(char *file);
 void				*rt_get_float4_neg(char *file);
 
-void				rt_check_value(void ***tab);
+void				rt_check_value(void ***tab, int *tab_size);
 
 int					rt_strcmp(const char *s1, const char *s2);
 void				*rt_memalloc(size_t size);

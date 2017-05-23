@@ -58,8 +58,6 @@ void						rt_get_object(t_obj *obj, char *file, int mask_type)
 	s_init_base(obj);
 	while ((index = s_choice_data(&file, size)) != size)
 	{
-		// if (index != 2 && index != 3 &&
-				// index != 5 && index != 6 && index != 7 && index != 8)
 		if (!(2 <= index && index <= 7))
 			rt_add_mask(&check_mask_type, index);
 		s_get_object_var(index, file, obj);
