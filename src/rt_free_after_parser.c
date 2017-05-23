@@ -37,6 +37,8 @@ static void				s_free_parser(t_parser *parser)
 	while (parser)
 	{
 		parser_ptr = parser;
+		if (parser->elem == TEXTURES)
+			free(*((char **)(parser->content)));
 		free(parser->content);
 		parser = parser->next;
 		free(parser_ptr);

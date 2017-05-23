@@ -1,6 +1,9 @@
 textures
 {
-	"langton";
+	"perlin";
+	"perlin";
+	"perlin";
+	"perlin";
 	"perlin";
 }
 
@@ -95,7 +98,7 @@ objects
 		diff = 1;
 		refl = 0;
 		trans = 0;
-		tex = 2;
+		tex = 0;
 		n_m = 0;
 		r_m = 0;
 		t_m = 0;
@@ -142,7 +145,7 @@ objects
 		diff = 1;
 		refl = 0;
 		trans = 0;
-		tex = 1;
+		tex = 0;
 		n_m = 0;
 		r_m = 0;
 		t_m = 0;
