@@ -40,9 +40,6 @@ typedef struct 		s_obj
 	short			r_m;
 	short			t_m;
 	t_type			type;
-	float			refr;
-	float			tet;
-	float			phi;
 }					t_obj;
 
 typedef struct		s_cam
@@ -74,7 +71,6 @@ float4	norm_sphere(__global t_obj *o, float4 hit, int id);
 float4	norm_cone(__global t_obj *o, float4 hit, int id, t_ray ray);
 float4	norm_cylindre(__global t_obj *o, float4 hit, int id, t_ray ray);
 float4	refl(float4 ray, float4 normale);
-float4	refr(float4 ray, float4 normale);
 float4	bilinear(float2 polar, __global int *tex);
 float4	ray_from_coord(size_t x, size_t y, __global t_cam *c, int mul);
 float	sq(float a);

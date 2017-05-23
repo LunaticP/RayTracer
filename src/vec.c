@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vec.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aviau <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: gsimeon <gsimeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/21 18:05:06 by aviau             #+#    #+#             */
-/*   Updated: 2017/05/21 20:22:56 by aviau            ###   ########.fr       */
+/*   Updated: 2017/05/23 06:32:04 by gsimeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,17 +22,4 @@ cl_float4	vec_norm(cl_float4 vec)
 	norm.y = vec.y / lenght;
 	norm.z = vec.z / lenght;
 	return (norm);
-}
-
-void		polar_to_vec(float tet, float phi, cl_float4 *dir)
-{
-	dir->x = sin(tet) * cos(phi);
-	dir->z = cos(phi);
-	dir->y = sin(tet) * sin(phi);
-}
-
-void		vec_to_polar(float *tet, float *phi, cl_float4 dir)
-{
-	*tet = acos(dir.y);
-	*phi = atan2(dir.z, dir.x);
 }
