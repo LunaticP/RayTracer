@@ -51,8 +51,6 @@ static const t_data g_tab_data[] = {
 	{"p2{", sizeof(cl_float4), &rt_get_float3},
 	{"p3{", sizeof(cl_float4), &rt_get_float3},
 	{"rot{", sizeof(cl_float4), &rt_get_float3},
-	{"su=", sizeof(cl_float), &rt_get_float},
-	{"sd=", sizeof(cl_float), &rt_get_float},
 	{"}", 0, NULL}
 };
 

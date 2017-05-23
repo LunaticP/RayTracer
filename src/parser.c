@@ -92,7 +92,6 @@ static t_scene			rt_alloc_scene(void ***tab, t_mlx mlx)
 // 	printf("col : %d\n", obj->col);
 // 	printf("diff : %f | refl : %f | trans : %f | refr : %f\n", obj->diff, obj->refl, obj->trans, obj->refr);
 // 	printf("r : %f\n", obj->r);
-// 	printf("su : %f | sd : %f\n", obj->su, obj->sd);
 // 	printf("alpha : %f\n", obj->alpha);	
 // 	printf("p1.x : %f | p1.y : %f | p1.z : %f\n", obj->p1.x, obj->p1.y, obj->p1.z);
 // 	printf("p2.x : %f | p2.y : %f | p2.z : %f\n", obj->p2.x, obj->p2.y, obj->p2.z);

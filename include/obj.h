@@ -55,8 +55,6 @@ typedef struct 		s_obj
 	cl_float4		p2;
 	cl_float4		p3;
 	cl_float4		rot;
-	cl_float		su;
-	cl_float		sd;
 }					t_obj;
 
 #endif
