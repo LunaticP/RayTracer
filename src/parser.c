@@ -34,6 +34,9 @@ t_mlx			rt_get_parser(char *path, t_mlx mlx)
 	// 	s_print_all(mlx, mlx.tab_size);
 	// 	exit(0);
 	// }
+	free(tab[CAMERA]);
+	free(tab[TEXTURES]);
+	free(tab);
 	return (mlx);
 }
 
