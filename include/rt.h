@@ -6,7 +6,7 @@
 /*   By: gsimeon <gsimeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/21 20:52:20 by vthomas           #+#    #+#             */
-/*   Updated: 2017/05/22 22:55:54 by gsimeon          ###   ########.fr       */
+/*   Updated: 2017/05/23 09:44:14 by gsimeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@
 # define HEIGHT	s.cam.size.y
 # define OUT_FILE	0
 # define _
+
+# define PADDING(X,Y)	char padding ## X[Y]
 
 # include <libft.h>
 # include <libocl.h>
@@ -110,8 +112,6 @@ cl_float4			cl_cross(cl_float4 v1, cl_float4 v2);
 cl_float4			normalize(cl_float4 v1);
 void				trans_cam(t_cam *cam, cl_float4 axis, float dir);
 void				rot_cam(t_cam *cam, cl_float4 axis, float angle);
-
-#define PADDING(X, Y)	char padding ## X[Y]
 
 typedef	enum		e_elem
 {

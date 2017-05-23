@@ -15,7 +15,6 @@ typedef enum		e_type
 	cylindre,
 	cone,
 	light,
-	para,
 	end
 }					t_type;
 
@@ -349,8 +348,6 @@ int				diffuse(__global t_obj *o,float *t, __global t_obj *l, t_ray ray, int id,
 		polar.x = ctsn.y;
 		polar.y = (atan(ctsn.x / -ctsn.z)) + M_PI_2_F;
 	}
-	else if (o[id].type == para)
-		normale = hit - o[id].pos;
 	if (o[id].n_m)
 	{
 		color = tex[tex_num(o[id].n_m, o, id, tex, polar, o[id].mod_normal)];
@@ -734,7 +731,7 @@ int				ray_match(__global t_obj *o, t_ray *ray)
 							ret = (i2 > 0) ? i2 : i;
 					}
 					break;
-				case para :
+				case end :
 					{
 						if ((ray->imp = rt_para(&(o[i]), ray)) != 0)
 							ret = i;

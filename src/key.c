@@ -6,7 +6,7 @@
 /*   By: gsimeon <gsimeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/30 07:43:39 by aviau             #+#    #+#             */
-/*   Updated: 2017/05/22 23:33:29 by gsimeon          ###   ########.fr       */
+/*   Updated: 2017/05/23 09:55:50 by gsimeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,12 +64,12 @@ int		k_rel(int key, void *param)
 
 void	k_apply(int key, t_scene *s)
 {
-	(key & POS_XP) ? trans_cam(&s->cam, s->cam.dirx, 0.2) : 0;
-	(key & POS_XM) ? trans_cam(&s->cam, s->cam.dirx, -0.2) : 0;
-	(key & POS_YP) ? trans_cam(&s->cam, s->cam.diry, 0.2) : 0;
-	(key & POS_YM) ? trans_cam(&s->cam, s->cam.diry, -0.2) : 0;
-	(key & POS_ZP) ? trans_cam(&s->cam, s->cam.dirz, 0.2) : 0;
-	(key & POS_ZM) ? trans_cam(&s->cam, s->cam.dirz, -0.2) : 0;
+	(key & POS_XP) ? trans_cam(&s->cam, s->cam.dirx, 0.5) : 0;
+	(key & POS_XM) ? trans_cam(&s->cam, s->cam.dirx, -0.5) : 0;
+	(key & POS_YP) ? trans_cam(&s->cam, s->cam.diry, 0.5) : 0;
+	(key & POS_YM) ? trans_cam(&s->cam, s->cam.diry, -0.5) : 0;
+	(key & POS_ZP) ? trans_cam(&s->cam, s->cam.dirz, 0.5) : 0;
+	(key & POS_ZM) ? trans_cam(&s->cam, s->cam.dirz, -0.5) : 0;
 	(key & ROT_XP) ? rot_cam(&s->cam, s->cam.dirx, 0.1) : 0;
 	(key & ROT_XM) ? rot_cam(&s->cam, s->cam.dirx, -0.1) : 0;
 	(key & ROT_YP) ? rot_cam(&s->cam, s->cam.diry, -0.1) : 0;
