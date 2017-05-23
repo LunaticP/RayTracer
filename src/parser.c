@@ -60,6 +60,7 @@ static t_scene			rt_alloc_scene(void ***tab, t_mlx mlx)
 	scene.cam.size.y = scene.set->height * scene.cam.dsr;
 	scene.cam.viewplane.x = 10.0 * ((float)scene.cam.size.x / (float)scene.cam.size.y);
 	scene.cam.p.x = -5.0 * ((float)scene.cam.size.x / (float)scene.cam.size.y);
+	scene.cam.max_reflect = scene.set->max_reflect;
 	return (scene);
 }
 

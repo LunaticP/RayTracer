@@ -59,6 +59,7 @@ typedef struct		s_cam
 	short			fast;
 	short			dsr;
 	cl_int			ambient;
+	cl_int			max_reflect;
 }					t_cam;
 
 typedef struct		s_set
