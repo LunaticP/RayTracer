@@ -1,0 +1,256 @@
+textures
+{
+	"perlin";
+	"langton";
+}
+
+objects
+{
+	sphere
+	{
+		pos
+		{
+			x = 0;
+			y = 0;
+			z = 0;
+			neg = 0;
+		}
+		dir
+		{
+			x = 0;
+			y = 1;
+			z = 0;
+		}
+		col = #FFFFFF;
+		diff = 1;
+		refl = 0;
+		trans = 0;
+		tex = 2;
+		n_m = 0;
+		r_m = 0;
+		t_m = 2;
+		r = 5;
+	}
+	plan
+	{
+		pos
+		{
+			x = 0;
+			y = -15;
+			z = 0;
+		}
+		dir
+		{
+			x = 0;
+			y = 1;
+			z = 0;
+		}
+		col = #FFFFFF;
+		diff = 1;
+		refl = 0;
+		trans = 0;
+		tex = 0;
+		n_m = 0;
+		r_m = 0;
+		t_m = 0;
+	}
+	plan
+	{
+		pos
+		{
+			x = 0;
+			y = 15;
+			z = 0;
+		}
+		dir
+		{
+			x = 0;
+			y = -1;
+			z = 0;
+		}
+		col = #FFFFFF;
+		diff = 1;
+		refl = 0;
+		trans = 0;
+		tex = 0;
+		n_m = 0;
+		r_m = 0;
+		t_m = 0;
+	}
+	plan
+	{
+		pos
+		{
+			x = -15;
+			y = 0;
+			z = 0;
+		}
+		dir
+		{
+			x = 1;
+			y = 0;
+			z = 0;
+		}
+		col = #FFFFFF;
+		diff = 1;
+		refl = 0;
+		trans = 0;
+		tex = 2;
+		n_m = 0;
+		r_m = 0;
+		t_m = 0;
+		mod_tex {x = 30; y = 30; z = 0; w = 0;}
+	}
+	plan
+	{
+		pos
+		{
+			x = 15;
+			y = 0;
+			z = 0;
+		}
+		dir
+		{
+			x = -1;
+			y = 0;
+			z = 0;
+		}
+		col = #FFFFFF;
+		diff = 1;
+		refl = 0;
+		trans = 0;
+		tex = 0;
+		n_m = 0;
+		r_m = 0;
+		t_m = 0;
+	}
+	plan
+	{
+		pos
+		{
+			x = 0;
+			y = 0;
+			z = 15;
+		}
+		dir
+		{
+			x = 0;
+			y = 0;
+			z = -1;
+		}
+		col = #FFFFFF;
+		diff = 1;
+		refl = 0;
+		trans = 0;
+		tex = 1;
+		n_m = 0;
+		r_m = 0;
+		t_m = 0;
+		mod_tex {x = 30; y = 30; z = 0; w = 0;}
+	}
+	plan
+	{
+		pos
+		{
+			x = 0;
+			y = 0;
+			z = -15;
+		}
+		dir
+		{
+			x = 0;
+			y = 0;
+			z = 1;
+		}
+		col = #FFFFFF;
+		diff = 1;
+		refl = 0;
+		trans = 0;
+		tex = 0;
+		n_m = 0;
+		r_m = 0;
+		t_m = 0;
+	}
+}
+
+lights
+{
+	pos
+	{
+		x = 10;
+		y = 3;
+		z = 0;
+		w = 0;
+	}
+	r = 80;
+	col = #00FF00;
+}
+
+lights
+{
+	pos
+	{
+		x = 10;
+		y = 3;
+		z = -3;
+		w = 0;
+	}
+	r = 10;
+	col = #0000FF;
+}
+
+lights
+{
+	pos
+	{
+		x = 5;
+		y = 3;
+		z = -3;
+		w = 0;
+	}
+	r = 10;
+	col = #FF00FF;
+}
+
+lights
+{
+	pos
+	{
+ 		x = 7.5;
+		y = 0;
+		z = 0;
+		w = 0;
+	}
+	r = 80;
+	col = #FFFFFF;
+}
+
+camera
+{
+	ori
+	{
+		x = 5;
+		y = 2;
+		z = -15;
+	}
+	rot
+	{
+		x = 0;
+		y = 0;
+		z = 0;
+	}
+	viewplane
+	{
+		z = -1;
+		w = -1;
+	}
+	dsr = 1;
+	ambient = #FF1515;
+}
+
+settings
+{
+	width = 1280;
+	height = 720;
+	max_reflect = 10;
+}

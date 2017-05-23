@@ -74,15 +74,17 @@ static char				**s_exception(char *file, char **path)
 	if (rt_strcmp("perlin", file) == 0)
 	{
 		path = (char **)rt_memalloc(sizeof(char *));
-		*path = (char *)rt_memalloc(sizeof(char *) * strlen("perlin") + 1);
-		ft_memcpy("perlin", file, strlen("perlin"));
+		*path = ft_strdup("perlin");
+	 	// *path = (char *)rt_memalloc(sizeof(char *) * strlen("perlin") + 1);
+		// ft_memcpy("perlin", file, strlen("perlin"));
 		return ((char **)path);
 	}
 	if (rt_strcmp(file, "langton") == 0)
 	{
 		path = (char **)rt_memalloc(sizeof(char *));
-		*path = (char *)rt_memalloc(sizeof(char *) * strlen("langton") + 1);
-		ft_memcpy("langton", file, strlen("langton"));
+		*path = ft_strdup("langton");
+		// *path = (char *)rt_memalloc(sizeof(char *) * strlen("langton") + 1);
+		// ft_memcpy("langton", file, strlen("langton"));
 		return ((char **)path);
 	}
 	return (NULL);

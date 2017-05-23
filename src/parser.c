@@ -62,9 +62,14 @@ static t_scene			rt_alloc_scene(void ***tab, t_mlx mlx)
 	scene.cam.p.x = -5.0 * ((float)scene.cam.size.x / (float)scene.cam.size.y);
 	scene.cam.max_reflect = scene.set->max_reflect;
 	scene.cam.fast = 1;
+	// if (1 <= scene.cam.viewplane.z && scene.cam.viewplane.z <= scene.cam.size.x)
+	if (scene.cam.viewplane.z < 1 || scene.cam.size.x < scene.cam.viewplane.z)
+		scene.cam.viewplane.z = 1.0;
+	// if (1 <= scene.cam.viewplane.w && scene.cam.viewplane.w <= scene.cam.size.y)
+	if (scene.cam.viewplane.w < 1 || scene.cam.size.y < scene.cam.viewplane.w)
+		scene.cam.viewplane.w = 1.0;
 	return (scene);
 }
-
 // void			print_data_camera(t_cam *cam)
 // {
 // 	printf("ori.x : %f | ori.y : %f | ori.z : %f\n", cam->ori.x, cam->ori.y, cam->ori.z);
