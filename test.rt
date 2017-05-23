@@ -1,78 +1,26 @@
 textures
 {
-	"../Downloads/earth-watermask.ppm";
+	"../RayTracer/tex/LqQZu.ppm";
 }
 
 objects
 {
-	sphere
+	cone
 	{
 		pos
 		{
 			x = 0;
-			y = 0;
+			y = -20;
 			z = 0;
 			neg = 0;
 		}
 		dir
 		{
-			x = 0.5;
-			y = 0.5;
-			z = 0;
-		}
-		min
-		{
-			x = -2.5;
-			y = -2.5;
-			z = -2.5;
-		}
-		max
-		{
-			x = 2.5;
-			y = 2.5;
-			z = 2.5;
-		}
-		col = #FF0000;
-		diff = 1;
-		refl = 0;
-		trans = 0;
-		tex = 1;
-		n_m = 0;
-		r_m = 0;
-		t_m = 0;
-		mod_normal {x = 0; y = 0; z = 0; w = 0;}
-		mod_ref {x = 0; y = 0; z = 0; w = 0;}
-		mod_trans {x = 0; y = 0; z = 0; w = 0;}
-		r = 3;
-	}
-	cylindre
-	{
-		pos
-		{
 			x = 0;
-			y = 0;
-			z = 0;
-			neg = 0;
-		}
-		dir
-		{
-			x = 0.5;
-			y = 0.5;
+			y = 1;
 			z = 0;
 		}
-		min
-		{
-			x = -2.5;
-			y = -2.5;
-			z = -2.5;
-		}
-		max
-		{
-			x = 2.5;
-			y = 2.5;
-			z = 2.5;
-		}
-		col = #FF0000;
+		col = #FFFFFF;
 		diff = 1;
 		refl = 0;
 		trans = 0;
@@ -80,7 +28,32 @@ objects
 		n_m = 0;
 		r_m = 0;
 		t_m = 0;
-		r = 3;
+		alpha = 20;
+	}
+	cone
+	{
+		pos
+		{
+			x = 0;
+			y = -20;
+			z = 0;
+			neg = 0;
+		}
+		dir
+		{
+			x = 0;
+			y = 1;
+			z = 0;
+		}
+		col = #FFFFFF;
+		diff = 1;
+		refl = 0;
+		trans = 0;
+		tex = 0;
+		n_m = 0;
+		r_m = 0;
+		t_m = 0;
+		alpha = 20;
 	}
 	cone
 	{
@@ -245,7 +218,6 @@ objects
 		r_m = 0;
 		t_m = 0;
 	}
-
 }
 
 lights
@@ -349,12 +321,12 @@ camera
 		y = 0;
 	}
 	fast = 1;
-	dsr = -1;
+	dsr = 1;
 }
 
 settings
 {
 	width = 1280;
 	height = 720;
-	max_reflect = 20;
+	max_reflect = 10;
 }

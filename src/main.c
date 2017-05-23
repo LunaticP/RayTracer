@@ -64,7 +64,7 @@ int		main(int ac, char **av)
 	mlx.p = (unsigned char*)parent->data;
 	mlx.s.cam.chunk = (cl_float2){.x = -1, .y = -1};
 	mlx.s.cam.size = (cl_int2){.x = mlx.WIDTH, .y = mlx.HEIGHT};
-	mlx.s.cam.ambient = 0x252525;
+	mlx.s.cam.ambient = 0;
 	pws[0] = mlx.WIDTH / mlx.s.cam.viewplane.z;
 	pws[1] = mlx.HEIGHT / mlx.s.cam.viewplane.w;
 	pws_f[0] = mlx.W / 2;
