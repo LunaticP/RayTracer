@@ -86,7 +86,6 @@ static t_scene			rt_alloc_scene(void ***tab, t_mlx mlx)
 // 	printf("dir.x : %f | dir.y : %f | dir.z : %f | dir.w : %f\n", obj->dir.x, obj->dir.y, obj->dir.z, obj->dir.w);
 // 	printf("tet : %f\n", obj->tet);
 // 	printf("phi : %f\n", obj->phi);
-// 	printf("rot : %f\n", obj->rot);
 // 	printf("min.x : %f | min.y : %f | min.z : %f | min.w : %f\n", obj->min.x, obj->min.y, obj->min.z, obj->min.w);
 // 	printf("max.x : %f | max.y : %f | max.z : %f | max.w : %f\n", obj->max.x, obj->max.y, obj->max.z, obj->max.w);
 // 	printf("col : %d\n", obj->col);

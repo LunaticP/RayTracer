@@ -54,7 +54,6 @@ typedef struct 		s_obj
 	cl_float4		p1;
 	cl_float4		p2;
 	cl_float4		p3;
-	cl_float4		rot;
 }					t_obj;
 
 #endif
