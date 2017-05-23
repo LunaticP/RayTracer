@@ -1,7 +1,7 @@
 #ifndef PARSER_H
 # define PARSER_H
 
-#include "rt.h"
+# include "rt.h"
 
 typedef struct		s_data
 {
@@ -18,8 +18,8 @@ typedef struct		s_type_elem
 
 typedef struct		s_objects
 {
-	char	*name;
-	int		mask;
-}
-					t_objects;
-# endif
+	char			*name;
+	int				mask;
+}					t_objects;
+
+#endif
