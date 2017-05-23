@@ -294,7 +294,7 @@ camera
 		z = -1;
 		w = -1;
 	}
-	dsr = 1;
+	dsr = 4;
 	ambient = #FF1515;
 }
 

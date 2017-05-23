@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   rt_list_to_tab.c                                   :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: jogarcia <marvin@42.fr>                    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/05/13 12:18:46 by jogarcia          #+#    #+#             */
-/*   Updated: 2017/05/13 12:18:47 by jogarcia         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "parser.h"
 
 static const int g_tab_data[] = {
@@ -104,8 +92,8 @@ static void				s_check_texture(void ***tab, int max_textures)
 	i = 0;
 	while ((int)((t_obj *)(((t_obj *)tab[0]) + i)->type) != end)
 	{
-		if ((int)((t_obj *)(((t_obj *)tab[0]) + i))->tex > max_textures - 1)
-		// if (((short)((t_obj *)(((t_obj *)tab[0]) + i)->tex)) > max_textures - 1)
+		if ((int)((t_obj *)(((t_obj *)tab[0]) + i))->tex
+				> max_textures - 1)
 			exit_error("EXIT : Bad Textures in entry data");
 		++i;
 	}
