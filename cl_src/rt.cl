@@ -561,9 +561,21 @@ int				rt_cone(__global t_obj *o, int i, int *i2, t_ray *ray)
 	c = dot(x, x) - k * sq(dot(x, odir));
 	if (quadratic(a, b, c, &t) && !(a = 0) && (o[i].pos.w > 0.5f || (a = ray_neg(o, ray, &t)) != 0))
 	{
+
+
 		if (o[i].pos.w < 0.5f)
 			*i2 = a - 1;
-		if ((t.x < t.y && (o[i].pos.w > 0.5f || t.x > 0.01f) && (t.x < ray->t || ray->t <= 0)))
+		if(t.x > 0.1f)
+		{
+			ray->t = t.x;
+			return(1);
+		}
+		if(t.y > 0.1f && (t.y < t.x || t.x < 0.1f))
+		{
+			ray->t = t.y;
+			return(-1);
+		}
+/*		if ((t.x < t.y && (o[i].pos.w > 0.5f || t.x > 0.01f) && (t.x < ray->t || ray->t <= 0)))
 		{
 			ray->t = t.x;
 			ray->t2 = t.y;
@@ -574,7 +586,7 @@ int				rt_cone(__global t_obj *o, int i, int *i2, t_ray *ray)
 			ray->t = t.y;
 			ray->t2 = t.x;
 			return (-1);
-		}
+		}*/
 	}
 	return (0);
 }

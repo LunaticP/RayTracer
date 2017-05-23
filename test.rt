@@ -6,7 +6,7 @@ textures
 
 objects
 {
-	cylindre
+	cone
 	{
 		pos
 		{
@@ -29,7 +29,7 @@ objects
 		n_m = 0;
 		r_m = 0;
 		t_m = 0;
-		r = 5;
+		alpha = 30;
 	}
 	plan
 	{
@@ -245,7 +245,7 @@ camera
 		w = -1;
 	}
 	dsr = 1;
-	ambient = #FF1515;
+	ambient = #000000;
 }
 
 settings
