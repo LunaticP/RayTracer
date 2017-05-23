@@ -6,14 +6,14 @@
 /*   By: vthomas <vthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/13 19:15:03 by vthomas           #+#    #+#             */
-/*   Updated: 2017/05/23 14:10:05 by vthomas          ###   ########.fr       */
+/*   Updated: 2017/05/23 14:22:06 by vthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <rt_bmp.h>
 #include <rt.h>
 #include <libft.h>
-#define	_
+#define _
 
 void	init_ppm(int fd, int **ppm, int *size)
 {
@@ -36,11 +36,6 @@ void	init_ppm(int fd, int **ppm, int *size)
 	(*ppm)[1] = size[0];
 	(*ppm)[2] = size[1];
 	free(line);
-}
-
-static void	sf_cleanup()
-{
-
 }
 
 int		*get_ppm(char *file)
@@ -69,6 +64,5 @@ int		*get_ppm(char *file)
 		ppm[ij[0]] = size[0] * 0x10000 + size[1] * 0x100 + size[2];
 		ij[0]++;
 	}
-	close(fd);
-	return (_(sf_cleanup(), ppm));
+	return (_(close(fd), ppm));
 }
