@@ -1,19 +1,20 @@
 textures
 {
-	"perlin";
 	"langton";
+	"perlin";
+	"../RayTracer/tex/test.ppm";
 }
 
 objects
 {
-	cone
+	cylindre
 	{
 		pos
 		{
 			x = 0;
 			y = 0;
 			z = 0;
-			neg = 0;
+			neg = -2;
 		}
 		dir
 		{
@@ -25,60 +26,10 @@ objects
 		diff = 1;
 		refl = 0;
 		trans = 0;
-		tex = 2;
+		tex = 1;
 		n_m = 0;
 		r_m = 0;
-		t_m = 2;
-		alpha = 30;
-	}
-	sphere
-	{
-		pos
-		{
-			x = 0;
-			y = 0;
-			z = 0;
-			neg = 1;
-		}
-		dir
-		{
-			x = 0;
-			y = 1;
-			z = 0;
-		}
-		col = #FFFFFF;
-		diff = 1;
-		refl = 0;
-		trans = 0;
-		tex = 2;
-		n_m = 0;
-		r_m = 0;
-		t_m = 2;
-		r = 5;
-	}
-	sphere
-	{
-		pos
-		{
-			x = 0;
-			y = 0;
-			z = 0;
-			neg = 1;
-		}
-		dir
-		{
-			x = 0;
-			y = 1;
-			z = 0;
-		}
-		col = #FFFFFF;
-		diff = 1;
-		refl = 0;
-		trans = 0;
-		tex = 2;
-		n_m = 0;
-		r_m = 0;
-		t_m = 2;
+		t_m = 0;
 		r = 5;
 	}
 	plan

@@ -332,20 +332,20 @@ int				diffuse(__global t_obj *o,float *t, __global t_obj *l, t_ray ray, int id,
 	}
 	else if (o[id].type == plan)
 	{
-		polar.x = fabs(ctsn.x + 15);
-		polar.y = fabs(ctsn.z + 15);
+		polar.x = ctsn.x + 15;
+		polar.y = ctsn.z + 15;
 		normale = o[id].dir;
 	}
 	else if (o[id].type == cone)
 	{
 		normale = norm_cone(o, hit, id, ray);
-		polar.x = ctsn.y;
+		polar.x = fabs(ctsn.y);
 		polar.y = atan(ctsn.x / ctsn.z) + M_PI_2_F;
 	}
 	else if (o[id].type == cylindre)
 	{
 		normale = norm_cylindre(o, hit, id, ray);
-		polar.x = ctsn.y;
+		polar.x = fabs(ctsn.y);
 		polar.y = (atan(ctsn.x / -ctsn.z)) + M_PI_2_F;
 	}
 	if (o[id].n_m)
