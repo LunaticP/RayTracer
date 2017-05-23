@@ -6,7 +6,7 @@
 /*   By: vthomas <vthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/12 19:07:00 by vthomas           #+#    #+#             */
-/*   Updated: 2017/05/23 13:16:45 by vthomas          ###   ########.fr       */
+/*   Updated: 2017/05/23 13:39:53 by vthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,5 +35,6 @@ int	*get_bmp(char *file)
 	ft_memdel((void **)&(file_bmp));
 	ft_memdel((void **)&(file_unc->data));
 	ft_memdel((void **)&(file_unc));
+	ft_strdel(&file);
 	return (img);
 }

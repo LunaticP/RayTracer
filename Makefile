@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: gsimeon <gsimeon@student.42.fr>            +#+  +:+       +#+         #
+#    By: aviau <aviau@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/09/11 11:02:36 by aviau             #+#    #+#              #
-#    Updated: 2017/05/21 20:55:23 by aviau            ###   ########.fr        #
+#    Updated: 2017/05/23 13:47:59 by vthomas          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -82,7 +82,7 @@ INC=-I./include -I./libft -I./rt_win/includes -I./mmlx/includes -I./libmatrix -I
 ARG=-L./libft/ -L./rt_win -L./libmatrix -L./libocl \
 	-lft -lmatrix -lrt_win -locl \
 	-framework OpenGl -framework AppKit -framework opencl
-CFLAGS = -g 
+CFLAGS = -Wall -Wextra
 DEPDIR				= .deps/
 DEPFILES			= $(patsubst %.c,$(DEPDIR)%.d,$(SRC_NAME))
 
