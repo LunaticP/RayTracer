@@ -6,7 +6,7 @@
 /*   By: gsimeon <gsimeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/21 20:52:20 by vthomas           #+#    #+#             */
-/*   Updated: 2017/05/23 09:44:14 by gsimeon          ###   ########.fr       */
+/*   Updated: 2017/05/23 13:56:38 by aviau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # define H		s.set->height
 # define WIDTH	s.cam.size.x
 # define HEIGHT	s.cam.size.y
-# define OUT_FILE	0
+# define OUT_FILE	1
 # define _
 
 # define PADDING(X,Y)	char padding ## X[Y]

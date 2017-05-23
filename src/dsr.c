@@ -6,13 +6,14 @@
 /*   By: gsimeon <gsimeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/21 20:49:33 by aviau             #+#    #+#             */
-/*   Updated: 2017/05/22 22:36:43 by gsimeon          ###   ########.fr       */
+/*   Updated: 2017/05/23 14:20:17 by gsimeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <rt.h>
 #define XM mlx->s.cam.size.x
 #define YM mlx->s.cam.size.y
+#define DSRSQ (mlx->DSR * mlx->DSR)
 
 void	dsr(t_mlx *mlx)
 {
@@ -36,9 +37,9 @@ void	dsr(t_mlx *mlx)
 					g += mlx->p[((p.y + d.y) * XM + (p.x + d.x)) * 4 + 1];
 					b += mlx->p[((p.y + d.y) * XM + (p.x + d.x)) * 4 + 0];
 				}
-			mlx->p[(p.y / mlx->DSR * XM + p.x / mlx->DSR) * 4 + 0] = b / (mlx->DSR * mlx->DSR);
-			mlx->p[(p.y / mlx->DSR * XM + p.x / mlx->DSR) * 4 + 1] = g / (mlx->DSR * mlx->DSR);
-			mlx->p[(p.y / mlx->DSR * XM + p.x / mlx->DSR) * 4 + 2] = r / (mlx->DSR * mlx->DSR);
+			mlx->p[(p.y / mlx->DSR * XM + p.x / mlx->DSR) * 4 + 0] = b / DSRSQ;
+			mlx->p[(p.y / mlx->DSR * XM + p.x / mlx->DSR) * 4 + 1] = g / DSRSQ;
+			mlx->p[(p.y / mlx->DSR * XM + p.x / mlx->DSR) * 4 + 2] = r / DSRSQ;
 			mlx->p[(p.y / mlx->DSR * XM + p.x / mlx->DSR) * 4 + 3] = 0;
 		}
 }
