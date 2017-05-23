@@ -6,7 +6,7 @@
 #    By: gsimeon <gsimeon@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/09/11 11:02:36 by aviau             #+#    #+#              #
-#    Updated: 2017/05/23 23:39:06 by pgourran         ###   ########.fr        #
+#    Updated: 2017/05/23 23:54:52 by pgourran         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -125,12 +125,12 @@ fclean: clean
 	@make -C ./libmatrix $@
 	@make -C ./libocl $@
 	@make -C ./rt_win $@
-	@printf "\e[33mrtvocl\t\t\e[31m[CLEAN]\e[0m\n"
+	@printf "\e[33m$(NAME)\t\t\e[31m[CLEAN]\e[0m\n"
 
 re: fclean all
 
 print_rt:
-	@printf "\e[33mrtvocl"
+	@printf "\e[33m$(NAME)"
 
 test: all
 	./$(NAME) ./button_plus.bmp
