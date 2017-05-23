@@ -57,7 +57,6 @@ typedef struct 		s_obj
 	cl_float4		rot;
 	cl_float		su;
 	cl_float		sd;
-	char			caps;
 }					t_obj;
 
 #endif
