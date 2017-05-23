@@ -53,7 +53,6 @@ typedef struct 		s_obj
 	float4			rot;
 	float			su;
 	float			sd;
-	char			caps;
 }					t_obj;
 
 typedef struct		s_cam
