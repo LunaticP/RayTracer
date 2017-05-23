@@ -14,12 +14,12 @@
 typedef enum		e_type
 {
 	plan,
-	triangle,
 	sphere,
 	cylindre,
 	cone,
-	para,
 	light,
+	triangle,
+	para,
 	end
 }					t_type;
 
@@ -27,33 +27,33 @@ typedef struct 		s_obj
 {
 	float4			pos;
 	float4			dir;
-	float			tet;
-	float			phi;
-	float4			rot;
 	float4			min;
 	float4			max;
-	int				col;
-	float			diff;
-	float			refl;
-	float			trans;
-	float			refr;
-	t_type			type;
-	float			r;
-	float			su;
-	float			sd;
-	float			alpha;
-	char			caps;
-	float4			p1;
-	float4			p2;
-	float4			p3;
 	float4			mod_tex;
 	float4			mod_normal;
 	float4			mod_ref;
 	float4			mod_trans;
+	float			diff;
+	float			refl;
+	float			trans;
+	float			r;
+	float			alpha;
+	int				col;
 	short			tex;
 	short			n_m;
 	short			r_m;
 	short			t_m;
+	t_type			type;
+	float			refr;
+	float			tet;
+	float			phi;
+	float4			p1;
+	float4			p2;
+	float4			p3;
+	float4			rot;
+	float			su;
+	float			sd;
+	char			caps;
 }					t_obj;
 
 typedef struct		s_cam
