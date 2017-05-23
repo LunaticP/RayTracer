@@ -18,7 +18,6 @@ typedef enum		e_type
 	cylindre,
 	cone,
 	light,
-	triangle,
 	para,
 	end
 }					t_type;
@@ -47,9 +46,6 @@ typedef struct 		s_obj
 	float			refr;
 	float			tet;
 	float			phi;
-	float4			p1;
-	float4			p2;
-	float4			p3;
 }					t_obj;
 
 typedef struct		s_cam
@@ -91,7 +87,6 @@ int		diffuse(__global t_obj *o,float *t, __global t_obj *l, t_ray ray, int id, i
 int		quadratic(float a, float b, float c, float2 *ret);
 int		ray_neg(__global t_obj *o, t_ray *ray, float2 *t);
 int		rt_plan(__global t_obj *o, int i, t_ray *ray);
-int		rt_triangle(__global t_obj *o, t_ray *ray);
 int		rt_cone(__global t_obj *o, int i, int *i2, t_ray *ray);
 int		rt_cylindre(__global t_obj *o, int i, int *i2, t_ray *ray);
 int		rt_sphere(__global t_obj *o, int i, int *i2, t_ray *ray);
@@ -550,47 +545,6 @@ int				rt_plan(__global t_obj *o, int i, t_ray *ray)
 			&& ray_neg(o, ray, &t) > 0) && !limit(o, point, i))
 	{
 		ray->t = t.x;
-		return (d > 0 ? -1 : 1);
-	}
-	return (0);
-}
-
-int				rt_triangle(__global t_obj *o, t_ray *ray)
-{
-	float4		e1;
-	float4		e2;
-	float4		p;
-	float4		q;
-	float4		T;
-	float		d;
-	float		u;
-	float		v;
-	float		t;
-
-	e1 = o->p2 - o->p1;
-	e2 = o->p3 - o->p1;
-	// vecteurs definissant les triangles
-	p = cross(ray->dir, e2);
-	//normale a la direction et e2
-	d = dot(e1, p);
-	// derminant se raprochant de 0 quand on est paralelle au triangle et servant a mettre le triangle a echelle 1
-	if (d > -EPSILON && d < EPSILON)
-		return (0);
-	T = ray->ori - o->p1;
-	// T est le vecteur entre l'origine et le sommet reunissant les deux vecteurs du triangle
-	u = dot(T, p) / d;
-	// on regarde si le vecteur est dansle premier vecteur du triangle
-	if (u < 0 || u > 1)
-		return (0);
-	q = cross(T, e1);
-	v = dot(ray->dir, q) / d;
-	// on regarde si le vecteur est dans le deuxieme vecteur du triangle, si u + v pour ne pas faire un parallelogramme
-	if (v < 0 || v + u > 1)
-		return (0);
-	t = dot(e2, q) / d;
-	if (t > 0.01 && (t < ray->t || ray->t <= 0))
-	{
-		ray->t = t;
 		return (d > 0 ? -1 : 1);
 	}
 	return (0);
