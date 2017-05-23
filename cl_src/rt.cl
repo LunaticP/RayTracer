@@ -553,7 +553,7 @@ int				rt_cone(__global t_obj *o, int i, int *i2, t_ray *ray)
 
 	d = normalize(ray->dir);
 	odir = normalize(o[i].dir);
-	x = ray->ori - o[i].pos;
+	x = ray->ori - (float4)(o[i].pos.x, o[i].pos.y, o[i].pos.z, ((o[i].pos.w < 0.0f) ? -o[i].pos.w : 0.0f));
 	k = tan(o[i].alpha / 360.0 * M_PI);
 	k = 1.0 + k * k;
 	a = dot(d, d) - sq(dot(d, odir)) * k;
@@ -565,14 +565,16 @@ int				rt_cone(__global t_obj *o, int i, int *i2, t_ray *ray)
 
 		if (o[i].pos.w < 0.5f)
 			*i2 = a - 1;
-		if(t.x > 0.1f)
+		if(t.x > 0.1f || o[i].pos.w > 0.5f)
 		{
 			ray->t = t.x;
+			ray->t2 = t.y;
 			return(1);
 		}
-		if(t.y > 0.1f && (t.y < t.x || t.x < 0.1f))
+		if((t.y > 0.1f || o[i].pos.w > 0.5f) && (t.y < t.x || t.x < 0.1f))
 		{
 			ray->t = t.y;
+			ray->t2 = t.x;
 			return(-1);
 		}
 /*		if ((t.x < t.y && (o[i].pos.w > 0.5f || t.x > 0.01f) && (t.x < ray->t || ray->t <= 0)))
