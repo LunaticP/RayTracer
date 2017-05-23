@@ -776,11 +776,12 @@ __kernel void	raytracer(
 	int				id;
 	int				lt;
 	int				stay;
-	int				refmax = 7;
+	int				refmax;
 	int				color = 0;
 	int				old;
 	int				quit;
 
+	refmax = c->max_reflect;
 	i *= c[0].viewplane.z;
 	i += c[0].chunk.x;
 	j *= c[0].viewplane.w;
