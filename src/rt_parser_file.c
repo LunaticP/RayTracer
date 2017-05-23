@@ -44,7 +44,6 @@ t_parser				*rt_parser_file(char *file)
 	size = sizeof(g_tab_elem) / sizeof(t_type_elem) - 1;
 	while ((index = s_choice_lvl_1(&file, size)) != size)
 	{
-printf("BASE 1 : %d\n", index);
 		s_check_exception(index, (int *)&check);
 		ptr_parser = g_tab_elem[index].ft_elem(file, ptr_parser);
 		file = rt_goto_bracket_close(file);

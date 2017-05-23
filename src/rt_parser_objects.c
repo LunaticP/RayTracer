@@ -52,7 +52,6 @@ t_parser				*rt_parser_objects(char *file, t_parser *ptr_parser)
 	size = sizeof(g_tab_objects) / sizeof(t_objects) - 1;
 	while ((index = s_choice_type(&file, size)) != size)
 	{
-printf("object : %d\n", index);
 		new_parser = s_init_new_parser();
 		((t_obj *)new_parser->content)->type = index;
 		rt_get_object(new_parser->content, file, g_tab_objects[index].mask);
