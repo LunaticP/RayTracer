@@ -6,7 +6,7 @@
 /*   By: gsimeon <gsimeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/20 01:16:53 by gsimeon           #+#    #+#             */
-/*   Updated: 2017/05/21 05:53:44 by gsimeon          ###   ########.fr       */
+/*   Updated: 2017/05/23 23:12:52 by gsimeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@
 # define BG_PLAN			"./img/plan.xpm"
 # define BG_SPHERE			"./img/sphere.xpm"
 # define BG_CYLINDER		"./img/cylinder.xpm"
+# define BG_CONE			"./img/cone.xpm"
 
 /*
 ** -------------------- Color Button Settings -----------------------
