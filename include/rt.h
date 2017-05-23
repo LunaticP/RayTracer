@@ -8,7 +8,7 @@
 # define H		s.set->height
 # define WIDTH	s.cam.size.x
 # define HEIGHT	s.cam.size.y
-# define OUT_FILE	1
+# define OUT_FILE	0
 # define _
 
 # define PADDING(X,Y)	char padding ## X[Y]
