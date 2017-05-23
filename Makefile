@@ -6,7 +6,7 @@
 #    By: gsimeon <gsimeon@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/09/11 11:02:36 by aviau             #+#    #+#              #
-#    Updated: 2017/05/23 16:17:33 by gsimeon          ###   ########.fr        #
+#    Updated: 2017/05/23 16:45:55 by gsimeon          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -64,8 +64,10 @@ SRC_NAME =	main.c\
 			rt_get_float4_neg.c\
 
 INC_FILE = include/key.h\
-		   include/rt.h\
-		   include/parser.h
+		   include/obj.h\
+		   include/rt_bmp.h\
+		   include/parser.h\
+		   include/rt.h
 
 OBJ_NAME = $(SRC_NAME:.c=.o)
 SRC_PATH = ./src/
