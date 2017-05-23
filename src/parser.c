@@ -84,12 +84,10 @@ static t_scene			rt_alloc_scene(void ***tab, t_mlx mlx)
 // {
 // 	printf("pos.x : %f | pos.y : %f | pos.z : %f | pos.w : %f\n", obj->pos.x, obj->pos.y, obj->pos.z, obj->pos.w);
 // 	printf("dir.x : %f | dir.y : %f | dir.z : %f | dir.w : %f\n", obj->dir.x, obj->dir.y, obj->dir.z, obj->dir.w);
-// 	printf("tet : %f\n", obj->tet);
-// 	printf("phi : %f\n", obj->phi);
 // 	printf("min.x : %f | min.y : %f | min.z : %f | min.w : %f\n", obj->min.x, obj->min.y, obj->min.z, obj->min.w);
 // 	printf("max.x : %f | max.y : %f | max.z : %f | max.w : %f\n", obj->max.x, obj->max.y, obj->max.z, obj->max.w);
 // 	printf("col : %d\n", obj->col);
-// 	printf("diff : %f | refl : %f | trans : %f | refr : %f\n", obj->diff, obj->refl, obj->trans, obj->refr);
+	// printf("diff : %f | refl : %f | trans : %f\n", obj->diff, obj->refl, obj->trans);
 // 	printf("r : %f\n", obj->r);
 // 	printf("alpha : %f\n", obj->alpha);	
 // 	printf("tex : %hd | n_m : %hd | r_m : %hd | t_m : %hd\n", obj->tex, obj->n_m, obj->r_m, obj->t_m);

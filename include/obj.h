@@ -47,9 +47,6 @@ typedef struct 		s_obj
 	short			r_m;
 	short			t_m;
 	t_type			type;
-	cl_float		refr;
-	cl_float		tet;
-	cl_float		phi;
 }					t_obj;
 
 #endif

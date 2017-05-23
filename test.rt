@@ -31,7 +31,6 @@ objects
 		diff = 1;
 		refl = 0;
 		trans = 0;
-		refr = 0;
 		tex = 0;
 		n_m = 0;
 		r_m = 0;
@@ -69,7 +68,6 @@ objects
 		diff = 1;
 		refl = 0;
 		trans = 0;
-		refr = 0;
 		tex = 0;
 		n_m = 0;
 		r_m = 0;
@@ -95,7 +93,6 @@ objects
 		diff = 1;
 		refl = 0;
 		trans = 0;
-		refr = 0;
 		tex = 0;
 		n_m = 0;
 		r_m = 0;
@@ -120,7 +117,6 @@ objects
 		diff = 1;
 		refl = 0;
 		trans = 0;
-		refr = 0;
 		tex = 0;
 		n_m = 0;
 		r_m = 0;
@@ -144,7 +140,6 @@ objects
 		diff = 1;
 		refl = 0;
 		trans = 0;
-		refr = 0;
 		tex = 0;
 		n_m = 0;
 		r_m = 0;
@@ -168,7 +163,6 @@ objects
 		diff = 1;
 		refl = 0;
 		trans = 0;
-		refr = 0;
 		tex = 0;
 		n_m = 0;
 		r_m = 0;
@@ -192,7 +186,6 @@ objects
 		diff = 1;
 		refl = 0;
 		trans = 0;
-		refr = 0;
 		tex = 0;
 		n_m = 0;
 		r_m = 0;
@@ -216,7 +209,6 @@ objects
 		diff = 1;
 		refl = 0;
 		trans = 0;
-		refr = 0;
 		tex = 0;
 		n_m = 0;
 		r_m = 0;
@@ -240,7 +232,6 @@ objects
 		diff = 1;
 		refl = 0;
 		trans = 0;
-		refr = 0;
 		tex = 0;
 		n_m = 0;
 		r_m = 0;

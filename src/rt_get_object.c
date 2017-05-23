@@ -43,10 +43,6 @@ static const t_data g_tab_data[] = {
 	{"t_m=", sizeof(short), &rt_get_short},
 
 	{"PADDING_TYPE", 4, &rt_useless},
-	
-	{"refr=", sizeof(cl_float), &rt_get_float},
-	{"tet=", sizeof(cl_float), &rt_get_float},
-	{"phi=", sizeof(cl_float), &rt_get_float},
 	{"}", 0, NULL}
 };
 
