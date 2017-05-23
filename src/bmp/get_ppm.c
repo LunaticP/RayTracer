@@ -6,7 +6,7 @@
 /*   By: vthomas <vthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/13 19:15:03 by vthomas           #+#    #+#             */
-/*   Updated: 2017/05/23 16:01:53 by pgourran         ###   ########.fr       */
+/*   Updated: 2017/05/23 20:34:26 by aviau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,7 @@ int		*get_ppm(char *file)
 	int		size[3];
 	int		ij[2];
 
-	fd = open(file, O_RDONLY);
-	if (fd < 1)
+	if ((fd = open(file, O_RDONLY)) < 1)
 		exit_error("TEXTURE INVALIDE");
 	init_ppm(fd, &ppm, size);
 	ij[0] = 3;
