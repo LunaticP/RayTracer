@@ -14,11 +14,9 @@
 typedef enum		e_type
 {
 	plan,
-	triangle,
 	sphere,
 	cylindre,
 	cone,
-	para,
 	light,
 	end
 }					t_type;
@@ -27,25 +25,15 @@ typedef struct 		s_obj
 {
 	float4			pos;
 	float4			dir;
-	float			tet;
-	float			phi;
-	float4			rot;
 	float4			min;
 	float4			max;
 	int				col;
 	float			diff;
 	float			refl;
 	float			trans;
-	float			refr;
 	t_type			type;
 	float			r;
-	float			su;
-	float			sd;
 	float			alpha;
-	char			caps;
-	float4			p1;
-	float4			p2;
-	float4			p3;
 	float4			mod_tex;
 	float4			mod_normal;
 	float4			mod_ref;
@@ -95,11 +83,9 @@ int		diffuse(__global t_obj *o,float *t, __global t_obj *l, t_ray ray, int id, i
 int		quadratic(float a, float b, float c, float2 *ret);
 int		ray_neg(__global t_obj *o, t_ray *ray, float2 *t);
 int		rt_plan(__global t_obj *o, int i, t_ray *ray);
-int		rt_triangle(__global t_obj *o, t_ray *ray);
 int		rt_cone(__global t_obj *o, int i, int *i2, t_ray *ray);
 int		rt_cylindre(__global t_obj *o, int i, int *i2, t_ray *ray);
 int		rt_sphere(__global t_obj *o, int i, int *i2, t_ray *ray);
-int		rt_para(__global t_obj *o, t_ray *ray);
 int		ray_match(__global t_obj *o, t_ray *ray);
 int		limit(__global t_obj *o, float4 hit, int id);
 
@@ -365,8 +351,6 @@ int				diffuse(__global t_obj *o,float *t, __global t_obj *l, t_ray ray, int id,
 		polar.x = ctsn.y;
 		polar.y = (atan(ctsn.x / -ctsn.z)) + M_PI_2_F;
 	}
-	else if (o[id].type == para)
-		normale = hit - o[id].pos;
 	if (o[id].n_m)
 	{
 		color = tex[tex_num(o[id].n_m, o, id, tex, polar, o[id].mod_normal)];
@@ -559,47 +543,6 @@ int				rt_plan(__global t_obj *o, int i, t_ray *ray)
 	return (0);
 }
 
-int				rt_triangle(__global t_obj *o, t_ray *ray)
-{
-	float4		e1;
-	float4		e2;
-	float4		p;
-	float4		q;
-	float4		T;
-	float		d;
-	float		u;
-	float		v;
-	float		t;
-
-	e1 = o->p2 - o->p1;
-	e2 = o->p3 - o->p1;
-	// vecteurs definissant les triangles
-	p = cross(ray->dir, e2);
-	//normale a la direction et e2
-	d = dot(e1, p);
-	// derminant se raprochant de 0 quand on est paralelle au triangle et servant a mettre le triangle a echelle 1
-	if (d > -EPSILON && d < EPSILON)
-		return (0);
-	T = ray->ori - o->p1;
-	// T est le vecteur entre l'origine et le sommet reunissant les deux vecteurs du triangle
-	u = dot(T, p) / d;
-	// on regarde si le vecteur est dansle premier vecteur du triangle
-	if (u < 0 || u > 1)
-		return (0);
-	q = cross(T, e1);
-	v = dot(ray->dir, q) / d;
-	// on regarde si le vecteur est dans le deuxieme vecteur du triangle, si u + v pour ne pas faire un parallelogramme
-	if (v < 0 || v + u > 1)
-		return (0);
-	t = dot(e2, q) / d;
-	if (t > 0.01 && (t < ray->t || ray->t <= 0))
-	{
-		ray->t = t;
-		return (d > 0 ? -1 : 1);
-	}
-	return (0);
-}
-
 int				rt_cone(__global t_obj *o, int i, int *i2, t_ray *ray)
 {
 	float2	t;
@@ -721,39 +664,6 @@ int				rt_sphere(__global t_obj *o, int i, int *i2, t_ray *ray)
 	return (0);
 }
 
-int				rt_para(__global t_obj *o, t_ray *ray)
-{
-	float2	t;
-	float4	pos;
-	float	a;
-	float	b;
-	float	c;
-	t_ray	rcp;
-	float4	opos;
-
-	rcp = *ray;
-	opos = o->pos;
-	pos = rcp.ori - opos;
-	//	float4	k = dot(pos, o->dir);
-	a = dot(rcp.dir, rcp.dir) - pow(dot(rcp.dir, o->dir), 2);
-	b = 2.0f * (dot(rcp.dir, pos) - dot(rcp.dir, o->dir));// * (dot(pos, o->dir) + 2 * k));
-	c = dot(pos, pos) - dot(pos, o->dir) * (dot(pos, o->dir));// + 4 * k);
-	if ((quadratic(a, b, c, &t)))
-	{
-		if (t.x < t.y && t.x > 0.001 && (t.x < ray->t || ray->t <= 0.001))
-		{
-			ray->t = t.x;
-			return (1);
-		}
-		else if (t.y > 0.001 && (t.y < ray->t || ray->t <= 0.001))
-		{
-			ray->t = t.y;
-			return (-1);
-		}
-	}
-	return(0);
-}
-
 int				ray_match(__global t_obj *o, t_ray *ray)
 {
 	int		i = -1;
@@ -791,11 +701,6 @@ int				ray_match(__global t_obj *o, t_ray *ray)
 							ret = (i2 > 0) ? i2 : i;
 					}
 					break;
-				case para :
-					{
-						if ((ray->imp = rt_para(&(o[i]), ray)) != 0)
-							ret = i;
-					}
 				default :
 					break;
 			}
