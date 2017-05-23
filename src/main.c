@@ -64,6 +64,9 @@ int		main(int ac, char **av)
 	mlx.p = (unsigned char*)parent->data;
 	mlx.s.cam.chunk = (cl_float2){.x = -1, .y = -1};
 	mlx.s.cam.size = (cl_int2){.x = mlx.WIDTH, .y = mlx.HEIGHT};
+	rot_cam(&mlx.s.cam, mlx.s.cam.diry, mlx.s.cam.rot.x);
+	rot_cam(&mlx.s.cam, mlx.s.cam.dirx, mlx.s.cam.rot.y);
+	rot_cam(&mlx.s.cam, mlx.s.cam.dirz, mlx.s.cam.rot.z);
 	mlx.s.cam.ambient = 0;
 	pws[0] = mlx.WIDTH / mlx.s.cam.viewplane.z;
 	pws[1] = mlx.HEIGHT / mlx.s.cam.viewplane.w;
