@@ -6,13 +6,14 @@
 /*   By: vthomas <vthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/13 19:15:03 by vthomas           #+#    #+#             */
-/*   Updated: 2017/05/23 10:46:47 by pgourran         ###   ########.fr       */
+/*   Updated: 2017/05/23 14:10:05 by vthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <rt_bmp.h>
 #include <rt.h>
 #include <libft.h>
+#define	_
 
 void	init_ppm(int fd, int **ppm, int *size)
 {
@@ -21,8 +22,8 @@ void	init_ppm(int fd, int **ppm, int *size)
 
 	if (!(fd > 0 && get_next_line(fd, &line) && !ft_strcmp(line, (char *)"P3")))
 		exit(1);
-	while (get_next_line(fd, &line) && line[0] == '#')
-		free(line);
+	while (_(ft_strdel(&line), get_next_line(fd, &line)) && line[0] == '#')
+		;
 	size[0] = ft_atoi(line);
 	i = 0;
 	while (line[i] != ' ')
@@ -35,6 +36,11 @@ void	init_ppm(int fd, int **ppm, int *size)
 	(*ppm)[1] = size[0];
 	(*ppm)[2] = size[1];
 	free(line);
+}
+
+static void	sf_cleanup()
+{
+
 }
 
 int		*get_ppm(char *file)
@@ -51,6 +57,7 @@ int		*get_ppm(char *file)
 	init_ppm(fd, &ppm, size);
 	ij[0] = 3;
 	get_next_line(fd, &line);
+	ft_strdel(&line);
 	while (ij[0] <= ppm[0])
 	{
 		ij[1] = -1;
@@ -63,5 +70,5 @@ int		*get_ppm(char *file)
 		ij[0]++;
 	}
 	close(fd);
-	return (ppm);
+	return (_(sf_cleanup(), ppm));
 }

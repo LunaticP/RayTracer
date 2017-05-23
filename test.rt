@@ -280,24 +280,6 @@ camera
 		y = 2;
 		z = -15;
 	}
-	dirx
-	{
-		x = 1;
-		y = 0;
-		z = 0;
-	}
-	diry
-	{
-		x = 0;
-		y = 1;
-		z = 0;
-	}
-	dirz
-	{
-		x = 0;
-		y = 0;
-		z = 1;
-	}
 	rot
 	{
 		x = 0;
@@ -309,19 +291,9 @@ camera
 		z = 3;
 		w = 4;
 	}
-	p
-	{
-		x = 0;
-		y = 0;
-		z = 0;
-	}
-	chunk
-	{
-		x = 0;
-		y = 0;
-	}
 	fast = 1;
 	dsr = 1;
+	ambient = #FF1515;
 }
 
 settings

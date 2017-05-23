@@ -6,7 +6,7 @@
 /*   By: vthomas <vthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/12 19:16:13 by vthomas           #+#    #+#             */
-/*   Updated: 2017/05/15 16:36:38 by vthomas          ###   ########.fr       */
+/*   Updated: 2017/05/23 13:48:56 by vthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ int	*get_anytext(char *filename)
 	int	*text;
 
 	t = get_filetype(filename);
+	text = NULL;
 	if (t == ft_perlin)
 		text = perlin();
 	else if (t == ft_langton)
@@ -57,5 +58,6 @@ int	*get_anytext(char *filename)
 	else
 		exit_error("AVAILABLE FILE");
 	ft_putendl("    \033[32m⦗ OK ⦘\033[0m");
+	ft_strdel(&filename);
 	return (text);
 }
