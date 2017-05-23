@@ -66,4 +66,5 @@ static t_scene			s_alloc_scene_norme(void ***tab, t_mlx mlx)
 	scene.n_o = mlx.tab_size[0];
 	scene.n_l = mlx.tab_size[1];
 	scene.obj = (t_obj *)tab[0];
+	return (scene);
 }
