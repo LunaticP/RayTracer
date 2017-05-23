@@ -6,11 +6,11 @@
 #    By: gsimeon <gsimeon@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/09/11 11:02:36 by aviau             #+#    #+#              #
-#    Updated: 2017/05/23 21:02:39 by pgourran         ###   ########.fr        #
+#    Updated: 2017/05/23 23:39:06 by pgourran         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = rtvocl
+NAME = RT
 
 SRC_NAME =	main.c\
 			key.c\
