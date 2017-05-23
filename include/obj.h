@@ -22,7 +22,6 @@ typedef enum		e_type
 	cylindre,
 	cone,
 	light,
-	triangle,
 	para,
 	end
 }					t_type;
@@ -51,9 +50,6 @@ typedef struct 		s_obj
 	cl_float		refr;
 	cl_float		tet;
 	cl_float		phi;
-	cl_float4		p1;
-	cl_float4		p2;
-	cl_float4		p3;
 }					t_obj;
 
 #endif
