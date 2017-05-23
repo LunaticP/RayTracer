@@ -6,11 +6,26 @@
 /*   By: gsimeon <gsimeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/25 22:26:55 by gsimeon           #+#    #+#             */
-/*   Updated: 2017/05/19 21:48:16 by gsimeon          ###   ########.fr       */
+/*   Updated: 2017/05/23 22:23:13 by gsimeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt_win.h"
+
+static void			init_bg(t_mmlx *child)
+{
+	void	*img;
+	int		width;
+	int		height;
+
+	if ((img = mlx_xpm_file_to_image(child->mlx, BG_CONE, &width, &height)))
+	{
+		mlx_destroy_image(child->mlx, child->img);
+		child->img = img;
+		child->data = mlx_get_data_addr(child->img,
+								&child->bpp, &child->sizeline, &child->endian);
+	}
+}
 
 static t_datawin	init_datawin(int ret)
 {
@@ -35,6 +50,7 @@ int					win_create_cone(t_mmlx *parent, t_obj *obj)
 		rt_win_error(__func__, rt_fkeypress(DFLT_EXIT, (void*)(uint64_t)ret));
 		return (rt_win_error(__func__, MMLX_ERROR));
 	}
+	init_bg(child);
 	if (rt_win_error(__func__, bl_settings_default(obj, child, pitch)))
 		return (-1);
 	if (rt_win_error(__func__, bl_settings_cone(obj, child, pitch)))
