@@ -13,7 +13,7 @@ objects
 			x = 0;
 			y = 0;
 			z = 0;
-			neg = -2;
+			neg = -2.5;
 		}
 		dir
 		{
@@ -21,7 +21,7 @@ objects
 			y = 1;
 			z = 0;
 		}
-		col = #FFFFFF;
+		col = #FF00FF;
 		diff = 1;
 		refl = 0;
 		trans = 0;
