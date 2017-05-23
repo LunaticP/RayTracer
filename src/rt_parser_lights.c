@@ -12,7 +12,9 @@
 
 #include "parser.h"
 
-#define MASK_LIGHT		0b0000000000100000100000001
+#define MASK_LIGHT		0b00000000000000010100000000001
+
+// #define MASK_LIGHT	0b0000000000100000100000001
 
 #define AN1 static t_parser *s_init_new_parser(t_parser *new_parser);
 #define AN2 static int s_choice_data(char **file, int size);
@@ -25,64 +27,22 @@ AN3;
 static const t_data g_tab_data[] = {
 	{"pos{", sizeof(cl_float4), &rt_get_float4},
 	{"dir{", sizeof(cl_float4), &rt_get_float3},
-	{"tet=", sizeof(cl_float), &rt_get_float},
-	{"phi=", sizeof(cl_float), &rt_get_float},
-	{"PADDING", 8, &rt_useless},
-	{"rot{", sizeof(cl_float4), &rt_get_float3},
 	{"min{", sizeof(cl_float4), &rt_get_float3},
 	{"max{", sizeof(cl_float4), &rt_get_float3},
-	{"col=", sizeof(int), &rt_get_color},
+	{"mod_tex{", sizeof(cl_float4), &rt_get_float4},
+	{"mod_normal{", sizeof(cl_float4), &rt_get_float4},
+	{"mod_ref{", sizeof(cl_float4), &rt_get_float4},
+	{"mod_trans{", sizeof(cl_float4), &rt_get_float4},
+
 	{"diff=", sizeof(cl_float), &rt_get_float},
 	{"refl=", sizeof(cl_float), &rt_get_float},
 	{"trans=", sizeof(cl_float), &rt_get_float},
-	{"refr=", sizeof(cl_float), &rt_get_float},
-	{"PADDING_TYPE", 4, &rt_useless},
 	{"r=", sizeof(cl_float), &rt_get_float},
-	{"su=", sizeof(cl_float), &rt_get_float},
-	{"sd=", sizeof(cl_float), &rt_get_float},
+
 	{"alpha=", sizeof(cl_float), &rt_get_float},
-	{"caps=", sizeof(char), &rt_get_char},
-	{"PADDING_2", 7, &rt_useless},
-	{"p1{", sizeof(cl_float4), &rt_get_float3},
-	{"p2{", sizeof(cl_float4), &rt_get_float3},
-	{"p3{", sizeof(cl_float4), &rt_get_float3},
+	{"col=", sizeof(int), &rt_get_color},
 	{"}", 0, NULL}
 };
-
-// static const t_data g_tab_data[] = {
-// 	{"pos{", sizeof(cl_float4), &rt_get_float4},
-// 	{"dir{", sizeof(cl_float4), &rt_get_float3},
-// 	{"tet=", sizeof(cl_float), &rt_get_float},
-// 	{"phi=", sizeof(cl_float), &rt_get_float},
-// 	{"PADDING", 8, &rt_useless},
-// 	{"rot{", sizeof(cl_float4), &rt_get_float3},
-// 	{"min{", sizeof(cl_float4), &rt_get_float3},
-// 	{"max{", sizeof(cl_float4), &rt_get_float3},
-// 	{"col=", sizeof(int), &rt_get_color},
-// 	{"diff=", sizeof(cl_float), &rt_get_float},
-// 	{"refl=", sizeof(cl_float), &rt_get_float},
-// 	{"trans=", sizeof(cl_float), &rt_get_float},
-// 	{"refr=", sizeof(cl_float), &rt_get_float},
-// 	{"PADDING_TYPE", 4, &rt_useless},
-// 	{"r=", sizeof(cl_float), &rt_get_float},
-// 	{"su=", sizeof(cl_float), &rt_get_float},
-// 	{"sd=", sizeof(cl_float), &rt_get_float},
-// 	{"alpha=", sizeof(cl_float), &rt_get_float},
-// 	{"caps=", sizeof(char), &rt_get_char},
-// 	{"PADDING_2", 7, &rt_useless},
-// 	{"p1{", sizeof(cl_float4), &rt_get_float3},
-// 	{"p2{", sizeof(cl_float4), &rt_get_float3},
-// 	{"p3{", sizeof(cl_float4), &rt_get_float3},
-// 	{"mod_tex", sizeof(cl_float4), &rt_get_float3},
-// 	{"mod_normal", sizeof(cl_float4), &rt_get_float3},
-// 	{"mod_ref", sizeof(cl_float4), &rt_get_float3},
-// 	{"mod_trans", sizeof(cl_float4), &rt_get_float3},
-// 	{"tex=", sizeof(short), &rt_get_short},
-// 	{"n_m=", sizeof(short), &rt_get_short},
-// 	{"r_m=", sizeof(short), &rt_get_short},
-// 	{"t_m=", sizeof(short), &rt_get_short},
-// 	{"}", 0, NULL}
-// };
 
 t_parser			*rt_parser_lights(char *file, t_parser *parser)
 {

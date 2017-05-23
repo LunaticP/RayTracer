@@ -37,10 +37,6 @@ objects
 		r_m = 0;
 		t_m = 0;
 		r = 3;
-		mod_tex{x = 0; y = 0; z = 0; w = 0;}
-		mod_normal{x = 0; y = 0; z = 0; w = 0;}
-		mod_ref{x = 0; y = 0; z = 0; w = 0;}
-		mod_trans{x = 0; y = 0; z = 0; w = 0;}
 	}
 	cylindre
 	{
@@ -79,13 +75,6 @@ objects
 		r_m = 0;
 		t_m = 0;
 		r = 3;
-		mod_tex{x = 0; y = 0; z = 0; w = 0;}
-		mod_normal{x = 0; y = 0; z = 0; w = 0;}
-		mod_ref{x = 0; y = 0; z = 0; w = 0;}
-		mod_trans{x = 0; y = 0; z = 0; w = 0;}
-		su = 1;
-		sd = 1;
-		caps = 1;
 	}
 	cone
 	{
@@ -111,14 +100,7 @@ objects
 		n_m = 0;
 		r_m = 0;
 		t_m = 0;
-		mod_tex{x = 0; y = 0; z = 0; w = 0;}
-		mod_normal{x = 0; y = 0; z = 0; w = 0;}
-		mod_ref{x = 0; y = 0; z = 0; w = 0;}
-		mod_trans{x = 0; y = 0; z = 0; w = 0;}
-		su = 0;
-		sd = 0;
 		alpha = 20;
-		caps = 0;
 	}
 	plan
 	{
@@ -143,10 +125,6 @@ objects
 		n_m = 0;
 		r_m = 0;
 		t_m = 0;
-		mod_tex{x = 0; y = 0; z = 0; w = 0;}
-		mod_normal{x = 0; y = 0; z = 0; w = 0;}
-		mod_ref{x = 0; y = 0; z = 0; w = 0;}
-		mod_trans{x = 0; y = 0; z = 0; w = 0;}
 	}
 	plan
 	{
@@ -171,10 +149,6 @@ objects
 		n_m = 0;
 		r_m = 0;
 		t_m = 0;
-		mod_tex{x = 0; y = 0; z = 0; w = 0;}
-		mod_normal{x = 0; y = 0; z = 0; w = 0;}
-		mod_ref{x = 0; y = 0; z = 0; w = 0;}
-		mod_trans{x = 0; y = 0; z = 0; w = 0;}
 	}
 	plan
 	{
@@ -199,10 +173,6 @@ objects
 		n_m = 0;
 		r_m = 0;
 		t_m = 0;
-		mod_tex{x = 0; y = 0; z = 0; w = 0;}
-		mod_normal{x = 0; y = 0; z = 0; w = 0;}
-		mod_ref{x = 0; y = 0; z = 0; w = 0;}
-		mod_trans{x = 0; y = 0; z = 0; w = 0;}
 	}
 	plan
 	{
@@ -227,10 +197,6 @@ objects
 		n_m = 0;
 		r_m = 0;
 		t_m = 0;
-		mod_tex{x = 0; y = 0; z = 0; w = 0;}
-		mod_normal{x = 0; y = 0; z = 0; w = 0;}
-		mod_ref{x = 0; y = 0; z = 0; w = 0;}
-		mod_trans{x = 0; y = 0; z = 0; w = 0;}
 	}
 	plan
 	{
@@ -255,10 +221,6 @@ objects
 		n_m = 0;
 		r_m = 0;
 		t_m = 0;
-		mod_tex{x = 30; y = 30; z = 0; w = 0;}
-		mod_normal{x = 0; y = 0; z = 0; w = 0;}
-		mod_ref{x = 0; y = 0; z = 0; w = 0;}
-		mod_trans{x = 0; y = 0; z = 0; w = 0;}
 	}
 	plan
 	{
@@ -283,10 +245,6 @@ objects
 		n_m = 0;
 		r_m = 0;
 		t_m = 0;
-		mod_tex{x = 0; y = 0; z = 0; w = 0;}
-		mod_normal{x = 0; y = 0; z = 0; w = 0;}
-		mod_ref{x = 0; y = 0; z = 0; w = 0;}
-		mod_trans{x = 0; y = 0; z = 0; w = 0;}
 	}
 
 }

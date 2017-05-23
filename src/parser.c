@@ -2,7 +2,7 @@
 
 static t_scene	rt_alloc_scene(void ***tab, t_mlx mlx);
 
-// static void			s_print_all(void ***tab, int *tab_size);
+// static void			s_print_all(t_mlx mlx, int *tab_size);
 // static void			s_print_objects(t_obj *obj);
 // static void			s_print_lights(t_obj *obj);
 // static void			s_print_camera(t_cam *cam);
@@ -31,7 +31,7 @@ t_mlx			rt_get_parser(char *path, t_mlx mlx)
 	rt_free_after_parser(file, parser); // free les str
 	// if (DEBUG)
 	// {
-	// 	s_print_all(tab, mlx.tab_size);
+	// 	s_print_all(mlx, mlx.tab_size);
 	// 	exit(0);
 	// }
 	return (mlx);
@@ -66,7 +66,7 @@ static t_scene			rt_alloc_scene(void ***tab, t_mlx mlx)
 // 	printf("dirx.x : %f | dirx.y : %f | dirx.z : %f\n", cam->dirx.x, cam->dirx.y, cam->dirx.z);
 // 	printf("diry.x : %f | diry.y : %f | diry.z : %f\n", cam->diry.x, cam->diry.y, cam->diry.z);
 // 	printf("dirz.x : %f | dirz.y : %f | dirz.z : %f\n", cam->dirz.z, cam->dirz.y, cam->dirz.z);
-// 	// printf("size.x : %d | size.y : %d\n", cam->size.x, cam->size.y);
+// 	printf("size.x : %d | size.y : %d\n", cam->size.x, cam->size.y);
 // 	printf("viewplane.x : %f | viewplane.y : %f | viewplane.z : %f | viewplane.w : %f\n", cam->viewplane.x, cam->viewplane.y, cam->viewplane.z, cam->viewplane.w);
 // 	printf("p.x : %f | p.y : %f | p.z : %f\n", cam->p.x, cam->p.y, cam->p.z);
 // 	printf("chunk.x : %f | chunk.y : %f\n", cam->chunk.x, cam->chunk.y);
@@ -77,8 +77,7 @@ static t_scene			rt_alloc_scene(void ***tab, t_mlx mlx)
 // void			print_data_settings(t_set *set)
 // {
 // 	printf("width : %d | height : %d\n", set->width, set->height);
-// 	printf("max_reflect : %d | anti_allias : %d | ambient : %d | stereo : %f\n", set->max_reflect, set->anti_allias, set->ambient, set->stereo);
-// 	printf("name : %s\n", set->name);	
+// 	printf("max_reflect : %d\n", set->max_reflect);
 // }
 
 // void			print_data_obj(t_obj *obj)
@@ -108,13 +107,13 @@ static t_scene			rt_alloc_scene(void ***tab, t_mlx mlx)
 // 	printf("________\n");
 // }
 
-// static void			s_print_all(void ***tab, int *tab_size)
+// static void			s_print_all(t_mlx mlx, int *tab_size)
 // {
-// 	s_print_objects((t_obj *)tab[0]);
-// 	s_print_lights((t_obj *)tab[1]);
-// 	s_print_camera((t_cam *)tab[2]);
-// 	s_print_settings((t_set *)tab[3]);
-// 	s_print_textures((char *)tab[4]);
+// 	s_print_objects(mlx.s.obj);
+// 	s_print_lights(mlx.s.light);
+// 	s_print_camera(&mlx.s.cam);
+// 	s_print_settings(mlx.s.set);
+// 	s_print_textures(mlx.tex);
 // 	s_print_tab_size(tab_size);
 // }
 

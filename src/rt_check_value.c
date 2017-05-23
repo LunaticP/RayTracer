@@ -23,7 +23,7 @@ void			rt_check_value(void ***tab)
 	ptr = (t_obj *)tab[0];
 	while (ptr->type != end)
 	{
-		if (s_check_01(ptr->diff) || s_check_01(ptr->refr)
+		if (s_check_01(ptr->diff) || s_check_01(ptr->refl)
 				|| s_check_01(ptr->refr) || s_check_01(ptr->trans))
 			exit_error("EXIT : [rt_check_value.c] 1");
 		if (!(0 <= ptr->alpha && ptr->alpha <= 180)
