@@ -20,7 +20,7 @@ AN1;
 AN2;
 AN3;
 
-#define MASK_CAMERA 0b111110011111
+#define MASK_CAMERA 0b1110010010001
 
 static const t_data g_tab_data[] = {
 	{"ori{", sizeof(cl_float4), &rt_get_float3},
@@ -35,6 +35,8 @@ static const t_data g_tab_data[] = {
 	{"chunk{", sizeof(cl_float2), &rt_get_float2},
 	{"fast=", sizeof(short), &rt_get_short},
 	{"dsr=", sizeof(short), &rt_get_short},
+
+	{"ambient=", sizeof(int), &rt_get_color},
 	{"}", 0, NULL}
 };
 
@@ -104,4 +106,8 @@ static void					s_init_parser_content(t_cam *cam)
 	cam->viewplane.y = 10.0;
 	cam->p.y = 5.0;
 	cam->p.z = 5;
+	cam->dirx = (cl_float4){.x = 1, .y = 0, .z = 0, .w = 0};
+	cam->diry = (cl_float4){.x = 0, .y = 1, .z = 0, .w = 0};
+	cam->dirz = (cl_float4){.x = 0, .y = 0, .z = 1, .w = 0};
+	cam->chunk = (cl_float2){.x = -1, .y = -1};
 }

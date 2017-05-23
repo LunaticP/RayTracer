@@ -55,6 +55,7 @@ typedef struct		s_cam
 	short			fast;
 	short			dsr;
 	int				ambient;
+	int				max_reflect;
 }					t_cam;
 
 typedef struct		s_ray
