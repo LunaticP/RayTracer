@@ -6,7 +6,7 @@
 /*   By: aviau <aviau@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/04 13:28:35 by aviau             #+#    #+#             */
-/*   Updated: 2017/05/15 18:00:41 by aviau            ###   ########.fr       */
+/*   Updated: 2017/05/23 13:18:53 by vthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,10 +55,12 @@ int		*get_texture(char **files)
 		return (0);
 	i = 1;
 	out = get_anytext(files[0]);
-	while (files[i] != '\0')
+	while (files[i] != NULL)
 	{
 		out = int_join(out, get_anytext(files[i]));
+		ft_strdel(&files[i]);
 		i++;
 	}
+	ft_strdel(&files[i]);
 	return (out);
 }
