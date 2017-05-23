@@ -886,7 +886,10 @@ __kernel void	rt_fast(
 
 	if (i < (size_t)c[0].size.x && j < (size_t)c[0].size.y)
 	{
-		string[j * c[0].size.x + i] = 0;
+			string[j * c[0].size.x + i] = 0;
+			string[j * c[0].size.x + i + 1] = 0;
+			string[(j + 1) * c[0].size.x + i] = 0;
+			string[(j + 1) * c[0].size.x + i + 1] = 0;
 		ray.dir = normalize(ray_from_coord(i, j, c, c[0].dsr));
 		ray.ori = c[0].ori;
 		if ((id = ray_match(o, &ray)) != -1)
