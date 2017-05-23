@@ -50,7 +50,6 @@ typedef struct 		s_obj
 	float4			p1;
 	float4			p2;
 	float4			p3;
-	float4			rot;
 }					t_obj;
 
 typedef struct		s_cam
