@@ -13,7 +13,7 @@ int		ray_loop(void *param)
 			while (++mlx->s.cam.chunk.x < mlx->s.cam.viewplane.z)
 			{
 				if (!(ocl_enqueue_kernel(&(mlx->prog), "raytracer")))
-					exit_error("Cannot full render, chnge your scene");
+					exit_error("Cannot full render, change your scene");
 				mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img, 0, 0);
 				mlx_do_sync(mlx->mlx);
 			}
@@ -21,7 +21,7 @@ int		ray_loop(void *param)
 		}
 		if (mlx->s.cam.fast)
 			if (!(ocl_enqueue_kernel(&(mlx->prog), "rt_fast")))
-				exit_error("Cannot open, chnge your scene");
+				exit_error("Cannot open, change your scene");
 		if (!mlx->s.cam.fast && mlx->DSR > 1)
 			dsr(mlx);
 		mlx->s.cam.chunk = (cl_float2){.x = -1.0f, .y = -1.0f};

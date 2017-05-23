@@ -6,30 +6,11 @@
 /*   By: vthomas <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/21 20:38:18 by vthomas           #+#    #+#             */
-/*   Updated: 2017/05/21 20:38:20 by vthomas          ###   ########.fr       */
+/*   Updated: 2017/05/23 18:54:21 by pgourran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libocl.h"
-
-static void	notify(char *err)
-{
-	int		i;
-
-	i = 0;
-	ft_putstr("OCL ERROR \n");
-	while (err[i])
-	{
-		if (!ft_strncmp(&err[i], "warning:", 8))
-			write(1, "\033[33m", 5);
-		if (!ft_strncmp(&err[i], "error:", 6))
-			write(1, "\033[31m", 5);
-		if (err[i] == ':')
-			write(1, "\033[32;0m", 7);
-		write(1, &err[i], 1);
-		i++;
-	}
-}
 
 int			ocl_new_prog(char *filename, size_t max_src_size, t_ocl_prog *p)
 {
@@ -43,7 +24,7 @@ int			ocl_new_prog(char *filename, size_t max_src_size, t_ocl_prog *p)
 		&(p->device_id), &(p->ret_num_devices));
 	if (ret < 0)
 		return (ocl_error(ret, __func__));
-	if ((p->context = clCreateContext(NULL, 1, &(p->device_id), (void*)&notify,
+	if ((p->context = clCreateContext(NULL, 1, &(p->device_id), NULL,
 		NULL, &ret)) && ret < 0)
 		return (ocl_error(ret, __func__));
 	p->command_queue = clCreateCommandQueue(p->context, p->device_id, 0, &ret);

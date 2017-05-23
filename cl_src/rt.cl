@@ -483,6 +483,29 @@ int				ray_neg(__global t_obj *o, t_ray *ray, float2 *t)
 						}
 					}
 					break;
+				case cone :
+					{
+						if ((rt_cone(o, i, (int *)0, &ray2)) != 0)
+						{
+							if (t->x == t->y)
+							{
+								if(t->x > ray2.t && t->y < ray2.t2)
+									ret = -1;
+								break;
+							}
+							else if (ray2.t <= t->x && ray2.t2 >= t->x && ray2.t2 <= t->y)
+							{
+								t->x = ray2.t2;
+								t->y = ray2.t2;
+								ret = i + 1;
+							}
+							else if (ray2.t < t->x && ray2.t2 > t->y)
+								ret = 0;
+							else
+								ret = -1;
+						}
+					}
+					break;
 				default :
 					break;
 			}
