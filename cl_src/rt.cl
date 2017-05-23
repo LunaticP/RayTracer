@@ -15,7 +15,6 @@ typedef enum		e_type
 	cylindre,
 	cone,
 	light,
-	para,
 	end
 }					t_type;
 
@@ -83,7 +82,6 @@ int		rt_plan(__global t_obj *o, int i, t_ray *ray);
 int		rt_cone(__global t_obj *o, int i, int *i2, t_ray *ray);
 int		rt_cylindre(__global t_obj *o, int i, int *i2, t_ray *ray);
 int		rt_sphere(__global t_obj *o, int i, int *i2, t_ray *ray);
-int		rt_para(__global t_obj *o, t_ray *ray);
 int		ray_match(__global t_obj *o, t_ray *ray);
 int		limit(__global t_obj *o, float4 hit, int id);
 
@@ -349,8 +347,6 @@ int				diffuse(__global t_obj *o,float *t, __global t_obj *l, t_ray ray, int id,
 		polar.x = ctsn.y;
 		polar.y = (atan(ctsn.x / -ctsn.z)) + M_PI_2_F;
 	}
-	else if (o[id].type == para)
-		normale = hit - o[id].pos;
 	if (o[id].n_m)
 	{
 		color = tex[tex_num(o[id].n_m, o, id, tex, polar, o[id].mod_normal)];
@@ -664,39 +660,6 @@ int				rt_sphere(__global t_obj *o, int i, int *i2, t_ray *ray)
 	return (0);
 }
 
-int				rt_para(__global t_obj *o, t_ray *ray)
-{
-	float2	t;
-	float4	pos;
-	float	a;
-	float	b;
-	float	c;
-	t_ray	rcp;
-	float4	opos;
-
-	rcp = *ray;
-	opos = o->pos;
-	pos = rcp.ori - opos;
-	//	float4	k = dot(pos, o->dir);
-	a = dot(rcp.dir, rcp.dir) - pow(dot(rcp.dir, o->dir), 2);
-	b = 2.0f * (dot(rcp.dir, pos) - dot(rcp.dir, o->dir));// * (dot(pos, o->dir) + 2 * k));
-	c = dot(pos, pos) - dot(pos, o->dir) * (dot(pos, o->dir));// + 4 * k);
-	if ((quadratic(a, b, c, &t)))
-	{
-		if (t.x < t.y && t.x > 0.001 && (t.x < ray->t || ray->t <= 0.001))
-		{
-			ray->t = t.x;
-			return (1);
-		}
-		else if (t.y > 0.001 && (t.y < ray->t || ray->t <= 0.001))
-		{
-			ray->t = t.y;
-			return (-1);
-		}
-	}
-	return(0);
-}
-
 int				ray_match(__global t_obj *o, t_ray *ray)
 {
 	int		i = -1;
@@ -734,11 +697,6 @@ int				ray_match(__global t_obj *o, t_ray *ray)
 							ret = (i2 > 0) ? i2 : i;
 					}
 					break;
-				case para :
-					{
-						if ((ray->imp = rt_para(&(o[i]), ray)) != 0)
-							ret = i;
-					}
 				default :
 					break;
 			}
