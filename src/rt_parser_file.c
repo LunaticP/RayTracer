@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   rt_parser_file.c                                   :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: jogarcia <marvin@42.fr>                    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/05/13 03:26:24 by jogarcia          #+#    #+#             */
-/*   Updated: 2017/05/13 03:26:25 by jogarcia         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "parser.h"
 
 #define AN1 static int s_choice_lvl_1(char **file, int size);
@@ -79,7 +67,6 @@ t_parser				*s_init_settings(t_parser *parser)
 	t_parser			*new_parser;
 	t_set				*set;
 
-	while (1);
 	new_parser = (t_parser *)rt_memalloc(sizeof(t_parser));
 	new_parser->elem = SETTINGS;
 	new_parser->next = NULL;
