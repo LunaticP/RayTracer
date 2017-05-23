@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   rt_parser_textures.c                               :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: jogarcia <marvin@42.fr>                    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/05/13 12:22:51 by jogarcia          #+#    #+#             */
-/*   Updated: 2017/05/13 12:22:52 by jogarcia         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "parser.h"
 
 #define AN1 static t_parser *s_init_new_parser(t_parser *new_parser);
@@ -75,16 +63,12 @@ static char				**s_exception(char *file, char **path)
 	{
 		path = (char **)rt_memalloc(sizeof(char *));
 		*path = ft_strdup("perlin");
-	 	// *path = (char *)rt_memalloc(sizeof(char *) * strlen("perlin") + 1);
-		// ft_memcpy("perlin", file, strlen("perlin"));
 		return ((char **)path);
 	}
 	if (rt_strcmp(file, "langton") == 0)
 	{
 		path = (char **)rt_memalloc(sizeof(char *));
 		*path = ft_strdup("langton");
-		// *path = (char *)rt_memalloc(sizeof(char *) * strlen("langton") + 1);
-		// ft_memcpy("langton", file, strlen("langton"));
 		return ((char **)path);
 	}
 	return (NULL);
