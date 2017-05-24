@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   rt_parser_file.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jogarcia <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: pgourran <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/05/13 03:26:24 by jogarcia          #+#    #+#             */
-/*   Updated: 2017/05/13 03:26:25 by jogarcia         ###   ########.fr       */
+/*   Created: 2017/05/23 23:33:18 by pgourran          #+#    #+#             */
+/*   Updated: 2017/05/23 23:33:21 by pgourran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 
 #define AN1 static int s_choice_lvl_1(char **file, int size);
-#define AN2 static t_parser *s_init_settings(t_parser *parser);
+#define AN2 t_parser *s_init_settings(t_parser *parser);
 #define AN3 static void s_check_exception(int index, int *check);
 
 AN1;
@@ -74,7 +74,7 @@ static int				s_choice_lvl_1(char **file, int size)
 	return (_(exit_error("EXIT : rt_choice_lvl_1"), false));
 }
 
-static t_parser				*s_init_settings(t_parser *parser)
+t_parser				*s_init_settings(t_parser *parser)
 {
 	t_parser			*new_parser;
 	t_set				*set;
@@ -85,8 +85,7 @@ static t_parser				*s_init_settings(t_parser *parser)
 	set = (t_set *)rt_memalloc(sizeof(t_parser));
 	set->width = 1280;
 	set->height = 720;
-	set->max_reflect = 10;
-	set->name = ft_strdup("RT");
+	set->max_reflect = 20;
 	new_parser->content = set;
 	parser->next = new_parser;
 	parser = parser->next;

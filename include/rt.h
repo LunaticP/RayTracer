@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rt.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gsimeon <gsimeon@student.42.fr>            +#+  +:+       +#+        */
+/*   By: pgourran <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/05/21 20:52:20 by vthomas           #+#    #+#             */
-/*   Updated: 2017/05/22 12:39:17 by gsimeon          ###   ########.fr       */
+/*   Created: 2017/05/23 23:44:02 by pgourran          #+#    #+#             */
+/*   Updated: 2017/05/23 23:44:06 by pgourran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,15 @@
 
 # define USAGE "./rtv1 file\n"
 # define DEBUG	0
-# define DSR	1
-# define W		1280
-# define H		720
-# define STEREO		0
-# define OUT_FILE	1
-# define WIDTH	(W * (DSR > 1 ? DSR : 1))
-# define HEIGHT	(H * (DSR > 1 ? DSR : 1))
+# define DSR	s.cam.dsr
+# define W		s.set->width
+# define H		s.set->height
+# define WIDTH	s.cam.size.x
+# define HEIGHT	s.cam.size.y
+# define OUT_FILE	0
 # define _
+
+# define PADDING(X,Y)	char padding ## X[Y]
 
 # include <libft.h>
 # include <libocl.h>
@@ -57,7 +58,8 @@ typedef struct		s_cam
 	cl_float2		chunk;
 	short			fast;
 	short			dsr;
-	cl_int			ambient; // color +  a voir
+	cl_int			ambient;
+	cl_int			max_reflect;
 }					t_cam;
 
 typedef struct		s_set
@@ -65,7 +67,6 @@ typedef struct		s_set
 	int				width;
 	int				height;
 	int				max_reflect;
-	char			*name;
 }					t_set;
 
 typedef struct		s_scene
@@ -84,10 +85,6 @@ typedef struct		s_mlx
 	void			*mlx;
 	void			*win;
 	void			*img;
-	void			*tmp;
-	void			*tmp2;
-	char			*atmp;
-	char			*atmp2;
 	int				*tex;
 	int				endian;
 	int				key;
@@ -117,8 +114,6 @@ cl_float4			normalize(cl_float4 v1);
 void				trans_cam(t_cam *cam, cl_float4 axis, float dir);
 void				rot_cam(t_cam *cam, cl_float4 axis, float angle);
 
-#define PADDING(X, Y)	char padding ## X[Y]
-
 typedef	enum		e_elem
 {
 	OBJECTS,
@@ -140,7 +135,7 @@ t_mlx				rt_get_parser(char *path, t_mlx mlx);
 t_parser			*rt_parser_file(char *file);
 char				*rt_get_file(char *path);
 void				rt_free_after_parser(char *file, t_parser *parser);
-void				img_file(unsigned char *img);
+void				img_file(t_mlx *mlx);
 void				dsr(t_mlx *mlx);
 
 t_parser			*rt_parser_objects(char	*file, t_parser *ptr_parser);
@@ -171,7 +166,7 @@ void				*rt_get_float4(char *file);
 void				*rt_get_float4_end(char *file);
 void				*rt_get_float4_neg(char *file);
 
-void				rt_check_value(void ***tab);
+void				rt_check_value(void ***tab, int *tab_size);
 
 int					rt_strcmp(const char *s1, const char *s2);
 void				*rt_memalloc(size_t size);

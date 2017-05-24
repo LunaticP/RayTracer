@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rt_free_after_parser.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jogarcia <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: pgourran <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/05/13 05:07:32 by jogarcia          #+#    #+#             */
-/*   Updated: 2017/05/13 05:07:34 by jogarcia         ###   ########.fr       */
+/*   Created: 2017/05/23 23:24:09 by pgourran          #+#    #+#             */
+/*   Updated: 2017/05/23 23:24:11 by pgourran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ static void				s_free_parser(t_parser *parser)
 	while (parser)
 	{
 		parser_ptr = parser;
+		if (parser->elem == TEXTURES)
+			free(*((char **)(parser->content)));
 		free(parser->content);
 		parser = parser->next;
 		free(parser_ptr);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rt_parser_textures.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jogarcia <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: pgourran <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/05/13 12:22:51 by jogarcia          #+#    #+#             */
-/*   Updated: 2017/05/13 12:22:52 by jogarcia         ###   ########.fr       */
+/*   Created: 2017/05/23 23:33:47 by pgourran          #+#    #+#             */
+/*   Updated: 2017/05/23 23:33:49 by pgourran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,15 +74,13 @@ static char				**s_exception(char *file, char **path)
 	if (rt_strcmp("perlin", file) == 0)
 	{
 		path = (char **)rt_memalloc(sizeof(char *));
-		*path = (char *)rt_memalloc(sizeof(char *) * strlen("perlin") + 1);
-		ft_memcpy("perlin", file, strlen("perlin"));
+		*path = ft_strdup("perlin");
 		return ((char **)path);
 	}
 	if (rt_strcmp(file, "langton") == 0)
 	{
 		path = (char **)rt_memalloc(sizeof(char *));
-		*path = (char *)rt_memalloc(sizeof(char *) * strlen("langton") + 1);
-		ft_memcpy("langton", file, strlen("langton"));
+		*path = ft_strdup("langton");
 		return ((char **)path);
 	}
 	return (NULL);

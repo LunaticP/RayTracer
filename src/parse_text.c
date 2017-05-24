@@ -6,7 +6,7 @@
 /*   By: vthomas <vthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/12 19:16:13 by vthomas           #+#    #+#             */
-/*   Updated: 2017/05/15 16:36:38 by vthomas          ###   ########.fr       */
+/*   Updated: 2017/05/23 21:04:47 by pgourran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ int	*get_anytext(char *filename)
 	int	t;
 	int	*text;
 
+	text = NULL;
 	t = get_filetype(filename);
 	if (t == ft_perlin)
 		text = perlin();

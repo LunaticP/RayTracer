@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rt_parser_objects.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jogarcia <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: pgourran <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/05/13 01:37:00 by jogarcia          #+#    #+#             */
-/*   Updated: 2017/05/13 01:37:02 by jogarcia         ###   ########.fr       */
+/*   Created: 2017/05/23 23:33:35 by pgourran          #+#    #+#             */
+/*   Updated: 2017/05/23 23:33:36 by pgourran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,11 @@ AN1;
 AN2;
 AN3;
 
-#define MASK_PLAN		0b11110000000011111111
-
-						  // 11100001001011111111
-						  // 11100001001011111011
-						  // 11100001001011111111
-#define MASK_SPHERE		0b11110000001011111111
-#define MASK_CYLINDRE	0b11110000001011111111
-#define MASK_CONE		0b11110000010011111111
+#define MASK_PLAN 		0b0111110011100001111
+#define MASK_SPHERE		0b0111110111100001111
+#define MASK_CYLINDRE 	0b0111110111100001111
+#define MASK_CONE		0b0111111011100001111
+#define MASK_TRIANGLE 	0b0111110011100001111
 
 static const t_objects	g_tab_objects[] = {
 	{"plan{", MASK_PLAN},
@@ -46,7 +43,6 @@ t_parser				*rt_parser_objects(char *file, t_parser *ptr_parser)
 	size = sizeof(g_tab_objects) / sizeof(t_objects) - 1;
 	while ((index = s_choice_type(&file, size)) != size)
 	{
-		printf("OBJECT : %d\n", index);
 		new_parser = s_init_new_parser();
 		((t_obj *)new_parser->content)->type = index;
 		rt_get_object(new_parser->content, file, g_tab_objects[index].mask);

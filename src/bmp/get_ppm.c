@@ -6,7 +6,7 @@
 /*   By: vthomas <vthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/13 19:15:03 by vthomas           #+#    #+#             */
-/*   Updated: 2017/05/22 13:23:14 by pgourran         ###   ########.fr       */
+/*   Updated: 2017/05/24 19:56:37 by pgourran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ void	init_ppm(int fd, int **ppm, int *size)
 
 	if (!(fd > 0 && get_next_line(fd, &line) && !ft_strcmp(line, (char *)"P3")))
 		exit(1);
-	while (get_next_line(fd, &line) && line[0] == '#')
-		free(line);
+	while (_(ft_strdel(&line), get_next_line(fd, &line)) && line[0] == '#')
+		;
 	size[0] = ft_atoi(line);
 	i = 0;
 	while (line[i] != ' ')
@@ -45,12 +45,12 @@ int		*get_ppm(char *file)
 	int		size[3];
 	int		ij[2];
 
-	fd = open(file, O_RDONLY);
-	if (fd < 1)
+	if ((fd = open(file, O_RDONLY)) < 1)
 		exit_error("TEXTURE INVALIDE");
 	init_ppm(fd, &ppm, size);
 	ij[0] = 3;
 	get_next_line(fd, &line);
+	free(line);
 	while (ij[0] <= ppm[0])
 	{
 		ij[1] = -1;
@@ -62,6 +62,5 @@ int		*get_ppm(char *file)
 		ppm[ij[0]] = size[0] * 0x10000 + size[1] * 0x100 + size[2];
 		ij[0]++;
 	}
-	close(fd);
-	return (ppm);
+	return (_(close(fd), ppm));
 }

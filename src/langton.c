@@ -6,7 +6,7 @@
 /*   By: aviau <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/15 13:13:41 by aviau             #+#    #+#             */
-/*   Updated: 2017/05/15 15:00:45 by aviau            ###   ########.fr       */
+/*   Updated: 2017/05/24 21:15:45 by pgourran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,6 @@ int		*langton(void)
 	gen_ant(1000000, tex, (t_ant){.r = 0, .g = 5, .b = 5}, map);
 	gen_ant(1000000, tex, (t_ant){.r = 5, .g = 0, .b = 5}, map);
 	gen_ant(1000000, tex, (t_ant){.r = 0, .g = 0, .b = 5}, map);
-	free(map);
+	ft_memdel((void **)&map);
 	return (tex);
 }

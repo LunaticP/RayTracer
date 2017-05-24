@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   rt_parser_lights.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jogarcia <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: pgourran <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/05/13 01:41:08 by jogarcia          #+#    #+#             */
-/*   Updated: 2017/05/13 01:41:09 by jogarcia         ###   ########.fr       */
+/*   Created: 2017/05/23 23:33:28 by pgourran          #+#    #+#             */
+/*   Updated: 2017/05/23 23:33:29 by pgourran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 
-#define MASK_LIGHT		0b00000000001000010001
+#define MASK_LIGHT		0b00000000000000010100000000001
 
 #define AN1 static t_parser *s_init_new_parser(t_parser *new_parser);
 #define AN2 static int s_choice_data(char **file, int size);
@@ -27,24 +27,18 @@ static const t_data g_tab_data[] = {
 	{"dir{", sizeof(cl_float4), &rt_get_float3},
 	{"min{", sizeof(cl_float4), &rt_get_float3},
 	{"max{", sizeof(cl_float4), &rt_get_float3},
-	{"col=", sizeof(int), &rt_get_color},
-	{"diff=", sizeof(cl_float), &rt_get_float},
-	{"refl=", sizeof(cl_float), &rt_get_float},
-	{"trans=", sizeof(cl_float), &rt_get_float},
-
-	{"PADDING_TYPE", 4, &rt_useless},
-	{"r=", sizeof(cl_float), &rt_get_float},
-	{"alpha=", sizeof(cl_float), &rt_get_float},
-	{"PADDING_2", 4, &rt_useless},
-	
 	{"mod_tex{", sizeof(cl_float4), &rt_get_float4},
 	{"mod_normal{", sizeof(cl_float4), &rt_get_float4},
 	{"mod_ref{", sizeof(cl_float4), &rt_get_float4},
 	{"mod_trans{", sizeof(cl_float4), &rt_get_float4},
-	{"tex=", sizeof(short), &rt_get_short},
-	{"n_m=", sizeof(short), &rt_get_short},
-	{"r_m=", sizeof(short), &rt_get_short},
-	{"t_m=", sizeof(short), &rt_get_short},
+
+	{"diff=", sizeof(cl_float), &rt_get_float},
+	{"refl=", sizeof(cl_float), &rt_get_float},
+	{"trans=", sizeof(cl_float), &rt_get_float},
+	{"r=", sizeof(cl_float), &rt_get_float},
+
+	{"alpha=", sizeof(cl_float), &rt_get_float},
+	{"col=", sizeof(int), &rt_get_color},
 	{"}", 0, NULL}
 };
 
@@ -91,7 +85,6 @@ static int			s_choice_data(char **file, int size)
 		if (rt_strcmp(g_tab_data[i].name, *file) == 0)
 		{
 			*file += ft_strlen(g_tab_data[i].name);
-			printf("choice : %d\n", i);
 			return (i);
 		}
 		++i;

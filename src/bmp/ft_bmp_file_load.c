@@ -6,7 +6,7 @@
 /*   By: vthomas <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/21 20:28:19 by vthomas           #+#    #+#             */
-/*   Updated: 2017/05/21 20:28:24 by vthomas          ###   ########.fr       */
+/*   Updated: 2017/05/24 20:47:30 by pgourran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ static void				*sf_bmp_file_load_error(int fd, t_bitmap *out)
 			ft_memdel((void **)&(out->bmp));
 		ft_memdel((void **)&out);
 	}
+	if(out)
+		;
 	close(fd);
 	return (NULL);
 }

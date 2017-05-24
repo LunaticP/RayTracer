@@ -2,9 +2,6 @@
 # define EPSILON 0.00001f
 #endif
 
-#define filterWidth 9
-#define filterHeight 9
-
 #if __OPENCL_VERSION__ < 120
 # define COS cosf
 #else
@@ -27,21 +24,21 @@ typedef struct 		s_obj
 	float4			dir;
 	float4			min;
 	float4			max;
-	int				col;
-	float			diff;
-	float			refl;
-	float			trans;
-	t_type			type;
-	float			r;
-	float			alpha;
 	float4			mod_tex;
 	float4			mod_normal;
 	float4			mod_ref;
 	float4			mod_trans;
+	float			diff;
+	float			refl;
+	float			trans;
+	float			r;
+	float			alpha;
+	int				col;
 	short			tex;
 	short			n_m;
 	short			r_m;
 	short			t_m;
+	t_type			type;
 }					t_obj;
 
 typedef struct		s_cam
@@ -58,6 +55,7 @@ typedef struct		s_cam
 	short			fast;
 	short			dsr;
 	int				ambient;
+	int				max_reflect;
 }					t_cam;
 
 typedef struct		s_ray
@@ -73,7 +71,6 @@ float4	norm_sphere(__global t_obj *o, float4 hit, int id);
 float4	norm_cone(__global t_obj *o, float4 hit, int id, t_ray ray);
 float4	norm_cylindre(__global t_obj *o, float4 hit, int id, t_ray ray);
 float4	refl(float4 ray, float4 normale);
-float4	refr(float4 ray, float4 normale);
 float4	bilinear(float2 polar, __global int *tex);
 float4	ray_from_coord(size_t x, size_t y, __global t_cam *c, int mul);
 float	sq(float a);
@@ -86,8 +83,9 @@ int		rt_plan(__global t_obj *o, int i, t_ray *ray);
 int		rt_cone(__global t_obj *o, int i, int *i2, t_ray *ray);
 int		rt_cylindre(__global t_obj *o, int i, int *i2, t_ray *ray);
 int		rt_sphere(__global t_obj *o, int i, int *i2, t_ray *ray);
+int		rt_para(__global t_obj *o, t_ray *ray);
 int		ray_match(__global t_obj *o, t_ray *ray);
-int				limit(__global t_obj *o, float4 hit, int id);
+int		limit(__global t_obj *o, float4 hit, int id);
 
 float			sq(float a)
 {
@@ -335,20 +333,20 @@ int				diffuse(__global t_obj *o,float *t, __global t_obj *l, t_ray ray, int id,
 	}
 	else if (o[id].type == plan)
 	{
-		polar.x = fabs(ctsn.x + 15);
-		polar.y = fabs(ctsn.z + 15);
+		polar.x = ctsn.x + 15;
+		polar.y = ctsn.z + 15;
 		normale = o[id].dir;
 	}
 	else if (o[id].type == cone)
 	{
 		normale = norm_cone(o, hit, id, ray);
-		polar.x = ctsn.y;
+		polar.x = fabs(ctsn.y);
 		polar.y = atan(ctsn.x / ctsn.z) + M_PI_2_F;
 	}
 	else if (o[id].type == cylindre)
 	{
 		normale = norm_cylindre(o, hit, id, ray);
-		polar.x = ctsn.y;
+		polar.x = fabs(ctsn.y);
 		polar.y = (atan(ctsn.x / -ctsn.z)) + M_PI_2_F;
 	}
 	if (o[id].n_m)
@@ -556,7 +554,7 @@ int				rt_cone(__global t_obj *o, int i, int *i2, t_ray *ray)
 
 	d = normalize(ray->dir);
 	odir = normalize(o[i].dir);
-	x = ray->ori - o[i].pos;
+	x = ray->ori - (float4)(o[i].pos.x, o[i].pos.y, o[i].pos.z, ((o[i].pos.w < 0.0f) ? -o[i].pos.w : 0.0f));
 	k = tan(o[i].alpha / 360.0 * M_PI);
 	k = 1.0 + k * k;
 	a = dot(d, d) - sq(dot(d, odir)) * k;
@@ -566,7 +564,19 @@ int				rt_cone(__global t_obj *o, int i, int *i2, t_ray *ray)
 	{
 		if (o[i].pos.w < 0.5f)
 			*i2 = a - 1;
-		if ((t.x < t.y && (o[i].pos.w > 0.5f || t.x > 0.01f) && (t.x < ray->t || ray->t <= 0)))
+		if((t.x > 0.1f || o[i].pos.w > 0.5f) && (t.x < ray->t || ray->t <= 0))
+		{
+			ray->t = t.x;
+			ray->t2 = t.y;
+			return(1);
+		}
+		if((t.y > 0.1f || o[i].pos.w > 0.5f) && (t.y < t.x || t.x < 0.1f) && t.y < ray->t)
+		{
+			ray->t = t.y;
+			ray->t2 = t.x;
+			return(-1);
+		}
+/*		if ((t.x < t.y && (o[i].pos.w > 0.5f || t.x > 0.01f) && (t.x < ray->t || ray->t <= 0)))
 		{
 			ray->t = t.x;
 			ray->t2 = t.y;
@@ -577,7 +587,7 @@ int				rt_cone(__global t_obj *o, int i, int *i2, t_ray *ray)
 			ray->t = t.y;
 			ray->t2 = t.x;
 			return (-1);
-		}
+		}*/
 	}
 	return (0);
 }
@@ -664,6 +674,39 @@ int				rt_sphere(__global t_obj *o, int i, int *i2, t_ray *ray)
 	return (0);
 }
 
+int				rt_para(__global t_obj *o, t_ray *ray)
+{
+	float2	t;
+	float4	pos;
+	float	a;
+	float	b;
+	float	c;
+	t_ray	rcp;
+	float4	opos;
+
+	rcp = *ray;
+	opos = o->pos;
+	pos = rcp.ori - opos;
+	//	float4	k = dot(pos, o->dir);
+	a = dot(rcp.dir, rcp.dir) - pow(dot(rcp.dir, o->dir), 2);
+	b = 2.0f * (dot(rcp.dir, pos) - dot(rcp.dir, o->dir));// * (dot(pos, o->dir) + 2 * k));
+	c = dot(pos, pos) - dot(pos, o->dir) * (dot(pos, o->dir));// + 4 * k);
+	if ((quadratic(a, b, c, &t)))
+	{
+		if (t.x < t.y && t.x > 0.001 && (t.x < ray->t || ray->t <= 0.001))
+		{
+			ray->t = t.x;
+			return (1);
+		}
+		else if (t.y > 0.001 && (t.y < ray->t || ray->t <= 0.001))
+		{
+			ray->t = t.y;
+			return (-1);
+		}
+	}
+	return(0);
+}
+
 int				ray_match(__global t_obj *o, t_ray *ray)
 {
 	int		i = -1;
@@ -701,6 +744,11 @@ int				ray_match(__global t_obj *o, t_ray *ray)
 							ret = (i2 > 0) ? i2 : i;
 					}
 					break;
+				case end :
+					{
+						if ((ray->imp = rt_para(&(o[i]), ray)) != 0)
+							ret = i;
+					}
 				default :
 					break;
 			}
@@ -740,7 +788,7 @@ __kernel void	raytracer(
 	int				id;
 	int				lt;
 	int				stay;
-	int				refmax = 7;
+	int				refmax = c[0].max_reflect;
 	int				color = 0;
 	int				old;
 	int				quit;
@@ -837,7 +885,10 @@ __kernel void	rt_fast(
 
 	if (i < (size_t)c[0].size.x && j < (size_t)c[0].size.y)
 	{
-		string[j * c[0].size.x + i] = 0;
+			string[j * c[0].size.x + i] = 0;
+			string[j * c[0].size.x + i + 1] = 0;
+			string[(j + 1) * c[0].size.x + i] = 0;
+			string[(j + 1) * c[0].size.x + i + 1] = 0;
 		ray.dir = normalize(ray_from_coord(i, j, c, c[0].dsr));
 		ray.ori = c[0].ori;
 		if ((id = ray_match(o, &ray)) != -1)

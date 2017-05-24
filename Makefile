@@ -6,12 +6,12 @@
 #    By: gsimeon <gsimeon@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/09/11 11:02:36 by aviau             #+#    #+#              #
-#    Updated: 2017/05/21 20:55:23 by aviau            ###   ########.fr        #
+#    Updated: 2017/05/25 01:13:25 by pgourran         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-OS = APPLE
-NAME = rtvocl
+NAME = RT
+
 SRC_NAME =	main.c\
 			key.c\
 			key_f.c\
@@ -64,8 +64,10 @@ SRC_NAME =	main.c\
 			rt_get_float4_neg.c\
 
 INC_FILE = include/key.h\
-		   include/rt.h\
-		   include/parser.h
+		   include/obj.h\
+		   include/rt_bmp.h\
+		   include/parser.h\
+		   include/rt.h
 
 OBJ_NAME = $(SRC_NAME:.c=.o)
 SRC_PATH = ./src/
@@ -73,7 +75,7 @@ OBJ_PATH = ./obj/
 SRC=$(addprefix $(SRC_PATH),$(SRC_NAME))
 OBJ=$(addprefix $(OBJ_PATH),$(OBJ_NAME))
 
-CC = gcc -g
+CC = gcc
 OBJ_SUB =	network\
 			bmp
 
@@ -82,24 +84,13 @@ INC=-I./include -I./libft -I./rt_win/includes -I./mmlx/includes -I./libmatrix -I
 ARG=-L./libft/ -L./rt_win -L./libmatrix -L./libocl \
 	-lft -lmatrix -lrt_win -locl \
 	-framework OpenGl -framework AppKit -framework opencl
-CFLAGS = -g 
+CFLAGS = -Wall -Wextra -Werror -fsanitize=address
 DEPDIR				= .deps/
 DEPFILES			= $(patsubst %.c,$(DEPDIR)%.d,$(SRC_NAME))
 
-ifeq ($(OS), LINUX)
-all:
-	@make -f Makefile_linux
-clean:
-	@make clean -f Makefile_linux
-fclean:
-	@make fclean -f Makefile_linux
-re:
-	@make re -f Makefile_linux
-else
 all: $(NAME)
 	@printf "\t\t\e[32m[OK]\e[0m\n"
-#linux:
-#	make -f Makefile_linux
+
 # Auto dependency generator
 $(DEPDIR)/%.d: $(SRC_PATH)%.c $(DEPDIR)%.d
 	@mkdir -p $(DEPDIR)
@@ -115,9 +106,7 @@ lib:
 	@make -C ./libmatrix
 	@make -C ./libocl
 	@make -C ./rt_win
-#lib:
-#	@make -C ./libft
-#	@make -C ./libmatrix
+
 $(OBJ_PATH)%.o: $(SRC_PATH)%.c $(INC_FILE)
 	-@mkdir -p $(OBJ_PATH) $(addprefix $(OBJ_PATH),$(OBJ_SUB))
 	@$(CC) $(CFLAGS) -c -o $@ $< $(INC)
@@ -136,14 +125,14 @@ fclean: clean
 	@make -C ./libmatrix $@
 	@make -C ./libocl $@
 	@make -C ./rt_win $@
-	@printf "\e[33mrtvocl\t\t\e[31m[CLEAN]\e[0m\n"
+	@printf "\e[33m$(NAME)\t\t\e[31m[CLEAN]\e[0m\n"
 
 re: fclean all
 
 print_rt:
-	@printf "\e[33mrtvocl"
+	@printf "\e[33m$(NAME)"
 
 test: all
 	./$(NAME) ./button_plus.bmp
-endif
-.PHONY: fclean clean
+
+.PHONY: all fclean clean re 

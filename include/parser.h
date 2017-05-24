@@ -1,7 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parser.h                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pgourran <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/05/23 23:43:54 by pgourran          #+#    #+#             */
+/*   Updated: 2017/05/23 23:43:55 by pgourran         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef PARSER_H
 # define PARSER_H
 
-#include "rt.h"
+# include "rt.h"
 
 typedef struct		s_data
 {
@@ -18,8 +30,8 @@ typedef struct		s_type_elem
 
 typedef struct		s_objects
 {
-	char	*name;
-	int		mask;
-}
-					t_objects;
-# endif
+	char			*name;
+	int				mask;
+}					t_objects;
+
+#endif
