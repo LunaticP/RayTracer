@@ -1,14 +1,85 @@
 textures
 {
 	"perlin";
-	"perlin";
-	"perlin";
-	"perlin";
-	"perlin";
+	"langton";
 }
 
 objects
 {
+	sphere
+	{
+		pos
+		{
+			x = -5;
+			y = 0;
+			z = 0;
+			neg = 0;
+		}
+		dir
+		{
+			x = 0.5;
+			y = 0.5;
+			z = 0;
+		}
+		min
+		{
+			x = -2.5;
+			y = -2.5;
+			z = -2.5;
+		}
+		max
+		{
+			x = 2.5;
+			y = 2.5;
+			z = 2.5;
+		}
+		col = #FF0000;
+		diff = 1;
+		refl = 0;
+		trans = 0;
+		tex = 0;
+		n_m = 0;
+		r_m = 0;
+		t_m = 1;
+		r = 3;
+	}
+	cylindre
+	{
+		pos
+		{
+			x = 5;
+			y = 0;
+			z = 0;
+			neg = 0;
+		}
+		dir
+		{
+			x = 0.5;
+			y = 0.5;
+			z = 0;
+		}
+		min
+		{
+			x = -2.5;
+			y = -2.5;
+			z = -2.5;
+		}
+		max
+		{
+			x = 2.5;
+			y = 2.5;
+			z = 2.5;
+		}
+		col = #FF0000;
+		diff = 1;
+		refl = 0;
+		trans = 0;
+		tex = 0;
+		n_m = 0;
+		r_m = 0;
+		t_m = 1;
+		r = 3;
+	}
 	cone
 	{
 		pos
@@ -16,7 +87,7 @@ objects
 			x = 0;
 			y = 0;
 			z = 0;
-			neg = -2.5;
+			neg = 0;
 		}
 		dir
 		{
@@ -28,7 +99,7 @@ objects
 		diff = 1;
 		refl = 0;
 		trans = 0;
-		tex = 1;
+		tex = 0;
 		n_m = 0;
 		r_m = 0;
 		t_m = 0;
@@ -52,7 +123,7 @@ objects
 		diff = 1;
 		refl = 0;
 		trans = 0;
-		tex = 0;
+		tex = 1;
 		n_m = 0;
 		r_m = 0;
 		t_m = 0;
@@ -75,7 +146,7 @@ objects
 		diff = 1;
 		refl = 0;
 		trans = 0;
-		tex = 0;
+		tex = 2;
 		n_m = 0;
 		r_m = 0;
 		t_m = 0;
@@ -123,7 +194,7 @@ objects
 		refl = 0;
 		trans = 0;
 		tex = 0;
-		n_m = 0;
+		n_m = 1;
 		r_m = 0;
 		t_m = 0;
 	}
@@ -147,9 +218,12 @@ objects
 		trans = 0;
 		tex = 0;
 		n_m = 0;
-		r_m = 0;
+		r_m = 1;
 		t_m = 0;
 		mod_tex {x = 30; y = 30; z = 0; w = 0;}
+		mod_normal {x = 0; y = 0; z = 0; w = 0;}
+		mod_ref {x = 0; y = 0; z = 0; w = 0;}
+		mod_trans {x = 0; y = 0; z = 0; w = 0;}
 	}
 	plan
 	{
@@ -172,7 +246,7 @@ objects
 		tex = 0;
 		n_m = 0;
 		r_m = 0;
-		t_m = 0;
+		t_m = 1;
 	}
 }
 

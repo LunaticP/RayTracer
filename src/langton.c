@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   langton.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aviau <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: jogarcia <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/05/15 13:13:41 by aviau             #+#    #+#             */
-/*   Updated: 2017/05/24 00:48:50 by pgourran         ###   ########.fr       */
+/*   Created: 2017/05/15 13:13:41 by jogarcia          #+#    #+#             */
+/*   Updated: 2017/05/24 00:48:50 by jogarcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,6 @@ int		*langton(void)
 	gen_ant(1000000, tex, (t_ant){.r = 0, .g = 5, .b = 5}, map);
 	gen_ant(1000000, tex, (t_ant){.r = 5, .g = 0, .b = 5}, map);
 	gen_ant(1000000, tex, (t_ant){.r = 0, .g = 0, .b = 5}, map);
-	printf("map : %p\n", &map);
 	ft_memdel((void **)&map);
 	return (tex);
 }

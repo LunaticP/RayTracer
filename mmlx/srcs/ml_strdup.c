@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ml_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gsimeon <gsimeon@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jogarcia <jogarcia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/04/10 00:36:46 by gsimeon           #+#    #+#             */
-/*   Updated: 2017/04/10 00:52:02 by gsimeon          ###   ########.fr       */
+/*   Created: 2017/04/10 00:36:46 by jogarcia          #+#    #+#             */
+/*   Updated: 2017/04/10 00:52:02 by jogarcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	*ml_strdup(const char *s1)
 	len = 0;
 	while (s1[len])
 		len++;
-	if ((dup = (char*)malloc(sizeof(char) * len)) == NULL)
+	if ((dup = (char*)malloc(sizeof(char) * (len + 1))) == NULL)
 		return (NULL);
 	while (len >= 0)
 	{

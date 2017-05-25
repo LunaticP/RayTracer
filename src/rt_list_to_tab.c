@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rt_list_to_tab.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pgourran <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jogarcia <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/05/23 23:34:32 by pgourran          #+#    #+#             */
-/*   Updated: 2017/05/24 01:50:05 by pgourran         ###   ########.fr       */
+/*   Created: 2017/05/23 23:34:32 by jogarcia          #+#    #+#             */
+/*   Updated: 2017/05/24 01:50:05 by jogarcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,8 +74,6 @@ static void				s_tab_alloc(void ****tab, int *tab_size)
 		(*tab)[i] = rt_memalloc(g_tab_data[i] * tab_size[i]);
 		++i;
 	}
-	if (tab_size[TEXTURES] == 1)
-		((t_obj *)((*tab)[TEXTURES]))->type = end;
 }
 
 static void				s_tab_set(void ***tab, t_parser *parser)
